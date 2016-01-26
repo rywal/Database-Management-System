@@ -5,7 +5,7 @@
 
 ### Core Database Engine Reference
 
-** Class: DBMS **
+**Class: DBMS**
 
 
 ***
