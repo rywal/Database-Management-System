@@ -8,7 +8,7 @@
 ### Class: DBMS
 
 * **open( relation_name ) -> result**
-
+* 
 Opens a database file with name "_relation_name_.db". Returns boolean _result_ with value TRUE if successfully opened or FALSE if an error occured.
 
 * **close( relation_name ) -> result**
@@ -19,17 +19,19 @@ Closes a database relation with name _relation_name_. Returns boolean _result_ w
 
 Outputs plain ASCII text in DML format(described in the project handout) to a file "_relation_name_.db". **Note:** Saving will overwrite any previous data in "_relation_name_.db".
 
-_exit()_
+* **exit()**
 
-_show()_
+Exits the DML interpreter.
 
-_create()_
+* **show()**
 
-_update()_
+* **create()**
 
-_insert()_
+* **update()**
 
-_delete()_
+* **insert()**
+
+* **delete()**
 
 ***
 
