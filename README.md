@@ -5,22 +5,19 @@
 
 ### Core Database Engine Reference
 
-**Class: DBMS**
+### Class: DBMS
 
-_open( relation_name )_
+* **open( relation_name ) -> result**
 
-* Function: Opens a file containing a relation with name: _relation_name_.
-* Input: relation_name
-* Output: 
+Opens a database file with name "_relation_name_.db". Returns boolean _result_ with value TRUE if successfully opened or FALSE if an error occured.
 
-_close( relation_name )_
+* **close( relation_name ) -> result**
 
-* Input: relation_name
-* Output: 
+Closes a database relation with name _relation_name_. Returns boolean _result_ with value TRUE if successfully closed or FALSE if an error occured.
 
-_save( relation_name )_
-* Input: relation_name
-* Output: 
+* **save( relation_name ) -> result**
+
+Outputs plain ASCII text in DML format(described in the project handout) to a file "_relation_name_.db". **Note:** Saving will overwrite any previous data in "_relation_name_.db".
 
 _exit()_
 
