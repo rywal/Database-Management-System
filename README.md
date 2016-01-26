@@ -9,9 +9,16 @@
 
 _open( relation_name )_
 
+Input: relation_name
+Output: 
+
 _close( relation_name )_
+Input: relation_name
+Output: 
 
 _save( relation_name )_
+Input: relation_name
+Output: 
 
 _exit()_
 
