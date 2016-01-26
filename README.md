@@ -7,6 +7,23 @@
 
 **Class: DBMS**
 
+_open_
+
+_close_
+
+_save_
+
+_exit_
+
+_show_
+
+_create_
+
+_update_
+
+_insert_
+
+_delete_
 
 ***
 
