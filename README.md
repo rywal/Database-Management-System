@@ -7,23 +7,23 @@
 
 **Class: DBMS**
 
-_open_
+_open()_
 
-_close_
+_close()_
 
-_save_
+_save()_
 
-_exit_
+_exit()_
 
-_show_
+_show()_
 
-_create_
+_create()_
 
-_update_
+_update()_
 
-_insert_
+_insert()_
 
-_delete_
+_delete()_
 
 ***
 
