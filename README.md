@@ -8,7 +8,7 @@
 ### Class: DBMS
 
 * **open( relation_name ) -> result**
-* 
+
 Opens a database file with name "_relation_name_.db". Returns boolean _result_ with value TRUE if successfully opened or FALSE if an error occured.
 
 * **close( relation_name ) -> result**
