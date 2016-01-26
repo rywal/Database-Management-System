@@ -7,11 +7,11 @@
 
 **Class: DBMS**
 
-_open()_
+_open( relation_name )_
 
-_close()_
+_close( relation_name )_
 
-_save()_
+_save( relation_name )_
 
 _exit()_
 
