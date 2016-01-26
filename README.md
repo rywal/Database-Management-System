@@ -1,2 +1,6 @@
-# CSCE315 - Project1
-Project 1 for CSCE 315 with Dr. Yoonsuck Choe
+# Project1: Database Management System
+### CSCE 315 with Dr. Yoonsuck Choe
+
+***
+
+
