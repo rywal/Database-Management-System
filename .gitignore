@@ -1,0 +1,8 @@
+# Files to exclude
+*.o
+*.a
+*.dll
+*.obj
+*.exe
+*.out
+*.tmp
