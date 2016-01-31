@@ -25,6 +25,7 @@ public:
 bool doesexist(string att_name){} //Used to see if an Attribute exists
 bool compare(string att_name, string compare_string, int index){} //Used to compare a string to each Domain in an Atrribute
 int getsize(){} //Used to get the number of Tuples in a Relation
+string getatt(int index){} //Used to get Attribute name at index
 void insert(Tuple &tup_name){} //Used to insert a Tuple into a Relation
 void insert(string att_name){} //Used to insert an attribute into the next index of a Relation(possibly union instead??)
 
