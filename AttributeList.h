@@ -5,12 +5,13 @@
 #define AttributeList_h
 
 #include <stdio.h>
+#include <vector>
 
 // Collection of Attributes within the Relation
 class AttributeList {
-    Attribute attributes[];
+    std:vector<Attribute> attributes;
     
-    AttributeList( int num_attributes );
+    AttributeList() {}
 };
 
 #endif /* AttributeList_h */

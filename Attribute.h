@@ -10,6 +10,7 @@
 #define Attribute_h
 
 #include <stdio.h>
+#include <string>
 
 // Individual Attribute (column) in the Relation
 class Attribute {
