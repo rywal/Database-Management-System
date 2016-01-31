@@ -1,11 +1,6 @@
 //
 //  Tuple.h
-//  
 //
-//  Created by Ryan Walters on 1/31/16.
-//
-//
-
 #ifndef Tuple_h
 #define Tuple_h
 
