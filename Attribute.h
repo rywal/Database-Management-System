@@ -18,7 +18,7 @@ private:
     
 public:
     string get_name(){ return name; }
-    void   set_name();
+    void set_name( string _name ){ name = _name; }
 };
 
 #endif /* Attribute_h */
