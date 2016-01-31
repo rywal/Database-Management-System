@@ -13,10 +13,13 @@
 
 class Relation {
 public:
-    string name;
+    string relation_name;
     std::vector<Tuple> tuples;
     int num_attributes;
-    
+    string[] att_names;
+    int[] att_max_lengths;
+    string[] prim_keys;
+
     Relation(
              string name,
              string[] attribute_names,         // Name of each attribute
@@ -27,7 +30,7 @@ public:
     bool attribute_exist(string att_name);
     bool compare(string att_name, auto comparison_value, int index);
     int get_size(){ return tuples.size(); }
-    Atrribute get_attribute( int index );
+    Attribute get_attribute( int index );
     void ch_att_name( string renamed, int index );
     void insert( Tuple &tup_name );
     void insert( string att_name );
