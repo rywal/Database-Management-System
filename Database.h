@@ -1,7 +1,10 @@
-//This header file will create a class for each 
 #include <stdexcept>
 #include <vector>
 
+// Core Database Components
+// ------------------------
+// Created by: Ryan Walters, Jonathan Grimes, Nathan Blattman and Victor Vazquez
+// Outlines the various components of the Core Database functionality
 
 // Holds the individual data
 class Cell {
@@ -10,38 +13,49 @@ private:
     int int_data;
     int max_length;
     
-    // TODO: define getters and setters for cell data
+public:
+    Cell(string data, int _max_length);
+    bool   is_string(){ return max_length > 0 ? true : false; }
+    string get_string_data();
+    int    get_int_data();
+    void   set_value(string value, bool is_string);
 };
 
 // Individual Attribute (column) in the Relation
 class Attribute {
 private:
-    int index;
+    int    index;
     string name;
     
 public:
-    int get_index();
+    int    get_index();
     string get_name();
 };
 
 // Collection of Attributes within the Relation
 class AttributeList {
+    AttributeList();
     std::vector<Attribute> attributes;
 };
 
 // Collection of cells within a row (Tuple)
 class Tuple {
+private:
     Cell cells[];
-
+    
+public:
+    Tuple();
+    void insert_string_value(int index, string value);
+    void insert_integer_value(int index, int value);
 };
 
-class Relation {	//Table that holds Columns and rows
-//Vector<Attribute<Domain>> (I'm not sure what the type would be.)
-//We would have to traverse through the Attribues, first, then we could select which Cell we want, by selecting the Tuple
-//I think?
-
-
+class Relation {
 public:
+    Relation(
+             string[] attribute_names,         // Name of each attribute
+             int[]    attribute_max_lengths,   // Max length of attribute string value. NOTE: Should be 0 if type if integer
+             string[] primary_keys             // Collection of primary keys
+    );
     bool does_exist(string att_name){} //Used to see if an Attribute exists
     bool compare(string att_name, string compare_string, int index){} //Used to compare a string to each Domain in an Atrribute
     int get_size(){} //Used to get the number of Tuples in a Relation
@@ -52,8 +66,6 @@ public:
 };
 
 // A collection of tables
-class Database {         //A collection of Tables
-    //dynamic data structure for holding different relations
-    //a function that creates a new relation
+class Database {
     
 };
