@@ -16,8 +16,7 @@ public:
     bool   is_string(){ return max_length > 0 ? true : false; }
     bool   is_null();
     auto   get_data();
-    int    set_value( string value );
-    int    set_value( int value );
+    int    set_value( auto value );
 };
 
 #endif /* Cell_h */
