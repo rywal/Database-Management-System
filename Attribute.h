@@ -15,8 +15,10 @@
 class Attribute {
 private:
     string name;
+    int max_length;
     
 public:
+    Attribute( string _name, int _max_length ) : name(_name), max_length(_max_length) {}
     string get_name(){ return name; }
     void set_name( string _name ){ name = _name; }
 };
