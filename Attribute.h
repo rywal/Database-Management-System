@@ -10,22 +10,18 @@
 #define Attribute_h
 
 #include <stdio.h>
+#include <string>
 
 // Individual Attribute (column) in the Relation
 class Attribute {
 private:
     string name;
+    int max_length;
     
 public:
+    Attribute( string _name, int _max_length ) : name(_name), max_length(_max_length) {}
     string get_name(){ return name; }
-    void   set_name();
-};
-
-// Collection of Attributes within the Relation
-class AttributeList {
-    Attribute attributes[];
-    
-    AttributeList( int num_attributes );
+    void set_name( string _name ){ name = _name; }
 };
 
 #endif /* Attribute_h */

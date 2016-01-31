@@ -2,6 +2,7 @@
 #define Cell_h
 
 #include <stdio.h>
+#include <string>
 
 // Holds the individual data
 class Cell {

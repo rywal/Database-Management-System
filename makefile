@@ -9,7 +9,7 @@ else
     cc = g++-4.7
 endif
 
-all: coreengine
+all: cell
 
 coreengine: main.cpp
 	$(cc) -std=c++11 -g -o DBengine main.cpp
