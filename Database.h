@@ -20,6 +20,13 @@ class Relation {	//Table that holds Columns and rows
 //We would have to traverse through the Attribues, first, then we could select which Cell we want, by selecting the Tuple
 //I think?
 
+
+public:
+bool doesexist(Attribute att_name){} //Used to see if an Attribute exists
+bool compare(Attribute att_name, string compare_string, int index){} //Used to compare a string to each Domain in an Atrribute
+void insert(Tuple &tup_name){} //Used to insert a Tuple into a Relation
+int getsize(){} //Used to get the number of Tuples in a Relation
+
 }
 		
 class Database{         //A collection of Tables
