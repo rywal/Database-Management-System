@@ -9,9 +9,10 @@
 
 // Collection of Attributes within the Relation
 class AttributeList {
-    std:vector<Attribute> attributes;
+    Attribute attributes*;
     
-    AttributeList() {}
+    AttributeList(int num_attributes) { attributes = new Attribute[num_attributes]; }
+    ~AttributeList() { delete [] attributes; }
 };
 
 #endif /* AttributeList_h */
