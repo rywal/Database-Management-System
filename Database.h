@@ -14,28 +14,30 @@ private:
     int max_length;
     
 public:
-    Cell(string data, int _max_length);
+    Cell( int _max_length );
+    Cell( string data, int _max_length );
     bool   is_string(){ return max_length > 0 ? true : false; }
-    string get_string_data();
-    int    get_int_data();
-    void   set_value(string value, bool is_string);
+    bool   is_null();
+    auto   get_data();
+    int    set_value( string value );
+    int    set_value( int value );
 };
 
 // Individual Attribute (column) in the Relation
 class Attribute {
 private:
-    int    index;
     string name;
     
 public:
-    int    get_index();
-    string get_name();
+    string get_name(){ return name; }
+    void   set_name();
 };
 
 // Collection of Attributes within the Relation
 class AttributeList {
-    AttributeList();
-    std::vector<Attribute> attributes;
+    Attribute attributes[];
+    
+    AttributeList( int num_attributes );
 };
 
 // Collection of cells within a row (Tuple)
@@ -44,28 +46,36 @@ private:
     Cell cells[];
     
 public:
-    Tuple();
-    void insert_string_value(int index, string value);
-    void insert_integer_value(int index, int value);
+    Tuple( int num_attributes );
+    void insert_value( int index, auto value );
 };
 
 class Relation {
 public:
+    string name;
+    std::vector<Tuple> tuples;
+    int num_attributes;
+    
     Relation(
+             string name,
              string[] attribute_names,         // Name of each attribute
              int[]    attribute_max_lengths,   // Max length of attribute string value. NOTE: Should be 0 if type if integer
              string[] primary_keys             // Collection of primary keys
     );
-    bool does_exist(string att_name){} //Used to see if an Attribute exists
-    bool compare(string att_name, string compare_string, int index){} //Used to compare a string to each Domain in an Atrribute
-    int get_size(){} //Used to get the number of Tuples in a Relation
-    Atrribute get_att(int index){} //Used to get Attribute (data) at index (will possibly merge with ch_att_name?)
-    void ch_att_name(string renamed, int index){} //Used to change Attribute name by index
-    void insert(Tuple &tup_name){} //Used to insert a Tuple into a Relation
-    void insert(string att_name){} //Used to insert an attribute into the next index of a Relation(possibly union instead??)
+    
+    bool attribute_exist(string att_name);
+    bool compare(string att_name, auto comparison_value, int index);
+    int get_size(){ return tuples.size(); }
+    Atrribute get_attribute( int index );
+    void ch_att_name( string renamed, int index );
+    void insert( Tuple &tup_name );
+    void insert( string att_name );
 };
 
 // A collection of tables
 class Database {
+    string name;
+    std::vector<Relation> relations;
     
+    Database(string name);
 };
