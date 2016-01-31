@@ -22,8 +22,8 @@ class Relation {	//Table that holds Columns and rows
 
 
 public:
-bool doesexist(Attribute att_name){} //Used to see if an Attribute exists
-bool compare(Attribute att_name, string compare_string, int index){} //Used to compare a string to each Domain in an Atrribute
+bool doesexist(string att_name){} //Used to see if an Attribute exists
+bool compare(string att_name, string compare_string, int index){} //Used to compare a string to each Domain in an Atrribute
 void insert(Tuple &tup_name){} //Used to insert a Tuple into a Relation
 int getsize(){} //Used to get the number of Tuples in a Relation
 
