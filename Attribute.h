@@ -21,11 +21,4 @@ public:
     void   set_name();
 };
 
-// Collection of Attributes within the Relation
-class AttributeList {
-    Attribute attributes[];
-    
-    AttributeList( int num_attributes );
-};
-
 #endif /* Attribute_h */
