@@ -2,21 +2,22 @@
 
 //Query Operations
 
-Relation select(vector<string> att_names, vector<string> compare_strings, Relation &in_rel){
-	//Step 1: Get Access to Input Table (in_table) and create temp Table
-	Relation out_rel;
-	if(att_names.size()!= compare_strings.size()){
+Relation select(vector<string> att_names, vector<auto> compare_values, vector<string> compare_operators, Relation &in_rel, int[] attribute_max_lengths, string[] primary_keys){
+	//create temp Table
+	new Relation(out_rel, att_names,attribute_max_lengths, primary_keys);
+	vector<int> tuple_indexes;
+	//Check input lengths
+	if(att_names.size()!= compare_values.size()){
 		printf ("The number of attribute and compare strings did not match.");
 		return null; //Not sure what to return
 	}
-	//Step 2: Find Attributes' names (att_names) in Input Table (in_rel)
-	for(int n=0; i<att_names.size();n++){
+	for(int n=0; n<att_names.size();n++){
 		if(in_rel.attribute_exist(att_names[n])){
-	//Step 3: Compare compare_string to all Domains in the Attribute's name (att_name)
-			for(int i=0; i < in_rel.getsize(); i++){
-				if (in_rel.compare(att_names[n], compare_strings[n], i)){
-	//Step 4: For all matching Domains, add the whole Tuple to a new Relation (Say, out_rel)
-					out_rel.insert(in_rel.get_attribute(att_names[n], i)/*Retruns TUPLE*/);
+			for(int i=0; i < in_rel.get_size(); i++){
+				if (strcmp(in_rel.get_attribute_name(i), att_names[n]){
+					if (in_rel.compare(tuple_indexes, compare_values[n], compare_operators[n], i)){ //EVERYTHING HAPPENS TO THE TUPLE_INDEXES(important!!!)
+						i=in_rel.get_size();//saves time
+					}
 				}
 			}
 		}
@@ -24,13 +25,17 @@ Relation select(vector<string> att_names, vector<string> compare_strings, Relati
 			printf ("%s attribute was not found.", att_names[n]);
 		}
 	}
-	//Step 5: Return out_rel
+	for(int i=0; i<tuple_indexes.size();i++){
+		if()
+		
+	}
+	//Step 6: Return out_rel
 	return out_rel;
 }
 
-Relation Project(vector<string> att_names, Relation &in_rel){
+Relation Project(vector<string> att_names, Relation &in_rel, int[] attribute_max_lengths, string[] primary_keys){
 	//Step 1: Get Access to Input Table (in_table) and create temp Table
-	Relation out_rel;
+	new Relation(out_rel, att_names,attribute_max_lengths, primary_keys);
 	//Step 2: Find Attribute's names (att_names) in Input Table (in_rel)
 	for(int i=0; i < att_names.size(); i++){
 		if(in_rel.attribute_exist(att_names[i])){
