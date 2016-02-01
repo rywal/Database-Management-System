@@ -24,10 +24,11 @@ public:
     );
     
     bool attribute_exist(string att_name);
-    bool compare(string att_name, auto comparison_value, int index);
+    bool compare(vector<int> &tuple_indexes, auto comparison_value, string compare_operator, int index);
     int get_size(){ return tuples.size(); }
     Attribute get_attribute( int index );
-    void ch_att_name( string renamed, int index );
+	string get_attribute_name( int index );
+    void rename_attribute( string renamed, int index );
     void insert( Tuple &tup_name );
     void insert( string att_name );
 };
