@@ -53,7 +53,6 @@ Relation Renaming(Relation &out_rel, vector<string> att_renames , Relation &in_r
 	else{
 	//Step 2: Make a copy of Input Table (in_rel) and put into Output (out_rel)
 		for(int i=0; i < in_rel.getsize(); i++){
-			//att_oldnames[i] 
 			out_rel.insert(in_rel.getatt[i]);
 	//Step 3: Rename each attribute one by one
 			out_rel.rename_attribute(att_renames[i],i);
