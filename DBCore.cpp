@@ -25,41 +25,46 @@ Relation select(vector<string> att_names, vector<auto> compare_values, vector<st
 			printf ("%s attribute was not found.", att_names[n]);
 		}
 	}
+	vector<int> used;
 	for(int i=0; i<tuple_indexes.size();i++){
-		if()
-		
+		if(std::count(used.begin(),used_names.end(), tuple_indexes[i])==0){//NO DUPLICATE ATTRIBUTES
+			if(std::count(tuple_indexes.begin(), tuples_indexes.end(), tuples_indexes[i]) == att_names.size()){
+				out_rel.insert(in_rel.get_attribute(i));
+			}
+			used.push_back(tuple_indexes[i])
+		}
 	}
-	//Step 6: Return out_rel
+	
 	return out_rel;
 }
 
 Relation Project(vector<string> att_names, Relation &in_rel, int[] attribute_max_lengths, string[] primary_keys){
-	//Step 1: Get Access to Input Table (in_table) and create temp Table
+	//create temp Table
 	new Relation(out_rel, att_names,attribute_max_lengths, primary_keys);
-	//Step 2: Find Attribute's names (att_names) in Input Table (in_rel)
+	//Find Attribute's names
 	for(int i=0; i < att_names.size(); i++){
 		if(in_rel.attribute_exist(att_names[i])){
-	//Step 3: add Attributes to new Table(out_rel)
-			out_rel.insert(att_names[i]);
+	//add Attributes to out_rel
+			out_rel.insert( in_rel.get_attribute(in_rel.get_attribute_index(att_names[i])));
 		}
 		else{
 			printf ("%s attribute was not found.", att_names[i]);
 		}
 	}
-	//Step 4: Return out_rel
+	//Return out_rel
 	return out_rel;
 }
 
 Relation Renaming(Relation &out_rel, vector<string> att_renames , Relation &in_rel){
-	//Step1: Check if there is correct number of input
-	if(in_rel.getsize()!=att_renames.size()){
-		printf ("There was not enough Attributes.");
+	//correct number of input?
+	if(in_rel.get_length()!=att_renames.size()){
+		printf ("There was not enough Attributes given or in the Relation.");
 	}
 	else{
-	//Step 2: Make a copy of Input Table (in_rel) and put into Output (out_rel)
-		for(int i=0; i < in_rel.getsize(); i++){
-			out_rel.insert(in_rel.getatt[i]);
-	//Step 3: Rename each attribute one by one
+	//Make a copy of in_rel and put into out_rel
+		for(int i=0; i < in_rel.get_length(); i++){
+			out_rel.insert(in_rel.get_attribute[i]);
+	//Rename each attribute one by one
 			out_rel.rename_attribute(att_renames[i],i);
 		}
 	}

@@ -26,7 +26,9 @@ public:
     bool attribute_exist(string att_name);
     bool compare(vector<int> &tuple_indexes, auto comparison_value, string compare_operator, int index);
     int get_size(){ return tuples.size(); }
+	int get_length();//Number of Columns
     Attribute get_attribute( int index );
+	int get_attribute_index( string att_name );
 	string get_attribute_name( int index );
     void rename_attribute( string renamed, int index );
     void insert( Tuple &tup_name );
