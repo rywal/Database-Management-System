@@ -27,7 +27,7 @@ public:
     bool compare(string att_name, auto comparison_value, int index);
     int get_size(){ return tuples.size(); }
     Attribute get_attribute( int index );
-    void ch_att_name( string renamed, int index );
+    void rename_attribute( string renamed, int index );
     void insert( Tuple &tup_name );
     void insert( string att_name );
 };
