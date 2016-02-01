@@ -23,21 +23,42 @@ void Database:: new_relation(Relation newr){		//will push a new relation onto th
 Relation Database:: set_union(string name, Relation a, Relation b){
 
 	if (union_compatible(a, b)){
-		Relation result( name, a.att_names, a.att_max_length, a.prim_keys)
-		Tuple 
+		Relation result( name, a.att_names, a.att_max_length, a.prim_keys);
+		for (int i=0; i<a.tuples.size(); i++){
+			Tuple temp(a.num_attributes);
+			for (int j=0; j<result.num_attributes; j++)
+				temp.cells[j]=a.tuple[i].cells[j];
+			result.push_back(temp);
+		}
+		for (int i=0; i<b.tuples.size(); i++){
+			Tuple temp(b.num_attributes);
+			for (int j=0; j<result.num_attributes; j++)
+				temp.cells[j]=b.tuple[i].cells[j];
+			result.tuples.push_back(temp);
+		}	
 	}
 	else{
 		cout<<"These relations are not union compatible\n";
 	}
-	return;
+	return result;
 }
 
 Relation Database:: set_difference(string name, Relation a, Relation b){
 
 	if( union_compatible(a, b)){
-
-		//difference
-
+		int j;
+		Relation result( name, a.att_names, a.att_max_length, a.prim_keys);
+		Tuple temp(a.num_attributes);
+		for (int i=0; i<a.tuples.size(); i++){
+			for(j=0; j<b.tuples.size(); j++){ 
+				if (a.tuples[i]==b.tuples[j])
+		 			break;
+			}
+			if(a.tuples[i]!=b.tuples[j]){ 	
+				temp.cells=a[i].cells;
+				result.tuples.push_back(temp);
+			}
+		}			
 	}
 	else{
 		cout<<"These relations are not union-compatible, therefore I cannot compute the set difference\n";
