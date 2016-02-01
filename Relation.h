@@ -30,7 +30,7 @@ public:
 	string get_attribute_name( int index );
     void rename_attribute( string renamed, int index );
     void insert( Tuple &tup_name );
-    void insert( string att_name );
+    void insert( Attribute &att_name );
 };
 
 #endif /* Relation_h */
