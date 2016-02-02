@@ -73,6 +73,6 @@ Relation::Relation(
 	//----------UNDEFINED----------//
     Attribute get_attribute( int index );
 	auto get_cell(int attribute_index, int tuple_index);
-    void insert( Tuple &tup_name );
+    //void insert( Tuple &tup_name );//
     void insert( Attribute &att_name );
 	//----------UNDEFINED----------//
