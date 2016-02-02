@@ -17,6 +17,7 @@ private:
 public:
     Database(string name);
     void create_relation(string name, string[] attribute_names, int[] attribute_types, string[] primary_keys);
+    std::vector<Tuple> show_relation(string name);
     
     bool union_compatible(Relation a, Relation b);
     void new_relation(Relation newr);
