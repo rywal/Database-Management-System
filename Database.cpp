@@ -30,13 +30,6 @@ bool Database:: union_compatible(Relation a, Relation b){
 			}
 		return true;
 	else return false;
-	
-
-void Database:: new_relation(Relation newr){		//will push a new relation onto the vector 'relations'
-	
-	relations.push_back(newr);
-	return;
-}
 
 Relation Database:: set_union(string name, Relation a, Relation b){
 
