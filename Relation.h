@@ -25,14 +25,14 @@ public:
     
     bool attribute_exist(string att_name);
     bool compare(vector<int> &tuple_indexes, auto comparison_value, string compare_operator, int index);
-    int get_size(){ return tuples.size(); }
-	int get_length();//Number of Columns
+    int get_size();
     Attribute get_attribute( int index );
 	int get_attribute_index( string att_name );
 	string get_attribute_name( int index );
     void rename_attribute( string renamed, int index );
     void insert( Tuple &tup_name );
     void insert( Attribute &att_name );
+	auto get_cell(int attribute_index, int tuple_index);
 };
 
 #endif /* Relation_h */
