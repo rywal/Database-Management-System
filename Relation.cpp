@@ -10,8 +10,8 @@ Relation::Relation(
     ){
 		relation_name = name;
 		att_names = attribute_names;
-    	att_max_lengths= attribute_max_lengths;//ADDED UNDERSCORE
-    	prim_keys= primary_keys;
+    	att_max_lengths = attribute_max_lengths;
+    	prim_keys = primary_keys;
 		num_attributes= attribute_names.size();
 	}
 	
@@ -70,8 +70,12 @@ Relation::Relation(
 		}
 	}
 	
+	auto get_cell(int attribute_index, int tuple_index){
+		return tuples[tuple_index].cells[attribute_index].get_data();
+	}
+	
 	//----------UNDEFINED----------//
-    Attribute get_attribute( int index );
-	auto get_cell(int attribute_index, int tuple_index);
+	Attribute get_attribute( int index ){
+
+	}
     void insert( Attribute &att_name );
-	//----------UNDEFINED----------//
