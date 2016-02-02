@@ -31,7 +31,6 @@ public:
     bool compare(vector<int> &tuple_indexes, auto comparison_value, string compare_operator, int index);
 	//----------UNDEFINED----------//
     Attribute get_attribute( int index );
-    //void insert( Tuple &tup_name );//
     void insert( Attribute &att_name );
 	auto get_cell(int attribute_index, int tuple_index);
 };
