@@ -12,24 +12,6 @@ void Database::create_relation(string name, string[] attribute_names, int[] attr
     relations.push_back(new_relation);
 }
 
-std::vector<Tuple> Database::show_relation(string relation_name){
-    for (auto relation : relations){
-        if (relation.name == relation_name){
-            return relation.tuples;
-        }
-    }
-    return NULL;
-}
-
-void Database::insert_tuple(string relation_name, string[] values){
-    for (auto relation : relations){
-        if (relation.name == relation_name) {
-            relation.insert_tuple(values);
-            return;
-        }
-    }
-}
-
 bool Database:: union_compatible(Relation a, Relation b){
 	
 	if(a.num_attributes==b.num_attributes){
@@ -39,6 +21,13 @@ bool Database:: union_compatible(Relation a, Relation b){
 			}
 		return true;
 	else return false;
+	
+
+void Database:: new_relation(Relation newr){		//will push a new relation onto the vector 'relations'
+	
+	relations.push_back(newr);
+	return;
+}
 
 Relation Database:: set_union(string name, Relation a, Relation b){
 

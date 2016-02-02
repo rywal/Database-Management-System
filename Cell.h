@@ -18,6 +18,10 @@ public:
     bool   is_null();
     auto   get_data();
     int    set_value( auto value );
+
+    bool operator==(const Cell &b) const;
+    bool operator!=(const Cell &b) const;
+
 };
 
 #endif /* Cell_h */

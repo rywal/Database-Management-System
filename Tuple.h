@@ -18,6 +18,9 @@ public:
     int insert_cell( int index, Cell cell );
     Cell get_cell(int index);
     int num_attributes() { return num_attributes; }
+
+    bool operator==(const Tuple &b) const;
+    bool operator!=(const Tuple &b) const;
 };
 
 #endif /* Tuple_h */
