@@ -31,3 +31,7 @@ bool Tuple::operator== (const Tuple &b){
 }
 	
 
+
+int Tuple::insert_cell( int index, Cell cell ){
+        cells[index] = cell;
+}

@@ -9,19 +9,20 @@
 
 class Relation {
 public:
-    string relation_name;
+    string name;
     std::vector<Tuple> tuples;
-    int num_attributes;
-    string[] att_names;
-    int[] att_max_lengths;
-    string[] prim_keys;
+    AttributeList attribute_list;
+    string[] primary_keys;
 
     Relation(
-             string name,
+             string _name,
              string[] attribute_names,         // Name of each attribute
              int[]    attribute_max_lengths,   // Max length of attribute string value. NOTE: Should be 0 if type if integer
-             string[] primary_keys             // Collection of primary keys
+             string[] _primary_keys             // Collection of primary keys
     );
+    
+    void insert_tuple(string[] values);
+    void delete_tuple(string[] att_names, string[] values);
     
 	int get_attribute_index( string att_name );
     bool attribute_exist(string att_name);
@@ -31,7 +32,6 @@ public:
     bool compare(vector<int> &tuple_indexes, auto comparison_value, string compare_operator, int index);
 	//----------UNDEFINED----------//
     Attribute get_attribute( int index );
-    //void insert( Tuple &tup_name );//
     void insert( Attribute &att_name );
 	auto get_cell(int attribute_index, int tuple_index);
 };
