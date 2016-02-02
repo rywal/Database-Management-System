@@ -14,7 +14,7 @@ Relation select(vector<string> att_names, vector<auto> compare_values, vector<st
 	for(int n=0; n<att_names.size();n++){
 		if(in_rel.attribute_exist(att_names[n])){
 			for(int i=0; i < in_rel.num_attributes; i++){
-				if (strcmp(in_rel.get_attribute_name(i), att_names[n]){
+				if (in_rel.get_attribute_name(i) == att_names[n]){
 					if (in_rel.compare(tuple_indexes, compare_values[n], compare_operators[n], i)){ //EVERYTHING HAPPENS TO THE TUPLE_INDEXES(important!!!)
 						i=in_rel.num_attributes;//saves time
 					}

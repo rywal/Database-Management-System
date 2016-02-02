@@ -71,7 +71,7 @@ Relation::Relation(
 	}
 	
 	auto get_cell(int attribute_index, int tuple_index){
-		return tuples[tuple_index].cells[attribute_index].get_data();
+		return tuples[tuple_index].cells[attribute_index];
 	}
 	
 	//----------UNDEFINED----------//
