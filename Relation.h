@@ -22,6 +22,7 @@ public:
     );
     
     void insert_tuple(string[] values);
+    void delete_tuple(int index);
     
 	int get_attribute_index( string att_name );
     bool attribute_exist(string att_name);
