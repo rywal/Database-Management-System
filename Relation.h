@@ -33,6 +33,8 @@ public:
     void insert( Tuple &tup_name );
     void insert( Attribute &att_name );
 	auto get_cell(int attribute_index, int tuple_index);
+    
+    tuples[tuple_index].get_cell
 };
 
 #endif /* Relation_h */
