@@ -37,7 +37,7 @@ Relation::Relation(
 	
 	
 	bool compare(vector<int> &tuple_indexes, auto comparison_value, string compare_operator, int index){
-		for(int i=0; i < /*NUMBER OF ROWS*/; i++){
+		for(int i=0; i < tuples.size(); i++){
 			if((get_cell(index, i)).is_string()){
 				if(comparison_value == get_cell(index, i)){
 					tuple_indexes.push_back(i);
@@ -73,6 +73,5 @@ Relation::Relation(
 	//----------UNDEFINED----------//
     Attribute get_attribute( int index );
 	auto get_cell(int attribute_index, int tuple_index);
-    //void insert( Tuple &tup_name );//
     void insert( Attribute &att_name );
 	//----------UNDEFINED----------//
