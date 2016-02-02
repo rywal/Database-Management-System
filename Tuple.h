@@ -16,6 +16,7 @@ public:
     Tuple( int _num_attributes );
     ~Tuple();
     int insert_value( int index, auto value );
+    Cell get_cell(int index);
 };
 
 #endif /* Tuple_h */

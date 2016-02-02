@@ -14,7 +14,7 @@ private:
     string name;
     std::vector<Relation> relations;
     
-public:    
+public:
     Database(string name);
     bool union_compatible(Relation a, Relation b);
     void new_relation(Relation newr);

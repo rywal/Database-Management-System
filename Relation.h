@@ -33,7 +33,6 @@ public:
     Attribute get_attribute( int index );
     void insert( Attribute &att_name );
 	auto get_cell(int attribute_index, int tuple_index);
-	//----------UNDEFINED----------//
 };
 
 #endif /* Relation_h */
