@@ -26,6 +26,15 @@ void Relation::insert_tuple(string[] values){
     }
 }
 
+void Relation::delete_tuple(string[] conditions){
+    
+    for (auto tuple : tuples) {
+        for (int i = 0; i < attribute_indices.size(); i++){
+            
+        }
+    }
+}
+
 int get_attribute_index( string att_name ){
     for (int i=0; i < att_names.size();i++){
         if (att_names[i] == att_name){
