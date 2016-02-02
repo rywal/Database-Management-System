@@ -11,9 +11,7 @@ class Relation {
 public:
     string relation_name;
     std::vector<Tuple> tuples;
-    int num_attributes;
-    string[] att_names;
-    int[] att_max_lengths;
+    AttributeList attributes;
     string[] prim_keys;
 
     Relation(
@@ -22,6 +20,8 @@ public:
              int[]    attribute_max_lengths,   // Max length of attribute string value. NOTE: Should be 0 if type if integer
              string[] primary_keys             // Collection of primary keys
     );
+    
+    void insert_tuple(string[] values);
     
 	int get_attribute_index( string att_name );
     bool attribute_exist(string att_name);
