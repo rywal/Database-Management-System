@@ -55,8 +55,10 @@ Relation Project(vector<string> att_names, Relation &in_rel, int[] attribute_max
 	return out_rel;
 }
 
-Relation Renaming(Relation &out_rel, vector<string> att_renames , Relation &in_rel){
+Relation Renaming(String out_rel, vector<string> att_renames , Relation &in_rel, int[] attribute_max_lengths, string[] primary_keys){
 	//correct number of input?
+	new Relation(out_rel, att_names,attribute_max_lengths, primary_keys);
+	
 	if(in_rel.get_length()!=att_renames.size()){
 		printf ("There was not enough Attributes given or in the Relation.");
 	}
@@ -68,4 +70,5 @@ Relation Renaming(Relation &out_rel, vector<string> att_renames , Relation &in_r
 			out_rel.rename_attribute(att_renames[i],i);
 		}
 	}
+	return out_rel;
 }
