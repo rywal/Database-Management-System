@@ -21,3 +21,13 @@ int Tuple::insert_value( int index, auto value, int max_length ){
         return -1;
     }
 }
+
+bool Tuple::operator== (const Tuple &b){
+	if (a.num_attributes!=b.num_attributes) return false;
+	for (int i=0; i<a.num_attributes; i++){
+		if(a.cells[i]!=b.cells[i])return false;
+	}
+	return true;
+}
+	
+

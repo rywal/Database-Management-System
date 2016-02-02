@@ -46,3 +46,23 @@ int Cell::set_value( auto value ){
         }
     }
 }
+
+bool Cell::operator==(const Cell &b) const{
+	if (max_length==0){
+		if (int_data==b.int_data) 
+			return true;
+	}	
+	else if (string_data==b.string_data)
+		return true;
+	else return false;
+}
+
+bool Cell::operator!=(const Cell &b) const{
+	if (max_length==0){
+                if (int_data==b.int_data) 
+                        return false;
+        }       
+        else if (string_data==b.string_data)
+                return false;
+        else return true;
+} 
