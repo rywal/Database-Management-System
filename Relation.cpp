@@ -16,7 +16,7 @@ void Relation::insert_tuple(string[] values){
         
         for (int i = 0; i < values.size(); i++){
             Cell new_cell( values[i], attributes[i].max_length );
-            new_tuple.push_back(new_cell);
+            new_tuple.insert_cell(i, new_cell);
         }
         
         tuples.push_back(new_tuple);
