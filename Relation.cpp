@@ -26,7 +26,7 @@ Relation::Relation(
 	
 	
 	bool attribute_exist(string att_name){
-		return (get_attribute_index(att_name) == -1);//This saves lines of code
+		return (get_attribute_index(att_name) == -1);
 	}
 	
 	int get_size(){ return tuples.size(); }

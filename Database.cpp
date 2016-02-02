@@ -3,6 +3,24 @@
 //
 #include "Database.h"
 
+Database::Database(string name){
+    
+}
+
+void Database::create_relation(string name, string[] attribute_names, int[] attribute_types, string[] primary_keys){
+    Relation new_relation = Relation(name, attribute_names, attribute_types, primary_keys);
+    relations.push_back(new_relation);
+}
+
+std::vector<Tuple> Database::show_relation(string name){
+    for (auto relation : relations){
+        if (relation.name == name){
+            return relation.tuples;
+        }
+    }
+    return NULL;
+}
+
 bool Database:: union_compatible(Relation a, Relation b){
 	
 	if(a.num_attributes==b.num_attributes){
@@ -12,13 +30,6 @@ bool Database:: union_compatible(Relation a, Relation b){
 			}
 		return true;
 	else return false;
-	
-
-void Database:: new_relation(Relation newr){		//will push a new relation onto the vector 'relations'
-	
-	relations.push_back(newr);
-	return;
-}
 
 Relation Database:: set_union(string name, Relation a, Relation b){
 
