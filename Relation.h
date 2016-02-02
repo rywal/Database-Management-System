@@ -9,16 +9,16 @@
 
 class Relation {
 public:
-    string relation_name;
+    string name;
     std::vector<Tuple> tuples;
-    AttributeList attributes;
-    string[] prim_keys;
+    AttributeList attribute_list;
+    string[] primary_keys;
 
     Relation(
-             string name,
+             string _name,
              string[] attribute_names,         // Name of each attribute
              int[]    attribute_max_lengths,   // Max length of attribute string value. NOTE: Should be 0 if type if integer
-             string[] primary_keys             // Collection of primary keys
+             string[] _primary_keys             // Collection of primary keys
     );
     
     void insert_tuple(string[] values);

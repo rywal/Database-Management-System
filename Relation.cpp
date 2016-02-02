@@ -2,20 +2,23 @@
 //  Relation.cpp
 //
 #include "Relation.h"
-Relation::Relation(string name, string[] attribute_names, int[] attribute_max_lengths, string[] primary_keys){
+Relation::Relation(string name, string[] attribute_names, int[] attribute_max_lengths, string[] _primary_keys){
     relation_name = name;
-    att_names = attribute_names;
-    att_max_lengths= attribute_max_lengths;
-    prim_keys= primary_keys;
-    num_attributes= attribute_names.size();
+    primry_keys = _primary_keys;
+    
+    attribute_list = AttributeList( attribute_names.size() );
+    for (int i = 0; i < attribute_list.num_attributes; i++) {
+        Attribute new_attribute( attribute_names[i], attribute_max_lengths[i] );
+        attribute_list.attributes[i] = new_attribute;
+    }
 }
 
 void Relation::insert_tuple(string[] values){
-    if (values.size() == attributes.num_attributes) {
+    if (values.size() == attribute_list.num_attributes) {
         Tuple new_tuple( values.size() );
         
         for (int i = 0; i < values.size(); i++){
-            Cell new_cell( values[i], attributes[i].max_length );
+            Cell new_cell( values[i], attribute_list.attributes[i].max_length );
             new_tuple.insert_cell(i, new_cell);
         }
         
