@@ -16,6 +16,8 @@ private:
     
 public:
     Database(string name);
+    void create_relation(string name, string[] attribute_names, int[] attribute_types, string[] primary_keys);
+    
     bool union_compatible(Relation a, Relation b);
     void new_relation(Relation newr);
     Relation set_union(string name, Relation a, Relation b);

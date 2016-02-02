@@ -10,8 +10,8 @@ Relation::Relation(
     ){
 		relation_name = name;
 		att_names = attribute_names;
-    	att_max_lengths= attribute_max_lengths;//ADDED UNDERSCORE
-    	prim_keys= primary_keys;
+    	att_max_lengths= attribute_max_lengths;
+        prim_keys= primary_keys;
 		num_attributes= attribute_names.size();
 	}
 	
@@ -26,7 +26,7 @@ Relation::Relation(
 	
 	
 	bool attribute_exist(string att_name){
-		return (get_attribute_index(att_name) == -1);//This saves lines of code
+		return (get_attribute_index(att_name) == -1);
 	}
 	
 	int get_size(){ return tuples.size(); }

@@ -3,6 +3,15 @@
 //
 #include "Database.h"
 
+Database::Database(string name){
+    
+}
+
+void Database::create_relation(string name, string[] attribute_names, int[] attribute_types, string[] primary_keys){
+    Relation new_relation = Relation(name, attribute_names, attribute_types, primary_keys);
+    relations.push_back(new_relation);
+}
+
 bool Database:: union_compatible(Relation a, Relation b){
 	
 	if(a.num_attributes==b.num_attributes){
