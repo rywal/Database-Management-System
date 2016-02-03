@@ -14,8 +14,8 @@ void Database::create_relation(string name, string[] attribute_names, int[] attr
 
 bool Database:: union_compatible(Relation a, Relation b){
 	
-	if(a.num_attributes==b.num_attributes){
-		for(int i=0; i<a.num_attributes; i++){
+	if(a.get_num_attributes()==b.get_num_attributes()){
+		for(int i=0; i<a.get_num_attributes(); i++){
 			if(a.attribute_names[i]!=b.attribute_names[i])
 				return false;
 			}
@@ -37,7 +37,7 @@ Relation Database:: set_union(string name, Relation a, Relation b){
 			Tuple temp(a.num_attributes);
 			for (int j=0; j<result.num_attributes; j++)
 				temp.cells[j]=a.tuple[i].cells[j];
-			result.push_back(temp);
+			result.insert(temp);
 		}
 		for (int i=0; i<b.tuples.size(); i++){
 			Tuple temp(b.num_attributes);

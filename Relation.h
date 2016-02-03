@@ -23,6 +23,7 @@ public:
     );
     
     void insert_tuple(string[] values);
+   
     void delete_tuple(string[] att_names, string[] values);
     
 	int get_attribute_index( string att_name );
