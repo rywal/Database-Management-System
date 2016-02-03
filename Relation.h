@@ -13,6 +13,7 @@ public:
     std::vector<Tuple> tuples;
     AttributeList attribute_list;
     string[] primary_keys;
+    int num_attributes;
 
     Relation(
              string _name,
