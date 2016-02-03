@@ -36,8 +36,8 @@ void Relation::delete_tuple(string[] conditions){
 }
 
 int Relation::get_attribute_index( string att_name ){
-    for (int i=0; i < attribute_list.size();i++){
-        if (attribute_list[i] == att_name){
+    for (int i=0; i < attribute_names.size();i++){
+        if (attribute_names[i] == att_name){
             return i;
         }
     }
@@ -51,9 +51,9 @@ bool Relation::attribute_exist(string att_name){
 
 int Relation::get_size(){ return tuples.size(); }
 
-void Relation::rename_attribute( string renamed, int index ){ attribute_list[index] = renamed; }
+void Relation::rename_attribute( string renamed, int index ){ attribute_names[index] = renamed; }
 
-string Relation::get_attribute_name( int index ){ return attribute_list[index]; }
+string Relation::get_attribute_name( int index ){ return attribute_names[index]; }
 
 bool Relation::compare(vector<int> &tuple_indexes, auto comparison_value, string compare_operator, int index){
     for(int i=0; i < get_size(); i++){
@@ -101,7 +101,15 @@ void Relation::insert_attribute( int original_att_index, Relation &original_rela
 
 void Relation::rename_relation(string rename){relation_name = rename;}
 
+int[] Relation::set_max(int[] original_max_lengths, relation &original_relation){
+	for(int i=0;i<attribute_max_lengths; i++){
+		attribute_max_lengths[i] = original_relation.get_max_index(original_relation.get_attribute_index(i));
+	}
+}
+
 int[] Relation::get_max(){return attribute_max_lengths;}
+
+int Relation::get_max_index(int i){return attribute_max_lengths[i];}
 
 std::vector<Tuple> Relation::get_tuples_vector(){return tuples;}
 
