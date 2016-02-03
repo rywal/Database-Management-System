@@ -55,7 +55,6 @@ void rename_attribute( string renamed, int index ){ att_names[index] = renamed; 
 
 string get_attribute_name( int index ){ return att_names[index]; }
 
-
 bool compare(vector<int> &tuple_indexes, auto comparison_value, string compare_operator, int index){
     for(int i=0; i < /*NUMBER OF ROWS*/; i++){
         if((get_cell(index, i)).is_string()){
@@ -96,6 +95,4 @@ auto get_cell(int attribute_index, int tuple_index){
 
 //----------UNDEFINED----------//
 Attribute get_attribute( int index );
-//void insert( Tuple &tup_name );//
 void insert( Attribute &att_name );
-//----------UNDEFINED----------//
