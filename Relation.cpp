@@ -56,7 +56,7 @@ void Relation::rename_attribute( string renamed, int index ){ att_names[index] =
 string Relation::get_attribute_name( int index ){ return att_names[index]; }
 
 bool Relation::compare(vector<int> &tuple_indexes, auto comparison_value, string compare_operator, int index){
-    for(int i=0; i < /*NUMBER OF ROWS*/; i++){
+    for(int i=0; i < tuples.size(); i++){
         if((get_cell(index, i)).is_string()){
             if(comparison_value == get_cell(index, i)){
                 tuple_indexes.push_back(i);
@@ -94,5 +94,4 @@ auto Relation::get_cell(int attribute_index, int tuple_index){
 }
 
 //----------UNDEFINED----------//
-//Attribute get_attribute( int index );
 void Relation::insert_attribute( int original_att_index, Relation &original_relation);
