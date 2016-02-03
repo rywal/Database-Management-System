@@ -13,6 +13,7 @@ public:
     std::vector<Tuple> tuples;
     AttributeList attribute_list;
     string[] primary_keys;
+    int num_attributes;
 
     Relation(
              string _name,
@@ -27,6 +28,7 @@ public:
 	int get_attribute_index( string att_name );
     bool attribute_exist(string att_name);
 	int get_size();
+	int get_num_attributes();
 	void rename_attribute( string renamed, int index );
 	string get_attribute_name( int index );
     bool compare(vector<int> &tuple_indexes, auto comparison_value, string compare_operator, int index);
