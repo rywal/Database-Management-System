@@ -41,7 +41,7 @@ int Relation::get_attribute_index( string att_name ){
             return i;
         }
     }
-    return -1; //ERROR!! (DOES NOT EXIST)
+    return -1; //DOES NOT EXIST
 }
 
 

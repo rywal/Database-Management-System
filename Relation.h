@@ -32,6 +32,12 @@ public:
     bool compare(vector<int> &tuple_indexes, auto comparison_value, string compare_operator, int index);
 	auto get_cell(int attribute_index, int tuple_index);
     void insert_attribute( int original_att_index, Relation &original_relation);
+	void rename_relation(string rename);
+	int[] get_max();
+	std::vector<Tuple> get_tuples_vector();
+	void set_tuples_vector(std::vector<Tuple> tuples_input);
+	string[] get_primary();
+	void set_primary(string[] original_primary_keys, relation &original_relation);
 };
 
 #endif /* Relation_h */

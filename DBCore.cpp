@@ -26,7 +26,7 @@ Relation select(vector<string> att_names, vector<auto> compare_values, vector<st
 	vector<int> used;
 	for(int i=0; i<tuple_indexes.size();i++){
 		if(std::count(used.begin(),used_names.end(), tuple_indexes[i])==0){//NO DUPLICATE ATTRIBUTES
-			if(std::count(tuple_indexes.begin(), tuples_indexes.end(), tuples_indexes[i]) == att_names.size()){
+			if(std::count(tuple_indexes.begin(), tuple_indexes.end(), tuple_indexes[i]) == att_names.size()){
 				out_rel.insert(in_rel.tuples[i]);
 			}
 			used.push_back(tuple_indexes[i])
@@ -64,4 +64,18 @@ Relation Renaming(String out_rel, vector<string> att_renames , Relation &in_rel,
 		}
 	}
 	return out_rel;
+}
+
+
+//UPDATE-command
+
+void update(Relation &in_rel, vector<string> att_names, string compare_operators, vector<auto> comparison_values){
+	vector<int> tuple_indexes;
+	for(int i=0; i<att_names.size();i++){
+		in_rel.compare(tuple_indexes,comparison_values[i],compare_operators[i],in_rel.get_attribute_index(att_names[i]));
+		for(int n=0; n<tuple_indexes;n++){
+			in_rel.tuples[n].cells[in_rel.get_attribute_index(att_names[i])].set_value(compare_values[i]);
+		}
+		tuple_indexes.clear();
+	}
 }
