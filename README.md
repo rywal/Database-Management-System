@@ -50,3 +50,19 @@ Exits the DML interpreter.
 * *January 26th*
   * Building a plan to break down project components into smaller pieces to be handled in groups of two.
     * Ryan Walters, Jonathan Grimes, Nathan Blattman
+   * Understanding what needs to be done.
+
+* *January 28th*
+   * Work has started with some progress, with the following assignments
+    * Jonathan: Selection, Projection, Renaming, Update-cmd
+    * Nathan: Set Union, Set difference, Cross Product
+    * Victor: (conjunction, comparison, operators, etc.), close-cmd, save-cmd, exit-cmd, 
+    * Ryan: Show-cmd, Create-cmd, Insert-cmd, Delete-cmd, Foundational code(Cell, Attribute, Attribute List, Tuple, Relation Classes), putting the pieces together
+   * Defining what makes a Relation and Database
+
+* *January 29th*
+   * Redefined what makes a Relation and Database, including how it is to be made
+   * Work is begining to pick up
+
+* *January 31st*
+   * Meet up to begin comparing and exchanging information of how the project is supposed to come together
