@@ -1,5 +1,5 @@
 //
-//  AttributeList.hpp
+//  AttributeList.h
 //
 #ifndef AttributeList_h
 #define AttributeList_h
