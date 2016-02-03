@@ -36,8 +36,8 @@ void Relation::delete_tuple(string[] conditions){
 }
 
 int Relation::get_attribute_index( string att_name ){
-    for (int i=0; i < att_names.size();i++){
-        if (att_names[i] == att_name){
+    for (int i=0; i < attribute_list.size();i++){
+        if (attribute_list[i] == att_name){
             return i;
         }
     }
@@ -51,12 +51,12 @@ bool Relation::attribute_exist(string att_name){
 
 int Relation::get_size(){ return tuples.size(); }
 
-void Relation::rename_attribute( string renamed, int index ){ att_names[index] = renamed; }
+void Relation::rename_attribute( string renamed, int index ){ attribute_list[index] = renamed; }
 
-string Relation::get_attribute_name( int index ){ return att_names[index]; }
+string Relation::get_attribute_name( int index ){ return attribute_list[index]; }
 
 bool Relation::compare(vector<int> &tuple_indexes, auto comparison_value, string compare_operator, int index){
-    for(int i=0; i < tuples.size(); i++){
+    for(int i=0; i < get_size(); i++){
         if((get_cell(index, i)).is_string()){
             if(comparison_value == get_cell(index, i)){
                 tuple_indexes.push_back(i);
@@ -93,5 +93,24 @@ auto Relation::get_cell(int attribute_index, int tuple_index){
 	return tuples[tuple_index].cells[attribute_index];
 }
 
-//----------UNDEFINED----------//
-void Relation::insert_attribute( int original_att_index, Relation &original_relation);
+void Relation::insert_attribute( int original_att_index, Relation &original_relation){//With pre-defined columns
+	for(int i=0; i < get_size(); i++){
+		tuples[i].push_back(original_relation.get_cell(original_att_index,i))
+	}
+}
+
+void Relation::rename_relation(string rename){relation_name = rename;}
+
+int[] Relation::get_max(){return attribute_max_lengths;}
+
+std::vector<Tuple> Relation::get_tuples_vector(){return tuples;}
+
+void Relation::set_tuples_vector(std::vector<Tuple> tuples_input){tuples=tuples_input;}
+
+string[] Relation::get_primary(){return primary_keys;}
+
+void Relation::set_primary(string[] original_primary_keys, relation &original_relation){
+	for(int i = 0; i < original_primary_keys.size();i++){
+		primary_keys[i] = get_attribute_name(original_relation.get_attribute_index(original_primary_keys[i]));
+	}
+}

@@ -29,7 +29,7 @@ Relation select(vector<string> att_names, vector<auto> compare_values, vector<st
 	for(int i=0; i<tuple_indexes.size();i++){
 		if(std::count(used.begin(),used_names.end(), tuple_indexes[i])==0){//NO DUPLICATE ATTRIBUTES
 			if(std::count(tuple_indexes.begin(), tuples_indexes.end(), tuples_indexes[i]) == att_names.size()){
-				out_rel.insert(in_rel.get_attribute(i));
+				out_rel.insert(in_rel.tuples[i]);
 			}
 			used.push_back(tuple_indexes[i])
 		}
@@ -45,7 +45,7 @@ Relation Project(vector<string> att_names, Relation &in_rel, int[] attribute_max
 	for(int i=0; i < att_names.size(); i++){
 		if(in_rel.attribute_exist(att_names[i])){
 	//add Attributes to out_rel
-			out_rel.insert( in_rel.get_attribute(in_rel.get_attribute_index(att_names[i])));
+			out_rel.insert( in_rel.get_attribute_index(att_names[i]), &in_rel);
 		}
 		else{
 			printf ("%s attribute was not found.", att_names[i]);
@@ -55,17 +55,19 @@ Relation Project(vector<string> att_names, Relation &in_rel, int[] attribute_max
 	return out_rel;
 }
 
-Relation Renaming(String out_rel, vector<string> att_renames , Relation &in_rel, int[] attribute_max_lengths, string[] primary_keys){
+Relation Renaming(String out_rel, vector<string> att_renames , Relation &in_rel, string[] primary_keys){
 	//correct number of input?
-	new Relation(out_rel, att_names,attribute_max_lengths, primary_keys);
+	new Relation(out_rel, att_names,in_rel.get_max(), in_rel.get_primary());
 	
 	if(in_rel.num_attributes != att_renames.size()){
 		printf ("There was not enough Attributes given or in the Relation.");
 	}
 	else{
 	//Make a copy of in_rel and put into out_rel
+		out_rel.set_tuples_vector(in_rel.get_tuples_vector()); //copy table
+		out_rel.set_primary(in_rel.get_primary(), &in_rel);
+		
 		for(int i=0; i < in_rel.num_attributes; i++){
-			out_rel.insert(in_rel.get_attribute[i]);
 	//Rename each attribute one by one
 			out_rel.rename_attribute(att_renames[i],i);
 		}
