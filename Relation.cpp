@@ -35,7 +35,7 @@ void Relation::delete_tuple(string[] conditions){
     }
 }
 
-int get_attribute_index( string att_name ){
+int Relation::get_attribute_index( string att_name ){
     for (int i=0; i < att_names.size();i++){
         if (att_names[i] == att_name){
             return i;
@@ -45,17 +45,17 @@ int get_attribute_index( string att_name ){
 }
 
 
-bool attribute_exist(string att_name){
+bool Relation::attribute_exist(string att_name){
     return (get_attribute_index(att_name) == -1);
 }
 
-int get_size(){ return tuples.size(); }
+int Relation::get_size(){ return tuples.size(); }
 
-void rename_attribute( string renamed, int index ){ att_names[index] = renamed; }
+void Relation::rename_attribute( string renamed, int index ){ att_names[index] = renamed; }
 
-string get_attribute_name( int index ){ return att_names[index]; }
+string Relation::get_attribute_name( int index ){ return att_names[index]; }
 
-bool compare(vector<int> &tuple_indexes, auto comparison_value, string compare_operator, int index){
+bool Relation::compare(vector<int> &tuple_indexes, auto comparison_value, string compare_operator, int index){
     for(int i=0; i < /*NUMBER OF ROWS*/; i++){
         if((get_cell(index, i)).is_string()){
             if(comparison_value == get_cell(index, i)){
@@ -89,10 +89,10 @@ bool compare(vector<int> &tuple_indexes, auto comparison_value, string compare_o
     }
 }
 
-auto get_cell(int attribute_index, int tuple_index){
+auto Relation::get_cell(int attribute_index, int tuple_index){
 	return tuples[tuple_index].cells[attribute_index];
 }
 
 //----------UNDEFINED----------//
-Attribute get_attribute( int index );
-void insert( Attribute &att_name );
+//Attribute get_attribute( int index );
+void Relation::insert_attribute( int original_att_index, Relation &original_relation);
