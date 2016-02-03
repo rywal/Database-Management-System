@@ -21,6 +21,7 @@ private:
 public:
     Attribute( string _name, int _max_length ) : name(_name), max_length(_max_length) {}
     string get_name(){ return name; }
+    int get_max_length(){ return max_length;}
     void set_name( string _name ){ name = _name; }
 };
 

@@ -37,13 +37,13 @@ Relation Database:: set_union(string name, Relation a, Relation b){
 			Tuple temp(a.num_attributes);
 			for (int j=0; j<result.num_attributes; j++)
 				temp.cells[j]=a.tuple[i].cells[j];
-			result.insert(temp);
+			result.insert_tuple(temp);
 		}
 		for (int i=0; i<b.tuples.size(); i++){
 			Tuple temp(b.num_attributes);
 			for (int j=0; j<result.num_attributes; j++)
 				temp.cells[j]=b.tuple[i].cells[j];
-			result.insert(temp);
+			result.insert_tuple(temp);
 		}	
 	}
 	else{
@@ -65,7 +65,7 @@ Relation Database:: set_difference(string name, Relation a, Relation b){
 			}
 			if(a.tuples[i]!=b.tuples[j]){ 	
 				temp.cells=a[i].cells;
-				result.insert(temp);
+				result.insert_tuple(temp);
 			}
 		}			
 	}
@@ -77,12 +77,17 @@ Relation Database:: set_difference(string name, Relation a, Relation b){
 
 Relation Database:: cross_product(string name, Relation a, Relation b){
 
-	Relation result(name, a.att_names + b.att_names, a.att_max_length + b.att_max_length, a.prim_keys+b.prim_keys);
-	Tuple temp (a.num_attributes+ b.num_attributes);
-	for (int i=0; i<a.num_attributes; i++){
-		for (int j=0; j<b.num_attributes; j++){
-			temp.cells = a.tuples[i].cells +b.tuples[j].cells;
-			result.insert( temp);
+	Relation result(name, combine_names(a.attribute_list, b.attribute_list), combine_max(a.attribute_list, b.attribute_list), a.prim_keys+b.prim_keys);
+	Tuple temp (a.get_num_attributes()+ b.get_num_attributes());
+	for (int i=0; i<a.get_num_attributes(); i++){
+		for (int j=0; j<b.get_num_attributes(); j++){
+			for (int k=0; k<temp.num_attributes(); k++){
+				if (k<a.get_num_attributes())
+					temp.insert_cell(k, a.tuples[i].get_cell(k));
+				else
+					temp.insert_cell(k, b.tuples[j].get_cell(k-a.get_num_attributes()));
+			}		
+			result.insert_tuple( temp);
 		}
 	}
 }
