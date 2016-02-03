@@ -32,10 +32,10 @@ Relation select(vector<string> att_names, vector<auto> compare_values, vector<st
 		if(std::count(used.begin(),used_names.end(), tuple_indexes[i])==0){//NO DUPLICATE ATTRIBUTES
 			if(and_or_gate == "and"){
 			if(std::count(tuple_indexes.begin(), tuple_indexes.end(), tuple_indexes[i]) == att_names.size()){
-				out_rel.insert(in_rel.tuples[i]);
+				out_rel.insert_tuple((in_rel.tuples[i]);
 			}
 			}else if (and_or_gate == "or"){
-				out_rel.insert(in_rel.tuples[i]);
+				out_rel.insert_tuple((in_rel.tuples[i]);
 			}
 			used.push_back(tuple_indexes[i])
 		}
