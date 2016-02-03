@@ -30,10 +30,10 @@ public:
 	void rename_attribute( string renamed, int index );
 	string get_attribute_name( int index );
     bool compare(vector<int> &tuple_indexes, auto comparison_value, string compare_operator, int index);
+	auto get_cell(int attribute_index, int tuple_index);
 	//----------UNDEFINED----------//
     Attribute get_attribute( int index );
     void insert( Attribute &att_name );
-	auto get_cell(int attribute_index, int tuple_index);
 };
 
 #endif /* Relation_h */
