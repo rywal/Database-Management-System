@@ -75,20 +75,36 @@ Relation Database:: set_difference(string name, Relation a, Relation b){
 	return result;
 }
 
+bool Database:: cross_compatible(Relation a,Relation b){
+	
+	for(int i=0; i<a.get_num_attributes(); i++){
+		for( int j=0; j<b.get_num_attributes(); j++){
+			if(a.get_attribute_name(i)==b.get_attribute_name(j))
+				return false;
+		}
+	}
+	return true;
+}
+
 Relation Database:: cross_product(string name, Relation a, Relation b){
 
-	Relation result(name, combine_names(a.attribute_list, b.attribute_list), combine_max(a.attribute_list, b.attribute_list), a.prim_keys+b.prim_keys);
-	Tuple temp (a.get_num_attributes()+ b.get_num_attributes());
-	for (int i=0; i<a.get_num_attributes(); i++){
-		for (int j=0; j<b.get_num_attributes(); j++){
-			for (int k=0; k<temp.num_attributes(); k++){
-				if (k<a.get_num_attributes())
-					temp.insert_cell(k, a.tuples[i].get_cell(k));
-				else
-					temp.insert_cell(k, b.tuples[j].get_cell(k-a.get_num_attributes()));
-			}		
-			result.insert_tuple( temp);
+	if (cross_compatible(a,b)){
+		Relation result(name, combine_names(a.attribute_list, b.attribute_list), combine_max(a.attribute_list, b.attribute_list), a.get_primary()+b.get_primary());
+		Tuple temp (a.get_num_attributes()+ b.get_num_attributes());
+		for (int i=0; i<a.get_num_attributes(); i++){
+			for (int j=0; j<b.get_num_attributes(); j++){
+				for (int k=0; k<temp.num_attributes(); k++){
+					if (k<a.get_num_attributes())
+						temp.insert_cell(k, a.tuples[i].get_cell(k));
+					else
+						temp.insert_cell(k, b.tuples[j].get_cell(k-a.get_num_attributes()));
+				}		
+				result.insert_tuple( temp);
+			}
 		}
+	}
+	else{
+		cerr<"These relations are not compatible for using the cross product function. Rename the attributes in one of the relations.";
 	}
 }
 		

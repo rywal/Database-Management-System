@@ -22,6 +22,7 @@ public:
     void insert_tuple(string relation_name);
     
     bool union_compatible(Relation a, Relation b);
+    bool cross_compatible(Relation a, Relation b);
     Relation set_union(string name, Relation a, Relation b);
     Relation set_difference(string name, Relation a, Relation b);
     Relation cross_product(string name, Relation a, Relation b);
