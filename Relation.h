@@ -36,7 +36,9 @@ public:
 	auto get_cell(int attribute_index, int tuple_index);
     void insert_attribute( int original_att_index, Relation &original_relation);
 	void rename_relation(string rename);
+	void set_max(int[] original_max_lengths, relation &original_relation);
 	int[] get_max();
+	int get_max_index(int i);
 	std::vector<Tuple> get_tuples_vector();
 	void set_tuples_vector(std::vector<Tuple> tuples_input);
 	string[] get_primary();

@@ -2,8 +2,11 @@
 
 //Query Operations
 
-Relation select(vector<string> att_names, vector<auto> compare_values, vector<string> compare_operators, Relation &in_rel, int[] attribute_max_lengths, string[] primary_keys){
-	new Relation(out_rel, att_names,attribute_max_lengths, primary_keys);
+Relation select(vector<string> att_names, vector<auto> compare_values, vector<string> compare_operators, Relation &in_rel, string and_or_gate){
+	new Relation(out_rel, att_names, in_rel.get_max(), in_rel.get_primary());
+	//Update parameters
+	out_rel.set_primary(in_rel.get_primary(), &in_rel);
+	out_rel.set_max(in_rel.get_max(), &in_rel);
 	vector<int> tuple_indexes;
 	if(att_names.size()!= compare_values.size()){	//Check input lengths
 		printf ("The number of attribute and compare strings did not match.");
@@ -13,7 +16,7 @@ Relation select(vector<string> att_names, vector<auto> compare_values, vector<st
 		if(in_rel.attribute_exist(att_names[n])){
 			for(int i=0; i < in_rel.num_attributes; i++){
 				if (in_rel.get_attribute_name(i) == att_names[n]){
-					if (in_rel.compare(tuple_indexes, compare_values[n], compare_operators[n], i)){ //EVERYTHING HAPPENS TO THE TUPLE_INDEXES(important!!!)
+					if (in_rel.compare(tuple_indexes, compare_values[n], compare_operators[n], i)){//tuple_indexes
 						i=in_rel.num_attributes;//saves time
 					}
 				}
@@ -24,9 +27,14 @@ Relation select(vector<string> att_names, vector<auto> compare_values, vector<st
 		}
 	}
 	vector<int> used;
+
 	for(int i=0; i<tuple_indexes.size();i++){
 		if(std::count(used.begin(),used_names.end(), tuple_indexes[i])==0){//NO DUPLICATE ATTRIBUTES
+			if(and_or_gate == "and"){
 			if(std::count(tuple_indexes.begin(), tuple_indexes.end(), tuple_indexes[i]) == att_names.size()){
+				out_rel.insert(in_rel.tuples[i]);
+			}
+			}else if (and_or_gate == "or"){
 				out_rel.insert(in_rel.tuples[i]);
 			}
 			used.push_back(tuple_indexes[i])
@@ -36,8 +44,12 @@ Relation select(vector<string> att_names, vector<auto> compare_values, vector<st
 	return out_rel;
 }
 
-Relation Project(vector<string> att_names, Relation &in_rel, int[] attribute_max_lengths, string[] primary_keys){
-	new Relation(out_rel, att_names,attribute_max_lengths, primary_keys);
+Relation Project(vector<string> att_names, Relation &in_rel){
+	new Relation(out_rel, att_names,in_rel.get_max(), in_rel.get_primary());
+	
+	out_rel.set_primary(in_rel.get_primary(), &in_rel);
+	out_rel.set_max(in_rel.get_max(), &in_rel);
+	
 	for(int i=0; i < att_names.size(); i++){
 		if(in_rel.attribute_exist(att_names[i])){
 			//add Attributes to out_rel
@@ -50,7 +62,7 @@ Relation Project(vector<string> att_names, Relation &in_rel, int[] attribute_max
 	return out_rel;
 }
 
-Relation Renaming(String out_rel, vector<string> att_renames , Relation &in_rel, string[] primary_keys){
+Relation Renaming(String out_rel, vector<string> att_renames , Relation &in_rel){
 	//correct number of input?
 	new Relation(out_rel, att_names,in_rel.get_max(), in_rel.get_primary());
 	if(in_rel.num_attributes != att_renames.size()){
