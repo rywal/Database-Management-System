@@ -44,12 +44,12 @@ Relation Database:: set_union(string name, Relation a, Relation b){
 			for (int j=0; j<result.num_attributes; j++)
 				temp.cells[j]=b.tuple[i].cells[j];
 			result.insert_tuple(temp);
-		}	
+		}
+		return result;	
 	}
 	else{
 		cout<<"These relations are not union compatible\n";
 	}
-	return result;
 }
 
 Relation Database:: set_difference(string name, Relation a, Relation b){
@@ -67,12 +67,12 @@ Relation Database:: set_difference(string name, Relation a, Relation b){
 				temp.cells=a[i].cells;
 				result.insert_tuple(temp);
 			}
-		}			
+		}
+		return result;			
 	}
 	else{
 		cout<<"These relations are not union-compatible, therefore I cannot compute the set difference\n";
 	}
-	return result;
 }
 
 bool Database:: cross_compatible(Relation a,Relation b){
@@ -102,6 +102,7 @@ Relation Database:: cross_product(string name, Relation a, Relation b){
 				result.insert_tuple( temp);
 			}
 		}
+		return result;
 	}
 	else{
 		cerr<"These relations are not compatible for using the cross product function. Rename the attributes in one of the relations.";
