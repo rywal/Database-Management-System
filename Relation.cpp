@@ -19,7 +19,7 @@ Relation::Relation(string _name, string attribute_names[], int attribute_max_len
 
 void Relation::insert_tuple(string values[]){
     if (values->size() + 1 == attribute_list->num_attributes) {
-        Tuple *new_tuple = new Tuple( values->size() );
+        Tuple *new_tuple = new Tuple( values->size()+1 );
         
         for (int i = 0; i < values->size() + 1; i++){
             std::cout << attribute_list->attributes[i].get_name() << "(" << values[i] << ") Length: " << attribute_list->attributes[i].get_max_length() << std::endl;
