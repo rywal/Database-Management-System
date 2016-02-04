@@ -9,6 +9,7 @@
 
 // Collection of cells within a row (Tuple)
 class Tuple {
+public:
     Cell *cells;
     int num_att;
     
