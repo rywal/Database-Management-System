@@ -25,7 +25,7 @@ outfile.close();
 // Relational and comparison operators ==,!=,<,>,<=,>=
 
 /*
-class comparison{
+class comp{
 private:
 	string f;
 	string g;
@@ -43,7 +43,7 @@ bool comp (string f, string g){
 
 //---------------------------------------------------
 
-class conjuction{
+class conj{
 private:
 	string d;
 	string e;

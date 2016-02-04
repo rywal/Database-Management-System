@@ -14,36 +14,35 @@ public:
     string name;
     std::vector<Tuple> tuples;
     AttributeList attribute_list;
-    string[] primary_keys;
-    int num_attributes;
+    string primary_keys[];
 
     Relation(
              string _name,
-             string[] attribute_names,         // Name of each attribute
-             int[]    attribute_max_lengths,   // Max length of attribute string value. NOTE: Should be 0 if type if integer
-             string[] _primary_keys             // Collection of primary keys
+             string attribute_names[],         // Name of each attribute
+             int    attribute_max_lengths[],   // Max length of attribute string value. NOTE: Should be 0 if type if integer
+             string _primary_keys[]            // Collection of primary keys
     );
     
-    void insert_tuple(string[] values);
+    void insert_tuple(string values[]);
     void insert_tuple(Tuple new_tuple);
-    void delete_tuple(string[] att_names, string[] values);
+    void delete_tuple(string att_names[], string values[]);
 	int get_attribute_index( string att_name );
     bool attribute_exist(string att_name);
 	int get_size();
 	int get_num_attributes();
 	void rename_attribute( string renamed, int index );
 	string get_attribute_name( int index );
-    bool compare(vector<int> &tuple_indexes, auto comparison_value, string compare_operator, int index);
-	auto get_cell(int attribute_index, int tuple_index);
+    bool compare(vector<int> &tuple_indexes, string comparison_value, string compare_operator, int index);
     void insert_attribute( int original_att_index, Relation &original_relation);
 	void rename_relation(string rename);
-	void set_max(int[] original_max_lengths, relation &original_relation);
-	int[] get_max();
+	void set_max(int original_max_lengths[], Relation &original_relation);
+	int* get_max();
 	int get_max_index(int i);
-	std::vector<Tuple> get_tuples_vector();
 	void set_tuples_vector(std::vector<Tuple> tuples_input);
-	string[] get_primary();
-	void set_primary(string[] original_primary_keys, relation &original_relation);
+	string* get_primary();
+    void set_primary(string original_primary_keys[], Relation &original_relation);
+	std::vector<Tuple> show(Relation &relation_name);
+	void print_relation(Relation &relation_name);
 };
 
 #endif /* Relation_h */

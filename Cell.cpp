@@ -9,16 +9,16 @@ Cell::Cell( int _max_length ){
 
 Cell::Cell(){}
 
-/*Cell::Cell(Cell a){
-	set_value(a.get_dat());
+Cell::Cell(Cell &a){
+	set_value(a.get_data());
 	max_length=a.get_max_length();
-}*/
+}
 
 Cell::Cell( string data, int _max_length ){
     max_length = _max_length;
     
     if (max_length == 0) {
-        int_data = (int)data;
+        int_data = std::stoi(data);
     } else {
         if ( data.length() <= max_length )
             string_data = data;
@@ -30,27 +30,27 @@ int Cell::get_max_length(){
 }
 	
 bool Cell::is_null(){
-    if (string_data.length() == 0 && (string)int_data == 0) {
+    if (string_data.length() == 0 && std::to_string(int_data).length() == 0) {
         return true;
     } else {
         return false;
     }
 }
 
-auto Cell::get_data(){
+string Cell::get_data(){
     if (max_length == 0){
-        return int_data;
+        return std::to_string(int_data);
     } else {
         return string_data;
     }
 }
 
-int Cell::set_value( auto value ){
+int Cell::set_value( string value ){
     if (max_length == 0) {
-        int_data = (int)value;
+        int_data = std::stoi(value);
     } else {
-        if ( ((string)value).length <= max_length ){
-            string_data = (string)value;
+        if ( value.length() <= max_length ){
+            string_data = value;
             return 0;
         } else {
             return -1;
