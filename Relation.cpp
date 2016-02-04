@@ -31,7 +31,7 @@ void Relation::insert_tuple(Tuple new_tuple){
 }
 
 Relation Relation::delete_tuple(vector<string> att_names, vector<string> compare_values, vector<string> compare_operators, string and_or_gate[]){
-    return set_difference(name+"_Deleted", this, this.select(attribute_list.attributes, compare_values, compare_operators, and_or_gate));
+    return set_difference(name+"_Deleted", this, this->select(attribute_list.attributes, compare_values, compare_operators, and_or_gate));
 }
 
 int Relation::get_attribute_index( string att_name ){
@@ -51,13 +51,18 @@ int Relation::get_size(){ return tuples.size(); }
 
 int Relation::get_num_attributes(){return attribute_list.num_attributes;}
 
-void Relation::rename_attribute( string renamed, int index ){ attribute_list.attributes[index].set_name() = renamed; }
+void Relation::rename_attribute( string renamed, int index ){ attribute_list.attributes[index].set_name(renamed); }
 
 string Relation::get_attribute_name( int index ){ return attribute_list.attributes[index].get_name(); }
 
+// Referenced from http://stackoverflow.com/questions/4654636/how-to-determine-if-a-string-is-a-number-with-c
+bool is_number(const std::string& s) {
+    return !s.empty() && std::find_if(s.begin(), s.end(), [](char c) { return !std::isdigit(c); }) == s.end();
+}
+
 bool Relation::compare(vector<int> &tuple_indexes, string comparison_value, string compare_operator, int attribute_index){
     for(int i=0; i < get_size(); i++){//Compare whole Attribute with an operator and value
-        if( isdigit(tuples[i].get_cell(attribute_index).get_data()) ){
+        if( is_number( tuples[i].get_cell(attribute_index).get_data() ) ){
             if(comparison_value == tuples[i].get_cell(attribute_index).get_data()){
                 tuple_indexes.push_back(i);
             }
