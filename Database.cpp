@@ -16,14 +16,16 @@ bool Database:: union_compatible(Relation a, Relation b){
 	
 	if(a.get_num_attributes()==b.get_num_attributes()){
 		for(int i=0; i<a.get_num_attributes(); i++){
-			if(a.attribute_list.attributes[i]!=b.attribute_list.attributes[i])
+            if(a.attribute_list.attributes[i]!=b.attribute_list.attributes[i]) {
 				return false;
-			}
+            }
 		return true;
-	else
+        }
+    } else {
         return false;
+    }
 }
-	
+
 
 void Database:: new_relation(Relation newr){		//will push a new relation onto the vector 'relations'
 	
