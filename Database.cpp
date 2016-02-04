@@ -207,7 +207,6 @@ Relation Database::select(vector<string> att_names, vector<string> compare_value
 }
 
 Relation Database::project(vector<string> att_names, Relation &in_rel){
-    std::cout << "--1\n";
     string* attr_names = new string[att_names.size()];
     int* attr_lengths = new int[att_names.size()];
     
@@ -225,24 +224,23 @@ Relation Database::project(vector<string> att_names, Relation &in_rel){
     std::cout << "--3\n";
     
 	out_rel.set_primary(in_rel.primary_keys, in_rel);
-	out_rel.set_max(in_rel.get_max(), in_rel);
+	out_rel.set_max(attr_lengths, in_rel);
 
-	for(int i=0; i < attr_names->size(); i++){
-		if(in_rel.attribute_exist(attr_names[i])){
+	for(int i=0; i < att_names.size(); i++){
+		if(in_rel.attribute_exist(att_names[i])){
 			//add Attributes to out_rel
-			out_rel.insert_attribute( in_rel.get_attribute_index(attr_names[i]), in_rel);
+			out_rel.insert_attribute( in_rel.get_attribute_index(att_names[i]), in_rel);
             
             std::cout << "--4\n";
-		}
-		else{
+		} else {
 			printf ("%s attribute was not found.", att_names[i].c_str() );
 		}
 	}
     
     for(int i = 0; i < in_rel.tuples.size(); i++){
-        string* values = new string[att_names.size()];
-        for(int col = 0; col < att_names.size(); col++){
-            values[col] = in_rel.tuples[i].cells[in_rel.get_attribute_index(att_names[i])].get_data();
+        string* values = new string[attr_names->size()];
+        for(int col = 0; col < attr_names->size(); col++){
+            values[col] = in_rel.tuples[i].cells[in_rel.get_attribute_index(attr_names[i])].get_data();
             std::cout << "Cell " << col << " has value " << values[col] << "\n";
         }
         out_rel.insert_tuple(values);
