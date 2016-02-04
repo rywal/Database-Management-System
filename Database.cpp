@@ -84,7 +84,7 @@ Relation Database::set_difference(string name, Relation a, Relation b){
 		return result;			
 	}
 	else{
-        std::cout<<"These relations are not union-compatible, therefore I cannot compute the set difference\n";
+        std::cout << "These relations are not union-compatible, therefore I cannot compute the set difference\n";
 	}
 }
 
@@ -102,15 +102,15 @@ bool Database::cross_compatible(Relation a,Relation b){
 Relation Database::cross_product(string name, Relation a, Relation b){
 
 	if (cross_compatible(a,b)){
-		Relation result(name, combine_names(a.attribute_list, b.attribute_list), combine_max(a.attribute_list, b.attribute_list), a.primary_keys+b.primary_keys);
+		Relation result(name, a.attribute_list.combine_names(a.attribute_list, b.attribute_list), a.attribute_list.combine_max(a.attribute_list, b.attribute_list), a.primary_keys+b.primary_keys);
 		Tuple temp (a.get_num_attributes()+ b.get_num_attributes());
 		for (int i=0; i<a.get_num_attributes(); i++){
 			for (int j=0; j<b.get_num_attributes(); j++){
 				for (int k=0; k<temp.num_attributes(); k++){
 					if (k<a.get_num_attributes())
-						temp.insert_cell(k, a.tuples[i].get_cell(k));
+						temp.insert_value(k, a.tuples[i].get_cell(k).get_data(), a.tuples[i].get_cell(k).get_max_length());
 					else
-						temp.insert_cell(k, b.tuples[j].get_cell(k-a.get_num_attributes()));
+						temp.insert_value(k, b.tuples[i].get_cell(k).get_data(), b.tuples[i].get_cell(k).get_max_length());
 				}		
 				result.insert_tuple( temp);
 			}
@@ -118,17 +118,17 @@ Relation Database::cross_product(string name, Relation a, Relation b){
 		return result;
 	}
 	else{
-        std::cerr<"These relations are not compatible for using the cross product function. Rename the attributes in one of the relations.";
+        std::cerr << "These relations are not compatible for using the cross product function. Rename the attributes in one of the relations.";
 	}
 }
 	
-Relation Database::select(vector<string> att_names, vector<string> compare_values, vector<string> compare_operators, Relation &in_rel, string and_or_gate){
+Relation Database::select(vector<string> att_names, vector<string> compare_values, vector<string> compare_operators, Relation &in_rel, string and_or_gate[]){
     int *att_max_lengths = new int[in_rel.attribute_list.num_attributes];
     
-    for (int i = 0; i < in_Rel.attribute_list.num_attributes; i++){
+    for (int i = 0; i < in_rel.attribute_list.num_attributes; i++){
         att_max_lengths[i] = in_rel.attribute_list.attributes[i].get_max_length();
     }
-	new Relation(out_rel, att_names, att_max_lengths, in_rel.primary_keys);
+	Relation out_rel(in_rel+"_select", att_names, att_max_lengths, in_rel.primary_keys);
 	//Update parameters
 	out_rel.set_primary(in_rel.primary_keys, &in_rel);
 	out_rel.set_max(in_rel.get_max(), &in_rel);
@@ -139,28 +139,28 @@ Relation Database::select(vector<string> att_names, vector<string> compare_value
 	}
 	for(int n=0; n<att_names.size();n++){
 		if(in_rel.attribute_exist(att_names[n])){
-			for(int i=0; i < in_rel.num_attributes; i++){
+			for(int i=0; i < in_rel.attribute_list.num_attributes; i++){
 				if (in_rel.get_attribute_name(i) == att_names[n]){
 					if (in_rel.compare(tuple_indexes, compare_values[n], compare_operators[n], i)){//tuple_indexes
-						i=in_rel.num_attributes;//saves time
+						i = in_rel.attribute_list.num_attributes;//saves time
 					}
 				}
 			}
 		}
 		else{
-			printf ("%s attribute was not found.", att_names[n]);
+			printf ("%s attribute was not found.", att_names[n].c_str() );
 		}
 	}
 	vector<int> used;
 
 	for(int i=0; i<tuple_indexes.size();i++){
-		if(std::count(used.begin(),used_names.end(), tuple_indexes[i])==0){//NO DUPLICATE ATTRIBUTES
-			if(and_or_gate[i] == "and"){
-			if(std::count(tuple_indexes.begin(), tuple_indexes.end(), tuple_indexes[i]) == att_names.size()){
-				out_rel.insert_tuple((in_rel.tuples[i]);
-			}
-			}else if (and_or_gate[i] == "or"){
-				out_rel.insert_tuple((in_rel.tuples[i]);
+		if(std::count(used.begin(), used.end(), tuple_indexes[i])==0){//NO DUPLICATE ATTRIBUTES
+			if(and_or_gate[i].compare("and")){
+                if(std::count(tuple_indexes.begin(), tuple_indexes.end(), tuple_indexes[i]) == att_names.size()){
+                    out_rel.insert_tuple(in_rel.tuples[i]);
+                }
+			} else if (and_or_gate[i].compare("or")){
+				out_rel.insert_tuple(in_rel.tuples[i]);
 			}
 			used.push_back(tuple_indexes[i])
 		}
