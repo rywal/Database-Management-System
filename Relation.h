@@ -13,7 +13,7 @@ class Relation {
 public:
     string name;
     std::vector<Tuple> tuples;
-    AttributeList attribute_list;
+    AttributeList *attribute_list;
     std::vector<string> primary_keys;
 
     Relation(
