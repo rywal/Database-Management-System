@@ -266,9 +266,9 @@ void Database::print_relation(Relation &relation_name){
 	printf ("Relation name:%s \n", relation_name.name.c_str());
     std::cout << "Relation size " << relation_name.tuples.size() << std::endl;
     for(int k = 0; k < relation_name.tuples.size(); k++) {
-		for(int i = 0; i < relation_name.tuples[k].num_attributes(); i++){
+		for(int i = 0; i <= relation_name.tuples[k].num_attributes(); i++){
 			printf("%-10s", relation_name.tuples[k].get_cell(i).get_data().c_str());
-            std::cout << "Tried to get cell " << k << " " << i << std::endl;
+            std::cout << "Tried to get cell " << k << " " << i << " with data " << relation_name.tuples[k].get_cell(i).get_data().c_str() << std::endl;
 		}
 		printf ("\n");
 	}
@@ -279,5 +279,5 @@ void Database::print_relation(Relation &relation_name){
             printf (", %s", relation_name.primary_keys[i].c_str());
 		}
 	}
-	printf ("\n=-=-=-=-=-=END-=-=-=-=-=\n");
+	printf ("\n=-=-=-=-=-=END-=-=-=-=-=\n\n\n");
 }
