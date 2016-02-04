@@ -8,41 +8,38 @@ Database::Database(string name){
 }
 
 void Database::create_relation(string name, string attribute_names[], int attribute_types[], string primary_keys[]){
-    Relation new_relation = Relation(name, attribute_names, attribute_types, primary_keys);
+    Relation new_relation(name, attribute_names, attribute_types, primary_keys);
     relations.push_back(new_relation);
 }
 
-bool Database:: union_compatible(Relation a, Relation b){
+bool Database::union_compatible(Relation a, Relation b){
 	
-	if(a.get_num_attributes()==b.get_num_attributes()){
-		for(int i=0; i<a.get_num_attributes(); i++){
-			if(a.attribute_names[i]!=b.attribute_names[i])
+	if(a.get_num_attributes() == b.get_num_attributes()){
+		for(int i=0; i < a.get_num_attributes(); i++){
+            if(a.attribute_list.attributes[i].get_name() != b.attribute_list.attributes[i].get_name()) {
 				return false;
-			}
+            }
 		return true;
-	else return false;
-	
-
-void Database:: new_relation(Relation newr){		//will push a new relation onto the vector 'relations'
-	
-	relations.push_back(newr);
-	return;
+        }
+    } else {
+        return false;
+    }
 }
 
-Relation Database:: set_union(string name, Relation a, Relation b){
+Relation Database::set_union(string name, Relation a, Relation b){
 
 	if (union_compatible(a, b)){
 		Relation result( name, a.att_names, a.att_max_lengths, a.prim_keys);
-		for (int i=0; i<a.tuples.size(); i++){
+		for (int i = 0; i < a.tuples.size(); i++){
 			Tuple temp(a.num_attributes);
-			for (int j=0; j<result.num_attributes; j++)
-				temp.cells[j]=a.tuple[i].cells[j];
+			for (int j = 0; j < result.num_attributes; j++)
+				temp.cells[j] = a.tuple[i].cells[j];
 			result.insert_tuple(temp);
 		}
-		for (int i=0; i<b.tuples.size(); i++){
+		for (int i=0; i < b.tuples.size(); i++){
 			Tuple temp(b.num_attributes);
-			for (int j=0; j<result.num_attributes; j++)
-				temp.cells[j]=b.tuple[i].cells[j];
+			for (int j=0; j < result.num_attributes; j++)
+				temp.cells[j] = b.tuple[i].cells[j];
 			result.insert_tuple(temp);
 		}
 		return result;	
@@ -52,7 +49,7 @@ Relation Database:: set_union(string name, Relation a, Relation b){
 	}
 }
 
-Relation Database:: set_difference(string name, Relation a, Relation b){
+Relation Database::set_difference(string name, Relation a, Relation b){
 
 	if( union_compatible(a, b)){
 		int j;
@@ -75,7 +72,7 @@ Relation Database:: set_difference(string name, Relation a, Relation b){
 	}
 }
 
-bool Database:: cross_compatible(Relation a,Relation b){
+bool Database::cross_compatible(Relation a,Relation b){
 	
 	for(int i=0; i<a.get_num_attributes(); i++){
 		for( int j=0; j<b.get_num_attributes(); j++){
@@ -86,7 +83,7 @@ bool Database:: cross_compatible(Relation a,Relation b){
 	return true;
 }
 
-Relation Database:: cross_product(string name, Relation a, Relation b){
+Relation Database::cross_product(string name, Relation a, Relation b){
 
 	if (cross_compatible(a,b)){
 		Relation result(name, combine_names(a.attribute_list, b.attribute_list), combine_max(a.attribute_list, b.attribute_list), a.primary_keys+b.primary_keys);
@@ -184,10 +181,3 @@ Relation Database::renaming(String out_name, vector<string> att_renames , Relati
 	}
 	return out_rel;
 }
-	
-
-
-
-
-
-
