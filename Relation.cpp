@@ -2,6 +2,8 @@
 //  Relation.cpp
 //
 #include "Relation.h"
+#include "Database.h"
+
 Relation::Relation(string _name, string attribute_names[], int attribute_max_lengths[], string _primary_keys[]){
     name = _name;
     primary_keys = _primary_keys;
@@ -30,8 +32,9 @@ void Relation::insert_tuple(Tuple new_tuple){
 	tuples.push_back(new_tuple);
 }
 
-Relation Relation::delete_tuple(vector<string> att_names, vector<string> compare_values, vector<string> compare_operators, string and_or_gate[]){
-    return set_difference(name+"_Deleted", this, this->select(attribute_list.attributes, compare_values, compare_operators, and_or_gate));
+Relation Relation::delete_tuple(Relation &original_relation, vector<string> att_names, vector<string> compare_values, vector<string> compare_operators, string and_or_gate[]){
+    Database db("name");
+    return db.set_difference(name+"_Deleted", original_relation, db.select(att_names, compare_values, compare_operators, original_relation, and_or_gate));
 }
 
 int Relation::get_attribute_index( string att_name ){
