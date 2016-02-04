@@ -33,29 +33,29 @@ class AttributeList {
 		return result;
 	}
     
-    string* combine_names(AttributeList a, AttributeList b){
-        string *result = new string[a.num_attributes + b.num_attributes];
+    string* combine_names(AttributeList *a, AttributeList *b){
+        string *result = new string[a->num_attributes + b->num_attributes];
         
-        for(int i=0; i < a.num_attributes; i++){
-            result[i]= a.attributes[i].get_name();
+        for(int i=0; i < a->num_attributes; i++){
+            result[i]= a->attributes[i].get_name();
         }
         
-        for(int i=0; i < b.num_attributes; i++){
-            result[i + (a.num_attributes-1) ] = b.attributes[i].get_name();
+        for(int i=0; i < b->num_attributes; i++){
+            result[i + (a->num_attributes-1) ] = b->attributes[i].get_name();
         }
         
         return result;
     }
     
-    int* combine_max( AttributeList a, AttributeList b){
-        int *result = new int[a.num_attributes + b.num_attributes];
+    int* combine_max( AttributeList *a, AttributeList *b){
+        int *result = new int[a->num_attributes + b->num_attributes];
         
-        for(int i=0; i < a.num_attributes; i++){
-            result[i] = a.attributes[i].get_max_length();
+        for(int i=0; i < a->num_attributes; i++){
+            result[i] = a->attributes[i].get_max_length();
         }
         
-        for(int i=0; i < b.num_attributes; i++){
-            result[i + (a.num_attributes-1) ] = b.attributes[i].get_max_length();
+        for(int i=0; i < b->num_attributes; i++){
+            result[i + (a->num_attributes-1) ] = b->attributes[i].get_max_length();
         }
         
         return result;

@@ -10,15 +10,17 @@ int main(){
 	Database DB("DB");
 	printf ("Create new Relation A:\n");
 	string attribute_names1[] = {"Name","ID","ShoeSize", "DogName"};
-	int attribute_types1[] = {10, 0, 0, 10};
+    int attribute_types1[4];
+    attribute_types1[0] = 10;
+    attribute_types1[1] = 10;
+    attribute_types1[2] = 10;
+    attribute_types1[3] = 10;
+
     vector<string> primary_keys_names1;
     primary_keys_names1.push_back("Name");
     primary_keys_names1.push_back("ID");
 	DB.create_relation("Relation A", attribute_names1, attribute_types1, primary_keys_names1);
-   cout<<DB.get_relation("Relation A").get_num_attributes()<<'\n'; 
-    std::cout << "Relation loading\n";
-   cout<<"HI\n"; 
-    std::cout << "12\n";
+    
     Relation relA = DB.get_relation("Relation A");
 	
 	string r1_t1[] = {"Jim", "1", "4", "Spot"};
@@ -28,7 +30,7 @@ int main(){
 	relA.insert_tuple(r1_t1);
 	relA.insert_tuple(r1_t2);
 	relA.insert_tuple(r1_t3);
-	
+	cout<<"2\n";
 	DB.print_relation(relA);
 	printf("Select all rows that Name=Joe from Relation A:\n");
 	cout<<"2\n";

@@ -1,6 +1,7 @@
 //
 //  Cell.cpp
 //
+#include <iostream>
 #include "Cell.h"
 
 Cell::Cell( int _max_length ){
@@ -16,8 +17,10 @@ Cell::Cell(Cell &a){
 
 Cell::Cell( string data, int _max_length ){
     max_length = _max_length;
+    std::cout << "data: " << data << " max_length: " << _max_length << std::endl;
     
     if (max_length == 0) {
+        std::cout << "stoi of: " << data << std::endl;
         int_data = std::stoi(data);
     } else {
         if ( data.length() <= max_length )
