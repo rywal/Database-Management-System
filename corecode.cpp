@@ -2,24 +2,13 @@
 #include <cstdlib>
 #include <iomanip>
 #include <string>
-#include <fstream>
 
 
 using namespace std;
 
 int main(){
-
-
-cout << "Hello \n";
-	
-ofstream outfile;
-outfile.open ("notes.txt");
-outfile << "Hello" << endl;
-outfile.close();
-
-	return 0;
-}
-
+// cout << "Hello \n";
+return 0;}
 
 
 // Relational and comparison operators ==,!=,<,>,<=,>=
@@ -38,7 +27,6 @@ bool comp (string f, string g){
 	return ( f || g);
 	
 };	
-
 
 
 //---------------------------------------------------
@@ -97,33 +85,3 @@ bool less (string a, string b){
 bool lesseq (string a, string b){
 	return (a <= b);
 };
-
-
-// close-cmd | save-cmd | exit-cmd
-
-/*
-close-cmd ::== CLOSE relation-name 
-save-cmd ::== SAVE relation-name 
-exit-cmd ::== EXIT 
-*/
-class close{
-	
-	
-};
-
-//-----------------------------------------
-class save{
-	
-	
-};
-
-
-class exit{
-	
-	
-};
-
-
-
-
-
