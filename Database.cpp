@@ -8,15 +8,15 @@
 Database::Database(string _name){name = _name;}
 
 
-Relation Database::get_relation(string name) {
+Relation* Database::get_relation(string name) {
     for (auto relation : relations){
         if(relation.name == name)
-            return relation;
+            return &relation;
     }
 }
 
-Relation Database::get_relation(int index) {
-    return relations[index];
+Relation* Database::get_relation(int index) {
+    return &relations[index];
 }
 
 int Database::get_relation_index( string rel_name ){
@@ -258,13 +258,6 @@ void EXIT(){		//This closes out the application
 
 std::vector<Tuple> Database::show(Relation &relation_name){
 	return relation_name.tuples;
-}
-
-void Database::print_relation(string relation_name) {
-    for (auto relation : relations){
-        if(relation.name == name)
-            print_relation(relation);
-    }
 }
 
 void Database::print_relation(Relation &relation_name){

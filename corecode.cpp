@@ -28,7 +28,7 @@ bool comp (string f, string g){
 	
 };	
 
-
+/*
 //---------------------------------------------------
 
 class conj{
@@ -61,7 +61,7 @@ public:
 	bool less (string a, string b);
 	bool lesseq (string a, string b);
 };
-
+*/
 bool eqeq (string a, string b){
 	return (a == b);
 };
