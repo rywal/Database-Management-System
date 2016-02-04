@@ -11,17 +11,16 @@ Cell::Cell( int _max_length ){
 Cell::Cell(){}
 
 Cell::Cell(Cell &a){
+    max_length=a.get_max_length();
 	set_value(a.get_data());
-	max_length=a.get_max_length();
 }
 
 Cell::Cell( string data, int _max_length ){
     max_length = _max_length;
-    std::cout << "data: " << data << " max_length: " << _max_length << std::endl;
+    std::cout << "data: " << data << " max_length: " << max_length << std::endl;
     
     if (max_length == 0) {
-        std::cout << "stoi of: " << data << std::endl;
-        int_data = std::stoi(data);
+        int_data = std::stoi(data.c_str());
     } else {
         if ( data.length() <= max_length )
             string_data = data;
@@ -50,7 +49,8 @@ string Cell::get_data(){
 
 int Cell::set_value( string value ){
     if (max_length == 0) {
-        int_data = std::stoi(value);
+        std::cout << "Trying to set value of " << value << "\n";
+        int_data = std::stoi(value.c_str());
     } else {
         if ( value.length() <= max_length ){
             string_data = value;

@@ -29,7 +29,6 @@ void Relation::insert_tuple(string values[]){
         
         tuples.push_back(*new_tuple);
     }
-    std::cout << "NOT good to insert\n";
 }
 
 void Relation::insert_tuple(Tuple new_tuple){
