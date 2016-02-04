@@ -20,7 +20,7 @@ public:
              string _name,
              string attribute_names[],         // Name of each attribute
              int    attribute_max_lengths[],   // Max length of attribute string value. NOTE: Should be 0 if type if integer
-             string _primary_keys[]             // Collection of primary keys
+             string _primary_keys[]            // Collection of primary keys
     );
     
     void insert_tuple(string values[]);
