@@ -23,6 +23,8 @@ int Tuple::insert_value( int index, string value, int max_length ){
     }
 }
 
+Cell Tuple::get_cell(int index){ return cells[index];}
+
 bool Tuple::operator== (Tuple &b){
 	if (num_attributes()!=b.num_attributes()) return false;
 	for (int i=0; i<num_attributes(); i++){
@@ -39,9 +41,7 @@ bool Tuple::operator!= (Tuple &b){
         return false;
 }
 	
-Cell Tuple::get_cell(int index) {
-    return cells[index];
-}
+
 
 int Tuple::insert_cell( int index, Cell cell ){
         cells[index] = cell;

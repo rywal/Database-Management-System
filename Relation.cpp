@@ -91,11 +91,12 @@ bool Relation::compare(vector<int> &tuple_indexes, string comparison_value, stri
 
 void Relation::insert_attribute( int original_att_index, Relation &original_relation){//With pre-defined columns
 	for(int i=0; i < get_size(); i++){
-        tuples[i].insert_value(i, original_relation.get_cell(original_att_index,i).get_data(), original_relation.get_cell(original_att_index,i).get_max_length());
+		Cell temp = original_relation.tuples[i].get_cell(original_att_index);
+		tuples[i].insert_cell(original_att_index, temp );
 	}
 }
 
-void Relation::rename_relation(string rename){relation_name = rename;}
+void Relation::rename_relation(string rename){name = rename;}
 
 void Relation::set_max(int original_max_lengths[], Relation &original_relation){
 	for(int i=0; i<get_num_attributes(); i++){
