@@ -15,7 +15,7 @@ int Database::get_relation_index( string rel_name ){
 		return -1; //DOES NOT EXIST
 }
 
-void Database::create_relation(string name, string attribute_names[], int attribute_types[], string primary_keys[]){
+void Database::create_relation(string name, string attribute_names[], int attribute_types[], vector<string> primary_keys){
     Relation new_relation(name, attribute_names, attribute_types, primary_keys);
     relations.push_back(new_relation);
 }
@@ -35,8 +35,8 @@ bool Database::union_compatible(Relation a, Relation b){
 }
 
 Relation Database::set_union(string name, Relation a, Relation b){
-    vector<string> att_names(a.attribute_list.num_attributes);
-    vector<int> att_max_lengths(a.attribute_list.num_attributes);
+    string* att_names = new string[a.attribute_list.num_attributes];
+    int* att_max_lengths = new int[a.attribute_list.num_attributes];
     
     for (int i = 0; i < a.attribute_list.num_attributes; i++){
         att_names[i] = a.attribute_list.attributes[i].get_name();
@@ -66,8 +66,8 @@ Relation Database::set_union(string name, Relation a, Relation b){
 }
 
 Relation Database::set_difference(string name, Relation a, Relation b){
-    vector<string> att_names(a.attribute_list.num_attributes);
-    vector<int> att_max_lengths(a.attribute_list.num_attributes);
+    string* att_names = new string[a.attribute_list.num_attributes];
+    int* att_max_lengths = new int[a.attribute_list.num_attributes];
     
     for (int i = 0; i < a.attribute_list.num_attributes; i++){
         att_names[i] = a.attribute_list.attributes[i].get_name();
@@ -109,7 +109,9 @@ bool Database::cross_compatible(Relation a,Relation b){
 Relation Database::cross_product(string name, Relation a, Relation b){
 
 	if (cross_compatible(a,b)){
-		Relation result(name, a.attribute_list.combine_names(a.attribute_list, b.attribute_list), a.attribute_list.combine_max(a.attribute_list, b.attribute_list), a.primary_keys+b.primary_keys);
+        vector<string> prim_keys = a.primary_keys;
+        prim_keys.insert( prim_keys.end(), b.primary_keys.begin(), b.primary_keys.end() );
+		Relation result(name, a.attribute_list.combine_names(a.attribute_list, b.attribute_list), a.attribute_list.combine_max(a.attribute_list, b.attribute_list), prim_keys);
 		Tuple temp (a.get_num_attributes()+ b.get_num_attributes());
 		for (int i=0; i<a.get_num_attributes(); i++){
 			for (int j=0; j<b.get_num_attributes(); j++){
@@ -130,12 +132,15 @@ Relation Database::cross_product(string name, Relation a, Relation b){
 }
 	
 Relation Database::select(vector<string> att_names, vector<string> compare_values, vector<string> compare_operators, Relation &in_rel, string and_or_gate[]){
-    int *att_max_lengths = new int[in_rel.attribute_list.num_attributes];
+    
+    string* attr_names = new string[att_names.size()];
+    int* att_max_lengths = new int[att_names.size()];
     
     for (int i = 0; i < in_rel.attribute_list.num_attributes; i++){
+        attr_names[i] = att_names[i];
         att_max_lengths[i] = in_rel.attribute_list.attributes[i].get_max_length();
     }
-	Relation out_rel(in_rel, att_names, att_max_lengths, in_rel.primary_keys);
+	Relation out_rel(in_rel.name, attr_names, att_max_lengths, in_rel.primary_keys);
 	//Update parameters
 	out_rel.set_primary(in_rel.primary_keys, in_rel);
 	out_rel.set_max(in_rel.get_max(), in_rel);
@@ -177,7 +182,12 @@ Relation Database::select(vector<string> att_names, vector<string> compare_value
 }
 
 Relation Database::project(vector<string> att_names, Relation &in_rel){
-	Relation out_rel((in_rel.name + "_Projection"), att_names,in_rel.get_max(), in_rel.primary_keys);
+    string* attr_names = new string[att_names.size()];
+    
+    for (int i = 0; i < att_names.size(); i++){
+        attr_names[i] = att_names[i];
+    }
+	Relation out_rel((in_rel.name + "_Projection"), attr_names,in_rel.get_max(), in_rel.primary_keys);
 
 	out_rel.set_primary(in_rel.primary_keys, in_rel);
 	out_rel.set_max(in_rel.get_max(), in_rel);
@@ -195,8 +205,13 @@ Relation Database::project(vector<string> att_names, Relation &in_rel){
 }
 
 Relation Database::renaming(string out_name, vector<string> att_renames , Relation &in_rel){
-	//correct number of input?
-	Relation out_rel(out_name, att_renames, in_rel.get_max(), in_rel.primary_keys);
+    //correct number of input?
+    string* attr_names = new string[att_renames.size()];
+    
+    for (int i = 0; i < att_renames.size(); i++){
+        attr_names[i] = att_renames[i];
+    }
+	Relation out_rel(out_name, attr_names, in_rel.get_max(), in_rel.primary_keys);
 	if(in_rel.attribute_list.num_attributes != att_renames.size()){
 		printf ("There was not enough Attributes given or in the Relation.");
 	}
@@ -235,7 +250,7 @@ void print_relation(Relation &relation_name){
 	}
     printf ("Primary Keys: ");
 	if(relation_name.primary_keys.size()>0) {
-		printf ("%s", relation_name.primary_keys[0]);
+		printf ("%s", relation_name.primary_keys[0].c_str());
         for(int i=1; i<relation_name.primary_keys.size(); i++){
             printf (", %s", relation_name.primary_keys[i].c_str());
 		}

@@ -14,13 +14,13 @@ public:
     string name;
     std::vector<Tuple> tuples;
     AttributeList attribute_list;
-    string primary_keys[];
+    std::vector<string> primary_keys;
 
     Relation(
              string _name,
              string attribute_names[],         // Name of each attribute
              int    attribute_max_lengths[],   // Max length of attribute string value. NOTE: Should be 0 if type if integer
-             string _primary_keys[]            // Collection of primary keys
+             std::vector<string> _primary_keys            // Collection of primary keys
     );
     
     void insert_tuple(string values[]);
@@ -39,8 +39,8 @@ public:
 	int* get_max();
 	int  get_max_index(int i);
 	void set_tuples_vector(std::vector<Tuple> tuples_input);
-	string* get_primary();
-    void set_primary(string original_primary_keys[], Relation &original_relation);
+	std::vector<string> get_primary();
+    void set_primary(std::vector<string> original_primary_keys, Relation &original_relation);
 };
 
 #endif /* Relation_h */
