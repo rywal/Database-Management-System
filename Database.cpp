@@ -212,7 +212,7 @@ void print_relation(Relation &relation_name){
 	printf ("Relation name:%s \n", relation_name.name);
 	for(auto tuple : relation_name.tuples) {
 		for(int i = 0; i < relation_name.tuples.size(); i++){
-			printf("%-10s", tuple.get_cell(i).get_data());
+			printf("%-10s", tuple.get_cell(i).get_data().c_str());
 		}
 		printf ("\n");
 	}
@@ -220,7 +220,7 @@ void print_relation(Relation &relation_name){
 	if(relation_name.primary_keys.size()>0){
 		printf ("%s", relation_name.primary_keys[0];
 		for(int i=1; i<relation_name.primary_keys.size(), i++){
-			printf (", %s", relation_name.primary_keys[i]);
+			printf (", %s", relation_name.primary_keys[i].c_str());
 		}
 	}
 	printf ("=-=-=-=-=-=END-=-=-=-=-=\n");
