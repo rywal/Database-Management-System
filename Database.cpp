@@ -145,19 +145,23 @@ Relation Database::cross_product(string name, Relation a, Relation b){
 }
 	
 Relation Database::select(vector<string> att_names, vector<string> compare_values, vector<string> compare_operators, Relation &in_rel, string and_or_gate[]){
+    string* attribute_names = new string[in_rel.attribute_list->num_attributes];
+    int* attribute_max_lengths = new int[in_rel.attribute_list->num_attributes];
     
+    for (int i = 0; i < in_rel.attribute_list->num_attributes; i++){
+        attribute_names[i] = in_rel.attribute_list->attributes[i].get_name();
+        attribute_max_lengths[i] = in_rel.attribute_list->attributes[i].get_max_length();
+    }
+
     string* attr_names = new string[att_names.size()];
-    int* att_max_lengths = new int[att_names.size()];
-  //  cout<<in_rel.attribute_list->num_attributes<<' '<<att_names.size()<<'\n';
-    for (int i = 0; i < (att_names.size()); i++){
-        cout<<i<<"\n";
+    int* attr_max_lengths = new int[att_names.size()];
+     for (int i = 0; i < (att_names.size()); i++){
 	attr_names[i] = att_names[i];
-	cout<<"done\n";
-        att_max_lengths[i] = in_rel.attribute_list->attributes[i].get_max_length();
-	cout<<"2\n";    
+        attr_max_lengths[i] = in_rel.attribute_list->attributes[i].get_max_length();
 }
-	cout<<"3\n";
-	Relation out_rel(in_rel.name, attr_names, att_max_lengths, in_rel.primary_keys);
+	
+	
+	Relation out_rel(in_rel.name, attribute_names, attribute_max_lengths, in_rel.primary_keys);
 	//Update parameters
 	out_rel.set_primary(in_rel.primary_keys, in_rel);
 	out_rel.set_max(in_rel.get_max(), in_rel);
@@ -167,11 +171,16 @@ Relation Database::select(vector<string> att_names, vector<string> compare_value
 		return out_rel;
 	}
 	for(int n=0; n<att_names.size();n++){
+		cout<<"1\n";
 		if(in_rel.attribute_exist(att_names[n])){
+			cout<<"2\n";
 			for(int i=0; i < in_rel.attribute_list->num_attributes; i++){
+				cout<<"3\n";
 				if (in_rel.get_attribute_name(i) == att_names[n]){
+					cout<<"4\n";
 					if (in_rel.compare(tuple_indexes, compare_values[n], compare_operators[n], i)){//tuple_indexes
-						i = in_rel.attribute_list->num_attributes;//saves time
+					//	i = in_rel.attribute_list->num_attributes;//saves time
+						cout<<"5\n";
 					}
 				}
 			}

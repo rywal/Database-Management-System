@@ -25,8 +25,22 @@ void Relation::insert_tuple(string values[]){
             std::cout << attribute_list->attributes[i].get_name() << "(" << values[i] << ") Length: " << attribute_list->attributes[i].get_max_length() << std::endl;
             Cell *new_cell = new Cell( values[i], attribute_list->attributes[i].get_max_length() );
             new_tuple->insert_cell(i, *new_cell);
+			
+			
+			
+			std::cout<<"THIS IS A TUPLE(INSIDE): (index)"<< i << "\n now the rest: ";
+			for (int i=0; i<tuples.size(); i++){
+				std::cout<<new_tuple->get_cell(i).get_data().c_str()<< "  " << new_cell->get_data().c_str();
+				//std::count<< " direct: " << new_tuple->cells[i]<< " ";
+			}
+			std::cout<<"\nTHIS IS THE END\n\n";
+			
         }
-        
+        std::cout<<"THIS IS A TUPLE: ";
+		for (int i=0; i<tuples.size(); i++){
+			std::cout<<new_tuple->get_cell(i).get_data().c_str()<< "  ";
+		}
+		std::cout<<"THIS IS THE END\n";
         tuples.push_back(*new_tuple);
     }
 }
@@ -50,7 +64,7 @@ int Relation::get_attribute_index( string att_name ){
 }
 
 bool Relation::attribute_exist(string att_name){
-    return (get_attribute_index(att_name) == -1);
+    return (get_attribute_index(att_name) != -1);
 }
 
 int Relation::get_size(){ return tuples.size(); }

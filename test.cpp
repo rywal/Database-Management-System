@@ -24,7 +24,7 @@ int main(){
     Relation relA = DB.get_relation("Relation A");
 	
     string r1_t1[4];
-    r1_t1[0] = "Jim";
+    r1_t1[0] = "Joe";
     r1_t1[1] = "1";
     r1_t1[2] = "4";
     r1_t1[3] = "Spot";
@@ -35,10 +35,16 @@ int main(){
     r1_t2[2] = "5";
     r1_t2[3] = "Spike";
 	
+	string r7_t7[4];
+    r7_t7[0] = "Joe";
+    r7_t7[1] = "2";
+    r7_t7[2] = "5";
+    r7_t7[3] = "Spike";
+	
 	relA.insert_tuple(r1_t1);
 	relA.insert_tuple(r1_t2);
-//	relA.insert_tuple(r1_t3);
-cout<<"1\n";	
+	relA.insert_tuple(r7_t7);
+	cout<<"1\n";	
 	DB.print_relation(relA);
 	printf("Select all rows that Name=Joe from Relation A:\n");
 	cout<<"2\n";
