@@ -13,6 +13,7 @@ class AttributeList {
     public:
     Attribute *attributes;
     int num_attributes;
+    AttributeList() { num_attributes = 0; }
     AttributeList(int _num_attributes) { num_attributes = _num_attributes; attributes = new Attribute[num_attributes]; }
     ~AttributeList() { delete[] attributes; }
 

@@ -25,7 +25,7 @@ public:
     
     void insert_tuple(string values[]);
     void insert_tuple(Tuple new_tuple);
-    void delete_tuple(string att_names[], string values[]);
+    void delete_tuple(vector<string> att_names, vector<string> compare_values, vector<string> compare_operators, string and_or_gate[]);
 	int get_attribute_index( string att_name );
     bool attribute_exist(string att_name);
 	int get_size();
@@ -37,7 +37,7 @@ public:
 	void rename_relation(string rename);
 	void set_max(int original_max_lengths[], Relation &original_relation);
 	int* get_max();
-	int get_max_index(int i);
+	int  get_max_index(int i);
 	void set_tuples_vector(std::vector<Tuple> tuples_input);
 	string* get_primary();
     void set_primary(string original_primary_keys[], Relation &original_relation);

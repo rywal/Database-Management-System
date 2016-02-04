@@ -6,7 +6,7 @@ Relation::Relation(string _name, string attribute_names[], int attribute_max_len
     name = _name;
     primary_keys = _primary_keys;
     
-    attribute_list = AttributeList( attribute_names.size() );
+    attribute_list = AttributeList( attribute_names->size() );
     for (int i = 0; i < attribute_list.num_attributes; i++) {
         Attribute new_attribute( attribute_names[i], attribute_max_lengths[i] );
         attribute_list.attributes[i] = new_attribute;
@@ -14,7 +14,7 @@ Relation::Relation(string _name, string attribute_names[], int attribute_max_len
 }
 
 void Relation::insert_tuple(string values[]){
-    if (values.size() == attribute_list.num_attributes) {
+    if (values->size() == attribute_list.num_attributes) {
         Tuple new_tuple( values->size() );
         
         for (int i = 0; i < values->size(); i++){
@@ -31,12 +31,12 @@ void Relation::insert_tuple(Tuple new_tuple){
 }
 
 Relation Relation::delete_tuple(vector<string> att_names, vector<string> compare_values, vector<string> compare_operators, string and_or_gate[]){
-    return set_difference(name+"_Deleted", this, select(attribute_list.attributes, compare_values, compare_operators, and_or_gate));
+    return set_difference(name+"_Deleted", this, this.select(attribute_list.attributes, compare_values, compare_operators, and_or_gate));
 }
 
 int Relation::get_attribute_index( string att_name ){
     for (int i=0; i < attribute_list.num_attributes;i++){
-        if (attribute_list.attributes[i] == att_name){
+        if (attribute_list.attributes[i].get_name() == att_name){
             return i;
         }
     }
@@ -51,13 +51,13 @@ int Relation::get_size(){ return tuples.size(); }
 
 int Relation::get_num_attributes(){return attribute_list.num_attributes;}
 
-void Relation::rename_attribute( string renamed, int index ){ attribute_list.attributes[index] = renamed; }
+void Relation::rename_attribute( string renamed, int index ){ attribute_list.attributes[index].set_name() = renamed; }
 
 string Relation::get_attribute_name( int index ){ return attribute_list.attributes[index].get_name(); }
 
 bool Relation::compare(vector<int> &tuple_indexes, string comparison_value, string compare_operator, int attribute_index){
     for(int i=0; i < get_size(); i++){//Compare whole Attribute with an operator and value
-        if((tuples[i].get_cell(attribute_index).get_data()).is_string()){
+        if( isdigit(tuples[i].get_cell(attribute_index).get_data()) ){
             if(comparison_value == tuples[i].get_cell(attribute_index).get_data()){
                 tuple_indexes.push_back(i);
             }
@@ -91,7 +91,7 @@ bool Relation::compare(vector<int> &tuple_indexes, string comparison_value, stri
 
 void Relation::insert_attribute( int original_att_index, Relation &original_relation){//With pre-defined columns
 	for(int i=0; i < get_size(); i++){
-        tuples[i].insert_value(i, original_relation.get_cell(original_att_index,i).get_data(), original_relation.get_cell(original_att_index,i).get_max_length());
+        tuples[i].insert_value(i, original_relation.tuples[i].get_cell(original_att_index).get_data(), original_relation.tuples[i].get_cell(original_att_index).get_max_length());
 	}
 }
 
