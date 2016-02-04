@@ -26,11 +26,11 @@ int main(){
 	string r1_t1[] = {"Jim", "1", "4", "Spot"};
 	string r1_t2[] = {"Joe", "2", "6", "Dog"};
 	string r1_t3[] = {"Joe", "3", "5", "Spot"};
-	cout<<"1\n";
+	cout<<"loko\n";
 	relA.insert_tuple(r1_t1);
 	relA.insert_tuple(r1_t2);
 	relA.insert_tuple(r1_t3);
-	cout<<"2\n";
+	cout<<"crazy\n";
 	DB.print_relation(relA);
 	printf("Select all rows that Name=Joe from Relation A:\n");
 	cout<<"2\n";
@@ -59,7 +59,7 @@ int main(){
     
     string r1_s8[] = {"and", "and"};
     query = DB.select(r1_s5, r1_s6,r1_s7, relA, r1_s8);
-	DB.print_relation(query);
+DB.print_relation(query);
 	
 	printf("Select all rows that Name=Joe OR DogName=Spot from Relation A:\n");
     query = DB.select(r1_s5, r1_s6,r1_s7, relA, r1_s8);
@@ -108,10 +108,11 @@ int main(){
 	relC.insert_tuple(r1_t8);
 	relC.insert_tuple(r1_t9);
 	
+cout<<"Howdy!\n";
 	printf ("Set Difference of Relation A & Relation B:\n");
     query = DB.set_difference("Relation A-B_Difference", relA, relB);
 	DB.print_relation(query);
-	
+	cout<<"Bye!\n";
 	string attribute_names2[] = {"CatName","Believingness"};
 	int attribute_types2[] = {10, 0};
     vector<string> primary_keys_names2;
