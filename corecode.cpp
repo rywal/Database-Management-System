@@ -2,19 +2,13 @@
 #include <cstdlib>
 #include <iomanip>
 #include <string>
-#include <fstream>
 
 
 using namespace std;
 
 int main(){
-
-
 // cout << "Hello \n";
-
-	return 0;
-}
-
+return 0;}
 
 
 // Relational and comparison operators ==,!=,<,>,<=,>=
@@ -33,7 +27,6 @@ bool comp (string f, string g){
 	return ( f || g);
 	
 };	
-
 
 
 //---------------------------------------------------
@@ -92,8 +85,3 @@ bool less (string a, string b){
 bool lesseq (string a, string b){
 	return (a <= b);
 };
-
-
-
-
-
