@@ -94,10 +94,6 @@ bool Relation::compare(vector<int> &tuple_indexes, string comparison_value, stri
     }
 }
 
-auto Relation::get_cell(int attribute_index, int tuple_index){
-	return tuples[tuple_index].cells[attribute_index];
-}
-
 void Relation::insert_attribute( int original_att_index, Relation &original_relation){//With pre-defined columns
 	for(int i=0; i < get_size(); i++){
 		tuples[i].push_back(original_relation.get_cell(original_att_index,i))
@@ -108,7 +104,7 @@ void Relation::rename_relation(string rename){relation_name = rename;}
 
 void Relation::set_max(int original_max_lengths[], Relation &original_relation){
 	for(int i=0;i<attribute_max_lengths; i++){
-		attribute_max_lengths[i] = original_relation.get_max_index(original_relation.get_attribute_index(i));
+		attribute_list.attributes[i].set_max_length( original_relation.get_max_index(original_relation.get_attribute_index(i)) );
 	}
 }
 
