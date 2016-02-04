@@ -30,13 +30,8 @@ void Relation::insert_tuple(Tuple new_tuple){
 	tuples.push_back(new_tuple);
 }
 
-void Relation::delete_tuple(string conditions[]){
-    
-    for (auto tuple : tuples) {
-        for (int i = 0; i < attribute_indices.size(); i++){
-            
-        }
-    }
+Relation Relation::delete_tuple(vector<string> att_names, vector<string> compare_values, vector<string> compare_operators, string and_or_gate){
+    return set_difference(name+"_Deleted", this, select(attribute_list.attributes, compare_values, compare_operators, and_or_gate));
 }
 
 int Relation::get_attribute_index( string att_name ){
@@ -129,14 +124,11 @@ std::vector<Tuple> show(Relation &relation_name){
 void print_relation(Relation &relation_name){
 	printf ("-=-=-=-=-=BEGIN-=-=-=-=-\n");
 	printf ("Relation name:%s \n", relation_name.name);
-	for(auto tuple : tuples) {
-		for(int i = 0; i < tuple.size(); i++){
+	for(auto tuple : relation_name.tuples) {
+		for(int i = 0; i < relation_name.tuples.size(); i++){
 			printf("%-10s", tuple.get_cell(i).get_data());
 		}
 		printf ("\n");
 	}
-	
-	
-	
 	printf ("=-=-=-=-=-=END-=-=-=-=-=\n");
 }
