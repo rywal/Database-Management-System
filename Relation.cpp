@@ -50,7 +50,7 @@ int Relation::get_attribute_index( string att_name ){
 }
 
 bool Relation::attribute_exist(string att_name){
-    return (get_attribute_index(att_name) == -1);
+    return (get_attribute_index(att_name) != -1);
 }
 
 int Relation::get_size(){ return tuples.size(); }
