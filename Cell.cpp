@@ -45,12 +45,12 @@ auto Cell::get_data(){
     }
 }
 
-int Cell::set_value( auto value ){
+int Cell::set_value( string value ){
     if (max_length == 0) {
         int_data = (int)value;
     } else {
-        if ( ((string)value).length <= max_length ){
-            string_data = (string)value;
+        if ( value.length <= max_length ){
+            string_data = value;
             return 0;
         } else {
             return -1;

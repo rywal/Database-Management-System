@@ -21,7 +21,7 @@ public:
     bool   is_null();
     int	   get_max_length();
     auto   get_data();
-    int    set_value( auto value );
+    int    set_value( string value );
 
     bool operator==(const Cell &b) const;
     bool operator!=(const Cell &b) const;
