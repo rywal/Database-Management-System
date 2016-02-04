@@ -2,6 +2,7 @@
 //  Database.cpp
 //
 #include <iostream>
+#include <algorithm>
 #include "Database.h"
 
 Database::Database(string _name){name = _name;}
