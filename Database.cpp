@@ -200,3 +200,13 @@ Relation Database::renaming(String out_name, vector<string> att_renames , Relati
 	}
 	return out_rel;
 }
+
+/*
+void CLOSE(){		This needs to close out the database
+	exit (0);
+}
+*/
+
+void EXIT(){		//This closes out the application
+	exit(0);
+}
