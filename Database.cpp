@@ -40,13 +40,13 @@ Relation Database::set_union(string name, Relation a, Relation b){
 		for (int i = 0; i < a.tuples.size(); i++){
 			Tuple temp(a.attribute_list.num_attributes);
 			for (int j = 0; j < result.attribute_list.num_attributes; j++)
-				temp.insert_cell( j, a.tuples[i].get_cell(j) );
+				temp.insert_cell( j, a.tuples[i].get_cell(j).get_data(), a.tuples[i].get_cell(j).get_max_length() );
 			result.insert_tuple(temp);
 		}
 		for (int i=0; i < b.tuples.size(); i++){
 			Tuple temp(b.attribute_list.num_attributes);
 			for (int j=0; j < result.attribute_list.num_attributes; j++)
-				temp.insert_cell( j, b.tuples[i].get_cell(j) );
+				temp.insert_cell( j, b.tuples[i].get_cell(j).get_data(), b.tuples[i].get_cell(j).get_max_length() );
 			result.insert_tuple(temp);
 		}
         
