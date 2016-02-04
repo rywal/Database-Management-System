@@ -73,13 +73,13 @@ int main(){
     
     string r1_s8[] = {"and", "and"};
     query = DB.select(r1_s5, r1_s6,r1_s7, relA, r1_s8);
-DB.print_relation(query);
+    DB.print_relation(query);
 	
 	printf("Select all rows that Name=Joe OR DogName=Spot from Relation A:\n");
     query = DB.select(r1_s5, r1_s6,r1_s7, relA, r1_s8);
 	DB.print_relation(query);
 	
-	printf("Select Columns \"Name\" and \"DogName\" from Relation A:\n");
+	printf("Project Columns \"Name\" and \"DogName\" from Relation A:\n");
     query = DB.project(r1_s5, relA);
 	DB.print_relation(query);
 	
