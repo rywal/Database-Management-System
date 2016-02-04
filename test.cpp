@@ -70,6 +70,18 @@ int main(){
     printf ("Union Relation A & Relation B:\n");
     DB.print_relation(DB.set_union("Relation A+B_Union", DB.get_relation(DB.get_relation_index("Relation A")), DB.get_relation(DB.get_relation_index("Relation B"))));
 	
+	DB.create_relation("Relation C", attribute_names1, attribute_types1, primary_keys_names1);
+	
+	string r1_t7[] = {"Jim", "1", "4", "Spot"};
+	string r1_t8[] = {"Bob", "2", "6", "Dog"};
+	string r1_t9[] = {"Joe", "4", "5", "Spot"};
+	
+	DB.get_relation(DB.get_relation_index("Relation C")).insert_tuple(r1_t7);
+	DB.get_relation(DB.get_relation_index("Relation C")).insert_tuple(r1_t8);
+	DB.get_relation(DB.get_relation_index("Relation C")).insert_tuple(r1_t9);
+	
+	printf ("Set Difference of Relation A & Relation B:\n");
+	DB.print_relation(DB.set_difference("Relation A-B_Difference", DB.get_relation(DB.get_relation_index("Relation A")), DB.get_relation(DB.get_relation_index("Relation B"))));
 	
     return 0;
 }
