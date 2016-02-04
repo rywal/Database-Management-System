@@ -32,7 +32,7 @@ int main(){
     std::vector<string> r1_s1;
     r1_s1.push_back("Name");
     std::vector<string> r1_s2;
-    r1_s1.push_back("Joe";
+    r1_s1.push_back("Joe");
     std::vector<string> r1_s3;
     r1_s1.push_back("eq");
     std::vector<string> r1_s4;
