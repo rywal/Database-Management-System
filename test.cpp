@@ -83,5 +83,24 @@ int main(){
 	printf ("Set Difference of Relation A & Relation B:\n");
 	DB.print_relation(DB.set_difference("Relation A-B_Difference", DB.get_relation("Relation A"), DB.get_relation("Relation B")));
 	
+	string attribute_names2[] = {"CatName","Believingness"};
+	int attribute_types1[] = {10, 0};
+    vector<string> primary_keys_names2;
+    primary_keys_names2.push_back("Believingness");
+	
+	DB.create_relation("Relation D", attribute_names1, attribute_types1, primary_keys_names2);
+	
+	string r2_t1[] = {"Jim", "1", "4", "Spot"};
+	string r2_t2[] = {"Bob", "2", "6", "Dog"};
+	string r2_t3[] = {"Joe", "4", "5", "Spot"};
+	
+	DB.get_relation("Relation D").insert_tuple(r2_t1);
+	DB.get_relation("Relation D").insert_tuple(r2_t2);
+	DB.get_relation("Relation D").insert_tuple(r2_t3);
+	
+	DB.print_relation(DB.get_relation("Relation D"));
+	
+	
+	
     return 0;
 }
