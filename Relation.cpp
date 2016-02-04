@@ -2,7 +2,7 @@
 //  Relation.cpp
 //
 #include "Relation.h"
-Relation::Relation(string name, string[] attribute_names, int[] attribute_max_lengths, string[] _primary_keys){
+Relation::Relation(string name, string attribute_names[], int attribute_max_lengths[], string _primary_keys[]){
     relation_name = name;
     primry_keys = _primary_keys;
     
@@ -13,7 +13,7 @@ Relation::Relation(string name, string[] attribute_names, int[] attribute_max_le
     }
 }
 
-void Relation::insert_tuple(string[] values){
+void Relation::insert_tuple(string values[]){
     if (values.size() == attribute_list.num_attributes) {
         Tuple new_tuple( values.size() );
         
@@ -30,7 +30,7 @@ void Relation::insert_tuple(Tuple new_tuple){
 	tuples.push_back(new_tuple);
 }
 
-void Relation::delete_tuple(string[] conditions){
+void Relation::delete_tuple(string conditions[]){
     
     for (auto tuple : tuples) {
         for (int i = 0; i < attribute_indices.size(); i++){
@@ -106,21 +106,23 @@ void Relation::insert_attribute( int original_att_index, Relation &original_rela
 
 void Relation::rename_relation(string rename){relation_name = rename;}
 
-void Relation::set_max(int[] original_max_lengths, relation &original_relation){
+void Relation::set_max(int original_max_lengths[], relation &original_relation){
 	for(int i=0;i<attribute_max_lengths; i++){
 		attribute_max_lengths[i] = original_relation.get_max_index(original_relation.get_attribute_index(i));
 	}
 }
 
-int[] Relation::get_max(){return attribute_max_lengths;}
+int* Relation::get_max(){ return attribute_max_lengths; }
 
-int Relation::get_max_index(int i){return attribute_max_lengths[i];}
+int Relation::get_max_index(int i){ return attribute_max_lengths[i]; }
 
-std::vector<Tuple> Relation::get_tuples_vector(){return tuples;}
+std::vector<Tuple> Relation::get_tuples_vector(){ return tuples; }
 
-void Relation::set_tuples_vector(std::vector<Tuple> tuples_input){tuples=tuples_input;}
+void Relation::set_tuples_vector(std::vector<Tuple> tuples_input){ tuples=tuples_input; }
 
-void Relation::set_primary(string[] original_primary_keys, relation &original_relation){
+string* Relation::get_primary(){ return primary_keys; }
+
+void Relation::set_primary(string original_primary_keys[], relation &original_relation){
 	for(int i = 0; i < original_primary_keys.size();i++){
 		primary_keys[i] = get_attribute_name(original_relation.get_attribute_index(original_primary_keys[i]));
 	}
