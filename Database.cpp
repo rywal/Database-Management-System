@@ -260,7 +260,7 @@ std::vector<Tuple> Database::show(Relation &relation_name){
 	return relation_name.tuples;
 }
 
-void Database:print_relation(string relation_name) {
+void Database::print_relation(string relation_name) {
     for (auto relation : relations){
         if(relation.name == name)
             print_relation(relation);
