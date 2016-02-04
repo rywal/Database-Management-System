@@ -202,3 +202,26 @@ Relation Database::renaming(String out_name, vector<string> att_renames , Relati
 	}
 	return out_rel;
 }
+
+std::vector<Tuple> show(Relation &relation_name){
+	return relation_name.tuples;
+}
+
+void print_relation(Relation &relation_name){
+	printf ("-=-=-=-=-=BEGIN-=-=-=-=-\n");
+	printf ("Relation name:%s \n", relation_name.name);
+	for(auto tuple : relation_name.tuples) {
+		for(int i = 0; i < relation_name.tuples.size(); i++){
+			printf("%-10s", tuple.get_cell(i).get_data());
+		}
+		printf ("\n");
+	}
+	printf ("Primary Keys: ")
+	if(relation_name.primary_keys.size()>0){
+		printf ("%s", relation_name.primary_keys[0];
+		for(int i=1; i<relation_name.primary_keys.size(), i++){
+			printf (", %s", relation_name.primary_keys[i]);
+		}
+	}
+	printf ("=-=-=-=-=-=END-=-=-=-=-=\n");
+}
