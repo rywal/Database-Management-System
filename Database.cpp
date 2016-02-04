@@ -176,7 +176,7 @@ Relation Database::renaming(String out_name, vector<string> att_renames , Relati
 		printf ("There was not enough Attributes given or in the Relation.");
 	}
 	else{
-		out_rel.set_tuples_vector(in_rel.get_tuples_vector()); //copy table
+		out_rel.set_tuples_vector(show_relation(in_rel)); //copy table
 		out_rel.set_primary(in_rel.primary_keys, &in_rel);
 		for(int i=0; i < in_rel.num_attributes; i++){
 			out_rel.rename_attribute(att_renames[i],i);

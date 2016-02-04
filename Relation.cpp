@@ -116,8 +116,6 @@ int* Relation::get_max(){ return attribute_max_lengths; }
 
 int Relation::get_max_index(int i){ return attribute_max_lengths[i]; }
 
-std::vector<Tuple> Relation::get_tuples_vector(){ return tuples; }
-
 void Relation::set_tuples_vector(std::vector<Tuple> tuples_input){ tuples=tuples_input; }
 
 string* Relation::get_primary(){ return primary_keys; }
@@ -126,4 +124,15 @@ void Relation::set_primary(string original_primary_keys[], relation &original_re
 	for(int i = 0; i < original_primary_keys.size();i++){
 		primary_keys[i] = get_attribute_name(original_relation.get_attribute_index(original_primary_keys[i]));
 	}
+}
+
+std::vector<Tuple> show(Relation &relation_name){
+	return relation_name.tuples;
+}
+
+void print_relation(Relation &relation_name){
+	printf ("Relation name:%
+	printf ("Relation name:%s \n", relation_name.name);
+	
+	
 }
