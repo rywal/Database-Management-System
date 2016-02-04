@@ -24,13 +24,21 @@ int main(){
     
     Relation relA = DB.get_relation("Relation A");
 	
-	string r1_t1[] = {"Jim", "1", "4", "Spot"};
-	string r1_t2[] = {"Joe", "2", "6", "Dog"};
-	string r1_t3[] = {"Joe", "3", "5", "Spot"};
+    string r1_t1[4];
+    r1_t1[0] = "Jim";
+    r1_t1[1] = "1";
+    r1_t1[2] = "4";
+    r1_t1[3] = "Spot";
+    
+    string r1_t2[4];
+    r1_t2[0] = "Bob";
+    r1_t2[1] = "2";
+    r1_t2[2] = "5";
+    r1_t2[3] = "Spike";
 	
 	relA.insert_tuple(r1_t1);
 	relA.insert_tuple(r1_t2);
-	relA.insert_tuple(r1_t3);
+//	relA.insert_tuple(r1_t3);
 	
 	DB.print_relation(relA);
 	printf("Select all rows that Name=Joe from Relation A:\n");
