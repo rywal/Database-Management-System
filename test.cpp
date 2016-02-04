@@ -18,9 +18,9 @@ void main(){
 	string r1_t2[] = {"Joe", "2", "6", "Dog"};
 	string r1_t3[] = {"Joe", "3", "5", "Spot"};
 	
-	DB.relation[get_relation_index("Relation A")].insert_tuple(r1_t1);
-	DB.relation[get_relation_index("Relation A")].insert_tuple(r1_t2);
-	DB.relation[get_relation_index("Relation A")].insert_tuple(r1_t3);
+	DB.relation[DB.get_relation_index("Relation A")].insert_tuple(r1_t1);
+	DB.relation[DB.get_relation_index("Relation A")].insert_tuple(r1_t2);
+	DB.relation[DB.get_relation_index("Relation A")].insert_tuple(r1_t3);
 	
 	//DB.relation[get_relation_index("Relation A")]
 	DB.print_relation("Relation A");
@@ -54,5 +54,5 @@ void main(){
 	printf ("Create new Relation B:\n");
 	DB.create_relation("Relation A", attribute_names1, attribute_types1);
 	
-
+    return 0;
 }
