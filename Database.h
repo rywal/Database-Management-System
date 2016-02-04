@@ -14,7 +14,8 @@ private:
     std::vector<Relation> relations;
     
 public:
-    Database(string name);
+    Database(string _name);
+	int get_relation_index( string rel_name );
     void create_relation(string name, string attribute_names[], int attribute_types[], string primary_keys[]);
     std::vector<Tuple> show_relation(string relation_name);
     void insert_tuple(string relation_name);
