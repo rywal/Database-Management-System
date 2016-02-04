@@ -7,6 +7,18 @@
 
 Database::Database(string _name){name = _name;}
 
+
+Relation get_relation(string name) {
+    for (auto relation : relations){
+        if(relation.get_name().compare(name))
+            return relation;
+    }
+}
+
+Relation get_relation(int index) {
+    return relations[index];
+}
+
 int Database::get_relation_index( string rel_name ){
 		for (int i=0; i < relations.size();i++){
 			if (relations[i].name == rel_name){
