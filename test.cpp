@@ -12,8 +12,8 @@ int main(){
 	string attribute_names1[] = {"Name","ID","ShoeSize", "DogName"};
     int attribute_types1[4];
     attribute_types1[0] = 10;
-    attribute_types1[1] = 10;
-    attribute_types1[2] = 10;
+    attribute_types1[1] = 0;
+    attribute_types1[2] = 0;
     attribute_types1[3] = 10;
 
     vector<string> primary_keys_names1;

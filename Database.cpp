@@ -242,6 +242,7 @@ void Database::update(Relation &in_rel, vector<string> att_names, vector<string>
 	for(int i=0; i<att_names.size();i++){
 		in_rel.compare(tuple_indexes,comparison_values[i],compare_operators[i],in_rel.get_attribute_index(att_names[i]));
 		for(int n=0; n<tuple_indexes.size();n++){
+            std::cout << "Updating to a new value " << update_name[i] << "\n";
 			in_rel.tuples[n].cells[in_rel.get_attribute_index(att_names[i])].set_value(update_name[i]);
 		}
 		tuple_indexes.clear();
