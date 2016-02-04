@@ -14,7 +14,6 @@ int main(){
     vector<string> primary_keys_names1;
     primary_keys_names1.push_back("Name");
     primary_keys_names1.push_back("ID");
-    
 	DB.create_relation("Relation A", attribute_names1, attribute_types1, primary_keys_names1);
     
     Relation *relA = DB.get_relation("Relation A");
