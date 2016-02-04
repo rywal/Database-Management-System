@@ -12,7 +12,7 @@ Tuple::~Tuple(){
     delete [] cells;
 }
 
-int Tuple::insert_value( int index, auto value, int max_length ){
+int Tuple::insert_value( int index, string value, int max_length ){
     if (index >= 0 && index < num_attributes()) {
         Cell new_cell = Cell(value, max_length);
         cells[index] = new_cell;
