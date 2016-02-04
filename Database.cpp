@@ -236,11 +236,11 @@ void EXIT(){		//This closes out the application
 	exit(0);
 }
 
-std::vector<Tuple> show(Relation &relation_name){
+std::vector<Tuple> Database::show(Relation &relation_name){
 	return relation_name.tuples;
 }
 
-void print_relation(Relation &relation_name){
+void Database::print_relation(Relation &relation_name){
 	printf ("-=-=-=-=-=BEGIN-=-=-=-=-\n");
 	printf ("Relation name:%s \n", relation_name.name.c_str());
 	for(auto tuple : relation_name.tuples) {

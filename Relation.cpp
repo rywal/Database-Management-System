@@ -3,7 +3,6 @@
 //
 #include <algorithm>
 #include "Relation.h"
-#include "Database.h"
 
 Relation::Relation(string _name, string attribute_names[], int attribute_max_lengths[], std::vector<string> _primary_keys){
     name = _name;
@@ -124,20 +123,4 @@ void Relation::set_primary(std::vector<string> original_primary_keys, Relation &
 	for(int i = 0; i < original_primary_keys.size();i++){
 		primary_keys[i] = get_attribute_name(original_relation.get_attribute_index(original_primary_keys[i]));
 	}
-}
-
-std::vector<Tuple> show(Relation &relation_name){
-	return relation_name.tuples;
-}
-
-void print_relation(Relation &relation_name){
-	printf ("-=-=-=-=-=BEGIN-=-=-=-=-\n");
-	printf ("Relation name:%s \n", relation_name.name.c_str());
-	for(auto tuple : relation_name.tuples) {
-		for(int i = 0; i < relation_name.tuples.size(); i++){
-			printf("%-10s", tuple.get_cell(i).get_data().c_str());
-		}
-		printf ("\n");
-	}
-	printf ("=-=-=-=-=-=END-=-=-=-=-=\n");
 }
