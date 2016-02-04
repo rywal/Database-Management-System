@@ -15,8 +15,8 @@ private:
     
 public:
     Database(string _name);
-    Relation* get_relation(string name);
-    Relation* get_relation(int index);
+    Relation get_relation(string name);
+    Relation get_relation(int index);
 	int get_relation_index( string rel_name );
     void create_relation(string name, string attribute_names[], int attribute_types[], vector<string> primary_keys);
     std::vector<Tuple> show_relation(string relation_name);

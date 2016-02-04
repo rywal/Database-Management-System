@@ -8,15 +8,16 @@
 Database::Database(string _name){name = _name;}
 
 
-Relation* Database::get_relation(string name) {
-    for (auto relation : relations){
-        if(relation.name == name)
-            return &relation;
+Relation Database::get_relation(string name) {
+    std::cout << "Finding relation\n";
+    for (int i = 0; i < relations.size(); i++){
+        if(relations[i].name == name)
+            return relations[i];
     }
 }
 
-Relation* Database::get_relation(int index) {
-    return &relations[index];
+Relation Database::get_relation(int index) {
+    return relations[index];
 }
 
 int Database::get_relation_index( string rel_name ){
