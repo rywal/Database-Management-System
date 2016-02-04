@@ -19,13 +19,14 @@ Relation::Relation(string _name, string attribute_names[], int attribute_max_len
 
 void Relation::insert_tuple(string values[]){
     if (values->size() + 1 == attribute_list->num_attributes) {
-        Tuple *new_tuple = new Tuple( values->size() );
+        Tuple *new_tuple = new Tuple( values->size() +1);
         
         for (int i = 0; i < values->size() + 1; i++){
             std::cout << "Name: " << attribute_list->attributes[i].get_name() << " Length: " << attribute_list->attributes[i].get_max_length() << std::endl;
             Cell *new_cell = new Cell( values[i], attribute_list->attributes[i].get_max_length() );
             new_tuple->insert_cell(i, *new_cell);
-        }
+        	cout<<i<<'\n';
+	}
         cout<<"push_back\n";
         tuples.push_back(*new_tuple);
     	cout<<"success\n";
