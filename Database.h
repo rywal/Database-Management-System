@@ -23,7 +23,7 @@ public:
     Relation set_union(string name, Relation a, Relation b);
     Relation set_difference(string name, Relation a, Relation b);
     Relation cross_product(string name, Relation a, Relation b);
-    Relation select(vector<string> att_names, vector<auto> compare_values, vector<string> compare_operators, Relation &in_rel, string and_or_gate);
+    Relation select(vector<string> att_names, vector<auto> compare_values, vector<string> compare_operators, Relation &in_rel, vector<string> and_or_gate));
     Relation Project(vector<string> att_names, Relation &in_rel);
     Relation Renaming(String out_rel, vector<string> att_renames , Relation &in_rel);
 };	
