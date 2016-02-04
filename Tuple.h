@@ -9,11 +9,10 @@
 
 // Collection of cells within a row (Tuple)
 class Tuple {
-private:
+public:
     Cell *cells;
     int num_att;
     
-public:
     Tuple( int _num_attributes );
     ~Tuple();
     int insert_value( int index, string value, int max_length );
