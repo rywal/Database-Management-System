@@ -52,7 +52,16 @@ void main(){
 	//UPDATE!!!!!
 	
 	printf ("Create new Relation B:\n");
-	DB.create_relation("Relation A", attribute_names1, attribute_types1);
+	DB.create_relation("Relation B", attribute_names1, attribute_types1);
+	
+	string r1_t4[] = {"Sara", "4", "1", "Riley"};
+	string r1_t5[] = {"Suzy", "5", "3", "Puppy"};
+	string r1_t6[] = {"Riley", "6", "2", "Animal"};
+	
+	DB.print_relation("Relation B");
+	
+	DB.print_relation(set_union("Relation A+B_Union", DB.relation[get_relation_index("Relation A")], DB.relation[get_relation_index("Relation B")]));
+	
 	
 
 }
