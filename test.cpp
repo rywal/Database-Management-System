@@ -15,33 +15,37 @@ int main(){
     primary_keys_names1.push_back("Name");
     primary_keys_names1.push_back("ID");
 	DB.create_relation("Relation A", attribute_names1, attribute_types1, primary_keys_names1);
-    
+   cout<<DB.get_relation("Relation A").get_num_attributes()<<'\n'; 
     std::cout << "Relation loading\n";
-    
+   cout<<"HI\n"; 
     std::cout << "12\n";
     Relation relA = DB.get_relation("Relation A");
 	
 	string r1_t1[] = {"Jim", "1", "4", "Spot"};
 	string r1_t2[] = {"Joe", "2", "6", "Dog"};
 	string r1_t3[] = {"Joe", "3", "5", "Spot"};
-	
+	cout<<"1\n";
 	relA.insert_tuple(r1_t1);
 	relA.insert_tuple(r1_t2);
 	relA.insert_tuple(r1_t3);
 	
 	DB.print_relation(relA);
 	printf("Select all rows that Name=Joe from Relation A:\n");
-	
+	cout<<"2\n";
     std::vector<string> r1_s1;
     r1_s1.push_back("Name");
+	cout<<"3\n";
     std::vector<string> r1_s2;
     r1_s2.push_back("Joe");
     std::vector<string> r1_s3;
     r1_s3.push_back("eq");
+	cout<<"4\n";
     string r1_s4[] = {"or"};
+	cout<<"5\n";
     Relation query = DB.select(r1_s1, r1_s2,r1_s3, relA, r1_s4);
+	cout<<"6\n";
 	DB.print_relation(query);
-	
+	cout<<"3\n";	
 	printf("Select all rows that Name=Joe AND DogName=Spot from Relation A:\n");
     std::vector<string> r1_s5, r1_s6, r1_s7;
     r1_s5.push_back("Name");
