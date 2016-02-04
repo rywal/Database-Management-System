@@ -15,7 +15,7 @@ private:
 public:
     Cell( int _max_length );
     Cell();
-    Cell(Cell a);
+ //   Cell(conCell a);
     Cell( string data, int _max_length );
     bool   is_string(){ return max_length > 0 ? true : false; }
     bool   is_null();

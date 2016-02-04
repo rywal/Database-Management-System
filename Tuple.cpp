@@ -9,7 +9,7 @@ Tuple::Tuple( int _num_attributes ){
 }
 
 Tuple::~Tuple(){
-    delete [] cells;
+    cells.clear();
 }
 
 int Tuple::insert_value( int index, auto value, int max_length ){

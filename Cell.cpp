@@ -9,10 +9,10 @@ Cell::Cell( int _max_length ){
 
 Cell::Cell(){}
 
-Cell::Cell(Cell a){
+/*Cell::Cell(Cell a){
 	set_value(a.get_dat());
 	max_length=a.get_max_length();
-}
+}*/
 
 Cell::Cell( string data, int _max_length ){
     max_length = _max_length;

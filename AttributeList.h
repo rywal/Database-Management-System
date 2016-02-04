@@ -11,20 +11,20 @@
 // Collection of Attributes within the Relation
 class AttributeList {
     public:
-    Attribute attributes*;
+    Attribute* attributes;
     int num_attributes;
-    
-    AttributeList(int _num_attributes) { num_attributes = _num_attributes; attributes = new Attribute[num_attributes]; }
-    ~AttributeList() { delete [] attributes; }
+    string[] names;
+    int[] maxes;
+    AttributeList(int _num_attributes) { num_attributes = _num_attributes; attributes = new Attribute[num_attributes]; set_names(); set_maxes() }
+    ~AttributeList() { delete[] attributes; }
 
-    string[]  names(){
-		string[num_attributes] result;
+    void set_names(){
 		for (int i=0; i<num_attributes; i++){
 			result[i]=attributes[i].get_name();
 		}
 		return result;
 	}
-    int[] maxes(){
+    void set_maxes(){
 		int[num_attributes] result;
 		for (int i=0; i<num_attributes; i++){
 			result[i]=attributes[i].get_max_length();
