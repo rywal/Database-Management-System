@@ -56,9 +56,9 @@ int Relation::get_size(){ return tuples.size(); }
 
 int Relation::get_num_attributes(){return attribute_list.num_attribute;}
 
-void Relation::rename_attribute( string renamed, int index ){ attribute_names[index] = renamed; }
+void Relation::rename_attribute( string renamed, int index ){ attribute_list.attributes[index] = renamed; }
 
-string Relation::get_attribute_name( int index ){ return attribute_names[index]; }
+string Relation::get_attribute_name( int index ){ return attribute_list.attributes[index]; }
 
 bool Relation::compare(vector<int> &tuple_indexes, string comparison_value, string compare_operator, int attribute_index){
     for(int i=0; i < get_size(); i++){//Compare whole Attribute with an operator and value
