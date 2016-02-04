@@ -27,19 +27,26 @@ bool Database::union_compatible(Relation a, Relation b){
 }
 
 Relation Database::set_union(string name, Relation a, Relation b){
+    string att_names[a.attribute_list.num_attributes];
+    int att_max_lengths[a.attribute_list.num_attributes];
+    
+    for (int i = 0; i < a.attribute_list.num_attributes; i++){
+        att_names[i] = a.attribute_list.attributes[i].get_name();
+        att_max_lengths[i] = a.attribute_list.attributes[i].get_max_length();
+    }
 
 	if (union_compatible(a, b)){
-		Relation result( name, a.att_names, a.att_max_lengths, a.prim_keys);
+		Relation result( name, att_names, att_max_lengths, a.primary_keys);
 		for (int i = 0; i < a.tuples.size(); i++){
 			Tuple temp(a.num_attributes);
 			for (int j = 0; j < result.num_attributes; j++)
-				temp.cells[j] = a.tuple[i].cells[j];
+				temp.cells[j] = a.tuple[i].get_cell(j);
 			result.insert_tuple(temp);
 		}
 		for (int i=0; i < b.tuples.size(); i++){
-			Tuple temp(b.num_attributes);
-			for (int j=0; j < result.num_attributes; j++)
-				temp.cells[j] = b.tuple[i].cells[j];
+			Tuple temp(b.attribute_list.num_attributes);
+			for (int j=0; j < result.attribute_list.num_attributes; j++)
+				temp.cells[j] = b.tuple[i].get_cell(j);
 			result.insert_tuple(temp);
 		}
 		return result;	
@@ -50,18 +57,25 @@ Relation Database::set_union(string name, Relation a, Relation b){
 }
 
 Relation Database::set_difference(string name, Relation a, Relation b){
+    string att_names[a.attribute_list.num_attributes];
+    int att_max_lengths[a.attribute_list.num_attributes];
+    
+    for (int i = 0; i < a.attribute_list.num_attributes; i++){
+        att_names[i] = a.attribute_list.attributes[i].get_name();
+        att_max_lengths[i] = a.attribute_list.attributes[i].get_max_length();
+    }
 
 	if( union_compatible(a, b)){
 		int j;
-		Relation result( name, a.att_names, a.att_max_lengths, a.prim_keys);
+		Relation result( name, att_names, att_max_lengths, a.primary_keys);
 		Tuple temp(a.num_attributes);
 		for (int i=0; i<a.tuples.size(); i++){
 			for(j=0; j<b.tuples.size(); j++){ 
-				if (a.tuples[i]==b.tuples[j])
+				if (a.tuples[i] == b.tuples[j])
 		 			break;
 			}
-			if(a.tuples[i]!=b.tuples[j]){ 	
-				temp.cells=a[i].cells;
+			if(a.tuples[i] != b.tuples[j]){
+				temp.cells = a[i].cells;
 				result.insert_tuple(temp);
 			}
 		}
