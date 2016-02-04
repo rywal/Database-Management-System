@@ -276,5 +276,5 @@ void Database::print_relation(Relation &relation_name){
             printf (", %s", relation_name.primary_keys[i].c_str());
 		}
 	}
-	printf ("=-=-=-=-=-=END-=-=-=-=-=\n");
+	printf ("\n=-=-=-=-=-=END-=-=-=-=-=\n");
 }
