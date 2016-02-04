@@ -61,9 +61,14 @@ int main(){
 	string r1_t5[] = {"Suzy", "5", "3", "Puppy"};
 	string r1_t6[] = {"Riley", "6", "2", "Animal"};
 	
+	DB.relation[DB.get_relation_index("Relation B")].insert_tuple(r1_t4);
+	DB.relation[DB.get_relation_index("Relation B")].insert_tuple(r1_t5);
+	DB.relation[DB.get_relation_index("Relation B")].insert_tuple(r1_t6);
+	
 	DB.print_relation("Relation B");
 	
-	DB.print_relation(set_union("Relation A+B_Union", DB.get_relation(DB.get_relation_index("Relation A")), DB.get_relation(DB.get_relation_index("Relation B"))));
+    printf ("Union Relation A & Relation B:\n");
+    DB.print_relation(set_union("Relation A+B_Union", DB.get_relation(DB.get_relation_index("Relation A")), DB.get_relation(DB.get_relation_index("Relation B"))));
 	
 	
     return 0;
