@@ -30,4 +30,4 @@ Database: Database.h Database.cpp Relation.o
 $(cc) -std=c++14 -c -g Database.cpp Relation.o
 
 test: test Database.o
-$(cc) -std=c++11 -g -o test test.cpp Database.o
+$(cc) -std=c++14 -g -o test test.cpp Database.o
