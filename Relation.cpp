@@ -95,7 +95,7 @@ void Relation::insert_attribute( int original_att_index, Relation &original_rela
 	}
 }
 
-void Relation::rename_relation(string rename){relation_name = rename;}
+void Relation::rename_relation(string rename){name = rename;}
 
 void Relation::set_max(int original_max_lengths[], Relation &original_relation){
 	for(int i=0; i<get_num_attributes(); i++){
