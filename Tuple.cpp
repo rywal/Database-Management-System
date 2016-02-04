@@ -4,12 +4,13 @@
 #include "Tuple.h"
 Tuple::Tuple( int _num_attributes ){
     num_att = _num_attributes;
-    vector<Cell>_cells(_num_attributes);
-    cells=_cells;
+//    vector<Cell>_cells (_num_attributes);
+//    cells=_cells;
+    cells = new Cell[num_att];
 }
 
 Tuple::~Tuple(){
-//    delete [] cells;
+    delete [] cells;
 }
 
 int Tuple::insert_value( int index, string value, int max_length ){
@@ -25,7 +26,7 @@ int Tuple::insert_value( int index, string value, int max_length ){
 bool Tuple::operator== (Tuple &b){
 	if (num_attributes()!=b.num_attributes()) return false;
 	for (int i=0; i<num_attributes(); i++){
-		if(cells[i]!=b.cells[i])return false;
+		if(cells[i]!=b.get_cell(i))return false;
 	}
 	return true;
 }
@@ -33,12 +34,14 @@ bool Tuple::operator== (Tuple &b){
 bool Tuple::operator!= (Tuple &b){
 	if (num_attributes()!=b.num_attributes()) return true;
         for (int i=0; i<num_attributes(); i++){
-                if(cells[i]!=b.cells[i])return true;
+                if(cells[i]!=b.get_cell(i))return true;
         }
         return false;
 }
 	
-
+Cell Tuple::get_cell(int index) {
+    return cells[index];
+}
 
 int Tuple::insert_cell( int index, Cell cell ){
         cells[index] = cell;

@@ -30,13 +30,8 @@ void Relation::insert_tuple(Tuple new_tuple){
 	tuples.push_back(new_tuple);
 }
 
-void Relation::delete_tuple(string conditions[]){
-    
-    for (auto tuple : tuples) {
-        for (int i = 0; i < attribute_indices.size(); i++){
-            
-        }
-    }
+Relation Relation::delete_tuple(vector<string> att_names, vector<string> compare_values, vector<string> compare_operators, string and_or_gate){
+    return set_difference(name+"_Deleted", this, select(attribute_list.attributes, compare_values, compare_operators, and_or_gate));
 }
 
 int Relation::get_attribute_index( string att_name ){
@@ -103,12 +98,12 @@ void Relation::insert_attribute( int original_att_index, Relation &original_rela
 void Relation::rename_relation(string rename){relation_name = rename;}
 
 void Relation::set_max(int original_max_lengths[], Relation &original_relation){
-	for(int i=0;i<attribute_max_lengths; i++){
-		attribute_list.attributes[i].set_max_length( original_relation.get_max_index(original_relation.get_attribute_index(i)) );
+	for(int i=0; i<get_num_attributes(); i++){
+		attribute_list.attributes[i].set_max_length( original_relation.get_max_index(original_relation.get_attribute_index(to_string(i))) );
 	}
 }
 
-int* Relation::get_max(){ return attribute_max_lengths; }
+int* Relation::get_max(){ return attribute_list.maxes();}
 
 int Relation::get_max_index(int i){ return attribute_list.attributes[i].get_max_length(); }
 
@@ -117,7 +112,7 @@ void Relation::set_tuples_vector(std::vector<Tuple> tuples_input){ tuples=tuples
 string* Relation::get_primary(){ return primary_keys; }
 
 void Relation::set_primary(string original_primary_keys[], Relation &original_relation){
-	for(int i = 0; i < original_primary_keys.size();i++){
+	for(int i = 0; i < original_primary_keys->size();i++){
 		primary_keys[i] = get_attribute_name(original_relation.get_attribute_index(original_primary_keys[i]));
 	}
 }
@@ -128,15 +123,12 @@ std::vector<Tuple> show(Relation &relation_name){
 
 void print_relation(Relation &relation_name){
 	printf ("-=-=-=-=-=BEGIN-=-=-=-=-\n");
-	printf ("Relation name:%s \n", relation_name.name);
-	for(auto tuple : tuples) {
-		for(int i = 0; i < tuple.size(); i++){
-			printf("%-10s", tuple.get_cell(i).get_data());
+	printf ("Relation name:%s \n", relation_name.name.c_str());
+	for(auto tuple : relation_name.tuples) {
+		for(int i = 0; i < relation_name.tuples.size(); i++){
+			printf("%-10s", tuple.get_cell(i).get_data().c_str());
 		}
 		printf ("\n");
 	}
-	
-	
-	
 	printf ("=-=-=-=-=-=END-=-=-=-=-=\n");
 }
