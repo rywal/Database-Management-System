@@ -88,9 +88,23 @@ int main(){
 	DB.create_relation("Relation B", attribute_names1, attribute_types1, primary_keys_names1);
     Relation relB = DB.get_relation("Relation B");
 	
-	string r1_t4[] = {"Sara", "4", "1", "Riley"};
-	string r1_t5[] = {"Suzy", "5", "3", "Puppy"};
-	string r1_t6[] = {"Riley", "6", "2", "Animal"};
+	string r1_t4[4];
+    r1_t4[0] = "sara";
+    r1_t4[1] = "4";
+    r1_t4[2] = "1";
+    r1_t4[3] = "Riley";
+	
+	string r1_t5[4];
+    r1_t5[0] = "Suzy";
+    r1_t5[1] = "5";
+    r1_t5[2] = "3";
+    r1_t5[3] = "Puppy";
+	
+	string r1_t6[4];
+    r1_t6[0] = "Riley";
+    r1_t6[1] = "6";
+    r1_t6[2] = "2";
+    r1_t6[3] = "Animal";
 	
 	relB.insert_tuple(r1_t4);
 	relB.insert_tuple(r1_t5);
@@ -105,9 +119,23 @@ int main(){
 	DB.create_relation("Relation C", attribute_names1, attribute_types1, primary_keys_names1);
     Relation relC = DB.get_relation("Relation C");
 	
-	string r1_t7[] = {"Jim", "1", "4", "Spot"};
-	string r1_t8[] = {"Bob", "2", "6", "Dog"};
-	string r1_t9[] = {"Joe", "4", "5", "Spot"};
+	string r1_t7[4];
+    r1_t7[0] = "Jim";
+    r1_t7[1] = "1";
+    r1_t7[2] = "4";
+    r1_t7[3] = "Spot";
+	
+	string r1_t8[4];
+    r1_t8[0] = "Bob";
+    r1_t8[1] = "2";
+    r1_t8[2] = "6";
+    r1_t8[3] = "Dog";
+	
+	string r1_t9[4];
+    r1_t9[0] = "Joe";
+    r1_t9[1] = "4";
+    r1_t9[2] = "5";
+    r1_t9[3] = "Spot";
 	
 	relC.insert_tuple(r1_t7);
 	relC.insert_tuple(r1_t8);
@@ -125,9 +153,17 @@ int main(){
 	DB.create_relation("Relation D", attribute_names2, attribute_types2, primary_keys_names2);
     Relation relD = DB.get_relation("Relation D");
 	
-	string r2_t1[] = {"Cat", "1"};
-	string r2_t2[] = {"Dog", "2"};
-	string r2_t3[] = {"Joe", "4"};
+	string r2_t1[2];
+    r2_t1[0] = "Cat";
+    r2_t1[1] = "1";
+	
+	string r2_t2[2];
+    r2_t2[0] = "Dog";
+    r2_t2[1] = "2";
+	
+	string r2_t3[2];
+    r2_t3[0] = "Joe";
+    r2_t3[1] = "4";
 	
 	relD.insert_tuple(r2_t1);
 	relD.insert_tuple(r2_t2);
