@@ -148,11 +148,15 @@ Relation Database::select(vector<string> att_names, vector<string> compare_value
     
     string* attr_names = new string[att_names.size()];
     int* att_max_lengths = new int[att_names.size()];
-    
-    for (int i = 0; i < in_rel.attribute_list->num_attributes; i++){
-        attr_names[i] = att_names[i];
+  //  cout<<in_rel.attribute_list->num_attributes<<' '<<att_names.size()<<'\n';
+    for (int i = 0; i < (att_names.size()); i++){
+        cout<<i<<"\n";
+	attr_names[i] = att_names[i];
+	cout<<"done\n";
         att_max_lengths[i] = in_rel.attribute_list->attributes[i].get_max_length();
-    }
+	cout<<"2\n";    
+}
+	cout<<"3\n";
 	Relation out_rel(in_rel.name, attr_names, att_max_lengths, in_rel.primary_keys);
 	//Update parameters
 	out_rel.set_primary(in_rel.primary_keys, in_rel);
