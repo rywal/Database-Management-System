@@ -40,14 +40,13 @@ void Relation::delete_tuple(string[] conditions){
 }
 
 int Relation::get_attribute_index( string att_name ){
-    for (int i=0; i < attribute_names.size();i++){
+    for (int i=0; i < attribute_list.num_attributes;i++){
         if (attribute_names[i] == att_name){
             return i;
         }
     }
     return -1; //DOES NOT EXIST
 }
-
 
 bool Relation::attribute_exist(string att_name){
     return (get_attribute_index(att_name) == -1);
