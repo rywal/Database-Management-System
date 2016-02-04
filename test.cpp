@@ -29,17 +29,26 @@ int main(){
 	DB.print_relation("Relation A");
 	printf("Select all rows that Name=Joe from Relation A:\n");
 	
-	std::vector<string> r1_s1 = {"Name"};
-	std::vector<string> r1_s2 = {"Joe"};
-	std::vector<string> r1_s3 = {"eq"};
-	std::vector<string> r1_s4 = {"or"};
+    std::vector<string> r1_s1;
+    r1_s1.push_back("Name");
+    std::vector<string> r1_s2;
+    r1_s1.push_back("Joe";
+    std::vector<string> r1_s3;
+    r1_s1.push_back("eq");
+    std::vector<string> r1_s4;
+    r1_s1.push_back("or");
 	DB.print_relation(DB.select(r1_s1, r1_s2,r1_s3,DB.get_relation("Relation A"), r1_s4));
 	
 	printf("Select all rows that Name=Joe AND DogName=Spot from Relation A:\n");
-	std::vector<string> r1_s5 = {"Name","DogName"};
-	std::vector<string> r1_s6 = {"Joe","Spot"};
-	std::vector<string> r1_s7 = {"eq","eq"};
-	std::vector<string> r1_s8 = {"and","and"};
+    std::vector<string> r1_s5, r1_s6, r1_s7, r1_s8;
+    r1_s5.push_back("Name");
+    r1_s5.push_back("DogName");
+    r1_s6.push_back("Joe");
+    r1_s6.push_back("Spot");
+    r1_s7.push_back("eq");
+    r1_s7.push_back("eq");
+    r1_s8.push_back("and");
+    r1_s8.push_back("and");
 	DB.print_relation(DB.select(r1_s5, r1_s6,r1_s7,DB.get_relation("Relation A"), r1_s8));
 	
 	printf("Select all rows that Name=Joe OR DogName=Spot from Relation A:\n");
