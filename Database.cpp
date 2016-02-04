@@ -262,7 +262,7 @@ std::vector<Tuple> Database::show(Relation &relation_name){
 }
 
 void Database::print_relation(Relation &relation_name){
-	printf ("-=-=-=-=-=BEGIN-=-=-=-=-\n");
+	printf ("\n-=-=-=-=-=BEGIN-=-=-=-=-\n");
 	printf ("Relation name:%s \n", relation_name.name.c_str());
     std::cout << "Relation size " << relation_name.tuples.size() << std::endl;
     for(int k = 0; k < relation_name.tuples.size(); k++) {
