@@ -98,7 +98,7 @@ int main(){
 	DB.get_relation("Relation D").insert_tuple(r2_t2);
 	DB.get_relation("Relation D").insert_tuple(r2_t3);
 	
-	DB.print_relation(DB.get_relation("Relation D"));
+	DB.print_relation("Relation B");
 	
 	
 	
