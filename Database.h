@@ -34,5 +34,5 @@ public:
     void update(Relation &in_rel, vector<string> att_names, vector<string> compare_operators, vector<string> comparison_values, vector<string> update_name);	
     std::vector<Tuple> show(Relation &relation_name);
     void print_relation(string relation_name);
-	void print_relation(Relation &relation_name);
+	void print_relation(Relation relation_name);
 };
