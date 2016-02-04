@@ -129,8 +129,8 @@ std::vector<Tuple> show(Relation &relation_name){
 void print_relation(Relation &relation_name){
 	printf ("-=-=-=-=-=BEGIN-=-=-=-=-\n");
 	printf ("Relation name:%s \n", relation_name.name);
-	for(auto tuple : tuples) {
-		for(int i = 0; i < tuple.size(); i++){
+	for(auto tuple : relation_name.tuples) {
+		for(int i = 0; i < relation_name.tuples.size(); i++){
 			printf("%-10s", tuple.get_cell(i).get_data());
 		}
 		printf ("\n");

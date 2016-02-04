@@ -6,7 +6,7 @@ Tuple::Tuple( int _num_attributes ){
     num_att = _num_attributes;
 //    vector<Cell>_cells (_num_attributes);
 //    cells=_cells;
-    cells = new Cell[num_attributes];
+    cells = new Cell[num_att];
 }
 
 Tuple::~Tuple(){
