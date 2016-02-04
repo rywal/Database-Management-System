@@ -26,7 +26,7 @@ int main(){
 	DB.get_relation(DB.get_relation_index("Relation A")).insert_tuple(r1_t3);
 	
 	//DB.relation[get_relation_index("Relation A")]
-	DB.print_relation("Relation A");
+	DB.print_relation(DB.get_relation("Relation A"));
 	printf("Select all rows that Name=Joe from Relation A:\n");
 	
 	std::vector<string> r1_s1 = {"Name"};
@@ -55,7 +55,7 @@ int main(){
 	//UPDATE!!!!!
 	
 	printf ("Create new Relation B:\n");
-	DB.create_relation("Relation B", attribute_names1, attribute_types1);
+	DB.create_relation("Relation B", attribute_names1, attribute_types1, primary_keys_names1);
 	
 	string r1_t4[] = {"Sara", "4", "1", "Riley"};
 	string r1_t5[] = {"Suzy", "5", "3", "Puppy"};
@@ -65,10 +65,10 @@ int main(){
 	DB.relation[DB.get_relation_index("Relation B")].insert_tuple(r1_t5);
 	DB.relation[DB.get_relation_index("Relation B")].insert_tuple(r1_t6);
 	
-	DB.print_relation("Relation B");
+	DB.print_relation(DB.get_relation("Relation B"));
 	
     printf ("Union Relation A & Relation B:\n");
-    DB.print_relation(set_union("Relation A+B_Union", DB.get_relation(DB.get_relation_index("Relation A")), DB.get_relation(DB.get_relation_index("Relation B"))));
+    DB.print_relation(DB.set_union("Relation A+B_Union", DB.get_relation(DB.get_relation_index("Relation A")), DB.get_relation(DB.get_relation_index("Relation B"))));
 	
 	
     return 0;
