@@ -24,6 +24,8 @@ public:
     Relation set_union(string name, Relation a, Relation b);
     Relation set_difference(string name, Relation a, Relation b);
     Relation cross_product(string name, Relation a, Relation b);
+	// void CLOSE();	needs to be defined in database.cpp
+	void EXIT(); 		//defined in database.cpp
     Relation select(vector<string> att_names, vector<string> compare_values, vector<string> compare_operators, Relation &in_rel, string and_or_gate[]);
     Relation project(vector<string> att_names, Relation &in_rel);
     Relation renaming(string out_name, vector<string> att_renames , Relation &in_rel);

@@ -7,6 +7,8 @@
 #include <algorithm>
 #include <iterator>
 
+void EXIT();
+
 using namespace std;
 
 template<class V>
@@ -38,7 +40,9 @@ int main(){
 	
 	outfile << data;
 	outfile.close();
-	
-	return 0;
 
 };
+
+void EXIT(){
+	exit(0);
+}
