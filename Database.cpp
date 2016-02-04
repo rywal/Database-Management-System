@@ -4,8 +4,15 @@
 #include <iostream>
 #include "Database.h"
 
-Database::Database(string name){
-    
+Database::Database(string _name){name = _name;}
+
+int Relation::get_relation_index( string rel_name ){
+		for (int i=0; i < relations.size();i++){
+			if (relations[i] == rel_name){
+				return i;
+			}
+		}
+		return -1; //DOES NOT EXIST
 }
 
 void Database::create_relation(string name, string attribute_names[], int attribute_types[], string primary_keys[]){
