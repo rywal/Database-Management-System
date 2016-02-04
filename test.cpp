@@ -33,24 +33,24 @@ int main(){
 	std::vector<string> r1_s2 = {"Joe"};
 	std::vector<string> r1_s3 = {"eq"};
 	std::vector<string> r1_s4 = {"or"};
-	DB.print_relation(select(r1_s1, r1_s2,r1_s3,DB.get_relation(DB.get_relation_index("Relation A")), r1_s4));
+	DB.print_relation(DB.select(r1_s1, r1_s2,r1_s3,DB.get_relation(DB.get_relation_index("Relation A")), r1_s4));
 	
 	printf("Select all rows that Name=Joe AND DogName=Spot from Relation A:\n");
 	std::vector<string> r1_s5 = {"Name","DogName"};
 	std::vector<string> r1_s6 = {"Joe","Spot"};
 	std::vector<string> r1_s7 = {"eq","eq"};
 	std::vector<string> r1_s8 = {"and","and"};
-	DB.print_relation(select(r1_s5, r1_s6,r1_s7,DB.get_relation(DB.get_relation_index("Relation A")), r1_s8));
+	DB.print_relation(DB.select(r1_s5, r1_s6,r1_s7,DB.get_relation(DB.get_relation_index("Relation A")), r1_s8));
 	
 	printf("Select all rows that Name=Joe OR DogName=Spot from Relation A:\n");
-	DB.print_relation(select(r1_s5, r1_s6,r1_s7,DB.get_relation(DB.get_relation_index("Relation A")), r1_s8));
+	DB.print_relation(DB.select(r1_s5, r1_s6,r1_s7,DB.get_relation(DB.get_relation_index("Relation A")), r1_s8));
 	
 	printf("Select Columns \"Name\" and \"DogName\" from Relation A:\n");
-	DB.print_relation(project(r1_s5, DB.get_relation(DB.get_relation_index("Relation A"))));
+	DB.print_relation(DB.project(r1_s5, DB.get_relation(DB.get_relation_index("Relation A"))));
 	
 	printf("Rename Attributes \"Name\" to \"Name2\" and \"DogName\" to \"DogName2\" from Relation A:\n");
 	std::vector<string> r1_s9 = {"Name2","DogName2"};
-	DB.print_relation(renaming("Relation A Renamed", r1_s9, DB.get_relation(DB.get_relation_index("Relation A"))));
+	DB.print_relation(DB.renaming("Relation A Renamed", r1_s9, DB.get_relation(DB.get_relation_index("Relation A"))));
 	
 	//UPDATE!!!!!
 	
