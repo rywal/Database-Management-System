@@ -15,12 +15,12 @@ private:
 public:
     Cell( int _max_length );
     Cell();
-    Cell(Cell a);
+    Cell(Cell &a);
     Cell( string data, int _max_length );
     bool   is_string(){ return max_length > 0 ? true : false; }
     bool   is_null();
     int	   get_max_length();
-    auto   get_data();
+    string   get_data();
     int    set_value( string value );
 
     bool operator==(const Cell &b) const;
