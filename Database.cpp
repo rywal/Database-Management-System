@@ -8,14 +8,14 @@
 Database::Database(string _name){name = _name;}
 
 
-Relation get_relation(string name) {
+Relation Datebase::get_relation(string name) {
     for (auto relation : relations){
         if(relation.get_name().compare(name))
             return relation;
     }
 }
 
-Relation get_relation(int index) {
+Relation Database::get_relation(int index) {
     return relations[index];
 }
 
