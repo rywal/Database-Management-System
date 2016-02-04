@@ -76,9 +76,9 @@ int main(){
 	string r1_t8[] = {"Bob", "2", "6", "Dog"};
 	string r1_t9[] = {"Joe", "4", "5", "Spot"};
 	
-	DB.get_relation(DB.get_relation_index("Relation C")).insert_tuple(r1_t7);
-	DB.get_relation(DB.get_relation_index("Relation C")).insert_tuple(r1_t8);
-	DB.get_relation(DB.get_relation_index("Relation C")).insert_tuple(r1_t9);
+	DB.get_relation("Relation C").insert_tuple(r1_t7);
+	DB.get_relation("Relation C").insert_tuple(r1_t8);
+	DB.get_relation("Relation C").insert_tuple(r1_t9);
 	
 	printf ("Set Difference of Relation A & Relation B:\n");
 	DB.print_relation(DB.set_difference("Relation A-B_Difference", DB.get_relation("Relation A"), DB.get_relation("Relation B")));
