@@ -10,7 +10,7 @@ Database::Database(string _name){name = _name;}
 
 Relation Database::get_relation(string name) {
     for (auto relation : relations){
-        if(relation.get_name().compare(name))
+        if(relation.name == name)
             return relation;
     }
 }
