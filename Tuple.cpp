@@ -6,11 +6,11 @@ Tuple::Tuple( int _num_attributes ){
     num_att = _num_attributes;
 //    vector<Cell>_cells (_num_attributes);
 //    cells=_cells;
-    cells = new Cell[num_attributes];
+    cells = new Cell[num_att];
 }
 
 Tuple::~Tuple(){
-//    delete [] cells;
+    delete [] cells;
 }
 
 int Tuple::insert_value( int index, string value, int max_length ){
