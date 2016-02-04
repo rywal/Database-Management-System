@@ -117,18 +117,3 @@ void Relation::set_primary(string original_primary_keys[], Relation &original_re
 	}
 }
 
-std::vector<Tuple> show(Relation &relation_name){
-	return relation_name.tuples;
-}
-
-void print_relation(Relation &relation_name){
-	printf ("-=-=-=-=-=BEGIN-=-=-=-=-\n");
-	printf ("Relation name:%s \n", relation_name.name.c_str());
-	for(auto tuple : relation_name.tuples) {
-		for(int i = 0; i < relation_name.tuples.size(); i++){
-			printf("%-10s", tuple.get_cell(i).get_data().c_str());
-		}
-		printf ("\n");
-	}
-	printf ("=-=-=-=-=-=END-=-=-=-=-=\n");
-}
