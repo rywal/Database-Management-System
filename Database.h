@@ -31,6 +31,7 @@ public:
     Relation select(vector<string> att_names, vector<string> compare_values, vector<string> compare_operators, Relation &in_rel, string and_or_gate[]);
     Relation project(vector<string> att_names, Relation &in_rel);
     Relation renaming(string out_name, vector<string> att_renames , Relation &in_rel);
+    void update(Relation &in_rel, vector<string> att_names, vector<string> compare_operators, vector<string> comparison_values, vector<string> update_name);	
     std::vector<Tuple> show(Relation &relation_name);
     void print_relation(string relation_name);
 	void print_relation(Relation &relation_name);

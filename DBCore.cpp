@@ -6,7 +6,7 @@
 
 
 //UPDATE-command - WHERE TO PUT??
-
+/*
 void update(Relation &in_rel, vector<string> att_names, vector<string> compare_operators, vector<string> comparison_values, vector<string> update_name){
 	vector<int> tuple_indexes;
 	for(int i=0; i<att_names.size();i++){
@@ -16,4 +16,4 @@ void update(Relation &in_rel, vector<string> att_names, vector<string> compare_o
 		}
 		tuple_indexes.clear();
 	}
-}
+}*/
