@@ -5,11 +5,10 @@
 #include <algorithm>
 #include "Database.h"
 
-Database::Database(string _name){name = _name;}
+Database::Database(string _name){name = _name; std::cout << "Relations size is " << relations.size() << std::endl;}
 
 
 Relation Database::get_relation(string name) {
-    std::cout << "Finding relation\n";
     for (int i = 0; i < relations.size(); i++){
         if(relations[i].name == name)
             return relations[i];
@@ -30,8 +29,8 @@ int Database::get_relation_index( string rel_name ){
 }
 
 void Database::create_relation(string name, string attribute_names[], int attribute_types[], vector<string> primary_keys){
-    Relation new_relation(name, attribute_names, attribute_types, primary_keys);
-    relations.push_back(new_relation);
+    Relation *new_relation = new Relation(name, attribute_names, attribute_types, primary_keys);
+    relations.push_back(*new_relation);
 }
 
 bool Database::union_compatible(Relation a, Relation b){

@@ -18,9 +18,9 @@ int main(){
 	DB.create_relation("Relation A", attribute_names1, attribute_types1, primary_keys_names1);
     
     std::cout << "Relation loading\n";
-    Relation relA = DB.get_relation("Relation A");
     
-    std::cout << "Relation loaded\n";
+    std::cout << "12\n";
+    Relation relA = DB.get_relation("Relation A");
 	
 	string r1_t1[] = {"Jim", "1", "4", "Spot"};
 	string r1_t2[] = {"Joe", "2", "6", "Dog"};
