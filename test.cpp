@@ -58,7 +58,10 @@ int main(){
 	DB.print_relation(DB.project(r1_s5, DB.get_relation("Relation A")));
 	
 	printf("Rename Attributes \"Name\" to \"Name2\" and \"DogName\" to \"DogName2\" from Relation A:\n");
-	std::vector<string> r1_s9 = {"Name2","DogName2"};
+	std::vector<string> r1_s9;
+	r1_s9.push_back("Name2");
+    r1_s9.push_back("DogName3");
+	
 	DB.print_relation(DB.renaming("Relation A Renamed", r1_s9, DB.get_relation("Relation A")));
 	
 	//UPDATE!!!!!
