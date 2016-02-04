@@ -106,7 +106,7 @@ void Relation::insert_attribute( int original_att_index, Relation &original_rela
 
 void Relation::rename_relation(string rename){relation_name = rename;}
 
-void Relation::set_max(int original_max_lengths[], relation &original_relation){
+void Relation::set_max(int original_max_lengths[], Relation &original_relation){
 	for(int i=0;i<attribute_max_lengths; i++){
 		attribute_max_lengths[i] = original_relation.get_max_index(original_relation.get_attribute_index(i));
 	}
@@ -114,13 +114,13 @@ void Relation::set_max(int original_max_lengths[], relation &original_relation){
 
 int* Relation::get_max(){ return attribute_max_lengths; }
 
-int Relation::get_max_index(int i){ return attribute_max_lengths[i]; }
+int Relation::get_max_index(int i){ return attribute_list.attributes[i].get_max_length(); }
 
 void Relation::set_tuples_vector(std::vector<Tuple> tuples_input){ tuples=tuples_input; }
 
 string* Relation::get_primary(){ return primary_keys; }
 
-void Relation::set_primary(string original_primary_keys[], relation &original_relation){
+void Relation::set_primary(string original_primary_keys[], Relation &original_relation){
 	for(int i = 0; i < original_primary_keys.size();i++){
 		primary_keys[i] = get_attribute_name(original_relation.get_attribute_index(original_primary_keys[i]));
 	}
