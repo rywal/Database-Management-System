@@ -10,12 +10,7 @@ using namespace std;
 int main(){
 
 
-cout << "Hello \n";
-	
-ofstream outfile;
-outfile.open ("notes.txt");
-outfile << "Hello" << endl;
-outfile.close();
+// cout << "Hello \n";
 
 	return 0;
 }
@@ -96,31 +91,6 @@ bool less (string a, string b){
 
 bool lesseq (string a, string b){
 	return (a <= b);
-};
-
-
-// close-cmd | save-cmd | exit-cmd
-
-/*
-close-cmd ::== CLOSE relation-name 
-save-cmd ::== SAVE relation-name 
-exit-cmd ::== EXIT 
-*/
-class close{
-	
-	
-};
-
-//-----------------------------------------
-class save{
-	
-	
-};
-
-
-class exit{
-	
-	
 };
 
 
