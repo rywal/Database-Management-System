@@ -6,6 +6,8 @@
 #define Relation_h
 
 #include <stdio.h>
+#include "AttributeList.h"
+#include "Tuple.h"
 
 class Relation {
 public:

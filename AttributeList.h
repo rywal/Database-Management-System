@@ -6,6 +6,7 @@
 
 #include <stdio.h>
 #include <vector>
+#include "Attribute.h"
 
 // Collection of Attributes within the Relation
 class AttributeList {

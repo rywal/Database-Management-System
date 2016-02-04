@@ -7,19 +7,30 @@ Cell::Cell( int _max_length ){
     max_length = _max_length;
 }
 
+Cell::Cell(){}
+
+Cell::Cell(Cell a){
+	set_value(a.get_dat());
+	max_length=a.get_max_length();
+}
+
 Cell::Cell( string data, int _max_length ){
     max_length = _max_length;
     
     if (max_length == 0) {
         int_data = (int)data;
     } else {
-        if ( data.length <= max_length )
+        if ( data.length() <= max_length )
             string_data = data;
     }
 }
 
+int Cell::get_max_length(){
+	return max_length;
+}
+	
 bool Cell::is_null(){
-    if (string_data.length == 0 && (string)int_data == 0) {
+    if (string_data.length() == 0 && (string)int_data == 0) {
         return true;
     } else {
         return false;
@@ -46,6 +57,7 @@ int Cell::set_value( auto value ){
         }
     }
 }
+
 
 bool Cell::operator==(const Cell &b) const{
 	if (max_length==0){
