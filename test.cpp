@@ -13,6 +13,6 @@ void main(){
 	int attribute_types1[] = {10, 0, 0, 10};
 	string primary_keys_names1[] = {"Name","ID"};
 	DB.create_relation("Relation A", attribute_names1, attribute_types1);
-	DB.relation("Relation A"]
+	DB.relation("Relation A");
 
 }
