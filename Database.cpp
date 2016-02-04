@@ -7,7 +7,7 @@ Database::Database(string name){
     
 }
 
-void Database::create_relation(string name, string[] attribute_names, int[] attribute_types, string[] primary_keys){
+void Database::create_relation(string name, string attribute_names[], int attribute_types[], string primary_keys[]){
     Relation new_relation = Relation(name, attribute_names, attribute_types, primary_keys);
     relations.push_back(new_relation);
 }
@@ -109,7 +109,7 @@ Relation Database:: cross_product(string name, Relation a, Relation b){
 	}
 }
 		
-Relation Database::select(vector<string> att_names, vector<auto> compare_values, vector<string> compare_operators, Relation &in_rel, string and_or_gate){
+Relation Database::select(vector<string> att_names, vector<string> compare_values, vector<string> compare_operators, Relation &in_rel, string and_or_gate){
 	new Relation(out_rel, att_names, in_rel.get_max(), in_rel.get_primary());
 	//Update parameters
 	out_rel.set_primary(in_rel.get_primary(), &in_rel);
@@ -169,7 +169,7 @@ Relation Database::Project(vector<string> att_names, Relation &in_rel){
 	return out_rel;
 }
 
-Relation Database::Renaming(String out_rel, vector<string> att_renames , Relation &in_rel){
+Relation Database::Renaming(string out_rel, vector<string> att_renames , Relation &in_rel){
 	//correct number of input?
 	new Relation(out_rel, att_names,in_rel.get_max(), in_rel.get_primary());
 	if(in_rel.num_attributes != att_renames.size()){

@@ -2,9 +2,9 @@
 //  Relation.cpp
 //
 #include "Relation.h"
-Relation::Relation(string name, string attribute_names[], int attribute_max_lengths[], string _primary_keys[]){
-    relation_name = name;
-    primry_keys = _primary_keys;
+Relation::Relation(string _name, string attribute_names[], int attribute_max_lengths[], string _primary_keys[]){
+    name = _name;
+    primary_keys = _primary_keys;
     
     attribute_list = AttributeList( attribute_names.size() );
     for (int i = 0; i < attribute_list.num_attributes; i++) {

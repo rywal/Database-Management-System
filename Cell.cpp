@@ -30,7 +30,7 @@ int Cell::get_max_length(){
 }
 	
 bool Cell::is_null(){
-    if (string_data.length() == 0 && std:to_string(int_data).length() == 0) {
+    if (string_data.length() == 0 && std::to_string(int_data).length() == 0) {
         return true;
     } else {
         return false;
@@ -39,7 +39,7 @@ bool Cell::is_null(){
 
 string Cell::get_data(){
     if (max_length == 0){
-        return (string)int_data;
+        return std::to_string(int_data);
     } else {
         return string_data;
     }
