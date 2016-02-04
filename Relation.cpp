@@ -130,5 +130,12 @@ void print_relation(Relation &relation_name){
 		}
 		printf ("\n");
 	}
+	printf ("Primary Keys: ")
+	if(relation_name.primary_keys.size()>0){
+		printf ("%s", relation_name.primary_keys[0];
+		for(int i=1; i<relation_name.primary_keys.size(), i++){
+			printf (", %s", relation_name.primary_keys[i]);
+		}
+	}
 	printf ("=-=-=-=-=-=END-=-=-=-=-=\n");
 }
