@@ -134,8 +134,8 @@ Relation Database::select(vector<string> att_names, vector<string> compare_value
 	out_rel.set_max(in_rel.get_max(), in_rel);
 	vector<int> tuple_indexes;
 	if(att_names.size()!= compare_values.size()){	//Check input lengths
-		printf ("The number of attribute and compare strings did not match.");
-		return void;
+		printf ("The number of attribute and compare strings did not match.\n");
+		return out_rel;
 	}
 	for(int n=0; n<att_names.size();n++){
 		if(in_rel.attribute_exist(att_names[n])){
@@ -187,9 +187,9 @@ Relation Database::project(vector<string> att_names, Relation &in_rel){
 	return out_rel;
 }
 
-Relation Database::renaming(String out_name, vector<string> att_renames , Relation in_rel){\
+Relation Database::renaming(string out_name, vector<string> att_renames , Relation &in_rel){
 	//correct number of input?
-	Relation out_rel(out_name, att_names,in_rel.get_max(), in_rel.primary_keys);
+	Relation out_rel(out_name, att_renames, sin_rel.get_max(), in_rel.primary_keys);
 	if(in_rel.attribute_list.num_attributes != att_renames.size()){
 		printf ("There was not enough Attributes given or in the Relation.");
 	}
@@ -216,11 +216,11 @@ void print_relation(Relation &relation_name){
 		}
 		printf ("\n");
 	}
-	printf ("Primary Keys: ")
-	if(relation_name.primary_keys.size()>0){
-		printf ("%s", relation_name.primary_keys[0];
-		for(int i=1; i<relation_name.primary_keys.size(), i++){
-			printf (", %s", relation_name.primary_keys[i].c_str());
+    printf ("Primary Keys: ");
+	if(relation_name.primary_keys.size()>0) {
+		printf ("%s", relation_name.primary_keys[0]);
+        for(int i=1; i<relation_name.primary_keys.size(); i++){
+            printf (", %s", relation_name.primary_keys[i].c_str());
 		}
 	}
 	printf ("=-=-=-=-=-=END-=-=-=-=-=\n");
