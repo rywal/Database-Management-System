@@ -6,9 +6,9 @@
 
 Database::Database(string _name){name = _name;}
 
-int Relation::get_relation_index( string rel_name ){
+int Database::get_relation_index( string rel_name ){
 		for (int i=0; i < relations.size();i++){
-			if (relations[i] == rel_name){
+			if (relations[i].name == rel_name){
 				return i;
 			}
 		}
@@ -196,12 +196,12 @@ Relation Database::project(vector<string> att_names, Relation &in_rel){
 
 Relation Database::renaming(string out_name, vector<string> att_renames , Relation &in_rel){
 	//correct number of input?
-	Relation out_rel(out_name, att_renames, sin_rel.get_max(), in_rel.primary_keys);
+	Relation out_rel(out_name, att_renames, in_rel.get_max(), in_rel.primary_keys);
 	if(in_rel.attribute_list.num_attributes != att_renames.size()){
 		printf ("There was not enough Attributes given or in the Relation.");
 	}
 	else{
-		out_rel.set_tuples_vector(show_relation(in_rel)); //copy table
+		out_rel.set_tuples_vector(in_rel.tuples); //copy table
 		out_rel.set_primary(in_rel.primary_keys, in_rel);
 		for(int i=0; i < in_rel.attribute_list.num_attributes; i++){
 			out_rel.rename_attribute(att_renames[i],i);
