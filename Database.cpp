@@ -211,8 +211,8 @@ Relation Database::renaming(string out_name, vector<string> att_renames , Relati
 }
 
 /*
-void CLOSE(){		This needs to close out the database
-	exit (0);
+void CLOSE(FILE *f){		This needs to close out the database
+	fclose (f);
 }
 */
 
