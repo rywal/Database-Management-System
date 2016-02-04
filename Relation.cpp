@@ -1,6 +1,7 @@
 //
 //  Relation.cpp
 //
+#include <algorithm>
 #include "Relation.h"
 #include "Database.h"
 
