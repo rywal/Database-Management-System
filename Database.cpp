@@ -40,13 +40,13 @@ Relation Database::set_union(string name, Relation a, Relation b){
 		for (int i = 0; i < a.tuples.size(); i++){
 			Tuple temp(a.num_attributes);
 			for (int j = 0; j < result.num_attributes; j++)
-				temp.cells[j] = a.tuple[i].get_cell(j);
+				temp.insert_cell( j, a.tuples[i].get_cell(j) );
 			result.insert_tuple(temp);
 		}
 		for (int i=0; i < b.tuples.size(); i++){
 			Tuple temp(b.attribute_list.num_attributes);
 			for (int j=0; j < result.attribute_list.num_attributes; j++)
-				temp.cells[j] = b.tuple[i].get_cell(j);
+				temp.insert_cell( j, b.tuples[i].get_cell(j) );
 			result.insert_tuple(temp);
 		}
         
@@ -62,8 +62,8 @@ Relation Database::set_union(string name, Relation a, Relation b){
 }
 
 Relation Database::set_difference(string name, Relation a, Relation b){
-    string att_names[a.attribute_list.num_attributes];
-    int att_max_lengths[a.attribute_list.num_attributes];
+    string att_names* = new string[a.attribute_list.num_attributes];
+    int att_max_lengths* = new int[a.attribute_list.num_attributes];
     
     for (int i = 0; i < a.attribute_list.num_attributes; i++){
         att_names[i] = a.attribute_list.attributes[i].get_name();
@@ -73,7 +73,7 @@ Relation Database::set_difference(string name, Relation a, Relation b){
 	if( union_compatible(a, b)){
 		int j;
 		Relation result( name, att_names, att_max_lengths, a.primary_keys);
-		Tuple temp(a.num_attributes);
+		Tuple temp(a.attribute_list.num_attributes);
 		for (int i=0; i<a.tuples.size(); i++){
 			for(j=0; j<b.tuples.size(); j++){ 
 				if (a.tuples[i] == b.tuples[j])
