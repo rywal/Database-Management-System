@@ -27,8 +27,8 @@ bool Database::union_compatible(Relation a, Relation b){
 }
 
 Relation Database::set_union(string name, Relation a, Relation b){
-    string att_names[a.attribute_list.num_attributes];
-    int att_max_lengths[a.attribute_list.num_attributes];
+    string att_names* = new string[a.attribute_list.num_attributes];
+    int att_max_lengths* = new int[a.attribute_list.num_attributes];
     
     for (int i = 0; i < a.attribute_list.num_attributes; i++){
         att_names[i] = a.attribute_list.attributes[i].get_name();
@@ -49,9 +49,14 @@ Relation Database::set_union(string name, Relation a, Relation b){
 				temp.cells[j] = b.tuple[i].get_cell(j);
 			result.insert_tuple(temp);
 		}
+        
+        delete [] att_names;
+        delete [] att_max_lengths;
 		return result;	
 	}
 	else{
+        delete [] att_names;
+        delete [] att_max_lengths;
 		cout<<"These relations are not union compatible\n";
 	}
 }
