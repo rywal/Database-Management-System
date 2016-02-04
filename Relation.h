@@ -8,7 +8,6 @@
 #include <stdio.h>
 #include "AttributeList.h"
 #include "Tuple.h"
-#include "Database.h"
 
 class Relation {
 public:

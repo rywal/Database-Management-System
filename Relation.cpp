@@ -3,6 +3,7 @@
 //
 #include <algorithm>
 #include "Relation.h"
+#include "Database.h"
 
 Relation::Relation(string _name, string attribute_names[], int attribute_max_lengths[], std::vector<string> _primary_keys){
     name = _name;

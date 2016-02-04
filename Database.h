@@ -1,6 +1,6 @@
 #include <stdexcept>
 #include <vector>
-#include "Relation.h" 
+#include "Relation.h"
 
 // Core Database Components
 // ------------------------
