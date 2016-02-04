@@ -30,13 +30,8 @@ void Relation::insert_tuple(Tuple new_tuple){
 	tuples.push_back(new_tuple);
 }
 
-void Relation::delete_tuple(string conditions[]){
-    
-    for (auto tuple : tuples) {
-        for (int i = 0; i < attribute_indices.size(); i++){
-            
-        }
-    }
+Relation Relation::delete_tuple(vector<string> att_names, vector<string> compare_values, vector<string> compare_operators, string and_or_gate){
+    return set_difference(name+"_Deleted", this, select(attribute_list.attributes, compare_values, compare_operators, and_or_gate));
 }
 
 int Relation::get_attribute_index( string att_name ){
@@ -135,8 +130,5 @@ void print_relation(Relation &relation_name){
 		}
 		printf ("\n");
 	}
-	
-	
-	
 	printf ("=-=-=-=-=-=END-=-=-=-=-=\n");
 }

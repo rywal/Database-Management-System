@@ -126,7 +126,12 @@ Relation Database::cross_product(string name, Relation a, Relation b){
 }
 	
 Relation Database::select(vector<string> att_names, vector<string> compare_values, vector<string> compare_operators, Relation &in_rel, string and_or_gate){
-	new Relation(out_rel, att_names, in_rel.get_max(), in_rel.get_primary());
+    int att_max_lengths* = new int[in_rel.attribute_list.num_attributes];
+    
+    for (int i = 0; i < in_Rel.attribute_list.num_attributes; i++){
+        att_max_lengths[i] = in_rel.attribute_list.attributes[i].get_max_length();
+    }
+	new Relation(out_rel, att_names, att_max_lengths, in_rel.primary_keys);
 	//Update parameters
 	out_rel.set_primary(in_rel.primary_keys, &in_rel);
 	out_rel.set_max(in_rel.get_max(), &in_rel);
