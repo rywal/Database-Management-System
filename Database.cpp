@@ -27,8 +27,8 @@ bool Database::union_compatible(Relation a, Relation b){
 }
 
 Relation Database::set_union(string name, Relation a, Relation b){
-    string att_names* = new string[a.attribute_list.num_attributes];
-    int att_max_lengths* = new int[a.attribute_list.num_attributes];
+    string *att_names = new string[a.attribute_list.num_attributes];
+    int *att_max_lengths = new int[a.attribute_list.num_attributes];
     
     for (int i = 0; i < a.attribute_list.num_attributes; i++){
         att_names[i] = a.attribute_list.attributes[i].get_name();
