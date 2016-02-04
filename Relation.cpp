@@ -131,8 +131,11 @@ std::vector<Tuple> show(Relation &relation_name){
 }
 
 void print_relation(Relation &relation_name){
-	printf ("Relation name:%
+	printf ("-=-=-=-=-=BEGIN-=-=-=-=-\n");
 	printf ("Relation name:%s \n", relation_name.name);
 	
 	
+	
+	
+	printf ("=-=-=-=-=-=END-=-=-=-=-=\n");
 }
