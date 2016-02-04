@@ -14,13 +14,8 @@ Relation::Relation(string _name, string attribute_names[], int attribute_max_len
 }
 
 void Relation::insert_tuple(string values[]){
-<<<<<<< HEAD
-    if (values.size() == attribute_list.num_attributes) {
-        Tuple new_tuple( values.size() );
-=======
     if (values->size() == attribute_list.num_attributes) {
         Tuple new_tuple( values->size() );
->>>>>>> c04ea9bf5a1fecda8508f387bc20331cbc428888
         
         for (int i = 0; i < values.size(); i++){
             Cell new_cell( values[i], attribute_list.attributes[i].max_length );
@@ -36,7 +31,7 @@ void Relation::insert_tuple(Tuple new_tuple){
 }
 
 Relation Relation::delete_tuple(vector<string> att_names, vector<string> compare_values, vector<string> compare_operators, string and_or_gate[]){
-    return set_difference(name+"_Deleted", this, this.select(attribute_list.attributes, compare_values, compare_operators, and_or_gate));
+    return set_difference(name+"_Deleted", this, this->select(attribute_list.attributes, compare_values, compare_operators, and_or_gate));
 }
 
 int Relation::get_attribute_index( string att_name ){
@@ -56,17 +51,26 @@ int Relation::get_size(){ return tuples.size(); }
 
 int Relation::get_num_attributes(){return attribute_list.num_attribute;}
 
-void Relation::rename_attribute( string renamed, int index ){ attribute_list.attributes[index].set_name() = renamed; }
+void Relation::rename_attribute( string renamed, int index ){ attribute_list.attributes[index].set_name(renamed); }
 
 string Relation::get_attribute_name( int index ){ return attribute_list.attributes[index]; }
 
+// Referenced from http://stackoverflow.com/questions/4654636/how-to-determine-if-a-string-is-a-number-with-c
+bool is_number(const std::string& s) {
+    return !s.empty() && std::find_if(s.begin(), s.end(), [](char c) { return !std::isdigit(c); }) == s.end();
+}
+
 bool Relation::compare(vector<int> &tuple_indexes, string comparison_value, string compare_operator, int attribute_index){
     for(int i=0; i < get_size(); i++){//Compare whole Attribute with an operator and value
+<<<<<<< HEAD
 <<<<<<< HEAD
         if(is_string(tuples[i].get_cell(attribute_index).get_data())){
 =======
         if( isdigit(tuples[i].get_cell(attribute_index).get_data()) ){
 >>>>>>> c04ea9bf5a1fecda8508f387bc20331cbc428888
+=======
+        if( is_number( tuples[i].get_cell(attribute_index).get_data() ) ){
+>>>>>>> 17f19254ffa65a7a477d80405fdbd81d382dc2f8
             if(comparison_value == tuples[i].get_cell(attribute_index).get_data()){
                 tuple_indexes.push_back(i);
             }
