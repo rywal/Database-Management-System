@@ -13,7 +13,7 @@ class AttributeList {
     public:
     Attribute *attributes;
     int num_attributes;
-    AttributeList(int _num_attributes) { num_attributes = _num_attributes; attributes = new Attribute[num_attributes]; set_names(); set_maxes() }
+    AttributeList(int _num_attributes) { num_attributes = _num_attributes; attributes = new Attribute[num_attributes]; }
     ~AttributeList() { delete[] attributes; }
 
     string*  names(){

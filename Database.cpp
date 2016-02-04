@@ -1,6 +1,7 @@
 //
 //  Database.cpp
 //
+#include <iostream>
 #include "Database.h"
 
 Database::Database(string name){
@@ -27,8 +28,8 @@ bool Database::union_compatible(Relation a, Relation b){
 }
 
 Relation Database::set_union(string name, Relation a, Relation b){
-    string *att_names = new string[a.attribute_list.num_attributes];
-    int *att_max_lengths = new int[a.attribute_list.num_attributes];
+    vector<string> att_names(a.attribute_list.num_attributes);
+    vector<int> att_max_lengths(a.attribute_list.num_attributes);
     
     for (int i = 0; i < a.attribute_list.num_attributes; i++){
         att_names[i] = a.attribute_list.attributes[i].get_name();
@@ -40,30 +41,26 @@ Relation Database::set_union(string name, Relation a, Relation b){
 		for (int i = 0; i < a.tuples.size(); i++){
 			Tuple temp(a.attribute_list.num_attributes);
 			for (int j = 0; j < result.attribute_list.num_attributes; j++)
-				temp.insert_cell( j, a.tuples[i].get_cell(j).get_data(), a.tuples[i].get_cell(j).get_max_length() );
+				temp.insert_value( j, a.tuples[i].get_cell(j).get_data(), a.tuples[i].get_cell(j).get_max_length() );
 			result.insert_tuple(temp);
 		}
 		for (int i=0; i < b.tuples.size(); i++){
 			Tuple temp(b.attribute_list.num_attributes);
 			for (int j=0; j < result.attribute_list.num_attributes; j++)
-				temp.insert_cell( j, b.tuples[i].get_cell(j).get_data(), b.tuples[i].get_cell(j).get_max_length() );
+				temp.insert_value( j, b.tuples[i].get_cell(j).get_data(), b.tuples[i].get_cell(j).get_max_length() );
 			result.insert_tuple(temp);
 		}
         
-        delete [] att_names;
-        delete [] att_max_lengths;
 		return result;	
 	}
 	else{
-        delete [] att_names;
-        delete [] att_max_lengths;
         std::cout << "These relations are not union compatible\n";
 	}
 }
 
 Relation Database::set_difference(string name, Relation a, Relation b){
-    string att_names* = new string[a.attribute_list.num_attributes];
-    int att_max_lengths* = new int[a.attribute_list.num_attributes];
+    vector<string> att_names(a.attribute_list.num_attributes);
+    vector<int> att_max_lengths(a.attribute_list.num_attributes);
     
     for (int i = 0; i < a.attribute_list.num_attributes; i++){
         att_names[i] = a.attribute_list.attributes[i].get_name();
@@ -80,7 +77,7 @@ Relation Database::set_difference(string name, Relation a, Relation b){
 		 			break;
 			}
 			if(a.tuples[i] != b.tuples[j]){
-				temp.cells = a[i].cells;
+				temp.cells = a.tuples[i].cells;
 				result.insert_tuple(temp);
 			}
 		}
@@ -126,7 +123,7 @@ Relation Database::cross_product(string name, Relation a, Relation b){
 }
 	
 Relation Database::select(vector<string> att_names, vector<string> compare_values, vector<string> compare_operators, Relation &in_rel, string and_or_gate){
-    int att_max_lengths* = new int[in_rel.attribute_list.num_attributes];
+    int *att_max_lengths = new int[in_rel.attribute_list.num_attributes];
     
     for (int i = 0; i < in_Rel.attribute_list.num_attributes; i++){
         att_max_lengths[i] = in_rel.attribute_list.attributes[i].get_max_length();
