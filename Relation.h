@@ -41,8 +41,6 @@ public:
 	void set_tuples_vector(std::vector<Tuple> tuples_input);
 	string* get_primary();
     void set_primary(string original_primary_keys[], Relation &original_relation);
-	std::vector<Tuple> show(Relation &relation_name);
-	void print_relation(Relation &relation_name);
 };
 
 #endif /* Relation_h */
