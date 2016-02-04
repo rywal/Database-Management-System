@@ -13,7 +13,7 @@ return 0;}
 
 // Relational and comparison operators ==,!=,<,>,<=,>=
 
-/*
+
 class comp{
 private:
 	string f;
@@ -44,7 +44,7 @@ bool s (string d, string e){
 	return ( string d && string e);
 };
 
-*/
+
 
 //---------------------------------------------------
 class comparison {
