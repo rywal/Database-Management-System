@@ -37,9 +37,9 @@ bool Cell::is_null(){
     }
 }
 
-auto Cell::get_data(){
+string Cell::get_data(){
     if (max_length == 0){
-        return int_data;
+        return (string)int_data;
     } else {
         return string_data;
     }

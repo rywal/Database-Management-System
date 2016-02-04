@@ -61,34 +61,34 @@ void Relation::rename_attribute( string renamed, int index ){ attribute_names[in
 
 string Relation::get_attribute_name( int index ){ return attribute_names[index]; }
 
-bool Relation::compare(vector<int> &tuple_indexes, auto comparison_value, string compare_operator, int attribute_index){
+bool Relation::compare(vector<int> &tuple_indexes, string comparison_value, string compare_operator, int attribute_index){
     for(int i=0; i < get_size(); i++){//Compare whole Attribute with an operator and value
-        if((get_cell(index, i)).is_string()){
-            if(comparison_value == get_cell(attribute_index, i)){
+        if((get_data(index, i)).is_string()){
+            if(comparison_value == (string)get_data(attribute_index, i)){
                 tuple_indexes.push_back(i);
             }
         }else if(compare_operator == "le"){
-            if (comparison_value < get_cell(attribute_index, i)){
+            if (comparison_value < (string)get_data(attribute_index, i)){
                 tuple_indexes.push_back(i);
             }
         }else if(compare_operator == "leq"){
-            if (comparison_value <= get_cell(attribute_index, i)){
+            if (comparison_value <= (string)get_data(attribute_index, i)){
                 tuple_indexes.push_back(i);
             }
         }else if(compare_operator == "eq"){
-            if (comparison_value == get_cell(attribute_index, i)){
+            if (comparison_value == (string)get_data(attribute_index, i)){
                 tuple_indexes.push_back(i);
             }
         }else if(compare_operator == "geq"){
-            if (comparison_value >= get_cell(attribute_index, i)){
+            if (comparison_value >= (string)get_data(attribute_index, i)){
                 tuple_indexes.push_back(i);
             }
         }else if(compare_operator == "gr"){
-            if (comparison_value > get_cell(attribute_index, i)){
+            if (comparison_value > (string)get_data(attribute_index, i)){
                 tuple_indexes.push_back(i);
             }
         }else if(compare_operator == "ne"){
-            if (comparison_value != get_cell(attribute_index, i)){
+            if (comparison_value != (string)get_data(attribute_index, i)){
                 tuple_indexes.push_back(i);
             }
         }
