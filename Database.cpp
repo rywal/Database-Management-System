@@ -27,8 +27,8 @@ bool Database::union_compatible(Relation a, Relation b){
 }
 
 Relation Database::set_union(string name, Relation a, Relation b){
-    string att_names* = new string[a.attribute_list.num_attributes];
-    int att_max_lengths* = new int[a.attribute_list.num_attributes];
+    string *att_names = new string[a.attribute_list.num_attributes];
+    int *att_max_lengths = new int[a.attribute_list.num_attributes];
     
     for (int i = 0; i < a.attribute_list.num_attributes; i++){
         att_names[i] = a.attribute_list.attributes[i].get_name();
@@ -38,8 +38,8 @@ Relation Database::set_union(string name, Relation a, Relation b){
 	if (union_compatible(a, b)){
 		Relation result( name, att_names, att_max_lengths, a.primary_keys);
 		for (int i = 0; i < a.tuples.size(); i++){
-			Tuple temp(a.num_attributes);
-			for (int j = 0; j < result.num_attributes; j++)
+			Tuple temp(a.attribute_list.num_attributes);
+			for (int j = 0; j < result.attribute_list.num_attributes; j++)
 				temp.insert_cell( j, a.tuples[i].get_cell(j) );
 			result.insert_tuple(temp);
 		}
@@ -57,7 +57,7 @@ Relation Database::set_union(string name, Relation a, Relation b){
 	else{
         delete [] att_names;
         delete [] att_max_lengths;
-		cout<<"These relations are not union compatible\n";
+        std::cout << "These relations are not union compatible\n";
 	}
 }
 
@@ -87,7 +87,7 @@ Relation Database::set_difference(string name, Relation a, Relation b){
 		return result;			
 	}
 	else{
-		cout<<"These relations are not union-compatible, therefore I cannot compute the set difference\n";
+        std::cout<<"These relations are not union-compatible, therefore I cannot compute the set difference\n";
 	}
 }
 
@@ -121,7 +121,7 @@ Relation Database::cross_product(string name, Relation a, Relation b){
 		return result;
 	}
 	else{
-		cerr<"These relations are not compatible for using the cross product function. Rename the attributes in one of the relations.";
+        std::cerr<"These relations are not compatible for using the cross product function. Rename the attributes in one of the relations.";
 	}
 }
 	

@@ -39,7 +39,9 @@ bool Tuple::operator!= (Tuple &b){
         return false;
 }
 	
-
+Cell Tuple::get_cell(int index) {
+    return cells[index];
+}
 
 int Tuple::insert_cell( int index, Cell cell ){
         cells[index] = cell;
