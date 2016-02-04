@@ -102,15 +102,15 @@ bool Database::cross_compatible(Relation a,Relation b){
 Relation Database::cross_product(string name, Relation a, Relation b){
 
 	if (cross_compatible(a,b)){
-		Relation result(name, combine_names(a.attribute_list, b.attribute_list), combine_max(a.attribute_list, b.attribute_list), a.primary_keys+b.primary_keys);
+		Relation result(name, a.attribute_list.combine_names(a.attribute_list, b.attribute_list), a.attribute_list.combine_max(a.attribute_list, b.attribute_list), a.primary_keys+b.primary_keys);
 		Tuple temp (a.get_num_attributes()+ b.get_num_attributes());
 		for (int i=0; i<a.get_num_attributes(); i++){
 			for (int j=0; j<b.get_num_attributes(); j++){
 				for (int k=0; k<temp.num_attributes(); k++){
 					if (k<a.get_num_attributes())
-						temp.insert_cell(k, a.tuples[i].get_cell(k));
+						temp.insert_value(k, a.tuples[i].get_cell(k).get_data(), a.tuples[i].get_cell(k).get_max_length());
 					else
-						temp.insert_cell(k, b.tuples[j].get_cell(k-a.get_num_attributes()));
+						temp.insert_value(k, b.tuples[i].get_cell(k).get_data(), b.tuples[i].get_cell(k).get_max_length());
 				}		
 				result.insert_tuple( temp);
 			}
