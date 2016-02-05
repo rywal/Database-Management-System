@@ -45,6 +45,8 @@ bool Database::union_compatible(Relation a, Relation b){
     } else {
         return false;
     }
+    
+    return false;
 }
 
 Relation Database::set_union(string name, Relation a, Relation b){
@@ -54,14 +56,14 @@ Relation Database::set_union(string name, Relation a, Relation b){
 	if (union_compatible(a, b)){
 		Relation result( name, att_names, att_lengths, a.primary_keys);
 		for (int i = 0; i < a.tuples.size(); i++){
-			Tuple temp(a.attribute_list.num_attributes);
-			for (int j = 0; j < result.attribute_list.num_attributes; j++)
+			Tuple temp(a.attribute_list.num_attributes());
+			for (int j = 0; j < result.attribute_list.num_attributes(); j++)
 				temp.insert_value( j, a.tuples[i].get_cell(j).get_data(), a.tuples[i].get_cell(j).get_max_length() );
 			result.insert_tuple(temp);
 		}
 		for (int i=0; i < b.tuples.size(); i++){
-			Tuple temp(b.attribute_list.num_attributes);
-			for (int j=0; j < result.attribute_list.num_attributes; j++)
+			Tuple temp(b.attribute_list.num_attributes());
+			for (int j=0; j < result.attribute_list.num_attributes(); j++)
 				temp.insert_value( j, b.tuples[i].get_cell(j).get_data(), b.tuples[i].get_cell(j).get_max_length() );
 			result.insert_tuple(temp);
 		}
@@ -80,7 +82,7 @@ Relation Database::set_difference(string name, Relation a, Relation b){
 	if( union_compatible(a, b)){
 		int j;
 		Relation result( name, att_names, att_lengths, a.primary_keys);
-		Tuple temp(a.attribute_list.num_attributes);
+		Tuple temp(a.attribute_list.num_attributes());
 		for (int i=0; i<a.tuples.size(); i++){
 			for(j=0; j<b.tuples.size(); j++){ 
 				if (a.tuples[i] == b.tuples[j])
@@ -150,12 +152,12 @@ Relation Database::select(vector<string> att_names, vector<string> compare_value
 		cout<<"1\n";
 		if(in_rel.attribute_exist(att_names[n])){
 			cout<<"2\n";
-			for(int i=0; i < in_rel.attribute_list.num_attributes; i++){
+			for(int i=0; i < in_rel.attribute_list.num_attributes(); i++){
 				cout<<"3\n";
 				if (in_rel.get_attribute_name(i) == att_names[n]){
 					cout<<"4\n";
 					if (in_rel.compare(tuple_indexes, compare_values[n], compare_operators[n], i)){//tuple_indexes
-					//	i = in_rel.attribute_list->num_attributes;//saves time
+					//	i = in_rel.attribute_list->num_attributes();//saves time
 						cout<<"5\n";
 					}
 				}
@@ -218,13 +220,13 @@ Relation Database::project(vector<string> att_names, Relation &in_rel){
 
 Relation Database::renaming(string out_name, vector<string> att_renames , Relation &in_rel){
 	Relation out_rel(out_name, att_renames, in_rel.get_max(), in_rel.primary_keys);
-	if(in_rel.attribute_list.num_attributes != att_renames.size()){
+	if(in_rel.attribute_list.num_attributes() != att_renames.size()){
 		printf ("There was not enough Attributes given or in the Relation.");
 	}
 	else{
 		out_rel.set_tuples_vector(in_rel.tuples); //copy table
 		out_rel.set_primary(in_rel.primary_keys, in_rel);
-		for(int i=0; i < in_rel.attribute_list.num_attributes; i++){
+		for(int i=0; i < in_rel.attribute_list.num_attributes(); i++){
 			out_rel.rename_attribute(att_renames[i],i);
 		}
 	}

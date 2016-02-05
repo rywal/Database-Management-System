@@ -58,6 +58,7 @@ int Cell::set_value( string value ){
             return -1;
         }
     }
+    return 0;
 }
 
 
@@ -69,6 +70,7 @@ bool Cell::operator==(const Cell &b) const{
 	else if (string_data==b.string_data)
 		return true;
 	else return false;
+    return false;
 }
 
 bool Cell::operator!=(const Cell &b) const{
@@ -79,4 +81,5 @@ bool Cell::operator!=(const Cell &b) const{
         else if (string_data==b.string_data)
                 return false;
         else return true;
+    return false;
 } 

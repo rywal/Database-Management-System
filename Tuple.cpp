@@ -45,4 +45,5 @@ int Tuple::insert_cell( int index, Cell cell ){
     // Referenced this iterator example from http://www.cplusplus.com/reference/vector/vector/insert/
     
     cells.insert( (it + index), 1, cell);
+    return 1;
 }

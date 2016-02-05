@@ -9,14 +9,16 @@
 Relation::Relation(string _name, vector<string> attribute_names, vector<int> attribute_max_lengths, std::vector<string> _primary_keys){
     name = _name;
     primary_keys = _primary_keys;
-    for (int i = 0; i < attribute_list.num_attributes; i++) {
+    for (int i = 0; i < attribute_names.size(); i++) {
         Attribute new_attribute( attribute_names[i], attribute_max_lengths[i] );
         attribute_list.attributes.push_back( new_attribute );
+        std::cout << "Pushed back attribute: " << new_attribute.get_name() << "\n";
     }
 }
 
 void Relation::insert_tuple(vector<string> values){
-    if (values.size() == attribute_list.num_attributes) {
+    std::cout << values.size() << "Values " << attribute_list.num_attributes() << " num attributes\n";
+    if (values.size()+1 == attribute_list.num_attributes()) {
         Tuple new_tuple( values.size() );
         
         for (int i = 0; i < values.size(); i++){
@@ -40,6 +42,8 @@ void Relation::insert_tuple(vector<string> values){
 		}
 		std::cout<<"THIS IS THE END\n";
         tuples.push_back(new_tuple);
+    } else {
+        std::cout << "NOPE\n";
     }
 }
 
@@ -53,7 +57,7 @@ Relation Relation::delete_tuple(Relation &original_relation, vector<string> att_
 }
 
 int Relation::get_attribute_index( string att_name ){
-    for (int i=0; i < attribute_list.num_attributes;i++){
+    for (int i=0; i < attribute_list.num_attributes();i++){
         if (attribute_list.attributes[i].get_name() == att_name){
             return i;
         }
@@ -67,7 +71,7 @@ bool Relation::attribute_exist(string att_name){
 
 int Relation::get_size(){ return tuples.size(); }
 
-int Relation::get_num_attributes(){return attribute_list.num_attributes;}
+int Relation::get_num_attributes(){return attribute_list.num_attributes();}
 
 void Relation::rename_attribute( string renamed, int index ){ attribute_list.attributes[index].set_name(renamed); }
 
@@ -110,6 +114,7 @@ bool Relation::compare(vector<int> &tuple_indexes, string comparison_value, stri
             }
         }
     }
+    return true;
 }
 
 void Relation::insert_attribute( int original_att_index, Relation &original_relation){//With pre-defined columns
