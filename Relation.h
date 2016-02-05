@@ -13,19 +13,19 @@ class Relation {
 public:
     string name;
     std::vector<Tuple> tuples;
-    AttributeList *attribute_list;
+    AttributeList attribute_list;
     std::vector<string> primary_keys;
 
     Relation(
              string _name,
-             string attribute_names[],         // Name of each attribute
-             int    attribute_max_lengths[],   // Max length of attribute string value. NOTE: Should be 0 if type if integer
+             vector<string> attribute_names,         // Name of each attribute
+             vector<int> attribute_max_lengths,   // Max length of attribute string value. NOTE: Should be 0 if type if integer
              std::vector<string> _primary_keys            // Collection of primary keys
     );
     
-    void insert_tuple(string values[]);
+    void insert_tuple(vector<string> values);
     void insert_tuple(Tuple new_tuple);
-    Relation delete_tuple(Relation &original_relation, vector<string> att_names, vector<string> compare_values, vector<string> compare_operators, string and_or_gate[]);
+    Relation delete_tuple(Relation &original_relation, vector<string> att_names, vector<string> compare_values, vector<string> compare_operators, vector<string> and_or_gate);
 	int get_attribute_index( string att_name );
     bool attribute_exist(string att_name);
 	int get_size();
@@ -35,8 +35,8 @@ public:
     bool compare(vector<int> &tuple_indexes, string comparison_value, string compare_operator, int index);
     void insert_attribute( int original_att_index, Relation &original_relation);
 	void rename_relation(string rename);
-	void set_max(int original_max_lengths[], Relation &original_relation);
-	int* get_max();
+	void set_max(vector<int> original_max_lengths, Relation &original_relation);
+	vector<int> get_max();
 	int  get_max_index(int i);
 	void set_tuples_vector(std::vector<Tuple> tuples_input);
 	std::vector<string> get_primary();

@@ -6,42 +6,40 @@
 #include "Relation.h"
 #include "Database.h"
 
-Relation::Relation(string _name, string attribute_names[], int attribute_max_lengths[], std::vector<string> _primary_keys){
+Relation::Relation(string _name, vector<string> attribute_names, vector<int> attribute_max_lengths, std::vector<string> _primary_keys){
     name = _name;
     primary_keys = _primary_keys;
-    
-    attribute_list = new AttributeList( attribute_names->size() );
     for (int i = 0; i < attribute_list->num_attributes; i++) {
-        Attribute *new_attribute = new Attribute( attribute_names[i], attribute_max_lengths[i] );
-        attribute_list->attributes[i] = *new_attribute;
+        Attribute new_attribute( attribute_names[i], attribute_max_lengths[i] );
+        attribute_list.attributes.push_back( new_attribute );
     }
 }
 
-void Relation::insert_tuple(string values[]){
-    if (values->size() + 1 == attribute_list->num_attributes) {
-        Tuple *new_tuple = new Tuple( values->size()+1 );
+void Relation::insert_tuple(vector<string> values){
+    if (values.size() == attribute_list.num_attributes) {
+        Tuple new_tuple( values.size() );
         
-        for (int i = 0; i < values->size() + 1; i++){
-            std::cout << attribute_list->attributes[i].get_name() << "(" << values[i] << ") Length: " << attribute_list->attributes[i].get_max_length() << std::endl;
-            Cell *new_cell = new Cell( values[i], attribute_list->attributes[i].get_max_length() );
-            new_tuple->insert_cell(i, *new_cell);
+        for (int i = 0; i < values.size(); i++){
+            std::cout << attribute_list.attributes[i].get_name() << "(" << values[i] << ") Length: " << attribute_list.attributes[i].get_max_length() << std::endl;
+            Cell new_cellCell( values[i], attribute_list.attributes[i].get_max_length() );
+            new_tuple.insert_cell(i, new_cell);
 			
 			
 			
 			std::cout<<"THIS IS A TUPLE(INSIDE): (index)"<< i << "\n now the rest: ";
-			for (int i=0; i<tuples.size(); i++){
-				std::cout<<new_tuple->get_cell(i).get_data().c_str()<< "  " << new_cell->get_data().c_str();
+			for (int i = 0; i < tuples.size(); i++){
+				std::cout << new_tuple.get_cell(i).get_data().c_str() << "  " << new_cell.get_data().c_str();
 				//std::count<< " direct: " << new_tuple->cells[i]<< " ";
 			}
 			std::cout<<"\nTHIS IS THE END\n\n";
 			
         }
         std::cout<<"THIS IS A TUPLE: ";
-		for (int i=0; i<tuples.size(); i++){
-			std::cout<<new_tuple->get_cell(i).get_data().c_str()<< "  ";
+		for (int i = 0; i < tuples.size(); i++){
+			std::cout << new_tuple.get_cell(i).get_data().c_str() << "  ";
 		}
 		std::cout<<"THIS IS THE END\n";
-        tuples.push_back(*new_tuple);
+        tuples.push_back(new_tuple);
     }
 }
 
@@ -49,14 +47,14 @@ void Relation::insert_tuple(Tuple new_tuple){
 	tuples.push_back(new_tuple);
 }
 
-Relation Relation::delete_tuple(Relation &original_relation, vector<string> att_names, vector<string> compare_values, vector<string> compare_operators, string and_or_gate[]){
+Relation Relation::delete_tuple(Relation &original_relation, vector<string> att_names, vector<string> compare_values, vector<string> compare_operators, vector<string> and_or_gate){
     Database db("name");
     return db.set_difference(name+"_Deleted", original_relation, db.select(att_names, compare_values, compare_operators, original_relation, and_or_gate));
 }
 
 int Relation::get_attribute_index( string att_name ){
-    for (int i=0; i < attribute_list->num_attributes;i++){
-        if (attribute_list->attributes[i].get_name() == att_name){
+    for (int i=0; i < attribute_list.num_attributes;i++){
+        if (attribute_list.attributes[i].get_name() == att_name){
             return i;
         }
     }
@@ -69,11 +67,11 @@ bool Relation::attribute_exist(string att_name){
 
 int Relation::get_size(){ return tuples.size(); }
 
-int Relation::get_num_attributes(){return attribute_list->num_attributes;}
+int Relation::get_num_attributes(){return attribute_list.num_attributes;}
 
-void Relation::rename_attribute( string renamed, int index ){ attribute_list->attributes[index].set_name(renamed); }
+void Relation::rename_attribute( string renamed, int index ){ attribute_list.attributes[index].set_name(renamed); }
 
-string Relation::get_attribute_name( int index ){ return attribute_list->attributes[index].get_name(); }
+string Relation::get_attribute_name( int index ){ return attribute_list.attributes[index].get_name(); }
 
 // Referenced from http://stackoverflow.com/questions/4654636/how-to-determine-if-a-string-is-a-number-with-c
 bool is_number(const std::string& s) {
@@ -120,19 +118,19 @@ void Relation::insert_attribute( int original_att_index, Relation &original_rela
 	}
 }
 
-void Relation::rename_relation(string rename){name = rename;}
+void Relation::rename_relation(string rename){ name = rename; }
 
 void Relation::set_max(int original_max_lengths[], Relation &original_relation){
 	for(int i=0; i<get_num_attributes(); i++){
-		attribute_list->attributes[i].set_max_length( original_relation.get_max_index(original_relation.get_attribute_index(to_string(i))) );
+		attribute_list.attributes[i].set_max_length( original_relation.get_max_index(original_relation.get_attribute_index(to_string(i))) );
 	}
 }
 
-int* Relation::get_max(){ return attribute_list->maxes();}
+vector<int> Relation::get_max(){ return attribute_list.maxes(); }
 
-int Relation::get_max_index(int i){ return attribute_list->attributes[i].get_max_length(); }
+int Relation::get_max_index(int i){ return attribute_list.attributes[i].get_max_length(); }
 
-void Relation::set_tuples_vector(std::vector<Tuple> tuples_input){ tuples=tuples_input; }
+void Relation::set_tuples_vector(std::vector<Tuple> tuples_input){ tuples = tuples_input; }
 
 std::vector<string> Relation::get_primary(){ return primary_keys; }
 

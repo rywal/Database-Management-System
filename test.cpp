@@ -9,54 +9,32 @@
 int main(){
 	Database DB("DB");
 	printf ("Create new Relation A:\n");
-	string attribute_names1[] = {"Name","ID","ShoeSize", "DogName"};
-    int attribute_types1[4];
-    attribute_types1[0] = 10;
-    attribute_types1[1] = 0;
-    attribute_types1[2] = 0;
-    attribute_types1[3] = 10;
+	vector<string> attribute_names1("Name","ID","ShoeSize", "DogName");
+    vector<int> attribute_types1(10, 0, 0, 10);
 
-    vector<string> primary_keys_names1;
-    primary_keys_names1.push_back("Name");
-    primary_keys_names1.push_back("ID");
+    vector<string> primary_keys_names1("Name", "ID");
 	DB.create_relation("Relation A", attribute_names1, attribute_types1, primary_keys_names1);
     
     Relation relA = DB.get_relation("Relation A");
 	
-    string r1_t1[4];
-    r1_t1[0] = "Joe";
-    r1_t1[1] = "1";
-    r1_t1[2] = "4";
-    r1_t1[3] = "Spot";
-    
-    string r1_t2[4];
-    r1_t2[0] = "Bob";
-    r1_t2[1] = "2";
-    r1_t2[2] = "5";
-    r1_t2[3] = "Spike";
-	
-	string r7_t7[4];
-    r7_t7[0] = "Joe";
-    r7_t7[1] = "2";
-    r7_t7[2] = "5";
-    r7_t7[3] = "Spike";
+    vector<string> r1_t1("Joe", "1", "4", "Spot");
+    vector<string> r1_t2("Bob", "2", "5", "Spike");
+    vector<string> r1_t3("Jim", "3", "6", "Spike");
 	
 	relA.insert_tuple(r1_t1);
 	relA.insert_tuple(r1_t2);
 	relA.insert_tuple(r7_t7);
+    
 	cout<<"1\n";	
 	DB.print_relation(relA);
 	printf("Select all rows that Name=Joe from Relation A:\n");
 	cout<<"2\n";
-    std::vector<string> r1_s1;
-    r1_s1.push_back("Name");
+    std::vector<string> r1_s1("Name");
 	cout<<"3\n";
-    std::vector<string> r1_s2;
-    r1_s2.push_back("Joe");
-    std::vector<string> r1_s3;
-    r1_s3.push_back("eq");
+    std::vector<string> r1_s2("Joe");
+    std::vector<string> r1_s3("eq");
 	cout<<"4\n";
-    string r1_s4[] = {"or"};
+    std::vector<string> r1_s4("or");
 	cout<<"5\n";
     Relation query = DB.select(r1_s1, r1_s2,r1_s3, relA, r1_s4);
 	cout<<"6\n";
@@ -71,7 +49,7 @@ int main(){
     r1_s7.push_back("eq");
     r1_s7.push_back("eq");
     
-    string r1_s8[] = {"and", "and"};
+    vector<string> r1_s8("and", "and");
     query = DB.select(r1_s5, r1_s6,r1_s7, relA, r1_s8);
     DB.print_relation(query);
 	
@@ -96,24 +74,10 @@ int main(){
 	printf ("Create new Relation B:\n");
 	DB.create_relation("Relation B", attribute_names1, attribute_types1, primary_keys_names1);
     Relation relB = DB.get_relation("Relation B");
-	
-	string r1_t4[4];
-    r1_t4[0] = "sara";
-    r1_t4[1] = "4";
-    r1_t4[2] = "1";
-    r1_t4[3] = "Riley";
-	
-	string r1_t5[4];
-    r1_t5[0] = "Suzy";
-    r1_t5[1] = "5";
-    r1_t5[2] = "3";
-    r1_t5[3] = "Puppy";
-	
-	string r1_t6[4];
-    r1_t6[0] = "Riley";
-    r1_t6[1] = "6";
-    r1_t6[2] = "2";
-    r1_t6[3] = "Animal";
+    
+    vector<string> r1_t4("sara", "4", "1", "Riley");
+    vector<string> r1_t5("Suzy", "5", "3", "Puppy");
+    vector<string> r1_t6("Riley", "6", "2", "animal");
 	
 	relB.insert_tuple(r1_t4);
 	relB.insert_tuple(r1_t5);
@@ -128,23 +92,9 @@ int main(){
 	DB.create_relation("Relation C", attribute_names1, attribute_types1, primary_keys_names1);
     Relation relC = DB.get_relation("Relation C");
 	
-	string r1_t7[4];
-    r1_t7[0] = "Jim";
-    r1_t7[1] = "1";
-    r1_t7[2] = "4";
-    r1_t7[3] = "Spot";
-	
-	string r1_t8[4];
-    r1_t8[0] = "Bob";
-    r1_t8[1] = "2";
-    r1_t8[2] = "6";
-    r1_t8[3] = "Dog";
-	
-	string r1_t9[4];
-    r1_t9[0] = "Joe";
-    r1_t9[1] = "4";
-    r1_t9[2] = "5";
-    r1_t9[3] = "Spot";
+	vector<string> r1_t7("Jim", "1", "4", "Spot");
+    vector<string> r1_t8("Bob", "2", "6", "Dog");
+    vector<string> r1_t9("Joe", "4", "5", "Spot");
 	
 	relC.insert_tuple(r1_t7);
 	relC.insert_tuple(r1_t8);
@@ -155,25 +105,16 @@ cout<<"Howdy!\n";
     query = DB.set_difference("Relation A-B_Difference", relA, relB);
 	DB.print_relation(query);
 	cout<<"Bye!\n";
-	string attribute_names2[] = {"CatName","Believingness"};
-	int attribute_types2[] = {10, 0};
-    vector<string> primary_keys_names2;
-    primary_keys_names2.push_back("Believingness");
+	vector<string> attribute_names2("CatName","Believingness");
+	vector<int> attribute_types2(10, 0);
+    vector<string> primary_keys_names2("Believingness");
 	
 	DB.create_relation("Relation D", attribute_names2, attribute_types2, primary_keys_names2);
     Relation relD = DB.get_relation("Relation D");
 	
-	string r2_t1[2];
-    r2_t1[0] = "Cat";
-    r2_t1[1] = "1";
-	
-	string r2_t2[2];
-    r2_t2[0] = "Dog";
-    r2_t2[1] = "2";
-	
-	string r2_t3[2];
-    r2_t3[0] = "Joe";
-    r2_t3[1] = "4";
+    vector<string> r2_t1("Cat", "1");
+    vector<string> r2_t2("Dog", "2");
+    vector<string> r2_t3("Bird", "3");
 	
 	relD.insert_tuple(r2_t1);
 	relD.insert_tuple(r2_t2);
