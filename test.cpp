@@ -20,26 +20,28 @@ int main(){
     std::vector<string> r1_t1 = {"Joe", "1", "4", "Spot"};
     std::vector<string> r1_t2 = {"Bob", "2", "5", "Spike"};
     std::vector<string> r1_t3 = {"Jim", "3", "6", "Spike"};
+    std::vector<string> r1_t0 = {"Joe", "6", "9", "Spot"};
 	
 	relA.insert_tuple(r1_t1);
 	relA.insert_tuple(r1_t2);
-	relA.insert_tuple(r1_t3);
+    relA.insert_tuple(r1_t3);
+    relA.insert_tuple(r1_t0);
     
-	cout<<"1\n";	
+//	cout<<"1\n";	
 	DB.print_relation(relA);
 	printf("Select all rows that Name=Joe from Relation A:\n");
-	cout<<"2\n";
+//	cout<<"2\n";
     std::vector<string> r1_s1 = {"Name"};
-	cout<<"3\n";
+//	cout<<"3\n";
     std::vector<string> r1_s2 = {"Joe"};
     std::vector<string> r1_s3 = {"eq"};
-	cout<<"4\n";
+//	cout<<"4\n";
     std::vector<string> r1_s4 = {"or"};
-	cout<<"5\n";
+//	cout<<"5\n";
     Relation query = DB.select(r1_s1, r1_s2,r1_s3, relA, r1_s4);
-	cout<<"6\n";
+//	cout<<"6\n";
 	DB.print_relation(query);
-	cout<<"3\n";	
+//	cout<<"3\n";	
 	printf("Select all rows that Name=Joe AND DogName=Spot from Relation A:\n");
     std::vector<string> r1_s5, r1_s6, r1_s7;
     r1_s5.push_back("Name");

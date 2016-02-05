@@ -48,7 +48,7 @@ string Cell::get_data(){
 
 int Cell::set_value( string value ){
     if (max_length == 0) {
-        std::cout << "Trying to set value of " << value << "\n";
+//        std::cout << "Trying to set value of " << value << "\n";
         int_data = std::stoi(value.c_str());
     } else {
         if ( value.length() <= max_length ){

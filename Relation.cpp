@@ -12,38 +12,36 @@ Relation::Relation(string _name, vector<string> attribute_names, vector<int> att
     for (int i = 0; i < attribute_names.size(); i++) {
         Attribute new_attribute( attribute_names[i], attribute_max_lengths[i] );
         attribute_list.attributes.push_back( new_attribute );
-        std::cout << "Pushed back attribute: " << new_attribute.get_name() << "\n";
+//        std::cout << "Pushed back attribute: " << new_attribute.get_name() << "\n";
     }
 }
 
 void Relation::insert_tuple(vector<string> values){
-    std::cout << values.size() << "Values " << attribute_list.num_attributes() << " num attributes\n";
-    if (values.size()+1 == attribute_list.num_attributes()) {
+//    std::cout << values.size() << "Values " << attribute_list.num_attributes() << " num attributes\n";
+    if (values.size() == attribute_list.num_attributes()) {
         Tuple new_tuple( values.size() );
         
         for (int i = 0; i < values.size(); i++){
-            std::cout << attribute_list.attributes[i].get_name() << "(" << values[i] << ") Length: " << attribute_list.attributes[i].get_max_length() << std::endl;
+//            std::cout << attribute_list.attributes[i].get_name() << "(" << values[i] << ") Length: " << attribute_list.attributes[i].get_max_length() << std::endl;
             Cell new_cell( values[i], attribute_list.attributes[i].get_max_length() );
             new_tuple.insert_cell(i, new_cell);
 			
 			
 			
-			std::cout<<"THIS IS A TUPLE(INSIDE): (index)"<< i << "\n now the rest: ";
+//			std::cout<<"THIS IS A TUPLE(INSIDE): (index)"<< i << "\n now the rest: ";
 			for (int i = 0; i < tuples.size(); i++){
 				std::cout << new_tuple.get_cell(i).get_data().c_str() << "  " << new_cell.get_data().c_str();
 				//std::count<< " direct: " << new_tuple->cells[i]<< " ";
 			}
-			std::cout<<"\nTHIS IS THE END\n\n";
+//			std::cout<<"\nTHIS IS THE END\n\n";
 			
         }
-        std::cout<<"THIS IS A TUPLE: ";
+//        std::cout<<"THIS IS A TUPLE: ";
 		for (int i = 0; i < tuples.size(); i++){
 			std::cout << new_tuple.get_cell(i).get_data().c_str() << "  ";
 		}
-		std::cout<<"THIS IS THE END\n";
+//		std::cout<<"THIS IS THE END\n";
         tuples.push_back(new_tuple);
-    } else {
-        std::cout << "NOPE\n";
     }
 }
 

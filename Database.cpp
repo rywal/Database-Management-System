@@ -149,16 +149,16 @@ Relation Database::select(vector<string> att_names, vector<string> compare_value
 		return out_rel;
 	}
 	for(int n = 0; n < att_names.size(); n++){
-		cout<<"1\n";
+//		cout<<"1\n";
 		if(in_rel.attribute_exist(att_names[n])){
-			cout<<"2\n";
+//			cout<<"2\n";
 			for(int i=0; i < in_rel.attribute_list.num_attributes(); i++){
-				cout<<"3\n";
+//				cout<<"3\n";
 				if (in_rel.get_attribute_name(i) == att_names[n]){
-					cout<<"4\n";
+//					cout<<"4\n";
 					if (in_rel.compare(tuple_indexes, compare_values[n], compare_operators[n], i)){//tuple_indexes
 					//	i = in_rel.attribute_list->num_attributes();//saves time
-						cout<<"5\n";
+//						cout<<"5\n";
 					}
 				}
 			}
@@ -185,12 +185,7 @@ Relation Database::select(vector<string> att_names, vector<string> compare_value
 }
 
 Relation Database::project(vector<string> att_names, Relation &in_rel){
-    std::cout << "--2\n";
-    
 	Relation out_rel((in_rel.name + "_Projection"), att_names, in_rel.attribute_list.maxes(), in_rel.primary_keys);
-    
-    
-    std::cout << "--3\n";
     
 	out_rel.set_primary(in_rel.primary_keys, in_rel);
 	out_rel.set_max(in_rel.attribute_list.maxes(), in_rel);
@@ -199,8 +194,6 @@ Relation Database::project(vector<string> att_names, Relation &in_rel){
 		if(in_rel.attribute_exist(att_names[i])){
 			//add Attributes to out_rel
 			out_rel.insert_attribute( in_rel.get_attribute_index(att_names[i]), in_rel);
-            
-            std::cout << "--4\n";
 		} else {
 			printf ("%s attribute was not found.", att_names[i].c_str() );
 		}
@@ -210,7 +203,7 @@ Relation Database::project(vector<string> att_names, Relation &in_rel){
         vector<string> values;
         for(int col = 0; col < att_names.size(); col++){
             values.push_back( in_rel.tuples[i].cells[in_rel.get_attribute_index(att_names[i])].get_data() );
-            std::cout << "Cell " << col << " has value " << values[col] << "\n";
+//            std::cout << "Cell " << col << " has value " << values[col] << "\n";
         }
         out_rel.insert_tuple(values);
     }
@@ -237,7 +230,7 @@ void Database::update(Relation &in_rel, vector<string> att_names, vector<string>
 	for(int i = 0; i < att_names.size(); i++){
 		in_rel.compare(tuple_indexes,comparison_values[i],compare_operators[i],in_rel.get_attribute_index(att_names[i]));
 		for(int n = 0; n < tuple_indexes.size(); n++){
-            std::cout << "Updating to a new value " << update_name[i] << "\n";
+//            std::cout << "Updating to a new value " << update_name[i] << "\n";
 			in_rel.tuples[n].cells[in_rel.get_attribute_index(att_names[i])].set_value(update_name[i]);
 		}
 		tuple_indexes.clear();
@@ -261,16 +254,16 @@ void Database::print_relation(Relation &relation_name){
 	printf ("Relation name:%s \n", relation_name.name.c_str());
     std::cout << "Relation size " << relation_name.tuples.size() << std::endl;
     for(int k = 0; k < relation_name.tuples.size(); k++) {
-		for(int i = 0; i <= relation_name.tuples[k].num_attributes(); i++){
+		for(int i = 0; i < relation_name.tuples[k].num_attributes(); i++){
 			printf("%-10s", relation_name.tuples[k].get_cell(i).get_data().c_str());
-            std::cout << "Tried to get cell " << k << " " << i << " with data " << relation_name.tuples[k].get_cell(i).get_data().c_str() << std::endl;
+//            std::cout << "Tried to get cell " << k << " " << i << " with data " << relation_name.tuples[k].get_cell(i).get_data().c_str() << std::endl;
 		}
 		printf ("\n");
 	}
     printf ("Primary Keys: ");
 	if(relation_name.primary_keys.size()>0) {
 		printf ("%s", relation_name.primary_keys[0].c_str());
-        for(int i=1; i<relation_name.primary_keys.size(); i++){
+        for(int i=0; i<relation_name.primary_keys.size(); i++){
             printf (", %s", relation_name.primary_keys[i].c_str());
 		}
 	}

@@ -15,7 +15,7 @@ class AttributeList {
     AttributeList() { }
 
     int num_attributes() {
-        std::cout << "Attributes: " << attributes.size() << "\n";
+//        std::cout << "Attributes: " << attributes.size() << "\n";
         return attributes.size();
     }
     
