@@ -15,6 +15,7 @@ private:
 public:
     Cell( int _max_length );
     Cell();
+    Cell( const Cell& other ) : string_data( other.string_data ), int_data( other.int_data ), max_length( other.max_length ){}
     Cell(Cell &a);
     Cell( string data, int _max_length );
     bool   is_string(){ return max_length > 0 ? true : false; }

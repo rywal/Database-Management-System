@@ -9,7 +9,7 @@
 Relation::Relation(string _name, vector<string> attribute_names, vector<int> attribute_max_lengths, std::vector<string> _primary_keys){
     name = _name;
     primary_keys = _primary_keys;
-    for (int i = 0; i < attribute_list->num_attributes; i++) {
+    for (int i = 0; i < attribute_list.num_attributes; i++) {
         Attribute new_attribute( attribute_names[i], attribute_max_lengths[i] );
         attribute_list.attributes.push_back( new_attribute );
     }
@@ -21,7 +21,7 @@ void Relation::insert_tuple(vector<string> values){
         
         for (int i = 0; i < values.size(); i++){
             std::cout << attribute_list.attributes[i].get_name() << "(" << values[i] << ") Length: " << attribute_list.attributes[i].get_max_length() << std::endl;
-            Cell new_cellCell( values[i], attribute_list.attributes[i].get_max_length() );
+            Cell new_cell( values[i], attribute_list.attributes[i].get_max_length() );
             new_tuple.insert_cell(i, new_cell);
 			
 			
@@ -120,7 +120,7 @@ void Relation::insert_attribute( int original_att_index, Relation &original_rela
 
 void Relation::rename_relation(string rename){ name = rename; }
 
-void Relation::set_max(int original_max_lengths[], Relation &original_relation){
+void Relation::set_max(vector<int> original_max_lengths, Relation &original_relation){
 	for(int i=0; i<get_num_attributes(); i++){
 		attribute_list.attributes[i].set_max_length( original_relation.get_max_index(original_relation.get_attribute_index(to_string(i))) );
 	}

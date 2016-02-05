@@ -41,9 +41,8 @@ bool Tuple::operator!= (Tuple &b){
 
 
 int Tuple::insert_cell( int index, Cell cell ){
-    std::vector<int>::iterator it;
-    it = cells.begin();
+    std::vector<Cell>::iterator it = cells.begin();
     // Referenced this iterator example from http://www.cplusplus.com/reference/vector/vector/insert/
     
-    cells.insert( (it + index), cell);
+    cells.insert( (it + index), 1, cell);
 }

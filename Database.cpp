@@ -52,7 +52,7 @@ Relation Database::set_union(string name, Relation a, Relation b){
     vector<int> att_lengths = a.attribute_list.maxes();
 
 	if (union_compatible(a, b)){
-		Relation result( name, att_names, att_max_lengths, a.primary_keys);
+		Relation result( name, att_names, att_lengths, a.primary_keys);
 		for (int i = 0; i < a.tuples.size(); i++){
 			Tuple temp(a.attribute_list.num_attributes);
 			for (int j = 0; j < result.attribute_list.num_attributes; j++)
@@ -206,8 +206,8 @@ Relation Database::project(vector<string> att_names, Relation &in_rel){
     
     for(int i = 0; i < in_rel.tuples.size(); i++){
         vector<string> values;
-        for(int col = 0; col < attr_names->size(); col++){
-            values.push_back( in_rel.tuples[i].cells[in_rel.get_attribute_index(attr_names[i])].get_data() );
+        for(int col = 0; col < att_names.size(); col++){
+            values.push_back( in_rel.tuples[i].cells[in_rel.get_attribute_index(att_names[i])].get_data() );
             std::cout << "Cell " << col << " has value " << values[col] << "\n";
         }
         out_rel.insert_tuple(values);
