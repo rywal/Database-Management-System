@@ -33,6 +33,9 @@ class AttributeList {
 		return result;
 	}
     
+};  
+
+
     string* combine_names(AttributeList a, AttributeList b){
         string *result = new string[a.num_attributes + b.num_attributes];
         
@@ -46,7 +49,6 @@ class AttributeList {
         
         return result;
     }
-    
     int* combine_max( AttributeList a, AttributeList b){
         int *result = new int[a.num_attributes + b.num_attributes];
         
@@ -60,6 +62,4 @@ class AttributeList {
         
         return result;
     }
-};
-
 #endif /* AttributeList_h */
