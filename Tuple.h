@@ -10,7 +10,7 @@
 // Collection of cells within a row (Tuple)
 class Tuple {
 public:
-    Cell *cells;
+    vector<Cell> cells;
     int num_att;
     
     Tuple( int _num_attributes );
