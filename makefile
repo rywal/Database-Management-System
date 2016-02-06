@@ -9,7 +9,19 @@ else
     cc = g++-4.7
 endif
 
-all: cell
+all: test Cell Attribute AttributeList Tuple Relation Database
 
-coreengine: main.cpp
-	$(cc) -std=c++11 -g -o DBengine main.cpp
+Cell: Cell.h Cell.cpp
+$(cc) -std=c++14 -c -g Cell.cpp
+
+Tuple: Tuple.h Tuple.cpp Cell.o
+$(cc) -std=c++14 -c -g Tuple.cpp Cell.o
+
+Relation: Relation.h Relation.cpp Tuple.o
+$(cc) -std=c++14 -c -g Relation.cpp Tuple.o
+
+Database: Database.h Database.cpp Relation.o Tuple.o
+$(cc) -std=c++14 -c -g Database.cpp Relation.o Tuple.o
+
+test: test Database.o
+$(cc) -std=c++14 -g -o test test.cpp Database.o

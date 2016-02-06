@@ -1,6 +1,7 @@
 //
 //  Cell.cpp
 //
+#include <iostream>
 #include "Cell.h"
 
 Cell::Cell( int _max_length ){
@@ -10,15 +11,15 @@ Cell::Cell( int _max_length ){
 Cell::Cell(){}
 
 Cell::Cell(Cell &a){
+    max_length=a.get_max_length();
 	set_value(a.get_data());
-	max_length=a.get_max_length();
 }
 
 Cell::Cell( string data, int _max_length ){
     max_length = _max_length;
     
     if (max_length == 0) {
-        int_data = std::stoi(data);
+        int_data = std::stoi(data.c_str());
     } else {
         if ( data.length() <= max_length )
             string_data = data;
@@ -47,7 +48,8 @@ string Cell::get_data(){
 
 int Cell::set_value( string value ){
     if (max_length == 0) {
-        int_data = std::stoi(value);
+//        std::cout << "Trying to set value of " << value << "\n";
+        int_data = std::stoi(value.c_str());
     } else {
         if ( value.length() <= max_length ){
             string_data = value;
@@ -56,6 +58,7 @@ int Cell::set_value( string value ){
             return -1;
         }
     }
+    return 0;
 }
 
 
@@ -67,6 +70,7 @@ bool Cell::operator==(const Cell &b) const{
 	else if (string_data==b.string_data)
 		return true;
 	else return false;
+    return false;
 }
 
 bool Cell::operator!=(const Cell &b) const{
@@ -77,4 +81,5 @@ bool Cell::operator!=(const Cell &b) const{
         else if (string_data==b.string_data)
                 return false;
         else return true;
+    return false;
 } 

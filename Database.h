@@ -1,6 +1,6 @@
 #include <stdexcept>
 #include <vector>
-#include "Relation.h" 
+#include "Relation.h"
 
 // Core Database Components
 // ------------------------
@@ -15,8 +15,10 @@ private:
     
 public:
     Database(string _name);
+    Relation get_relation(string name);
+    Relation get_relation(int index);
 	int get_relation_index( string rel_name );
-    void create_relation(string name, string attribute_names[], int attribute_types[], string primary_keys[]);
+    void create_relation(string name, vector<string> attribute_names, vector<int> attribute_types, vector<string> primary_keys);
     std::vector<Tuple> show_relation(string relation_name);
     void insert_tuple(string relation_name);
     bool union_compatible(Relation a, Relation b);
@@ -24,11 +26,12 @@ public:
     Relation set_union(string name, Relation a, Relation b);
     Relation set_difference(string name, Relation a, Relation b);
     Relation cross_product(string name, Relation a, Relation b);
-	// void CLOSE();	needs to be defined in database.cpp
+	// void CLOSE(FILE *f);	needs to be defined in database.cpp
 	void EXIT(); 		//defined in database.cpp
-    Relation select(vector<string> att_names, vector<string> compare_values, vector<string> compare_operators, Relation &in_rel, string and_or_gate[]);
+    Relation select(vector<string> att_names, vector<string> compare_values, vector<string> compare_operators, Relation &in_rel, vector<string> and_or_gate);
     Relation project(vector<string> att_names, Relation &in_rel);
     Relation renaming(string out_name, vector<string> att_renames , Relation &in_rel);
-	std::vector<Tuple> show(Relation &relation_name);
+    void update(Relation &in_rel, vector<string> att_names, vector<string> compare_operators, vector<string> comparison_values, vector<string> update_name);	
+    std::vector<Tuple> show(Relation &relation_name);
 	void print_relation(Relation &relation_name);
 };
