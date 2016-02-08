@@ -55,8 +55,10 @@ int main(){
     query = DB.select(r1_s5, r1_s6,r1_s7, relA, r1_s8);
     DB.print_relation(query);
 	
+    std::vector<string> r1_s8_or = {"or", "or"};
+    
 	printf("Select all rows that Name=Joe OR DogName=Spot from Relation A:\n");
-    query = DB.select(r1_s5, r1_s6,r1_s7, relA, r1_s8);
+    query = DB.select(r1_s5, r1_s6,r1_s7, relA, r1_s8_or);
 	DB.print_relation(query);
 	
 	printf("Project Columns \"Name\" and \"DogName\" from Relation A:\n");

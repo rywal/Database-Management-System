@@ -166,16 +166,16 @@ Relation Database::select(vector<string> att_names, vector<string> compare_value
 		return out_rel;
 	}
 	for(int n = 0; n < att_names.size(); n++){
-//		cout<<"1\n";
+		cout<<"1\n";
 		if(in_rel.attribute_exist(att_names[n])){
-//			cout<<"2\n";
+			cout<<"2\n";
 			for(int i=0; i < in_rel.attribute_list.num_attributes(); i++){
-//				cout<<"3\n";
+				cout<<"3\n";
 				if (in_rel.get_attribute_name(i) == att_names[n]){
-//					cout<<"4\n";
+					cout<<"4\n";
 					if (in_rel.compare(tuple_indexes, compare_values[n], compare_operators[n], i)){//tuple_indexes
-					//	i = in_rel.attribute_list->num_attributes();//saves time
-//						cout<<"5\n";
+						i = in_rel.attribute_list.num_attributes();//saves time
+						cout<<"5\n";
 					}
 				}
 			}
@@ -185,18 +185,26 @@ Relation Database::select(vector<string> att_names, vector<string> compare_value
 	}
 	vector<int> used;
 
-	for(int i=0; i<tuple_indexes.size();i++){
-		if(std::count(used.begin(),used_names.end(), tuple_indexes[i])==0){//NO DUPLICATE ATTRIBUTES
-			if(and_or_gate[i] == "and"){
-			if(std::count(tuple_indexes.begin(), tuple_indexes.end(), tuple_indexes[i]) == att_names.size()){
-				out_rel.insert_tuple((in_rel.tuples[i]);
-			}
-			}else if (and_or_gate[i] == "or"){
-				out_rel.insert_tuple((in_rel.tuples[i]);
-			}
-			used.push_back(tuple_indexes[i])
+    for(int i = 0; i < tuple_indexes.size(); i++){
+        cout << i << "/" << tuple_indexes.size() << "\n";
+        if(std::count(used.begin(), used.end(), tuple_indexes[i]) == 0){//NO DUPLICATE ATTRIBUTES
+            cout << "A " << i << ":" << and_or_gate[i] << "\n";
+            if(and_or_gate[i].compare("and")){
+                cout << "B\n";
+                if(std::count(tuple_indexes.begin(), tuple_indexes.end(), tuple_indexes[i]) == att_names.size()){
+                    cout << "C\n";
+                    out_rel.insert_tuple(in_rel.tuples[i]);
+                    cout << "D\n";
+                }
+            } else if (and_or_gate[i].compare("or")){
+                cout << "E\n";
+                    out_rel.insert_tuple(in_rel.tuples[i]);
+            }
+            
+            used.push_back(tuple_indexes[i]);
+            cout << "F\n";
 		}
-	}
+    }
 	
 	return out_rel;
 }
@@ -279,7 +287,7 @@ void Database::print_relation(Relation &relation_name){
     printf ("Primary Keys: ");
 	if(relation_name.primary_keys.size()>0) {
 		printf ("%s", relation_name.primary_keys[0].c_str());
-        for(int i=0; i<relation_name.primary_keys.size(); i++){
+        for(int i=1; i<relation_name.primary_keys.size(); i++){
             printf (", %s", relation_name.primary_keys[i].c_str());
 		}
 	}
