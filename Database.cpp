@@ -208,7 +208,7 @@ Relation Database::project(vector<string> att_names, Relation &in_rel){
 			printf ("%s attribute was not found.", att_names[i].c_str() );
 		}
 	}
-    
+    cout << in_rel.tuples.size() << " and     " << att_names.size() << endl;
     for(int i = 0; i < in_rel.tuples.size(); i++){
         vector<string> values;
         for(int col = 0; col < att_names.size(); col++){
