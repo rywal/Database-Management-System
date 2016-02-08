@@ -157,7 +157,7 @@ Relation Database::select(vector<string> att_names, vector<string> compare_value
 				if (in_rel.get_attribute_name(i) == att_names[n]){
 //					cout<<"4\n";
 					if (in_rel.compare(tuple_indexes, compare_values[n], compare_operators[n], i)){//tuple_indexes
-					//	i = in_rel.attribute_list->num_attributes();//saves time
+						i = in_rel.attribute_list.num_attributes();//saves time
 //						cout<<"5\n";
 					}
 				}
@@ -263,7 +263,7 @@ void Database::print_relation(Relation &relation_name){
     printf ("Primary Keys: ");
 	if(relation_name.primary_keys.size()>0) {
 		printf ("%s", relation_name.primary_keys[0].c_str());
-        for(int i=0; i<relation_name.primary_keys.size(); i++){
+        for(int i=1; i<relation_name.primary_keys.size(); i++){
             printf (", %s", relation_name.primary_keys[i].c_str());
 		}
 	}

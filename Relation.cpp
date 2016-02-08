@@ -22,25 +22,10 @@ void Relation::insert_tuple(vector<string> values){
         Tuple new_tuple( values.size() );
         
         for (int i = 0; i < values.size(); i++){
-//            std::cout << attribute_list.attributes[i].get_name() << "(" << values[i] << ") Length: " << attribute_list.attributes[i].get_max_length() << std::endl;
             Cell new_cell( values[i], attribute_list.attributes[i].get_max_length() );
             new_tuple.insert_cell(i, new_cell);
-			
-			
-			
-//			std::cout<<"THIS IS A TUPLE(INSIDE): (index)"<< i << "\n now the rest: ";
-			for (int i = 0; i < tuples.size(); i++){
-				std::cout << new_tuple.get_cell(i).get_data().c_str() << "  " << new_cell.get_data().c_str();
-				//std::count<< " direct: " << new_tuple->cells[i]<< " ";
-			}
-//			std::cout<<"\nTHIS IS THE END\n\n";
-			
         }
-//        std::cout<<"THIS IS A TUPLE: ";
-		for (int i = 0; i < tuples.size(); i++){
-			std::cout << new_tuple.get_cell(i).get_data().c_str() << "  ";
-		}
-//		std::cout<<"THIS IS THE END\n";
+        
         tuples.push_back(new_tuple);
     }
 }
