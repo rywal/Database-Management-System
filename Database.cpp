@@ -149,16 +149,16 @@ Relation Database::select(vector<string> att_names, vector<string> compare_value
 		return out_rel;
 	}
 	for(int n = 0; n < att_names.size(); n++){
-//		cout<<"1\n";
+		cout<<"1\n";
 		if(in_rel.attribute_exist(att_names[n])){
-//			cout<<"2\n";
+			cout<<"2\n";
 			for(int i=0; i < in_rel.attribute_list.num_attributes(); i++){
-//				cout<<"3\n";
+				cout<<"3\n";
 				if (in_rel.get_attribute_name(i) == att_names[n]){
-//					cout<<"4\n";
+					cout<<"4\n";
 					if (in_rel.compare(tuple_indexes, compare_values[n], compare_operators[n], i)){//tuple_indexes
 						i = in_rel.attribute_list.num_attributes();//saves time
-//						cout<<"5\n";
+						cout<<"5\n";
 					}
 				}
 			}
