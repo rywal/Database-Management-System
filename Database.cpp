@@ -291,7 +291,7 @@ void Database::print_relation(Relation &relation_name){
     printf ("Primary Keys: ");
 	if(relation_name.primary_keys.size()>0) {
 		printf ("%s", relation_name.primary_keys[0].c_str());
-        for(int i=0; i<relation_name.primary_keys.size(); i++){
+        for(int i=1; i<relation_name.primary_keys.size(); i++){
             printf (", %s", relation_name.primary_keys[i].c_str());
 		}
 	}
