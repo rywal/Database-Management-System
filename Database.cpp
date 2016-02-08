@@ -156,7 +156,10 @@ Relation Database::select( string att_name, string compare_value, string compare
 Relation Database::project(vector<string> att_names, Relation &in_rel){
 	Relation out_rel((in_rel.name + "_Projection"), att_names, in_rel.attribute_list.maxes(), in_rel.primary_keys);
     
-    vector<int> max_lengths = in_rel.attribute_list.maxes();
+    vector<int> max_lengths;
+    for (int a = 0; a < att_names.size(); a++) {
+        max_lengths.push_back( in_rel.attribute_list.attributes[ in_rel.get_attribute_index( att_names[a] ) ].get_max_length() );
+    }
     
     out_rel.set_primary(in_rel.get_primary_keys());
     out_rel.set_max(max_lengths);
