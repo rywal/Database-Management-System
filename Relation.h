@@ -41,6 +41,7 @@ public:
 	void set_tuples_vector(std::vector<Tuple> tuples_input);
 	std::vector<string> get_primary();
     void set_primary(std::vector<string> original_primary_keys);
+    std::vector<string> get_primary_keys() { return primary_keys; }
 };
 
 #endif /* Relation_h */

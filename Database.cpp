@@ -139,8 +139,9 @@ Relation Database::cross_product(string name, Relation a, Relation b){
 Relation Database::select(vector<string> att_names, vector<string> compare_values, vector<string> compare_operators, Relation &in_rel, vector<string> and_or_gate){
     Relation out_rel(in_rel.name, att_names, in_rel.attribute_list.maxes(), in_rel.primary_keys);
 	//Update parameters
-	out_rel.set_primary(in_rel.primary_keys);
+	out_rel.set_primary(in_rel.get_primary_keys());
 	out_rel.set_max(in_rel.attribute_list.maxes());
+    
 	vector<int> tuple_indexes;
 	if(att_names.size() != compare_values.size()){	//Check input lengths
 		printf ("The number of attribute and compare strings did not match.\n");
@@ -197,7 +198,7 @@ Relation Database::project(vector<string> att_names, Relation &in_rel){
     
     vector<int> max_lengths = in_rel.attribute_list.maxes();
     
-    out_rel.set_primary(in_rel.primary_keys);
+    out_rel.set_primary(in_rel.get_primary_keys());
     out_rel.set_max(max_lengths);
 
 	for(int i=0; i < att_names.size(); i++){
