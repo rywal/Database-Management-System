@@ -177,7 +177,7 @@ Relation Database::project(vector<string> att_names, Relation &in_rel){
         vector<string> values;
         for(int col = 0; col < att_names.size(); col++){
             values.push_back( in_rel.tuples[i].cells[in_rel.get_attribute_index(att_names[col])].get_data() );
-            std::cout << "Cell " << col << " has value " << values[col] << "\n";
+//            std::cout << "Cell " << col << " has value " << values[col] << "\n";
         }
         out_rel.insert_tuple(values);
     }
@@ -227,6 +227,11 @@ void Database::print_relation(Relation &relation_name){
 	printf ("\n-=-=-=-=-=BEGIN-=-=-=-=-\n");
 	printf ("Relation name:%s \n", relation_name.name.c_str());
     std::cout << "Relation size " << relation_name.tuples.size() << std::endl;
+    printf ("\n----------Attributes------------\n");
+    for(int a = 0; a < relation_name.attribute_list.attributes.size(); a++){
+        printf ("%-10s", relation_name.attribute_list.attributes[a].get_name().c_str());
+    }
+    printf ("\n-------------Rows---------------\n");
     for(int k = 0; k < relation_name.tuples.size(); k++) {
 		for(int i = 0; i < relation_name.tuples[k].num_attributes(); i++){
 			printf("%-10s", relation_name.tuples[k].get_cell(i).get_data().c_str());

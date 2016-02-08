@@ -10,12 +10,12 @@ Relation::Relation(string _name, vector<string> attribute_names, vector<int> att
     name = _name;
     primary_keys = _primary_keys;
     for(int i = 0; i < primary_keys.size(); i++){
-        cout << "Primary key copied: " << primary_keys[i] << "\n";
+//        cout << "Primary key copied: " << primary_keys[i] << "\n";
     }
     for (int i = 0; i < attribute_names.size(); i++) {
         Attribute new_attribute( attribute_names[i], attribute_max_lengths[i] );
         attribute_list.attributes.push_back( new_attribute );
-        std::cout << "Pushed back attribute: " << new_attribute.get_name() << " with size: " << new_attribute.get_max_length() << "\n";
+//        std::cout << "Pushed back attribute: " << new_attribute.get_name() << " with size: " << new_attribute.get_max_length() << "\n";
     }
 }
 
@@ -26,7 +26,6 @@ void Relation::insert_tuple(vector<string> values){
         
         for (int i = 0; i < values.size(); i++){
             Cell new_cell( values[i], attribute_list.attributes[i].get_max_length() );
-//            Cell new_cell( values[i], 999 );
             new_tuple.insert_cell(i, new_cell);
         }
         

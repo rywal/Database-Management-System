@@ -59,7 +59,7 @@ int main(){
 	r1_s9.push_back("Name2");
     r1_s9.push_back("DogName3");
 	
-    query = DB.renaming("Relation A Renamed", r1_s9, relA);
+    query = DB.renaming("Relation A Renamed", r1_s9, query);
 	DB.print_relation(query);
 	
 	//UPDATE!!!!!
