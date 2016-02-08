@@ -168,19 +168,25 @@ Relation Database::select(vector<string> att_names, vector<string> compare_value
 	}
 	vector<int> used;
 
-	for(int i = 0; i < tuple_indexes.size(); ++i){
+    for(int i = 0; i < tuple_indexes.size(); i++){
+        cout << i << "/" << tuple_indexes.size() << "\n";
         if(std::count(used.begin(), used.end(), tuple_indexes[i]) == 0){//NO DUPLICATE ATTRIBUTES
-			if(and_or_gate[i].compare("and")){
+            cout << "A " << i << ":" << and_or_gate[i] << "\n";
+            if(and_or_gate[i].compare("and")){
+                cout << "B\n";
                 if(std::count(tuple_indexes.begin(), tuple_indexes.end(), tuple_indexes[i]) == att_names.size()){
+                    cout << "C\n";
                     out_rel.insert_tuple(in_rel.tuples[i]);
+                    cout << "D\n";
                 }
             } else if (and_or_gate[i].compare("or")){
+                cout << "E\n";
                     out_rel.insert_tuple(in_rel.tuples[i]);
             }
             
             used.push_back(tuple_indexes[i]);
+            cout << "F\n";
 		}
-        cout << i << "/" << tuple_indexes.size() << "\n";
     }
 	
 	return out_rel;
