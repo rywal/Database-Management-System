@@ -67,11 +67,7 @@ bool is_number(const std::string& s) {
 
 bool Relation::compare(vector<int> &tuple_indexes, string comparison_value, string compare_operator, int attribute_index){
     for(int i=0; i < get_size(); i++){//Compare whole Attribute with an operator and value
-        if( is_number( tuples[i].get_cell(attribute_index).get_data() ) ){
-            if(comparison_value == tuples[i].get_cell(attribute_index).get_data()){
-                tuple_indexes.push_back(i);
-            }
-        }else if(compare_operator == "le"){
+        if(compare_operator == "le"){
             if (comparison_value < tuples[i].get_cell(attribute_index).get_data()){
                 tuple_indexes.push_back(i);
             }
