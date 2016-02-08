@@ -42,9 +42,10 @@ int main(){
     DB.print_relation(query);
     
 	printf("Select all rows that Name=Joe OR DogName=Spot from Relation A:\n");
-    query = DB.select("Name", "Joe", "eq", relA);
-    query = DB.select("DogName", "Spot", "eq", query);
-	DB.print_relation(query);
+    Relation queryA = DB.select("Name", "Joe", "eq", relA);
+    Relation queryB = DB.select("DogName", "Spot", "eq", relA);
+    Relation queryC = DB.set_union("Name=Joe OR DogName=Spot", queryA, queryB);
+	DB.print_relation(queryC);
 	
     
     std::vector<string> r1_s5;
