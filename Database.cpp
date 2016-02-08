@@ -166,19 +166,19 @@ Relation Database::select(vector<string> att_names, vector<string> compare_value
 	}
 	vector<int> used;
 
-//    for(int g = 0; g < and_or_gate.size(); g++){
+    for(int g = 0; g < and_or_gate.size(); g++){
         for(int i = 0; i < tuple_indexes.size(); i++){
             cout << i << "/" << tuple_indexes.size() << "\n";
             if(std::count(used.begin(), used.end(), tuple_indexes[i]) == 0){//NO DUPLICATE ATTRIBUTES
-                cout << "A " << i << ":" << and_or_gate[0] << "\n";
-                if(and_or_gate[0].compare("and")){
+                cout << "A " << i << ":" << and_or_gate[g] << "\n";
+                if(and_or_gate[g].compare("and")){
                     cout << "B\n";
                     if(std::count(tuple_indexes.begin(), tuple_indexes.end(), tuple_indexes[i]) == att_names.size()){
                         cout << "C\n";
                         out_rel.insert_tuple(in_rel.tuples[i]);
                         cout << "D\n";
                     }
-                } else if (and_or_gate[0].compare("or")){
+                } else if (and_or_gate[g].compare("or")){
                     cout << "E\n";
                         out_rel.insert_tuple(in_rel.tuples[i]);
                 }
@@ -187,7 +187,7 @@ Relation Database::select(vector<string> att_names, vector<string> compare_value
                 cout << "F\n";
             }
         }
-//    }
+    }
 	
 	return out_rel;
 }
@@ -208,14 +208,16 @@ Relation Database::project(vector<string> att_names, Relation &in_rel){
 			printf ("%s attribute was not found.", att_names[i].c_str() );
 		}
 	}
-    cout << in_rel.tuples.size() << " and     " << att_names.size() << endl;
-    for(int i = 0; i < in_rel.tuples.size(); i++){
-        vector<string> values;
-        for(int col = 0; col < att_names.size(); col++){
-            values.push_back( in_rel.tuples[i].cells[in_rel.get_attribute_index(att_names[i])].get_data() );
-            std::cout << "Cell " << col << " has value " << values[col] << "\n";
+//    cout << in_rel.tuples.size() << " and     " << att_names.size() << endl;
+    for (int a = 0; a < att_names.size(); a++) {
+        for(int i = 0; i < in_rel.tuples.size(); i++){
+            vector<string> values;
+            for(int col = 0; col < att_names.size(); col++){
+                values.push_back( in_rel.tuples[i].cells[in_rel.get_attribute_index(att_names[a])].get_data() );
+                std::cout << "Cell " << col << " has value " << values[col] << "\n";
+            }
+            out_rel.insert_tuple(values);
         }
-        out_rel.insert_tuple(values);
     }
     
 	return out_rel;
