@@ -30,37 +30,26 @@ int main(){
 //	cout<<"1\n";	
 	DB.print_relation(relA);
 	printf("Select all rows that Name=Joe from Relation A:\n");
-//	cout<<"2\n";
-    std::vector<string> r1_s1 = {"Name"};
-//	cout<<"3\n";
-    std::vector<string> r1_s2 = {"Joe"};
-    std::vector<string> r1_s3 = {"eq"};
-//	cout<<"4\n";
-    std::vector<string> r1_s4 = {"or"};
 //	cout<<"5\n";
-    Relation query = DB.select(r1_s1, r1_s2,r1_s3, relA, r1_s4);
+    Relation query = DB.select("Name", "Joe", "eq", relA);
 //	cout<<"6\n";
 	DB.print_relation(query);
 //	cout<<"3\n";	
 	printf("Select all rows that Name=Joe AND DogName=Spot from Relation A:\n");
-    std::vector<string> r1_s5, r1_s6, r1_s7;
-    r1_s5.push_back("Name");
-    r1_s5.push_back("DogName");
-    r1_s6.push_back("Joe");
-    r1_s6.push_back("Spot");
-    r1_s7.push_back("eq");
-    r1_s7.push_back("eq");
     
-    std::vector<string> r1_s8 = {"and", "and"};
-    query = DB.select(r1_s5, r1_s6,r1_s7, relA, r1_s8);
+    query = DB.select("Name", "Joe", "eq", relA);
+    query = DB.select("DogName", "Spot", "eq", query);
     DB.print_relation(query);
-	
-    std::vector<string> r1_s8_or = {"or", "or"};
     
 	printf("Select all rows that Name=Joe OR DogName=Spot from Relation A:\n");
-    query = DB.select(r1_s5, r1_s6,r1_s7, relA, r1_s8_or);
+    query = DB.select("Name", "Joe", "eq", relA);
+    query = DB.select("DogName", "Spot", "eq", query);
 	DB.print_relation(query);
 	
+    
+    std::vector<string> r1_s5;
+    r1_s5.push_back("Name");
+    r1_s5.push_back("DogName");
 	printf("Project Columns \"Name\" and \"DogName\" from Relation A:\n");
     query = DB.project(r1_s5, relA);
 	DB.print_relation(query);

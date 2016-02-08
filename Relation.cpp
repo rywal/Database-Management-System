@@ -15,7 +15,7 @@ Relation::Relation(string _name, vector<string> attribute_names, vector<int> att
     for (int i = 0; i < attribute_names.size(); i++) {
         Attribute new_attribute( attribute_names[i], attribute_max_lengths[i] );
         attribute_list.attributes.push_back( new_attribute );
-        std::cout << "Pushed back attribute: " << new_attribute.get_name() << "\n";
+        std::cout << "Pushed back attribute: " << new_attribute.get_name() << " with size: " << new_attribute.get_max_length() << "\n";
     }
 }
 
@@ -38,9 +38,9 @@ void Relation::insert_tuple(Tuple new_tuple){
 	tuples.push_back(new_tuple);
 }
 
-Relation Relation::delete_tuple(Relation &original_relation, vector<string> att_names, vector<string> compare_values, vector<string> compare_operators, vector<string> and_or_gate){
+Relation Relation::delete_tuple(Relation &original_relation, string att_name, string compare_value, string compare_operator){
     Database db("name");
-    return db.set_difference(name+"_Deleted", original_relation, db.select(att_names, compare_values, compare_operators, original_relation, and_or_gate));
+    return db.set_difference(name+"_Deleted", original_relation, db.select(att_name, compare_value, compare_operator, original_relation));
 }
 
 int Relation::get_attribute_index( string att_name ){

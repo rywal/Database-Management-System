@@ -25,7 +25,7 @@ public:
     
     void insert_tuple(vector<string> values);
     void insert_tuple(Tuple new_tuple);
-    Relation delete_tuple(Relation &original_relation, vector<string> att_names, vector<string> compare_values, vector<string> compare_operators, vector<string> and_or_gate);
+    Relation delete_tuple(Relation &original_relation, string att_name, string compare_value, string compare_operator);
 	int get_attribute_index( string att_name );
     bool attribute_exist(string att_name);
 	int get_size();
