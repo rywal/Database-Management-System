@@ -22,7 +22,7 @@ void Relation::insert_tuple(vector<string> values){
         Tuple new_tuple( values.size() );
         
         for (int i = 0; i < values.size(); i++){
-            Cell new_cell( values[i], attribute_list.attributes[i].get_max_length() );
+            Cell new_cell( values[i], 999 );
             new_tuple.insert_cell(i, new_cell);
         }
         
@@ -99,14 +99,15 @@ bool Relation::compare(vector<int> &tuple_indexes, string comparison_value, stri
 void Relation::insert_attribute( int original_att_index, Relation &original_relation){//With pre-defined columns
 	for(int i=0; i < get_size(); i++){
         tuples[i].insert_value(i, original_relation.tuples[i].get_cell(original_att_index).get_data(), original_relation.tuples[i].get_cell(original_att_index).get_max_length());
+        std::cout << original_relation.tuples[i].get_cell(original_att_index).get_data() << " attribute has value " << original_relation.tuples[i].get_cell(original_att_index).get_max_length() << "\n";
 	}
 }
 
 void Relation::rename_relation(string rename){ name = rename; }
 
-void Relation::set_max(vector<int> original_max_lengths, Relation &original_relation){
-	for(int i=0; i<get_num_attributes(); i++){
-		attribute_list.attributes[i].set_max_length( original_relation.get_max_index(original_relation.get_attribute_index(to_string(i))) );
+void Relation::set_max(vector<int> original_max_lengths){
+	for(int i=0; i < original_max_lengths.size(); i++){
+		attribute_list.attributes[i].set_max_length(original_max_lengths[i]);
 	}
 }
 
@@ -118,8 +119,6 @@ void Relation::set_tuples_vector(std::vector<Tuple> tuples_input){ tuples = tupl
 
 std::vector<string> Relation::get_primary(){ return primary_keys; }
 
-void Relation::set_primary(std::vector<string> original_primary_keys, Relation &original_relation){
-	for(int i = 0; i < original_primary_keys.size();i++){
-		primary_keys[i] = get_attribute_name(original_relation.get_attribute_index(original_primary_keys[i]));
-	}
+void Relation::set_primary(std::vector<string> original_primary_keys){
+    primary_keys = original_primary_keys;
 }

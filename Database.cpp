@@ -139,8 +139,8 @@ Relation Database::cross_product(string name, Relation a, Relation b){
 Relation Database::select(vector<string> att_names, vector<string> compare_values, vector<string> compare_operators, Relation &in_rel, vector<string> and_or_gate){
     Relation out_rel(in_rel.name, att_names, in_rel.attribute_list.maxes(), in_rel.primary_keys);
 	//Update parameters
-//	out_rel.set_primary(in_rel.primary_keys, in_rel);
-//	out_rel.set_max(in_rel.get_max(), in_rel);
+	out_rel.set_primary(in_rel.primary_keys);
+	out_rel.set_max(in_rel.attribute_list.maxes());
 	vector<int> tuple_indexes;
 	if(att_names.size() != compare_values.size()){	//Check input lengths
 		printf ("The number of attribute and compare strings did not match.\n");
@@ -195,8 +195,10 @@ Relation Database::select(vector<string> att_names, vector<string> compare_value
 Relation Database::project(vector<string> att_names, Relation &in_rel){
 	Relation out_rel((in_rel.name + "_Projection"), att_names, in_rel.attribute_list.maxes(), in_rel.primary_keys);
     
-//	out_rel.set_primary(in_rel.primary_keys, in_rel);
-	out_rel.set_max(in_rel.attribute_list.maxes(), in_rel);
+    vector<int> max_lengths = in_rel.attribute_list.maxes();
+    
+    out_rel.set_primary(in_rel.primary_keys);
+    out_rel.set_max(max_lengths);
 
 	for(int i=0; i < att_names.size(); i++){
 		if(in_rel.attribute_exist(att_names[i])){
@@ -211,7 +213,7 @@ Relation Database::project(vector<string> att_names, Relation &in_rel){
         vector<string> values;
         for(int col = 0; col < att_names.size(); col++){
             values.push_back( in_rel.tuples[i].cells[in_rel.get_attribute_index(att_names[i])].get_data() );
-//            std::cout << "Cell " << col << " has value " << values[col] << "\n";
+            std::cout << "Cell " << col << " has value " << values[col] << "\n";
         }
         out_rel.insert_tuple(values);
     }
@@ -226,7 +228,7 @@ Relation Database::renaming(string out_name, vector<string> att_renames , Relati
 	}
 	else{
 		out_rel.set_tuples_vector(in_rel.tuples); //copy table
-		out_rel.set_primary(in_rel.primary_keys, in_rel);
+		out_rel.set_primary(in_rel.primary_keys);
 		for(int i=0; i < in_rel.attribute_list.num_attributes(); i++){
 			out_rel.rename_attribute(att_renames[i],i);
 		}
