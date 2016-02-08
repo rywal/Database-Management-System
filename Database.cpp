@@ -136,61 +136,76 @@ Relation Database::cross_product(string name, Relation a, Relation b){
 	}
 }
 	
-Relation Database::select(vector<string> att_names, vector<string> compare_values, vector<string> compare_operators, Relation &in_rel, vector<string> and_or_gate){
-    Relation out_rel(in_rel.name, att_names, in_rel.attribute_list.maxes(), in_rel.primary_keys);
-	//Update parameters
-	out_rel.set_primary(in_rel.get_primary_keys());
-	out_rel.set_max(in_rel.attribute_list.maxes());
-    
-	vector<int> tuple_indexes;
-	if(att_names.size() != compare_values.size()){	//Check input lengths
-		printf ("The number of attribute and compare strings did not match.\n");
-		return out_rel;
-	}
-	for(int n = 0; n < att_names.size(); n++){
-		cout<<"1\n";
-		if(in_rel.attribute_exist(att_names[n])){
-			cout<<"2\n";
-			for(int i=0; i < in_rel.attribute_list.num_attributes(); i++){
-				cout<<"3\n";
-				if (in_rel.get_attribute_name(i) == att_names[n]){
-					cout<<"4\n";
-					if (in_rel.compare(tuple_indexes, compare_values[n], compare_operators[n], i)){//tuple_indexes
-						i = in_rel.attribute_list.num_attributes();//saves time
-						cout<<"5\n";
-					}
-				}
-			}
-		} else {
-			printf ("%s attribute was not found.", att_names[n].c_str() );
-		}
-	}
-	vector<int> used;
+//Relation Database::select(vector<string> att_names, vector<string> compare_values, vector<string> compare_operators, Relation &in_rel, vector<string> and_or_gate){
+//    Relation out_rel(in_rel.name, in_rel.attribute_list.names(), in_rel.attribute_list.maxes(), in_rel.primary_keys);
+//	//Update parameters
+//	out_rel.set_primary(in_rel.get_primary_keys());
+//	out_rel.set_max(in_rel.attribute_list.maxes());
+//    
+//	vector<int> tuple_indexes;
+//	if(att_names.size() != compare_values.size()){	//Check input lengths
+//		printf ("The number of attribute and compare strings did not match.\n");
+//		return out_rel;
+//	}
+//	for(int n = 0; n < att_names.size(); n++){
+//		cout<<"1\n";
+//		if(in_rel.attribute_exist(att_names[n])){
+//			cout<<"2\n";
+//			for(int i=0; i < in_rel.attribute_list.num_attributes(); i++){
+//				cout<<"3\n";
+//				if (in_rel.get_attribute_name(i) == att_names[n]){
+//					cout<<"4\n";
+//					if (in_rel.compare(tuple_indexes, compare_values[n], compare_operators[n], i)){//tuple_indexes
+//						i = in_rel.attribute_list.num_attributes();//saves time
+//						cout<<"5\n";
+//					}
+//				}
+//			}
+//		} else {
+//			printf ("%s attribute was not found.", att_names[n].c_str() );
+//		}
+//	}
+//	vector<int> used;
+//
+//    for(int g = 0; g < and_or_gate.size(); g++){
+//        for(int i = 0; i < tuple_indexes.size(); i++){
+//            cout << i << "/" << tuple_indexes.size() << "\n";
+//            if(std::count(used.begin(), used.end(), tuple_indexes[i]) == 0){//NO DUPLICATE ATTRIBUTES
+//                cout << "A " << i << ":" << and_or_gate[g] << "\n";
+//                if(and_or_gate[g].compare("and")){
+//                    cout << "B\n";
+//                    if(std::count(tuple_indexes.begin(), tuple_indexes.end(), tuple_indexes[i]) == att_names.size()){
+//                        cout << "C\n";
+//                        out_rel.insert_tuple(in_rel.tuples[i]);
+//                        cout << "D\n";
+//                    }
+//                } else if (and_or_gate[g].compare("or")){
+//                    cout << "E\n";
+//                        out_rel.insert_tuple(in_rel.tuples[i]);
+//                }
+//                
+//                used.push_back(tuple_indexes[i]);
+//                cout << "F\n";
+//            }
+//        }
+//    }
+//	
+//	return out_rel;
+//}
 
-    for(int g = 0; g < and_or_gate.size(); g++){
-        for(int i = 0; i < tuple_indexes.size(); i++){
-            cout << i << "/" << tuple_indexes.size() << "\n";
-            if(std::count(used.begin(), used.end(), tuple_indexes[i]) == 0){//NO DUPLICATE ATTRIBUTES
-                cout << "A " << i << ":" << and_or_gate[g] << "\n";
-                if(and_or_gate[g].compare("and")){
-                    cout << "B\n";
-                    if(std::count(tuple_indexes.begin(), tuple_indexes.end(), tuple_indexes[i]) == att_names.size()){
-                        cout << "C\n";
-                        out_rel.insert_tuple(in_rel.tuples[i]);
-                        cout << "D\n";
-                    }
-                } else if (and_or_gate[g].compare("or")){
-                    cout << "E\n";
-                        out_rel.insert_tuple(in_rel.tuples[i]);
-                }
-                
-                used.push_back(tuple_indexes[i]);
-                cout << "F\n";
-            }
+Relation Database::select(vector<string> att_names, vector<string> compare_values, vector<string> compare_operators, Relation &in_rel, vector<string> and_or_gate){
+    Relation out_rel(in_rel.name, in_rel.attribute_list.names(), in_rel.attribute_list.maxes(), in_rel.primary_keys);
+    
+    for (int a = 0; a < att_names.size(); a++) {
+        // Do this for each attribute given
+        int index = in_rel.get_attribute_index( att_names[a] );
+        
+        if ( index != -1 ) {
+            
         }
     }
-	
-	return out_rel;
+    
+    return out_rel;
 }
 
 Relation Database::project(vector<string> att_names, Relation &in_rel){

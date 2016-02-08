@@ -9,10 +9,13 @@
 Relation::Relation(string _name, vector<string> attribute_names, vector<int> attribute_max_lengths, std::vector<string> _primary_keys){
     name = _name;
     primary_keys = _primary_keys;
+    for(int i = 0; i < primary_keys.size(); i++){
+        cout << "Primary key copied: " << primary_keys[i] << "\n";
+    }
     for (int i = 0; i < attribute_names.size(); i++) {
         Attribute new_attribute( attribute_names[i], attribute_max_lengths[i] );
         attribute_list.attributes.push_back( new_attribute );
-//        std::cout << "Pushed back attribute: " << new_attribute.get_name() << "\n";
+        std::cout << "Pushed back attribute: " << new_attribute.get_name() << "\n";
     }
 }
 
