@@ -119,8 +119,8 @@ Relation Database::cross_product(string name, Relation a, Relation b){
 		Relation result(name, a.attribute_list.combine_names(a.attribute_list, b.attribute_list), a.attribute_list.combine_max(a.attribute_list, b.attribute_list), prim_keys);
         cout << a.get_num_attributes() << " + " << b.get_num_attributes() << "\n";
 		for (int i=0; i<a.tuples.size(); i++){
-            Tuple temp (a.get_num_attributes() + b.get_num_attributes());
 			for (int j=0; j<b.tuples.size(); j++){
+            Tuple temp (a.get_num_attributes() + b.get_num_attributes());
 				for (int k=0; k<temp.num_attributes(); k++){
                     cout << "i: " << i << " j: " << j << " k: " << k << "\n";
                     if (k<a.get_num_attributes()){
@@ -130,9 +130,9 @@ Relation Database::cross_product(string name, Relation a, Relation b){
                         cout << b.tuples[j].get_cell(k-a.get_num_attributes()).get_data() << " b - Data\n";
                         temp.insert_value(k, b.tuples[j].get_cell(k-a.get_num_attributes()).get_data(), b.tuples[j].get_cell(k-a.get_num_attributes()).get_max_length());
                     }
-				}
+                }
+                result.insert_tuple( temp);
             }
-            result.insert_tuple( temp);
 		}
 		return result;
 	}
