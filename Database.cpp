@@ -117,17 +117,17 @@ Relation Database::cross_product(string name, Relation a, Relation b){
         vector<string> prim_keys = a.primary_keys;
         prim_keys.insert( prim_keys.end(), b.primary_keys.begin(), b.primary_keys.end() );
 		Relation result(name, a.attribute_list.combine_names(a.attribute_list, b.attribute_list), a.attribute_list.combine_max(a.attribute_list, b.attribute_list), prim_keys);
-        cout << a.get_num_attributes() << " + " << b.get_num_attributes() << "\n";
+//        cout << a.get_num_attributes() << " + " << b.get_num_attributes() << "\n";
 		for (int i=0; i<a.tuples.size(); i++){
 			for (int j=0; j<b.tuples.size(); j++){
             Tuple temp (a.get_num_attributes() + b.get_num_attributes());
 				for (int k=0; k<temp.num_attributes(); k++){
-                    cout << "i: " << i << " j: " << j << " k: " << k << "\n";
+//                    cout << "i: " << i << " j: " << j << " k: " << k << "\n";
                     if (k<a.get_num_attributes()){
-                        cout << a.tuples[i].get_cell(k).get_data() << " a - Data\n";
+//                        cout << a.tuples[i].get_cell(k).get_data() << " a - Data\n";
 						temp.insert_value(k, a.tuples[i].get_cell(k).get_data(), a.tuples[i].get_cell(k).get_max_length());
                     } else {
-                        cout << b.tuples[j].get_cell(k-a.get_num_attributes()).get_data() << " b - Data\n";
+//                        cout << b.tuples[j].get_cell(k-a.get_num_attributes()).get_data() << " b - Data\n";
                         temp.insert_value(k, b.tuples[j].get_cell(k-a.get_num_attributes()).get_data(), b.tuples[j].get_cell(k-a.get_num_attributes()).get_max_length());
                     }
                 }
