@@ -41,10 +41,10 @@ int main(){
     query = DB.select("DogName", "Spot", "eq", query);
     DB.print_relation(query);
     
-	printf("Select all rows that Name=Joe OR DogName=Spot from Relation A:\n");
+	printf("Select all rows that Name=Joe OR DogName=Spike from Relation A:\n");
     Relation queryA = DB.select("Name", "Joe", "eq", relA);
-    Relation queryB = DB.select("DogName", "Spot", "eq", relA);
-    Relation queryC = DB.set_union("Name=Joe OR DogName=Spot", queryA, queryB);
+    Relation queryB = DB.select("DogName", "Spike", "eq", relA);
+    Relation queryC = DB.set_union("Name=Joe OR DogName=Spike", queryA, queryB);
 	DB.print_relation(queryC);
 	
     
