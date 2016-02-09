@@ -127,8 +127,8 @@ Relation Database::cross_product(string name, Relation a, Relation b){
                         cout << a.tuples[i].get_cell(k).get_data() << " a - Data\n";
 						temp.insert_value(k, a.tuples[i].get_cell(k).get_data(), a.tuples[i].get_cell(k).get_max_length());
                     } else {
-                        cout << b.tuples[j].get_cell(k).get_data() << " b - Data\n";
-                        temp.insert_value(k, b.tuples[j].get_cell(k).get_data(), b.tuples[j].get_cell(k).get_max_length());
+                        cout << b.tuples[j].get_cell(k-a.get_num_attributes()).get_data() << " b - Data\n";
+                        temp.insert_value(k, b.tuples[j].get_cell(k-a.get_num_attributes()).get_data(), b.tuples[j].get_cell(k-a.get_num_attributes()).get_max_length());
                     }
 				}		
 				result.insert_tuple( temp);
