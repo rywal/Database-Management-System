@@ -93,12 +93,11 @@ int main(){
 	relC.insert_tuple(r1_t7);
 	relC.insert_tuple(r1_t8);
 	relC.insert_tuple(r1_t9);
-	
-cout<<"Howdy!\n";
+
 	printf ("Set Difference of Relation A & Relation B:\n");
     query = DB.set_difference("Relation A-B_Difference", relA, relB);
 	DB.print_relation(query);
-	cout<<"Bye!\n";
+
 	std::vector<string> attribute_names2 = {"CatName","Believingness"};
     std::vector<int> attribute_types2 = {10, 0};
     std::vector<string> primary_keys_names2 = {"Believingness"};
@@ -114,9 +113,19 @@ cout<<"Howdy!\n";
 	relD.insert_tuple(r2_t2);
 	relD.insert_tuple(r2_t3);
 	
+    printf ("BEFORE: Update Cat -> Kitten:\n");
 	DB.print_relation(relD);
-	
-	
+    
+    printf ("After: Update Cat -> Kitten:\n");
+    void update(Relation &in_rel, string att_name, string compare_operator, string comparison_value, string update_name);
+    DB.update(relD, "CatName", "eq", "Cat", "Kitten");
+    DB.print_relation(relD);
+    
+    relD.insert_tuple(r2_t3);
+    
+    printf ("Cross Product of A & D:\n");
+    query = DB.cross_product("Relation A-D_CrossProduct", relA, relD);
+    DB.print_relation(query);
 	
     return 0;
 }

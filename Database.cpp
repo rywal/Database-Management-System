@@ -117,14 +117,19 @@ Relation Database::cross_product(string name, Relation a, Relation b){
         vector<string> prim_keys = a.primary_keys;
         prim_keys.insert( prim_keys.end(), b.primary_keys.begin(), b.primary_keys.end() );
 		Relation result(name, a.attribute_list.combine_names(a.attribute_list, b.attribute_list), a.attribute_list.combine_max(a.attribute_list, b.attribute_list), prim_keys);
-		Tuple temp (a.get_num_attributes()+ b.get_num_attributes());
-		for (int i=0; i<a.get_num_attributes(); i++){
-			for (int j=0; j<b.get_num_attributes(); j++){
+        cout << a.get_num_attributes() << " + " << b.get_num_attributes() << "\n";
+		Tuple temp (a.get_num_attributes() + b.get_num_attributes());
+		for (int i=0; i<a.tuples.size(); i++){
+			for (int j=0; j<b.tuples.size(); j++){
 				for (int k=0; k<temp.num_attributes(); k++){
-					if (k<a.get_num_attributes())
+                    cout << "i: " << i << " j: " << j << " k: " << k << "\n";
+                    if (k<a.get_num_attributes()){
+                        cout << a.tuples[i].get_cell(k).get_data() << " a - Data\n";
 						temp.insert_value(k, a.tuples[i].get_cell(k).get_data(), a.tuples[i].get_cell(k).get_max_length());
-					else
-						temp.insert_value(k, b.tuples[i].get_cell(k).get_data(), b.tuples[i].get_cell(k).get_max_length());
+                    } else {
+                        cout << b.tuples[j].get_cell(k).get_data() << " b - Data\n";
+                        temp.insert_value(k, b.tuples[j].get_cell(k).get_data(), b.tuples[j].get_cell(k).get_max_length());
+                    }
 				}		
 				result.insert_tuple( temp);
 			}
@@ -199,16 +204,14 @@ Relation Database::renaming(string out_name, vector<string> att_renames , Relati
 	}
 	return out_rel;
 }
-void Database::update(Relation &in_rel, vector<string> att_names, vector<string> compare_operators, vector<string> comparison_values, vector<string> update_name){
+void Database::update(Relation &in_rel, string att_name, string compare_operator, string comparison_value, string update_name){
 	vector<int> tuple_indexes;
-	for(int i = 0; i < att_names.size(); i++){
-		in_rel.compare(tuple_indexes,comparison_values[i],compare_operators[i],in_rel.get_attribute_index(att_names[i]));
-		for(int n = 0; n < tuple_indexes.size(); n++){
+    in_rel.compare(tuple_indexes,comparison_value,compare_operator,in_rel.get_attribute_index(att_name));
+    for(int n = 0; n < tuple_indexes.size(); n++){
 //            std::cout << "Updating to a new value " << update_name[i] << "\n";
-			in_rel.tuples[n].cells[in_rel.get_attribute_index(att_names[i])].set_value(update_name[i]);
-		}
-		tuple_indexes.clear();
-	}
+        in_rel.tuples[n].cells[in_rel.get_attribute_index(att_name)].set_value(update_name);
+    }
+    tuple_indexes.clear();
 }/*
 void CLOSE(FILE *f){		This needs to close out the database
 	fclose (f);
