@@ -30,37 +30,27 @@ int main(){
 //	cout<<"1\n";	
 	DB.print_relation(relA);
 	printf("Select all rows that Name=Joe from Relation A:\n");
-//	cout<<"2\n";
-    std::vector<string> r1_s1 = {"Name"};
-//	cout<<"3\n";
-    std::vector<string> r1_s2 = {"Joe"};
-    std::vector<string> r1_s3 = {"eq"};
-//	cout<<"4\n";
-    std::vector<string> r1_s4 = {"or"};
 //	cout<<"5\n";
-    Relation query = DB.select(r1_s1, r1_s2,r1_s3, relA, r1_s4);
+    Relation query = DB.select("Name", "Joe", "eq", relA);
 //	cout<<"6\n";
 	DB.print_relation(query);
 //	cout<<"3\n";	
 	printf("Select all rows that Name=Joe AND DogName=Spot from Relation A:\n");
-    std::vector<string> r1_s5, r1_s6, r1_s7;
+    
+    query = DB.select("Name", "Joe", "eq", relA);
+    query = DB.select("DogName", "Spot", "eq", query);
+    DB.print_relation(query);
+    
+	printf("Select all rows that Name=Joe OR DogName=Spike from Relation A:\n");
+    Relation queryA = DB.select("Name", "Joe", "eq", relA);
+    Relation queryB = DB.select("DogName", "Spike", "eq", relA);
+    Relation queryC = DB.set_union("Name=Joe OR DogName=Spike", queryA, queryB);
+	DB.print_relation(queryC);
+	
+    
+    std::vector<string> r1_s5;
     r1_s5.push_back("Name");
     r1_s5.push_back("DogName");
-    r1_s6.push_back("Joe");
-    r1_s6.push_back("Spot");
-    r1_s7.push_back("eq");
-    r1_s7.push_back("eq");
-    
-    std::vector<string> r1_s8 = {"and", "and"};
-    query = DB.select(r1_s5, r1_s6,r1_s7, relA, r1_s8);
-    DB.print_relation(query);
-	
-    std::vector<string> r1_s8_or = {"or", "or"};
-    
-	printf("Select all rows that Name=Joe OR DogName=Spot from Relation A:\n");
-    query = DB.select(r1_s5, r1_s6,r1_s7, relA, r1_s8_or);
-	DB.print_relation(query);
-	
 	printf("Project Columns \"Name\" and \"DogName\" from Relation A:\n");
     query = DB.project(r1_s5, relA);
 	DB.print_relation(query);
@@ -70,7 +60,7 @@ int main(){
 	r1_s9.push_back("Name2");
     r1_s9.push_back("DogName3");
 	
-    query = DB.renaming("Relation A Renamed", r1_s9, relA);
+    query = DB.renaming("Relation A Renamed", r1_s9, query);
 	DB.print_relation(query);
 	
 	//UPDATE!!!!!
@@ -103,12 +93,11 @@ int main(){
 	relC.insert_tuple(r1_t7);
 	relC.insert_tuple(r1_t8);
 	relC.insert_tuple(r1_t9);
-	
-cout<<"Howdy!\n";
+
 	printf ("Set Difference of Relation A & Relation B:\n");
     query = DB.set_difference("Relation A-B_Difference", relA, relB);
 	DB.print_relation(query);
-	cout<<"Bye!\n";
+
 	std::vector<string> attribute_names2 = {"CatName","Believingness"};
     std::vector<int> attribute_types2 = {10, 0};
     std::vector<string> primary_keys_names2 = {"Believingness"};
@@ -124,9 +113,19 @@ cout<<"Howdy!\n";
 	relD.insert_tuple(r2_t2);
 	relD.insert_tuple(r2_t3);
 	
+    printf ("BEFORE: Update Cat -> Kitten:\n");
 	DB.print_relation(relD);
-	
-	
+    
+    printf ("After: Update Cat -> Kitten:\n");
+    void update(Relation &in_rel, string att_name, string compare_operator, string comparison_value, string update_name);
+    DB.update(relD, "CatName", "eq", "Cat", "Kitten");
+    DB.print_relation(relD);
+    
+    relD.insert_tuple(r2_t3);
+    
+    printf ("Cross Product of A & D:\n");
+    query = DB.cross_product("Relation A-D_CrossProduct", relA, relD);
+    DB.print_relation(query);
 	
     return 0;
 }

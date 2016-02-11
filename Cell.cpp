@@ -19,6 +19,7 @@ Cell::Cell( string data, int _max_length ){
     max_length = _max_length;
     
     if (max_length == 0) {
+//        std::cout << "Trying to create cell with value of " << data << ", max length " << max_length << "\n";
         int_data = std::stoi(data.c_str());
     } else {
         if ( data.length() <= max_length )
