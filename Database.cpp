@@ -28,7 +28,8 @@ int Database::get_relation_index( string rel_name ){
 		return -1; //DOES NOT EXIST
 }
 
-void Database::create_relation(Relation r){
+void Database::create_relation(string name, Relation &r){
+	r.rename_relation(name);
 	relations.push_back(r);
 }
 
@@ -194,7 +195,7 @@ Relation Database::project(vector<string> att_names, Relation &in_rel){
 	return out_rel;
 }
 
-Relation Database::renaming(string out_name, vector<string> att_renames , Relation &in_rel){
+Relation Database::renaming(string out_name, vector<string> att_renames , Relation in_rel){
 	Relation out_rel(out_name, att_renames, in_rel.get_max(), in_rel.primary_keys);
 	if(in_rel.attribute_list.num_attributes() != att_renames.size()){
 		printf ("There was not enough Attributes given or in the Relation.");

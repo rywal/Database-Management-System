@@ -62,4 +62,5 @@ class AttributeList {
         
         return result;
     }
+};
 #endif /* AttributeList_h */

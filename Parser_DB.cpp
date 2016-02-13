@@ -1,102 +1,144 @@
-#include parser.h
-#include Database.h
+#include "Database.h"
 
-is_command(string command){
+bool is_command(string command){
         //uses ascii to check if the first letter is uppercase
-        return (command[0]>65 && command[0]<90)
+        return (command[0]>65 && command[0]<90);
 }
 
-is_query(string command){
+bool is_query(string command){
         //uses ascii to check if the first letter is lowercase
-        return ((command[0]>97 && command[0]<122)||command[0]==95)
+        return ((command[0]>97 && command[0]<122)||command[0]==95);
 }
 
 Relation make_query(Database &d, vector<string> query);
 
+Relation make_product(Database &d, vector<string> query){
+	if(query[2].front()=='('){
+		query[2].erase(0);
+		vector<string> _query(query.begin() + 2, query.end());
+		return d.cross_product(" ", d.get_relation(query[0]), make_query(d, _query));	
+	}
+	else return d.cross_product(" ", d.get_relation(query[0]), d.get_relation(query[2]));
+}
+
+Relation make_difference(Database &d, vector<string> query){
+	if(query[2].front()=='('){
+		query[2].erase(0);
+		vector<string> _query(query.begin() + 2, query.end());
+		return d.set_difference(" ", d.get_relation(query[0]), make_query(d, _query));	
+	}
+	else return d.set_difference(" ", d.get_relation(query[0]), d.get_relation(query[2]));
+}
+
+Relation make_union(Database &d, vector<string> query){
+	if(query[2].front()=='('){
+		query[2].erase(0);
+		vector<string> _query(query.begin() + 2, query.end());
+		return d.set_union(" ", d.get_relation(query[0]), make_query(d, _query));	
+	}
+	else return d.set_union(" ", d.get_relation(query[0]), d.get_relation(query[2]));
+}
+
+Relation make_select(Database &d, vector<string> query){
+
+}
+
+Relation make_project(Database &d, vector<string> query){
+
+}
+
 Relation make_rename(Database &d, vector<string> query){
-	int i=1;
-	vector<string> names
+	int i;
+	vector<string> names;
 	query[1].erase(0);
-	for(int i=1; query[i].back!=')'; i++){
+	for(i=1; query[i].back()!=')'; i++){
 		//get rid of comma
 		query[i].pop_back();
- 		names.push_back( query[i])
+ 		names.push_back( query[i]);
 	}
 	query[i].pop_back();
 	names.push_back(query[i]);
-	if (query[i+=1].front=='('){
+	if (query[i+=1].front()=='('){
 		query[i].erase(0);
-		const_iterator start =command.begin() + i;
-		vector<string> _query(start, command.end());
-		return d.renaming(" ", names, make_query(_query);
+		vector<string> _query(query.begin() + i, query.end());
+		return d.renaming(" ", names, make_query(d, _query));
 	}
 	else
-		return d.renaming(" ", names, d.get_relation(query[i]))		
+		return d.renaming(" ", names, d.get_relation(query[i]));		
 
 }
 
 void make_command(Database &d, vector<string> command){
+	string Com =command[0];
 //Exit
-
+		if(Com=="EXIT"){}
+	//		make_exit();
 //Show
-
+		else if(Com=="SHOW"){}
+	//		make_show();
 //Save
-
+		else if(Com=="SAVE"){}
+	//		make_save();
 //Open
-
+		else if(Com=="OPEN"){}
+	//		make_open();
 //Close
-
+		else if(Com=="CLOSE"){}
+	//		make_close();
 //Delete
-
+		else if(Com=="DELETE"){}
+	//		make_delete();
 //Update
-
+		else if(Com=="UPDATE"){}
+	//		make_update();
 //Insert
-
+		else if(Com=="INSERT"){}
+	//		make_insert();
 //Create
-
+		else if(Com=="CREATE"){}
+	//		make_create();
 }
 
 Relation make_query(Database &d, vector<string> query){
-switch (query[0]){
+
+string expr = query[0];
 //Renaming
-	case "rename":
+	if (expr == "rename")
 		make_rename(d, query);
-		break;
 //Projection
-	case "project":
+	else if (expr == "project")
 		make_project(d, query);
-		break;
 //Selection
-	case "select":
+	else if (expr == "select")
 		make_select(d, query);
-		break;
 //relation cases
-	default:
-		switch (query[1])
+	else{
+		string expr2=query[1];
 //Product
-			case "*":
-				make_product();
-				break;
+		if (expr2 == "*")
+				make_product( d, query);
 //Difference
-			case "-":
-				make_difference();
-				break;
+		else if (expr2	== "-")
+				make_difference( d, query);
 //Union
-			case "+":
-				make_union();
-				break
+		else if (expr2 == "+")
+				make_union( d, query);
+	}
 }
 
 
 void Action(Database &d, vector<string> command){
-        if(is_command(command[0]))
+        command[command.size()-1].pop_back();
+	if(is_command(command[0]))
                 make_command(d, command);
         else if(is_query(command[0])){
-		const_iterator start =command.begin() + 2;
-		vector<string> query(start, command.end());
-               d.create_relation(make_query(d, query));
-        	d.relations[d.relations.size()-1].rename_relation(command[0]);
-	}else //error
+		vector<string> query(command.begin() + 2, command.end());
+               d.create_relation(command[0], make_query(d, query));
+	}else {}//error
+}
+
+int main(){
+
 }
 
 	
