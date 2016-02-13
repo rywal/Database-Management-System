@@ -28,6 +28,10 @@ int Database::get_relation_index( string rel_name ){
 		return -1; //DOES NOT EXIST
 }
 
+void Database::create_relation(Relation r){
+	relations.push_back(r);
+}
+
 void Database::create_relation(string name, vector<string> attribute_names, vector<int> attribute_types, vector<string> primary_keys){
     Relation new_relation(name, attribute_names, attribute_types, primary_keys);
     relations.push_back(new_relation);
