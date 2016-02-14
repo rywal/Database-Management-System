@@ -40,7 +40,30 @@ Relation make_union(Database &d, vector<string> query){
 }
 
 Relation make_select(Database &d, vector<string> query){
-
+	query[1].erase(0,1);
+	query[query.size()-1].pop_back();
+	
+	d.create_relation(query.back() + "_select", d.get_relation(query.back()).attribute_list.names(), d.get_relation(query.back()).attribute_list.maxes(), d.get_relation(query.back()).primary_keys);
+	
+	Relation rel_sel = d.get_relation(query.back() + "_select");
+	
+	for(int i=1; i < query.size();i++){		
+		if(strstr(query[i].c_str(),")")){//end of 
+			query[i].pop_back();
+			i=query.size()+1;//"+1" to show exiting for loop
+		}
+		
+		Relation sel = d.select (query[i],query[i+3], query[i+2], d.get_relation(query[1]);
+		
+		if((i+4)>=query.size()){ //Preventing Seg_fault
+			if(query[i+4] == "&&"){
+				Relation rel_sel = d.set_union(query.back() + "_union" + std::to_string(i), rel_sel, sel);
+			}else if(query[i+4] == "||"){
+				Relation rel_sel = d.set_difference(query.back() + "_differce" + std::to_string(i), rel_sel, sel);
+			}
+		}
+	}
+	return rel_sel;
 }
 
 Relation make_project(Database &d, vector<string> query){
