@@ -10,6 +10,17 @@ bool is_query(string command){
         return ((command[0]>97 && command[0]<122)||command[0]==95);
 }
 
+int which_atomic(Database &d, string atomic, string at2){
+	//at2 is the next element, "null"
+	if (atomic == "EXIT" || atomic == "CLOSE" || atomic == "SAVE" || atomic == "OPEN" || atomic == "SHOW" || atomic == "CREATE" || atomic == "UPDATE" || atomic == "INSERT" || atomic == "DELETE"){
+		return 0; //Command
+	} else if (atomic == "select" || atomic == "project" || atomic == "rename" || at2 == "+" || at2 == "-" || at2 == "*"){
+		return 1; //Query
+	} else{
+		return 2; //Relation-Name
+	}
+}
+
 Relation make_query(Database &d, vector<string> query);
 
 Relation make_product(Database &d, vector<string> query){
@@ -42,19 +53,31 @@ Relation make_union(Database &d, vector<string> query){
 Relation make_select(Database &d, vector<string> query){
 	query[1].erase(0,1);
 	query[query.size()-1].pop_back();
+	int atomic_start = 0;
 	
+	for(int i=0; i < query.size();i++){	
+		if(strstr(query[i].c_str(),")")){
+				atomic_start=i;
+				i=query.size()+1;//"+1" to show exiting for loop
+		}
+	}
+	vector<string> atom(query.begin() + atomic_start, query.end());
+		
 	d.create_relation(query.back() + "_select", d.get_relation(query.back()).attribute_list.names(), d.get_relation(query.back()).attribute_list.maxes(), d.get_relation(query.back()).primary_keys);
-	
 	Relation rel_sel = d.get_relation(query.back() + "_select");
 	
 	for(int i=1; i < query.size();i++){		
-		if(strstr(query[i].c_str(),")")){//end of 
+		if(strstr(query[i].c_str(),")")){//end of codition
 			query[i].pop_back();
 			i=query.size()+1;//"+1" to show exiting for loop
 		}
-		
-		Relation sel = d.select (query[i],query[i+3], query[i+2], d.get_relation(query[1]);
-		
+		if(which_atomic(query[atomic_start])== 0){//query
+			Relation sel = d.select(query[i],query[i+3], query[i+2], d.create_relation(query.back() + "_atomic", make_query(d, atom)));
+		} else if(which_atomic(query[atomic_start])== 1){//command
+			Relation sel = d.select(query[i],query[i+3], query[i+2], d.create_relation(query.back() + "_atomic", make_command(d, atom)));
+		} else if(which_atomic(query[atomic_start])== 2){//relation name
+			Relation sel = d.select(query[i],query[i+3], query[i+2], d.get_relation(query[atomic_start]);
+		}
 		if((i+4)>=query.size()){ //Preventing Seg_fault
 			if(query[i+4] == "&&"){
 				Relation rel_sel = d.set_union(query.back() + "_union" + std::to_string(i), rel_sel, sel);
@@ -67,7 +90,23 @@ Relation make_select(Database &d, vector<string> query){
 }
 
 Relation make_project(Database &d, vector<string> query){
-
+	int i;
+	vector<string> names;
+	query[1].erase(0);
+	for(i=1; query[i].back()!=')'; i++){
+		//get rid of comma
+		query[i].pop_back();
+ 		names.push_back( query[i]);
+	}
+	query[i].pop_back();
+	names.push_back(query[i]);
+	if (query[i+=1].front()=='('){
+		query[i].erase(0);
+		vector<string> _query(query.begin() + i, query.end());
+		return d.project(names, make_query(d, _query));
+	}
+	else
+		return d.project(names, d.get_relation(query[i]));	
 }
 
 Relation make_rename(Database &d, vector<string> query){
