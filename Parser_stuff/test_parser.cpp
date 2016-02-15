@@ -6,6 +6,8 @@
 #include <string.h>
 #include <stdio.h>
 #include <ctype.h>
+#include <fstream>
+#include <boost/algorithm/string.hpp>
 
 using namespace std;
 
@@ -128,15 +130,15 @@ bool is_identifier(string identifier){
 			for(int i=0; i < identifier.size();i++){
 				if (!isalnum(identifier[i])){
 					if(identifier[i] != '_' && identifier[0] == '(' &&identifier[i] != ')' && identifier[i] != ','){ 
-						printf("%c is not a valid character.", identifier[i]);
+						printf("%c is not a valid character.", identifier[i]); 
 						return false;
 					}
 				}
 			}
 			return true;
 		} else if(identifier[0] == '(' && (identifier.size() > 2)){
-			if(isalpha(identifier[1])){ 
-				for(int i=1; i < identifier.size();i++){  
+			if(isalpha(identifier[1])){
+				for(int i=1; i < identifier.size();i++){
 					if (!isalnum(identifier[i])){
 						if(identifier[i] != '_' && identifier[0] == '(' &&identifier[i] != ')' && identifier[i] != ','){ 
 							printf("%c is not a valid character.", identifier[i]);
@@ -186,23 +188,23 @@ bool is_atomic(vector<string> &command_list, int &index){
 bool is_attribute_name_ForLoop(string identifier){
 	if(identifier.size()!=0){
 		if(isalpha(identifier[0])){
-			for(int i=1; i+1 < identifier.size();i++){
+			for(int i=1; i+1 < identifier.size()-1;i++){
 				if (!isalnum(identifier[i])){
 					if(identifier[i] != '_'){
-						printf("%s is not an identifier L.", identifier.c_str());
+						printf("%s is not an identifier.", identifier);
 						return false;
 					}
 				}
 			}
 			if(strstr(identifier.c_str(),",")){
-				identifier.erase((identifier.size()-1),1);
-				if(strstr(identifier.c_str(),",")){
+				identifier.pop_back();
+				/*if(strstr(identifier.c_str(),",")){
 					printf("There was not a comma inbetween a List.\n");
 					return false;
-				}
+				}*/
 				return true;
-			} else{return false;}
-		}
+			} else{printf("There was not a comma inbetween a List.\n"); return false;}
+		} else{printf("first letter is not an alpha.\n");}
 	} else{
 		printf("There was an empty Attribute List\n");
 		return false;
@@ -212,6 +214,7 @@ bool is_attribute_name_ForLoop(string identifier){
 }
 
 bool contains_attribute_list(vector<string> &command_list, int &index){
+	cout<<"221: "<<command_list[index]<<endl;
 	if(index >= (command_list.size())){
 		printf("There was not enough arguments for an Attribute List\n");
 		return false;
@@ -219,19 +222,21 @@ bool contains_attribute_list(vector<string> &command_list, int &index){
 	if(strstr(command_list[index].c_str(),")")){
 		return true;
 	}
+	if(strstr(command_list[index].c_str(),"(")){ cout<<"221: "<<command_list[index]<<endl;
+		command_list[index].erase(0,1);
+	} else{
+		printf("You need a \"(\" at the begining of an Attribute List\n");
+		return false;
+	}
 
 	for (int i = index; i < command_list.size();i++){
 		index = i;
-		if(!is_attribute_name_ForLoop(command_list[i])){
+		if(!is_attribute_name_ForLoop(command_list[index])){
 			if(strstr(command_list[i].c_str(),")")){
 				command_list[i].pop_back();
-				if(!strstr(command_list[i].c_str(),")")){
 					return true; 
-				}
-				printf("There was no closing parentheses for an Attribute List.\n");
-				return false;
 			} else {
-				printf("There was not a comma in an Attribute List.\n");
+				printf("There was not a comma in an Attribute List236.\n");
 				return false;
 			}
 		}
@@ -265,11 +270,11 @@ bool is_renaming(vector<string> &command_list, int &index){
 	if(command_list[index] == "rename"){
 		index += 1;
 		if(strstr(command_list[index].c_str(),"(")){
-			command_list[index].erase(0,1);
+			/*command_list[index].erase(0,1);
 			if(strstr(command_list[index].c_str(),"(")){
 				printf("The parentheses for a Renaming was not at the begining of the first argument.\n");
 				return false;
-			}
+			}*/
 		} else{
 			printf("A parentheses is needed when calling an Attribute List for Renaming.\n");
 			return false;
@@ -394,20 +399,20 @@ bool is_type_wo(vector<string> &command_list, int &index){
 
 bool is_var(string var){
 	if(var.size()>8){
-		if(var[0]=='V'){ cout<<"Hello1"<<endl;
-			if(var[1]=='A'){ cout<<"Hello2"<<endl;
-				if(var[2]=='R'){ cout<<"Hello3"<<endl;
-					if (var[3]=='C'){ cout<<"Hello4"<<endl;
-						if(var[4]=='H'){ cout<<"Hello5"<<endl;
-							if(var[5]=='A'){ cout<<"Hello6"<<endl;
-								if(var[6]=='R'){ cout<<"Hello7"<<endl;
-									if(var[7]=='('){ cout<<"Hello8"<<endl;
-										for(int i=8; i<var.size()-2;i++){ cout << "398" <<endl;
-											if(!isdigit(var[i])){ cout << "399" << var[i] <<endl;
+		if(var[0]=='V'){
+			if(var[1]=='A'){
+				if(var[2]=='R'){
+					if (var[3]=='C'){
+						if(var[4]=='H'){
+							if(var[5]=='A'){
+								if(var[6]=='R'){
+									if(var[7]=='('){
+										for(int i=8; i<var.size()-2;i++){
+											if(!isdigit(var[i])){
 												return false;
 											}
 										}
-										if(var[var.size()-1]==')'){ cout << "THIS IS TRUE" << endl;
+										if(var[var.size()-1]==')'){
 											return true;
 										}
 									}
@@ -418,25 +423,15 @@ bool is_var(string var){
 				}
 			}
 		}
-	}else{ cout << "406" << var.size() <<endl;
-		return false;
-	}
+	}else{return false;}
+	return false;
 }
 
 bool is_type(vector<string> &command_list, int &index){
+	index -= 2;
 	if(command_list[index] != "INTEGER"){
-		index += 1;/*
-		if(command_list[index] == "VARCHAR"){
-			index += 1;
-			if(strstr(command_list[index].c_str(),")") && strstr(command_list[index].c_str(),"(") && strstr(command_list[index].c_str(),",")){
-				command_list[index].pop_back();
-				command_list[index].pop_back();
-				if (all_of(command_list[index].begin(), command_list[index].end(), ::isdigit)){
-					index += 1;
-					return true;
-				}
-			}
-		}*/
+		index += 1;//IGNORE the Relation name
+		command_list[index].pop_back();
 		if(is_var(command_list[index])){
 			index +=1;
 			return true;
@@ -448,17 +443,15 @@ bool is_type(vector<string> &command_list, int &index){
 	return false;
 }
 
-bool is_attribute_type_ForLoop(vector<string> &command_list, int &index){
-	if(strstr(command_list[index].c_str(),"(")){
-		command_list[index].erase(0,1);
-	}
-	for(int i=index; i < command_list.size(); i++){
-		if(is_identifier(command_list[i])){
+bool is_attribute_type_ForLoop(vector<string> command_list, int &index){
+	cout << "446: " << command_list[index] << endl;
+	for(int i=index; i < command_list.size(); i++){ cout << "447: " << command_list[index] << endl;
+		if(is_identifier(command_list[i])){ cout << "448: " << command_list[index] << endl;
 			i+=1;
-			index=i;
-			if(!is_type(command_list,i)){
+			index=i; cout << "450: " << command_list[index] << endl;
+			if(!is_type(command_list,i)){ cout << "451: " << command_list[index] << endl;
 				if (strstr(command_list[i].c_str(),")")){
-					command_list[i].pop_back(); cout << "446" << endl;
+					command_list[i].pop_back();
 					if(is_type_wo(command_list,i)){
 						return true;
 					}
@@ -471,6 +464,7 @@ bool is_attribute_type_ForLoop(vector<string> &command_list, int &index){
 }
 
 bool contains_attribute_type(vector<string> &command_list, int &index){
+	int also =0; int no_loop=0;
 	if(index >= (command_list.size() - 1)){
 		printf("There was not enough arguments for a typed Attribute List\n");
 		return false;
@@ -478,21 +472,29 @@ bool contains_attribute_type(vector<string> &command_list, int &index){
 	if(!strstr(command_list[index].c_str(),"(")){
 		return false;
 	}
-	for (int i = index; i < command_list.size();i++){
-		if(is_identifier(command_list[i])){
-			if((command_list.size() - i)>1){
-				i+=1;
-				if(!is_attribute_type_ForLoop(command_list,i)){ i-=1;
-					if(strstr(command_list[i].c_str(),")")){
-						command_list[i].pop_back();
-						command_list[i].pop_back();
-						if(!strstr(command_list[i].c_str(),")")){
-							index+=i+2;
+	for (int i = index; i < command_list.size();i++){ cout << "The current size is: " << command_list.size() << " Current index: " << index << endl;
+		if(is_identifier(command_list[i])){ cout<< "89i: " << i << " in:" << index << endl;
+			if((command_list.size() - i)>1){ cout<< "90i: " << i << " in:" << index << endl;
+				cout<< "91i: " << command_list[i] << " in:" << command_list[index] << endl;
+				if(!is_attribute_type_ForLoop(command_list,i)){ cout<< "92i: " << command_list[i] << " in:" << command_list[index] << endl;
+					if(strstr(command_list[i].c_str(),")")){ cout<< "93i: " << i << " in:" << index << endl;
+						no_loop=0;
+						if(strstr(command_list[i].c_str(),",")){
+							command_list[i].pop_back(); cout<< "94i: " << command_list[i] << " in:" << command_list[index] << endl;
+							also+=1; no_loop=1;
+						}
+						if(strstr(command_list[i].c_str(),"VARCHAR(")&& strstr(command_list[i].c_str(),"))")){
+							command_list[i].pop_back();
+							also+=2;
+						}
+						command_list[i].pop_back();cout<< "95i: " << command_list[i] << " in:" << command_list[index] << endl;
+						if((!strstr(command_list[i].c_str(),")") && no_loop==0) || command_list[i] == "INTEGER"){cout<< "96i: " << i << " in:" << index << endl;
+							index=i+also-1;
 							return true; 
-						} else{ cout<<"477"<< command_list[i]<<endl;  return false;}
-						printf("There was no closing parentheses for an Attribute List.\n");
+						} else if(no_loop==0){cout<<"499"<<endl; return false;}
+						if(no_loop==0){printf("There was no closing parentheses for an Attribute List.\n");}
 					} else{return false;}
-					return false;
+					if(no_loop==0){return false;}
 				}
 				
 			}
@@ -529,14 +531,14 @@ bool is_command(vector<string> command_list, int &index){
 		if(is_atomic(command_list,index+=1)){
 			return true;
 		} else {return false;}
-	} else if (command_list[index] == "CREATE"){ cout << "HERE1" << endl;
-		if(command_list.size() >= (index)){ cout << "HERE2" << endl;
-			if(command_list[index+=1] == "TABLE"){ cout << "HERE3" << endl;
+	} else if (command_list[index] == "CREATE"){
+		if(command_list.size() >= (index)){
+			if(command_list[index+=1] == "TABLE"){
 				if(is_identifier(command_list[index+=1])){ cout << "HERE4" << endl;
-					if(strstr(command_list[index+=1].c_str(),"(")){ cout << "HERE5" << endl;
-							if(contains_attribute_type(command_list, index)){ cout << "HERE6" << command_list[index] << command_list[index+1] << endl;
+					if(strstr(command_list[index+=1].c_str(),"(")){ cout << "HERE5" << command_list[index] << endl;
+							if(contains_attribute_type(command_list, index)){ cout << "HERE6" << command_list[index] <<  endl;
 								if(command_list[index] == "PRIMARY"){ cout << "HERE7" << command_list[index] << command_list[index+1] << endl;
-									if(command_list[index+=1] == "KEY"){ cout << "HERE8" << endl;
+									if(command_list[index+=1] == "KEY"){ cout << "HERE8" << command_list[index] << command_list[index+1] << endl;
 										if(contains_attribute_list(command_list, index+=1)){ cout << "HERE9" << endl;
 											return true;
 										} else{
@@ -643,24 +645,42 @@ bool equal_parentheses(vector<string> command_list){
 int main(){
 	string command;
 	printf("This is the Beginning of %s, which is on line: %d\n", __FILE__, __LINE__);
-	while(1){
-		cout << "Please enter a command:"<<endl;
-		getline (cin,command);
+	
+	std::ifstream input("Input.txt");
+	if(!input){
+		printf("\nThe input file not found!");
+		printf("\nPlease place a file named \"Input.txt\" in the same folder as %s.\n\n", __FILE__);
+		exit(EXIT_FAILURE);//Showing error status code
+	}
+	
+	while(std::getline(input, command)){
+		//cout << "Please enter a command:"<<endl;
+		cout << "\n\nThe command given is: " << command.c_str() << endl << endl;
+		//getline (cin,command);
+		vector<string> command_list;
+		boost::split(command_list, command, boost::is_any_of(" "));
+		
+		/*stringstream ss(command.c_str()); printf("Line %s", __LINE__);
+		istream_iterator<string> begin(ss); printf("Line %s", __LINE__);
+		istream_iterator<string> end; printf("Line %s", __LINE__);
+		vector<string> command_list(begin, end); printf("Line %s", __LINE__);*/
 		
 		
-		stringstream ss(command);
-		istream_iterator<string> begin(ss);
-		istream_iterator<string> end;
-		vector<string> command_list(begin, end);
-		command_list[command_list.size()].pop_back();
+		command_list[command_list.size()-1].erase(std::remove(command_list[command_list.size()-1].begin(), command_list[command_list.size()-1].end(), ';'), command_list[command_list.size()-1].end());
+		//command_list[command_list.size()-1].pop_back(); 
+		
+		/*for(int s = 0; s <command_list.size(); s++){
+			cout << command_list[s] << endl;
+		}*/
+		
 		if(equal_parentheses(command_list)){
 			int num=0;
-			int num2=0; cout << "The size is: " << command_list.size() << endl;
+			int num2=0; //cout << "The size is: " << command_list.size() << endl << endl;
 			if(command_list.size()>=1){
 				if(is_command(command_list, num2)){
-					cout<<"\n\n**This a valid statement. **\n\n" << endl;
+					cout<<"\n**This a valid statement. **" << endl;
 				}else if(is_query(command_list, num)){
-					cout<<"\n\n**This a valid statement. **\n\n" << endl;
+					cout<<"\n**This a valid statement. **" << endl;
 				}else {
 					cout<<"\nThis is NOT a valid statement. This was given on index: " << num << endl;
 				}
