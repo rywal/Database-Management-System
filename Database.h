@@ -27,6 +27,8 @@ public:
     Relation set_difference(string name, Relation a, Relation b);
     Relation cross_product(string name, Relation a, Relation b);
 	// void CLOSE(FILE *f);	needs to be defined in database.cpp
+    bool save();
+    bool close();
 	void EXIT(); 		//defined in database.cpp
     Relation select(string att_name, string compare_value, string compare_operator, Relation &in_rel);
     Relation project(vector<string> att_names, Relation &in_rel);

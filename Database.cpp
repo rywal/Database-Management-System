@@ -3,6 +3,7 @@
 //
 #include <iostream>
 #include <algorithm>
+#include <fstream>
 #include "Database.h"
 
 Database::Database(string _name){name = _name; std::cout << "Relations size is " << relations.size() << std::endl;}
@@ -217,6 +218,68 @@ void CLOSE(FILE *f){		This needs to close out the database
 	fclose (f);
 }
 */
+
+std::vector<string> outputRelation(int index) {
+    std::vector<string> output;
+    string line;
+    Relation rel = get_relation(index);
+    line = "CREATE TABLE " + rel.name.c_str() + "(";
+    
+    // Add attributes to create string
+    for(int a = 0; a < rel.attribute_list.attributes.size(); a++){
+        if (a != 0)
+            line += ",";
+        
+        line += rel.attribute_list.attributes[a].get_name().c_str() + " ";
+        if (rel.attribute_list.attributes[a].get_max_length() == 0) {
+            line += " INTEGER";
+        } else {
+            line += " VARCHAR(" + rel.attribute_list.attributes[a].get_max_length() + ")";
+        }
+        
+        if (a != rel.attribute_list.attributes.size()-1)
+            line += " ";
+    }
+    
+    line += ")";
+    
+    // Add primary keys to create string
+    if(rel.primary_keys.size()>0) {
+        line += " PRIMARY KEY ("
+        line += rel.primary_keys[0].c_str();
+        for(int i=1; i<rel.primary_keys.size(); i++){
+            line += ", " + rel.primary_keys[i].c_str());
+        }
+        line += ")";
+    }
+    
+    line += ";";
+    output.push_back(line);
+    
+    
+
+    
+}
+
+bool save(){
+    ofstream outputFile;
+    std::cout << "Opening " << name << ".db\n";
+    outputFile.open (name + ".db");
+    
+    std::vector<string> outputLines;
+    for (int i = 0; i < relations.size(); i++) {
+        outputLines = outputRelation(i);
+        
+        for (string line : outputLines) {
+            outputFile << line << "\n";
+        }
+    }
+    outputFile.close();
+}
+
+bool close(){
+    
+}
 
 void EXIT(){		//This closes out the application
 	exit(0);
