@@ -1,4 +1,5 @@
 #include "Database.h"
+#include "string.h"
 
 bool is_command(string command){
         //uses ascii to check if the first letter is uppercase
@@ -10,7 +11,7 @@ bool is_query(string command){
         return ((command[0]>97 && command[0]<122)||command[0]==95);
 }
 
-int which_atomic(Database &d, string atomic, string at2){
+int which_atomic(string atomic, string at2){
 	//at2 is the next element, "null"
 	if (atomic == "EXIT" || atomic == "CLOSE" || atomic == "SAVE" || atomic == "OPEN" || atomic == "SHOW" || atomic == "CREATE" || atomic == "UPDATE" || atomic == "INSERT" || atomic == "DELETE"){
 		return 0; //Command
@@ -22,6 +23,14 @@ int which_atomic(Database &d, string atomic, string at2){
 }
 
 Relation make_query(Database &d, vector<string> query);
+
+void make_command(Database &d, vector<string> query);
+
+void make_update(){}
+
+void make_insert(){}
+
+void make_create(){}
 
 Relation make_product(Database &d, vector<string> query){
 	if(query[2].front()=='('){
@@ -50,6 +59,7 @@ Relation make_union(Database &d, vector<string> query){
 	else return d.set_union(" ", d.get_relation(query[0]), d.get_relation(query[2]));
 }
 
+
 Relation make_select(Database &d, vector<string> query){
 	query[1].erase(0,1);
 	query[query.size()-1].pop_back();
@@ -65,18 +75,24 @@ Relation make_select(Database &d, vector<string> query){
 		
 	d.create_relation(query.back() + "_select", d.get_relation(query.back()).attribute_list.names(), d.get_relation(query.back()).attribute_list.maxes(), d.get_relation(query.back()).primary_keys);
 	Relation rel_sel = d.get_relation(query.back() + "_select");
-	
+	Relation sel;
+
 	for(int i=1; i < query.size();i++){		
 		if(strstr(query[i].c_str(),")")){//end of codition
 			query[i].pop_back();
 			i=query.size()+1;//"+1" to show exiting for loop
 		}
-		if(which_atomic(query[atomic_start])== 0){//query
-			Relation sel = d.select(query[i],query[i+3], query[i+2], d.create_relation(query.back() + "_atomic", make_query(d, atom)));
-		} else if(which_atomic(query[atomic_start])== 1){//command
-			Relation sel = d.select(query[i],query[i+3], query[i+2], d.create_relation(query.back() + "_atomic", make_command(d, atom)));
-		} else if(which_atomic(query[atomic_start])== 2){//relation name
-			Relation sel = d.select(query[i],query[i+3], query[i+2], d.get_relation(query[atomic_start]);
+//may be wrong logic for the which_atomic arguments
+//I just put in the same string as the second argument
+
+//some logic need to be fixed here but I don't know exactly what's going on
+		if(which_atomic(query[atomic_start],query[atomic_start])== 0){//query
+//ERROR:: create_relation doesn't return a relation also create_relation adds a relation to the database and my thought was that we were only adding the final relation to the database
+			sel = d.select(query[i],query[i+3], query[i+2], d.create_relation(query.back() + "_atomic", make_query(d, atom)));
+		} else if(which_atomic(query[atomic_start],query[atomic_start])== 1){//command
+			sel = d.select(query[i],query[i+3], query[i+2], d.create_relation(query.back() + "_atomic", make_command(d, atom)));
+		} else if(which_atomic(query[atomic_start],query[atomic_start])== 2){//relation name
+			sel = d.select(query[i],query[i+3], query[i+2], d.get_relation(query[atomic_start]));
 		}
 		if((i+4)>=query.size()){ //Preventing Seg_fault
 			if(query[i+4] == "&&"){
@@ -132,41 +148,62 @@ Relation make_rename(Database &d, vector<string> query){
 
 string which_op(string op){
 	if(op=="=="){return "eq";}
-	if(op=="!="){return "neq"}
-	if(op=="<"){return "le"}
-	if(op==">"){return "gr"}
-	if(op=="<="){return "leq"}
-	if(op==">="){return "geq"}
+	if(op=="!="){return "neq";}
+	if(op=="<"){return "le";}
+	if(op==">"){return "gr";}
+	if(op=="<="){return "leq";}
+	if(op==">="){return "geq";}
 	return "eq"; //Compare should be eq by default
 }
 
 void make_command(Database &d, vector<string> command){
 	string Com = command[0];
 //Exit
-		if(Com=="EXIT"){exit(0);}
+		if(Com=="EXIT"){
+			exit(0);
+		}
 //Show
-		else if(Com=="SHOW"){d.print_relation(d.get_relation(command[1]));}
+		else if(Com=="SHOW"){
+			if(command[1].front()=='('){
+				command[1].erase(0);
+				vector<string> _query(command.begin() + 1, command.end());
+				d.show(make_query(d, _query));	
+			}
+			d.print_relation(d.get_relation(command[1]));
+		}
 //Save
-		else if(Com=="SAVE"){}
-	//		make_save();
+		else if(Com=="SAVE"){
+		//	d.save(d.get_relation(command[1]));
+		}
+
+			
 //Open
-		else if(Com=="OPEN"){}
-	//		make_open();
+		else if(Com=="OPEN"){
+		//	d.open(d.get_relation(command[1]));
+		}
 //Close
-		else if(Com=="CLOSE"){}
-	//		make_close();
+		else if(Com=="CLOSE"){
+		//	d.close(d.get_relation(command[1]));
+		}
 //Delete
-		else if(Com=="DELETE"){}
-	//		make_delete();
+		else if(Com=="DELETE"){
+			vector<string> _query(command.begin() + 3, command.end());
+			_query.push_back(command[2]);
+			d.delete(command[2],make_select(d, _query));
+		}
+
 //Update
-		else if(Com=="UPDATE"){}
-	//		make_update();
+		else if(Com=="UPDATE"){
+			make_update();
+}
 //Insert
-		else if(Com=="INSERT"){}
-	//		make_insert();
+		else if(Com=="INSERT"){
+			make_insert();
+}
 //Create
 		else if(Com=="CREATE"){}
-	//		make_create();
+			
+			make_create();
 }
 
 Relation make_query(Database &d, vector<string> query){
@@ -174,25 +211,27 @@ Relation make_query(Database &d, vector<string> query){
 string expr = query[0];
 //Renaming
 	if (expr == "rename")
-		make_rename(d, query);
+		return make_rename(d, query);
 //Projection
-	else if (expr == "project")
-		make_project(d, query);
+                                               	else if (expr == "project")
+		return make_project(d, query);
 //Selection
 	else if (expr == "select")
-		make_select(d, query);
-//relation cases
+		return make_select(d, query);
+//relation cases n
 	else{
 		string expr2=query[1];
 //Product
 		if (expr2 == "*")
-				make_product( d, query);
+				return make_product( d, query);
 //Difference
 		else if (expr2	== "-")
-				make_difference( d, query);
+				return make_difference( d, query);
 //Union
 		else if (expr2 == "+")
-				make_union( d, query);
+				return make_union( d, query);
+
+		else return d.get_relation(expr);
 	}
 }
 
