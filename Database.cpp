@@ -146,7 +146,7 @@ Relation Database::cross_product(string name, Relation a, Relation b){
 	}
 }
 
-Relation Database::select( string att_name, string compare_value, string compare_operator, Relation &in_rel ){
+Relation Database::select( string att_name, string compare_value, string compare_operator, Relation in_rel ){
     Relation out_rel(in_rel.name, in_rel.attribute_list.names(), in_rel.attribute_list.maxes(), in_rel.primary_keys);
     
     int index = in_rel.get_attribute_index( att_name );
@@ -163,7 +163,7 @@ Relation Database::select( string att_name, string compare_value, string compare
     return out_rel;
 }
 
-Relation Database::project(vector<string> att_names, Relation &in_rel){
+Relation Database::project(vector<string> att_names, Relation in_rel){
 	Relation out_rel((in_rel.name + "_Projection"), att_names, in_rel.attribute_list.maxes(), in_rel.primary_keys);
     
     vector<int> max_lengths;
@@ -231,7 +231,7 @@ std::vector<Tuple> Database::show(Relation &relation_name){
 	return relation_name.tuples;
 }
 
-void Database::print_relation(Relation &relation_name){
+void Database::print_relation(Relation relation_name){
 	printf ("\n-=-=-=-=-=BEGIN-=-=-=-=-\n");
 	printf ("Relation name:%s \n", relation_name.name.c_str());
     std::cout << "Relation size " << relation_name.tuples.size() << std::endl;

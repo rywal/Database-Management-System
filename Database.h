@@ -29,10 +29,10 @@ public:
     Relation cross_product(string name, Relation a, Relation b);
 	// void CLOSE(FILE *f);	needs to be defined in database.cpp
 	void EXIT(); 		//defined in database.cpp
-    Relation select(string att_name, string compare_value, string compare_operator, Relation &in_rel);
-    Relation project(vector<string> att_names, Relation &in_rel);
+    Relation select(string att_name, string compare_value, string compare_operator, Relation in_rel);
+    Relation project(vector<string> att_names, Relation in_rel);
     Relation renaming(string out_name, vector<string> att_renames , Relation in_rel);
     void update(Relation &in_rel, string att_name, string compare_operator, string comparison_value, string update_name);	
     std::vector<Tuple> show(Relation &relation_name);
-	void print_relation(Relation &relation_name);
+	void print_relation(Relation relation_name);
 };
