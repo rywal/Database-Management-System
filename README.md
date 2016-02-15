@@ -146,3 +146,6 @@ Exits the DML interpreter.
 * *Sun, 14 Feb 2016*
    * Jonathan has finished the test_parser.cpp (to be used to test correctness of command)
    * Nathan continued to work on the integration of parser.
+
+* *Mon, 15 Feb 2016*
+   * Nathan and Jonathan worked on the integrated parser.
