@@ -256,14 +256,14 @@ void make_command(Database &d, vector<string> command){
 
 Relation make_query(Database &d, vector<string> query){
 
-string expr = query[0];
-//Renaming
+    string expr = query[0];
+    //Renaming
 	if (expr == "rename")
 		return make_rename(d, query);
-//Projection
-                                               	else if (expr == "project")
+    //Projection
+    else if (expr == "project")
 		return make_project(d, query);
-//Selection
+	//Selection
 	else if (expr == "select"){
 		vector<string> _query(query.begin() + 1, query.end());	
 		return make_select(d, _query);
@@ -271,13 +271,13 @@ string expr = query[0];
 		//relation cases n
 	else{
 		string expr2=query[1];
-//Product
+    //Product
 		if (expr2 == "*")
 				return make_product( d, query);
-//Difference
+    //Difference
 		else if (expr2	== "-")
 				return make_difference( d, query);
-//Union
+    //Union
 		else if (expr2 == "+")
 				return make_union( d, query);
 
@@ -287,7 +287,7 @@ string expr = query[0];
 
 
 void Action(Database &d, vector<string> command){
-        command[command.size()-1].pop_back();
+    command[command.size()-1].pop_back();
 	if(is_command(command[0]))
                 make_command(d, command);
         else if(is_query(command[0])){
