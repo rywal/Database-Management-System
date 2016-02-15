@@ -1,5 +1,6 @@
 #include "Database.h"
 #include "string.h"
+#include <boost/algorithm/string.hpp>
 
 bool is_command(string command){
         //uses ascii to check if the first letter is uppercase
@@ -28,7 +29,18 @@ void make_command(Database &d, vector<string> query);
 
 void make_update(){}
 
-void make_insert(){}
+vector<string> make_insert(vector<string> command){
+
+		vector<string> values;
+		for (int i=0; i < command.size(); i++){
+			if (command[i].front()=='"'){
+				command[i].erase(0);
+				command[i].pop_back();
+			}
+			command[i].pop_back();
+			values.push_back(command[i]);
+		}
+}
 
 void make_create(){}
 
@@ -58,7 +70,7 @@ Relation make_union(Database &d, vector<string> query){
 	}
 	else return d.set_union(" ", d.get_relation(query[0]), d.get_relation(query[2]));
 }
-
+ 
 
 Relation make_select(Database &d, vector<string> query){
 	query[1].erase(0,1);
@@ -78,7 +90,7 @@ Relation make_select(Database &d, vector<string> query){
 	Relation sel;
 
 	for(int i=1; i < query.size();i++){		
-		if(strstr(query[i].c_str(),")")){//end of codition
+		if(strstr(query[i].c_str(),")")){//end of condition
 			query[i].pop_back();
 			i=query.size()+1;//"+1" to show exiting for loop
 		}
@@ -88,11 +100,11 @@ Relation make_select(Database &d, vector<string> query){
 //some logic need to be fixed here but I don't know exactly what's going on
 		if(which_atomic(query[atomic_start],query[atomic_start])== 0){//query
 //ERROR:: create_relation doesn't return a relation also create_relation adds a relation to the database and my thought was that we were only adding the final relation to the database
-			sel = d.select(query[i],query[i+3], query[i+2], d.create_relation(query.back() + "_atomic", make_query(d, atom)));
-		} else if(which_atomic(query[atomic_start],query[atomic_start])== 1){//command
-			sel = d.select(query[i],query[i+3], query[i+2], d.create_relation(query.back() + "_atomic", make_command(d, atom)));
-		} else if(which_atomic(query[atomic_start],query[atomic_start])== 2){//relation name
-			sel = d.select(query[i],query[i+3], query[i+2], d.get_relation(query[atomic_start]));
+	//		sel = d.select(query[i],query[i+3], query[i+2], d.create_relation(query.back() + "_atomic", make_query(d, atom)));
+	//	} else if(which_atomic(query[atomic_start],query[atomic_start])== 1){//command
+		//	sel = d.select(query[i],query[i+3], query[i+2], d.create_relation(query.back() + "_atomic", make_command(d, atom)));
+	//	} else if(which_atomic(query[atomic_start],query[atomic_start])== 2){//relation name
+		//	sel = d.select(query[i],query[i+3], query[i+2], d.get_relation(query[atomic_start]));
 		}
 		if((i+4)>=query.size()){ //Preventing Seg_fault
 			if(query[i+4] == "&&"){
@@ -189,21 +201,35 @@ void make_command(Database &d, vector<string> command){
 		else if(Com=="DELETE"){
 			vector<string> _query(command.begin() + 3, command.end());
 			_query.push_back(command[2]);
-			d.delete(command[2],make_select(d, _query));
+		//	d.delete(d.get_relation(command[2]),make_select(d, _query));
 		}
 
 //Update
 		else if(Com=="UPDATE"){
-			make_update();
+			vector<string>  _query(command.begin() + 3, command.end());
+			
+		//	d.update();
 }
 //Insert
-		else if(Com=="INSERT"){
-			make_insert();
-}
+		else if (Com == "INSERT") {
+			if (command[5].front() == '(') {
+				command[5].erase(0);
+				vector<string> _command(command.begin() + 5, command.end());
+				d.get_relation(command[2]).insert_tuple(make_insert(command));
+			}
+			else {
+				vector<string> _query(command.begin() + 6, command.end());
+				//	d.get_relation(command[2]).insert_tuples(make_query(d, _query));
+			}
+		}
 //Create
-		else if(Com=="CREATE"){}
-			
-			make_create();
+		else if(Com=="CREATE"){
+		
+
+		//	d.create_relation(command[1],  )
+		
+		}
+
 }
 
 Relation make_query(Database &d, vector<string> query){
@@ -245,7 +271,7 @@ void Action(Database &d, vector<string> command){
                d.create_relation(command[0], make_query(d, query));
 	}else {}//error
 }
-
+/*
 int main(){
 	std::ifstream input("Input.txt");//From vaild statement input
 	std::ifstream output("Ouput.txt");//From test_parser.cpp
@@ -274,8 +300,8 @@ int main(){
 			
 			*/
 			
-		}
-	return 0;
-}
+	//	}
+//	return 0;
+//}
 
 	
