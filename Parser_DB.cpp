@@ -84,16 +84,14 @@ Relation make_select(Database &d, vector<string> query){
 		vector<string> _query(query.begin() + 3, query.end());
 		return d.select(att_name, value, compare, make_query(d, _query));
 	} else if( query[3]=="&&"){
-		for(i=4; i<query.size(); i++)
-			if (query[0].back()==')')break;
+		for(i=4; query[i].back()!=')'; i++){}
 		vector<string> _query(query.begin() + i + 1, query.end());
 		vector<string> _query2(query.begin() + 4, query.end());
 		return d.set_difference(" ", d.select(att_name, value, compare, make_query(d, _query) ), make_select(d, _query2));
 		
 	}
 	else if( query[3] =="||"){
-		for(i=4; i<query.size(); i++)
-			if (query[0].back()==')')break;
+		for(i=4; query[i].back()!=')'; i++){}
 		vector<string> _query(query.begin() + i + 1, query.end());
 		vector<string> _query2(query.begin() + 4, query.end());
 		return d.set_union( " ", d.select(att_name, value, compare, make_query(d, _query) ), make_select(d, _query2));	
@@ -246,9 +244,47 @@ void make_command(Database &d, vector<string> command){
 		}
 //Create
 		else if(Com=="CREATE"){
-		
-
-		//	d.create_relation(command[1],  )
+			int i, length;
+			string check;
+			vector<string> att_names;
+			vector<int> att_lengths;
+			vector<string> primary;
+			command[4].erase(0);
+			for(i=4; command[i].back()!=')'; i+=2){
+				command[i].pop_back();
+				att_names.push_back(command[i-1]);
+				check=command[i].substr(0,7);
+				if(check=="VARCHAR"){
+					length=stoi(command[i].substr(8, command[i].size()-9));
+					att_lengths.push_back(length);
+				}	
+				else if(check=="INTEGER"){
+					length=0;
+					att_lengths.push_back(length);
+				}
+			}
+			command[i].pop_back();
+			att_names.push_back(command[i-1]);
+			check=command[i].substr(0,7);
+			if(check=="VARCHAR"){
+				length=stoi(command[i].substr(8, command[i].size()-9));					
+				att_lengths.push_back(length);
+			}	
+			else if(check=="INTEGER"){
+				length=0;
+				att_lengths.push_back(length);
+			}
+//set the primary keys			
+			i+=3; 										//skip PRIMARY KEY
+			command[i].erase(0);						//erase '('
+			for(; command[i].back()!=')'; i++){	
+				command[i].pop_back();				
+				primary.push_back(command[i]);
+			}
+			command[i].pop_back();				
+			primary.push_back(command[i]);
+			
+			d.create_relation(command[2], att_names, att_lengths, primary  );
 		
 		}
 
@@ -287,7 +323,7 @@ Relation make_query(Database &d, vector<string> query){
 
 
 void Action(Database &d, vector<string> command){
-    command[command.size()-1].pop_back();
+   // command[command.size()-1].pop_back();
 	if(is_command(command[0]))
                 make_command(d, command);
         else if(is_query(command[0])){
