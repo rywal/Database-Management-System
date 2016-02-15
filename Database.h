@@ -28,6 +28,7 @@ public:
     Relation set_difference(string name, Relation a, Relation b);
     Relation cross_product(string name, Relation a, Relation b);
 	// void CLOSE(FILE *f);	needs to be defined in database.cpp
+    std::vector<string> outputRelation(int index);
     bool save();
     bool close();
 	void EXIT(); 		//defined in database.cpp

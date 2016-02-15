@@ -226,49 +226,49 @@ void CLOSE(FILE *f){		This needs to close out the database
 }
 */
 
-std::vector<string> outputRelation(int index) {
+std::vector<string> Database::outputRelation(int index) {
     std::vector<string> output;
     string line;
-    Relation rel = get_relation(index);
-    line = "CREATE TABLE " + rel.name.c_str() + "(";
+    Relation rel = relations[index];
+    line = "CREATE TABLE " + rel.name + "(";
     
     // Add attributes to create string
     for(int a = 0; a < rel.attribute_list.attributes.size(); a++){
         if (a != 0)
-            line += ",";
+            line += ", ";
         
-        line += rel.attribute_list.attributes[a].get_name().c_str() + " ";
+        line = line + rel.attribute_list.attributes[a].get_name() + " ";
         if (rel.attribute_list.attributes[a].get_max_length() == 0) {
-            line += " INTEGER";
+            line = line + "INTEGER";
         } else {
-            line += " VARCHAR(" + rel.attribute_list.attributes[a].get_max_length() + ")";
+            int ml = rel.attribute_list.attributes[a].get_max_length();
+            std::cout << "max size for " << rel.attribute_list.attributes[a].get_name() << " is " << ml << "\n";
+            line = line + "VARCHAR(";
+            line = line + std::to_string(ml);
+            line = line + ")";
         }
-        
-        if (a != rel.attribute_list.attributes.size()-1)
-            line += " ";
     }
     
     line += ")";
     
     // Add primary keys to create string
-    if(rel.primary_keys.size()>0) {
-        line += " PRIMARY KEY ("
-        line += rel.primary_keys[0].c_str();
+    if(rel.primary_keys.size() > 0) {
+        line += " PRIMARY KEY (";
+        line += rel.primary_keys[0];
         for(int i=1; i<rel.primary_keys.size(); i++){
-            line += ", " + rel.primary_keys[i].c_str());
+            line += ", " + rel.primary_keys[i];
         }
         line += ")";
     }
     
     line += ";";
+    std::cout << "Pushing back: " << line << "\n";
     output.push_back(line);
     
-    
-
-    
+    return output;
 }
 
-bool save(){
+bool Database::save(){
     ofstream outputFile;
     std::cout << "Opening " << name << ".db\n";
     outputFile.open (name + ".db");
@@ -277,14 +277,14 @@ bool save(){
     for (int i = 0; i < relations.size(); i++) {
         outputLines = outputRelation(i);
         
-        for (string line : outputLines) {
+        for (auto line : outputLines) {
             outputFile << line << "\n";
         }
     }
     outputFile.close();
 }
 
-bool close(){
+bool Database::close(){
     
 }
 
