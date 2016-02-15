@@ -39,6 +39,50 @@ Relation make_union(Database &d, vector<string> query){
 	else return d.set_union(" ", d.get_relation(query[0]), d.get_relation(query[2]));
 }
 
+void make_exit(){
+
+}
+
+void make_show(Database &d, vector<string> command){
+	
+	if 
+
+}
+
+void make_save(Database &d, vector<string> command){
+
+
+}
+
+void make_open(Database &d, vector<string> command){
+
+
+}
+
+void make_close(Database &d, vector<string> command){
+
+
+}
+
+void make_delete(Database &d, vector<string> command){
+
+
+}
+
+void make_update(Database &d, vector<string> command){
+
+
+}
+
+void make_insert(Database &d, vector<string> command){
+
+
+}
+
+void make_create(Database &d, vector<string> command){
+
+}
+
 Relation make_select(Database &d, vector<string> query){
 
 }
@@ -71,32 +115,50 @@ Relation make_rename(Database &d, vector<string> query){
 void make_command(Database &d, vector<string> command){
 	string Com =command[0];
 //Exit
-		if(Com=="EXIT"){}
-	//		make_exit();
+		if(Com=="EXIT"){
+			d.exit();
+		}
 //Show
-		else if(Com=="SHOW"){}
-	//		make_show();
+		else if(Com=="SHOW"){
+			if(command[1].front()=='('){
+				command[1].erase(0);
+				vector<string> _query(command.begin() + 1, command.end());
+				d.show(make_query(Database &d, query));	
+			}
+			d.show(d.get_relation(command[1]));
+		}
 //Save
-		else if(Com=="SAVE"){}
-	//		make_save();
+		else if(Com=="SAVE"){
+			d.save(d.get_relation(command[1]));
+		}
+
+			
 //Open
-		else if(Com=="OPEN"){}
-	//		make_open();
+		else if(Com=="OPEN"){
+			d.open(d.get_relation(command[1]));
+		}
 //Close
-		else if(Com=="CLOSE"){}
-	//		make_close();
+		else if(Com=="CLOSE"){
+			d.close(d.get_relation(command[1]));
+		}
 //Delete
-		else if(Com=="DELETE"){}
-	//		make_delete();
+		else if(Com=="DELETE"){
+			
+			delete();
+		}
+
 //Update
-		else if(Com=="UPDATE"){}
-	//		make_update();
+		else if(Com=="UPDATE"){
+			make_update();
+}
 //Insert
-		else if(Com=="INSERT"){}
-	//		make_insert();
+		else if(Com=="INSERT"){
+			make_insert();
+}
 //Create
 		else if(Com=="CREATE"){}
-	//		make_create();
+			
+			make_create();
 }
 
 Relation make_query(Database &d, vector<string> query){
@@ -104,25 +166,27 @@ Relation make_query(Database &d, vector<string> query){
 string expr = query[0];
 //Renaming
 	if (expr == "rename")
-		make_rename(d, query);
+		return make_rename(d, query);
 //Projection
-	else if (expr == "project")
-		make_project(d, query);
+                                               	else if (expr == "project")
+		return make_project(d, query);
 //Selection
 	else if (expr == "select")
-		make_select(d, query);
-//relation cases
+		return make_select(d, query);
+//relation cases n
 	else{
 		string expr2=query[1];
 //Product
 		if (expr2 == "*")
-				make_product( d, query);
+				return make_product( d, query);
 //Difference
 		else if (expr2	== "-")
-				make_difference( d, query);
+				return make_difference( d, query);
 //Union
 		else if (expr2 == "+")
-				make_union( d, query);
+				return make_union( d, query);
+
+		else return d.get_relation(expr);
 	}
 }
 
