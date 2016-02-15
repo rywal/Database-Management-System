@@ -141,4 +141,8 @@ Exits the DML interpreter.
 * *Sat, 13 Feb 2016*
    * Ryan working on application ideas
    * Nathan Working on the integration of parser with core code
-   * Jonathan working on integration
+   * Jonathan working on integration; added select and project functions.
+
+* *Sun, 14 Feb 2016*
+   * Jonathan has finished the test_parser.cpp (to be used to test correctness of command)
+   * Nathan continued to work on the integration of parser.
