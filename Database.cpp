@@ -28,11 +28,13 @@ int Database::get_relation_index( string rel_name ){
 		return -1; //DOES NOT EXIST
 }
 
-void Database::create_relation(string name, Relation &r){
-	r.rename_relation(name);
-	relations.push_back(r);
+void Database::create_relation(string name, Relation a){
+	vector<string> att_names = a.attribute_list.names();
+    vector<int> att_lengths = a.attribute_list.maxes();
+	Relation new_relation(name,att_names, att_lengths, a.primary_keys);
+	new_relation.tuples=a.tuples;
+	relations.push_back(new_relation);
 }
-
 void Database::create_relation(string name, vector<string> attribute_names, vector<int> attribute_types, vector<string> primary_keys){
     Relation new_relation(name, attribute_names, attribute_types, primary_keys);
     relations.push_back(new_relation);
@@ -227,7 +229,7 @@ void EXIT(){		//This closes out the application
 	exit(0);
 }
 
-std::vector<Tuple> Database::show(Relation &relation_name){
+std::vector<Tuple> Database::show(Relation relation_name){
 	return relation_name.tuples;
 }
 

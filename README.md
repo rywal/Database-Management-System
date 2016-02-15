@@ -133,13 +133,12 @@ Exits the DML interpreter.
    * Nathan modified some of the Parser header information
 
 * *Fri, 12 Feb 2016*
-   * Ryan started application
+   * Ryan and Victor started application
    * Nathan began integrating the parser into the core code
    * Jonathan began to assist in parser integration
-   * Victor assigned to assist in application
 
 * *Sat, 13 Feb 2016*
-   * Ryan working on application ideas
+   * Ryan and Victor working on application ideas
    * Nathan Working on the integration of parser with core code
    * Jonathan working on integration; added select and project functions.
 
@@ -149,3 +148,4 @@ Exits the DML interpreter.
 
 * *Mon, 15 Feb 2016*
    * Nathan and Jonathan worked on the integrated parser.
+   * Ryan worked on bringing back Core Code files that previously worked. Remerged them into the repo. Holding work on application in order to help out with parser + core code integration.

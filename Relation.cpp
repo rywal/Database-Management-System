@@ -9,10 +9,13 @@
 Relation::Relation(string _name, vector<string> attribute_names, vector<int> attribute_max_lengths, std::vector<string> _primary_keys){
     name = _name;
     primary_keys = _primary_keys;
+    for(int i = 0; i < primary_keys.size(); i++){
+//        cout << "Primary key copied: " << primary_keys[i] << "\n";
+    }
     for (int i = 0; i < attribute_names.size(); i++) {
         Attribute new_attribute( attribute_names[i], attribute_max_lengths[i] );
         attribute_list.attributes.push_back( new_attribute );
-//        std::cout << "Pushed back attribute: " << new_attribute.get_name() << "\n";
+//        std::cout << "Pushed back attribute: " << new_attribute.get_name() << " with size: " << new_attribute.get_max_length() << "\n";
     }
 }
 
@@ -34,9 +37,9 @@ void Relation::insert_tuple(Tuple new_tuple){
 	tuples.push_back(new_tuple);
 }
 
-Relation Relation::delete_tuple(Relation &original_relation, vector<string> att_names, vector<string> compare_values, vector<string> compare_operators, vector<string> and_or_gate){
+Relation Relation::delete_tuple(Relation &original_relation, string att_name, string compare_value, string compare_operator){
     Database db("name");
-    return db.set_difference(name+"_Deleted", original_relation, db.select(att_names, compare_values, compare_operators, original_relation, and_or_gate));
+    return db.set_difference(name+"_Deleted", original_relation, db.select(att_name, compare_value, compare_operator, original_relation));
 }
 
 int Relation::get_attribute_index( string att_name ){
@@ -99,14 +102,15 @@ bool Relation::compare(vector<int> &tuple_indexes, string comparison_value, stri
 void Relation::insert_attribute( int original_att_index, Relation &original_relation){//With pre-defined columns
 	for(int i=0; i < get_size(); i++){
         tuples[i].insert_value(i, original_relation.tuples[i].get_cell(original_att_index).get_data(), original_relation.tuples[i].get_cell(original_att_index).get_max_length());
+        std::cout << original_relation.tuples[i].get_cell(original_att_index).get_data() << " attribute has value " << original_relation.tuples[i].get_cell(original_att_index).get_max_length() << "\n";
 	}
 }
 
 void Relation::rename_relation(string rename){ name = rename; }
 
-void Relation::set_max(vector<int> original_max_lengths, Relation &original_relation){
-	for(int i=0; i<get_num_attributes(); i++){
-		attribute_list.attributes[i].set_max_length( original_relation.get_max_index(original_relation.get_attribute_index(to_string(i))) );
+void Relation::set_max(vector<int> original_max_lengths){
+	for(int i=0; i < original_max_lengths.size(); i++){
+		attribute_list.attributes[i].set_max_length(original_max_lengths[i]);
 	}
 }
 
@@ -118,8 +122,6 @@ void Relation::set_tuples_vector(std::vector<Tuple> tuples_input){ tuples = tupl
 
 std::vector<string> Relation::get_primary(){ return primary_keys; }
 
-void Relation::set_primary(std::vector<string> original_primary_keys, Relation &original_relation){
-	for(int i = 0; i < original_primary_keys.size();i++){
-		primary_keys[i] = get_attribute_name(original_relation.get_attribute_index(original_primary_keys[i]));
-	}
+void Relation::set_primary(std::vector<string> original_primary_keys){
+    primary_keys = original_primary_keys;
 }
