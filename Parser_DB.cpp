@@ -33,10 +33,10 @@ vector<string> make_insert(vector<string> command){
 
 		vector<string> values;
 		for (int i=0; i < command.size(); i++){
-			if (command[i].front()=='"'){
-				command[i].erase(0);
-				command[i].pop_back();
-			}
+		//	if (command[i].front()=='"'){
+		//		command[i].erase(0);
+		//		command[i].pop_back();
+		//	}
 			command[i].pop_back();
 			values.push_back(command[i]);
 		}
@@ -73,11 +73,33 @@ Relation make_union(Database &d, vector<string> query){
  
 
 Relation make_select(Database &d, vector<string> query){
-	query[1].erase(0,1);
-	query[query.size()-1].pop_back();
-	int atomic_start = 0;
-	
-	for(int i=0; i < query.size();i++){	
+	if(query[0].front()=='(')
+		query[0].erase(0);
+	string att_name=query[0];
+	string compare=query[1];
+	string value=query[2];
+	int i;
+	if(query[2].back()==')'){
+		value.pop_back();
+		vector<string> _query(query.begin() + 3, query.end());
+		return d.select(att_name, value, compare, make_query(d, _query));
+	} else if( query[3]=="&&"){
+		for(i=4; i<query.size(); i++)
+			if (query[0].back()==')')break;
+		vector<string> _query(query.begin() + i + 1, query.end());
+		vector<string> _query2(query.begin() + 4, query.end());
+		return d.set_difference(" ", d.select(att_name, value, compare, make_query(d, _query) ), make_select(d, _query2));
+		
+	}
+	else if( query[3] =="||"){
+		for(i=4; i<query.size(); i++)
+			if (query[0].back()==')')break;
+		vector<string> _query(query.begin() + i + 1, query.end());
+		vector<string> _query2(query.begin() + 4, query.end());
+		return d.set_union( " ", d.select(att_name, value, compare, make_query(d, _query) ), make_select(d, _query2));	
+	}
+
+/*	for(int i=0; i < query.size();i++){	
 		if(strstr(query[i].c_str(),")")){
 				atomic_start=i;
 				i=query.size()+1;//"+1" to show exiting for loop
@@ -115,7 +137,7 @@ Relation make_select(Database &d, vector<string> query){
 		}
 	}
 	return rel_sel;
-}
+*/}
 
 Relation make_project(Database &d, vector<string> query){
 	int i;
@@ -242,9 +264,11 @@ string expr = query[0];
                                                	else if (expr == "project")
 		return make_project(d, query);
 //Selection
-	else if (expr == "select")
-		return make_select(d, query);
-//relation cases n
+	else if (expr == "select"){
+		vector<string> _query(query.begin() + 1, query.end());	
+		return make_select(d, _query);
+	}
+		//relation cases n
 	else{
 		string expr2=query[1];
 //Product
