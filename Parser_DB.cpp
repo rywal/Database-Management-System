@@ -130,14 +130,22 @@ Relation make_rename(Database &d, vector<string> query){
 
 }
 
+string which_op(string op){
+	if(op=="=="){return "eq";}
+	if(op=="!="){return "neq"}
+	if(op=="<"){return "le"}
+	if(op==">"){return "gr"}
+	if(op=="<="){return "leq"}
+	if(op==">="){return "geq"}
+	return "eq"; //Compare should be eq by default
+}
+
 void make_command(Database &d, vector<string> command){
-	string Com =command[0];
+	string Com = command[0];
 //Exit
-		if(Com=="EXIT"){}
-	//		make_exit();
+		if(Com=="EXIT"){exit(0);}
 //Show
-		else if(Com=="SHOW"){}
-	//		make_show();
+		else if(Com=="SHOW"){d.print_relation(d.get_relation(command[1]));}
 //Save
 		else if(Com=="SAVE"){}
 	//		make_save();
@@ -200,7 +208,35 @@ void Action(Database &d, vector<string> command){
 }
 
 int main(){
-
+	std::ifstream input("Input.txt");//From vaild statement input
+	std::ifstream output("Ouput.txt");//From test_parser.cpp
+	if(!input || !output){
+		printf("\nThe Paser files not found!");
+		exit(EXIT_FAILURE);//Showing error status code
+	}
+	string output_text;
+	string command;
+	while(std::getline(output, output_text)){
+		if(input_text!="success"){//don't do unless valid
+			printf("\nThis statement was not valid. **SKIPPED**");
+		} else{//This line/command is valid
+			getline(input, command);//Not sure about syntax
+			
+			vector<string> command_list;
+			boost::split(command_list, command, boost::is_any_of(" "));
+			command_list[command_list.size()-1].erase(std::remove(command_list[command_list.size()-1].begin(), command_list[command_list.size()-1].end(), ';'), command_list[command_list.size()-1].end());
+			/*
+			
+			Use command_list!
+			
+			command_list is a delimited version of the line it got from the input file.
+			
+			Not quite done with thought process yet.
+			
+			*/
+			
+		}
+	return 0;
 }
 
 	
