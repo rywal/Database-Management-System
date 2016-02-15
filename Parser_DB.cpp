@@ -50,49 +50,6 @@ Relation make_union(Database &d, vector<string> query){
 	else return d.set_union(" ", d.get_relation(query[0]), d.get_relation(query[2]));
 }
 
-void make_exit(){
-
-}
-
-void make_show(Database &d, vector<string> command){
-	
-	if 
-
-}
-
-void make_save(Database &d, vector<string> command){
-
-
-}
-
-void make_open(Database &d, vector<string> command){
-
-
-}
-
-void make_close(Database &d, vector<string> command){
-
-
-}
-
-void make_delete(Database &d, vector<string> command){
-
-
-}
-
-void make_update(Database &d, vector<string> command){
-
-
-}
-
-void make_insert(Database &d, vector<string> command){
-
-
-}
-
-void make_create(Database &d, vector<string> command){
-
-}
 
 Relation make_select(Database &d, vector<string> query){
 	query[1].erase(0,1);
@@ -195,7 +152,7 @@ void make_command(Database &d, vector<string> command){
 			if(command[1].front()=='('){
 				command[1].erase(0);
 				vector<string> _query(command.begin() + 1, command.end());
-				d.show(make_query(Database &d, query));	
+				d.show(make_query(d, _query));	
 			}
 			d.print_relation(d.get_relation(command[1]));
 		}
@@ -215,8 +172,9 @@ void make_command(Database &d, vector<string> command){
 		}
 //Delete
 		else if(Com=="DELETE"){
-			
-			delete();
+			vector<string> _query(command.begin() + 3, command.end());
+			_query.push_back(command[2]);
+			d.delete(command[2],make_select(d, _query));
 		}
 
 //Update
