@@ -12,7 +12,7 @@ bool is_query(string command){
         //uses ascii to check if the first letter is lowercase
         return ((command[0]>97 && command[0]<122)||command[0]==95);
 }
-
+/*
 int which_atomic(string atomic, string at2){
 	//at2 is the next element, "null"
 	if (atomic == "EXIT" || atomic == "CLOSE" || atomic == "SAVE" || atomic == "OPEN" || atomic == "SHOW" || atomic == "CREATE" || atomic == "UPDATE" || atomic == "INSERT" || atomic == "DELETE"){
@@ -22,7 +22,7 @@ int which_atomic(string atomic, string at2){
 	} else{
 		return 2; //Relation-Name
 	}
-}
+}*/
 
 Relation make_query(Database &d, vector<string> query);
 
@@ -31,18 +31,16 @@ void make_command(Database &d, vector<string> query);
 void make_update(){}
 
 vector<string> make_insert(vector<string> command){
-
 		vector<string> values; 
-		for (int i=0; i < command.size(); i++){ 
+		for (int i=0; i < command.size(); i++){
 		//	if (command[i].front()=='"'){
 		//		command[i].erase(0,1);
 		//		command[i].erase(std::remove(command[i].begin(), command[i].end(), ','), command[i].end());
-		//	} 
+		//	} printf("%s function, line: %d\n\n", __func__, __LINE__);
 			command[i].erase(std::remove(command[i].begin(), command[i].end(), ','), command[i].end());
-			command[i].erase(std::remove(command[i].begin(), command[i].end(), ')'), command[i].end());
-			values.push_back(command[i]); 
+			values.push_back(command[i]);
 		} 
-		return values;
+	return values;
 }
 
 void make_create(){}
@@ -146,10 +144,10 @@ Relation make_project(Database &d, vector<string> query){
 	query[1].erase(0,1);
 	for(i=1; query[i].back()!=')'; i++){
 		//get rid of comma
-		query[i].pop_back();
+		query[i].erase(query[i].size()-1, 1);
  		names.push_back( query[i]);
 	}
-	query[i].pop_back();
+	query[i].erase(query[i].size()-1, 1);
 	names.push_back(query[i]);
 	if (query[i+=1].front()=='('){
 		query[i].erase(0,1);
@@ -166,10 +164,10 @@ Relation make_rename(Database &d, vector<string> query){
 	query[1].erase(0,1);
 	for(i=1; query[i].back()!=')'; i++){
 		//get rid of comma
-		query[i].pop_back();
+		query[i].erase(query[i].size()-1, 1);
  		names.push_back( query[i]);
 	}
-	query[i].pop_back();
+	query[i].erase(query[i].size()-1, 1);
 	names.push_back(query[i]);
 	if (query[i+=1].front()=='('){
 		query[i].erase(0,1);
@@ -236,12 +234,12 @@ void make_command(Database &d, vector<string> command){
 //Insert
 		else if (Com == "INSERT") { 
 			if (command[5].front() == '(') { 
-				command[5].erase(0,1); 
-				vector<string> _command(command.begin() + 5, command.end()); 
-				d.get_relation(command[2]).insert_tuple(make_insert(_command)); 
+				command[5].erase(0,1);
+				vector<string> _command(command.begin() + 5, command.end());
+				d.get_relation(command[2]).insert_tuple(make_insert(command)); 
 			} 
 			else { 
-				vector<string> _query(command.begin() + 6, command.end()); 
+				vector<string> _query(command.begin() + 6, command.end());
 				d.get_relation(command[2]).insert_relation(make_query(d, _query));
 			}
 		}
@@ -256,7 +254,7 @@ void make_command(Database &d, vector<string> command){
 			for(i=4; command[i].back()!=')'; i+=2){ 
 				//command[i].erase(std::remove(command[i].begin(), command[i].end(), ','), command[i].end()); 
 				
-				command[i].erase(std::remove(command[i].begin(), command[i].end(), ','), command[i].end());
+				command[i].erase(command[i].size()-1, 1);
 				
 				
 				att_names.push_back(command[i-1]); 
@@ -413,7 +411,9 @@ int main(){
 			string command;
 			printf("Please enter a command:\n");
 			std::getline (std::cin,command);
+			cout<<"1\n";
 			stringstream ss(command);
+			cout<<command<<'\n';
 			istream_iterator<string> begin(ss);
 			istream_iterator<string> end;
 			vector<string> command_list(begin, end);

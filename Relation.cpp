@@ -21,13 +21,13 @@ Relation::Relation(string _name, vector<string> attribute_names, vector<int> att
 
 void Relation::insert_tuple(vector<string> values){
 //    std::cout << values.size() << "Values " << attribute_list.num_attributes() << " num attributes\n";
-    if (values.size() == attribute_list.num_attributes()) { 
-        Tuple new_tuple( values.size() ); 
-        for (int i = 0; i < values.size(); i++){ 
-            Cell new_cell( values[i], attribute_list.attributes[i].get_max_length() ); 
-            new_tuple.insert_cell(i, new_cell); 
+    if (values.size() == attribute_list.num_attributes()) {
+        Tuple new_tuple( values.size() );
+        for (int i = 0; i < values.size(); i++){
+			cout<<values[i]<<endl;
+		   Cell new_cell( values[i], attribute_list.attributes[i].get_max_length() ); 
+            new_tuple.insert_cell(i, new_cell);
         }
-        
         tuples.push_back(new_tuple);
     }
 }
