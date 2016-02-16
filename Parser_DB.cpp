@@ -176,19 +176,17 @@ Relation make_project(Database &d, vector<string> query){
 Relation make_rename(Database &d, vector<string> query){
 	int i;
 	vector<string> names;
-	query[1].erase(0,1);
-	cout<<">>>>>>"<<query[1]<<endl;
-	for(i=1; query[i].back()!=')'; i++){
+	if(query[1].front()=='('){
+		query[1].erase(0,1);
+	}
+	for(i=1; query[i].front()!='('; i++){
 		//get rid of comma
+		if(query[i].back()==',' || query[i].back()==')')
 		query[i].erase(query[i].size()-1, 1);
  		names.push_back( query[i]);
 	}
-	query[i].erase(query[i].size()-1, 1);
-	names.push_back(query[i]);
-	for(int i=0; i<names.size(); i++){
-		cout<<names[i]<<i<<endl;
-	}
-	if (query[i+=1].front()=='('){
+
+	if (query[i].front()=='('){
 		query[i].erase(0,1);
 		vector<string> _query(query.begin() + i, query.end());
 		return d.renaming(" ", names, make_query(d, _query));
@@ -325,7 +323,6 @@ Relation make_query(Database &d, vector<string> query){
 	string expr=query[0];
 	if(1==query.size()){
 		string expr1=expr.substr(0,expr.size()-1);
-		cout<<query[0]<<'\n';
 		return d.get_relation(expr1);
 	}
     expr = query[0];
