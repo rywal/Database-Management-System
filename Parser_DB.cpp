@@ -165,8 +165,10 @@ Relation make_project(Database &d, vector<string> query){
 		vector<string> _query(query.begin() + i, query.end());
 		return d.project(names, make_query(d, _query));
 	}
-	else
-		return d.project(names, d.get_relation(query[i]));	
+	else{
+		vector<string> _query(query.begin() + i, query.end());
+		return d.project(names, make_query(d,_query));	
+	}
 }
 
 Relation make_rename(Database &d, vector<string> query){
@@ -317,7 +319,7 @@ Relation make_query(Database &d, vector<string> query){
 	string expr=query[0];
 	if(1==query.size()){
 		string expr1=expr.substr(0,expr.size()-1);
-		
+		cout<<query[0]<<'\n';
 		return d.get_relation(expr1);
 	}
     expr = query[0];
