@@ -9,11 +9,10 @@
 
 // A collection of tables
 class Database {
-private:
+public:
     string name;
     std::vector<Relation> relations;
     
-public:
     Database(string _name);
     Relation get_relation(string name);
     Relation get_relation(int index);

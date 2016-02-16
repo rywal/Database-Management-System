@@ -219,7 +219,7 @@ std::vector<string> Database::outputRelation(int index) {
     std::vector<string> output;
     string line;
     Relation rel = relations[index];
-    line = "CREATE TABLE " + rel.name + "(";
+    line = "CREATE TABLE " + rel.name + " (";
     
     // Add attributes to create string
     for(int a = 0; a < rel.attribute_list.attributes.size(); a++){
@@ -254,10 +254,33 @@ std::vector<string> Database::outputRelation(int index) {
     std::cout << "Pushing back: " << line << "\n";
     output.push_back(line);
     
+    for(int t = 0; t < rel.tuples.size(); t++){
+        std::cout << "Size: " << rel.tuples.size() << "\n";
+        line = "INSERT INTO " + rel.name + " VALUES FROM (";
+        
+        for(int a = 0; a < rel.attribute_list.attributes.size(); a++){
+            if (a != 0)
+                line += ", ";
+            
+            if (rel.attribute_list.attributes[a].get_max_length() != 0)
+                line += '"';
+            
+            line += rel.tuples[t].get_cell(a).get_data();
+            
+            if (rel.attribute_list.attributes[a].get_max_length() != 0)
+                line += '"';
+            
+        }
+        
+        line += ");";
+        output.push_back(line);
+    }
+    
     return output;
 }
 
 bool Database::save(int index){
+    std::cout << "Index is: " << index << "\n";
     Relation r = relations[index];
     
     ofstream outputFile;
