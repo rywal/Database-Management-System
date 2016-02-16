@@ -3,6 +3,7 @@
 //
 #include <iostream>
 #include <algorithm>
+#include <fstream>
 #include "Database.h"
 
 Database::Database(string _name){name = _name; std::cout << "Relations size is " << relations.size() << std::endl;}
@@ -224,6 +225,68 @@ void CLOSE(FILE *f){		This needs to close out the database
 	fclose (f);
 }
 */
+
+std::vector<string> Database::outputRelation(int index) {
+    std::vector<string> output;
+    string line;
+    Relation rel = relations[index];
+    line = "CREATE TABLE " + rel.name + "(";
+    
+    // Add attributes to create string
+    for(int a = 0; a < rel.attribute_list.attributes.size(); a++){
+        if (a != 0)
+            line += ", ";
+        
+        line = line + rel.attribute_list.attributes[a].get_name() + " ";
+        if (rel.attribute_list.attributes[a].get_max_length() == 0) {
+            line = line + "INTEGER";
+        } else {
+            int ml = rel.attribute_list.attributes[a].get_max_length();
+            std::cout << "max size for " << rel.attribute_list.attributes[a].get_name() << " is " << ml << "\n";
+            line = line + "VARCHAR(";
+            line = line + std::to_string(ml);
+            line = line + ")";
+        }
+    }
+    
+    line += ")";
+    
+    // Add primary keys to create string
+    if(rel.primary_keys.size() > 0) {
+        line += " PRIMARY KEY (";
+        line += rel.primary_keys[0];
+        for(int i=1; i<rel.primary_keys.size(); i++){
+            line += ", " + rel.primary_keys[i];
+        }
+        line += ")";
+    }
+    
+    line += ";";
+    std::cout << "Pushing back: " << line << "\n";
+    output.push_back(line);
+    
+    return output;
+}
+
+bool Database::save(){
+    ofstream outputFile;
+    std::cout << "Opening " << name << ".db\n";
+    outputFile.open (name + ".db");
+    
+    std::vector<string> outputLines;
+    for (int i = 0; i < relations.size(); i++) {
+        outputLines = outputRelation(i);
+        
+        for (auto line : outputLines) {
+            outputFile << line << "\n";
+        }
+    }
+    outputFile.close();
+}
+
+bool Database::close(){
+    
+}
 
 void EXIT(){		//This closes out the application
 	exit(0);

@@ -33,10 +33,10 @@ vector<string> make_insert(vector<string> command){
 
 		vector<string> values;
 		for (int i=0; i < command.size(); i++){
-			if (command[i].front()=='"'){
-				command[i].erase(0);
-				command[i].pop_back();
-			}
+		//	if (command[i].front()=='"'){
+		//		command[i].erase(0);
+		//		command[i].pop_back();
+		//	}
 			command[i].pop_back();
 			values.push_back(command[i]);
 		}
@@ -73,11 +73,31 @@ Relation make_union(Database &d, vector<string> query){
  
 
 Relation make_select(Database &d, vector<string> query){
-	query[1].erase(0,1);
-	query[query.size()-1].pop_back();
-	int atomic_start = 0;
-	
-	for(int i=0; i < query.size();i++){	
+	if(query[0].front()=='(')
+		query[0].erase(0);
+	string att_name=query[0];
+	string compare=query[1];
+	string value=query[2];
+	int i;
+	if(query[2].back()==')'){
+		value.pop_back();
+		vector<string> _query(query.begin() + 3, query.end());
+		return d.select(att_name, value, compare, make_query(d, _query));
+	} else if( query[3]=="&&"){
+		for(i=4; query[i].back()!=')'; i++){}
+		vector<string> _query(query.begin() + i + 1, query.end());
+		vector<string> _query2(query.begin() + 4, query.end());
+		return d.set_difference(" ", d.select(att_name, value, compare, make_query(d, _query) ), make_select(d, _query2));
+		
+	}
+	else if( query[3] =="||"){
+		for(i=4; query[i].back()!=')'; i++){}
+		vector<string> _query(query.begin() + i + 1, query.end());
+		vector<string> _query2(query.begin() + 4, query.end());
+		return d.set_union( " ", d.select(att_name, value, compare, make_query(d, _query) ), make_select(d, _query2));	
+	}
+
+/*	for(int i=0; i < query.size();i++){	
 		if(strstr(query[i].c_str(),")")){
 				atomic_start=i;
 				i=query.size()+1;//"+1" to show exiting for loop
@@ -115,7 +135,7 @@ Relation make_select(Database &d, vector<string> query){
 		}
 	}
 	return rel_sel;
-}
+*/}
 
 Relation make_project(Database &d, vector<string> query){
 	int i;
@@ -224,9 +244,47 @@ void make_command(Database &d, vector<string> command){
 		}
 //Create
 		else if(Com=="CREATE"){
-		
-
-		//	d.create_relation(command[1],  )
+			int i, length;
+			string check;
+			vector<string> att_names;
+			vector<int> att_lengths;
+			vector<string> primary;
+			command[4].erase(0);
+			for(i=4; command[i].back()!=')'; i+=2){
+				command[i].pop_back();
+				att_names.push_back(command[i-1]);
+				check=command[i].substr(0,7);
+				if(check=="VARCHAR"){
+					length=stoi(command[i].substr(8, command[i].size()-9));
+					att_lengths.push_back(length);
+				}	
+				else if(check=="INTEGER"){
+					length=0;
+					att_lengths.push_back(length);
+				}
+			}
+			command[i].pop_back();
+			att_names.push_back(command[i-1]);
+			check=command[i].substr(0,7);
+			if(check=="VARCHAR"){
+				length=stoi(command[i].substr(8, command[i].size()-9));					
+				att_lengths.push_back(length);
+			}	
+			else if(check=="INTEGER"){
+				length=0;
+				att_lengths.push_back(length);
+			}
+//set the primary keys			
+			i+=3; 										//skip PRIMARY KEY
+			command[i].erase(0);						//erase '('
+			for(; command[i].back()!=')'; i++){	
+				command[i].pop_back();				
+				primary.push_back(command[i]);
+			}
+			command[i].pop_back();				
+			primary.push_back(command[i]);
+			
+			d.create_relation(command[2], att_names, att_lengths, primary  );
 		
 		}
 
@@ -234,26 +292,28 @@ void make_command(Database &d, vector<string> command){
 
 Relation make_query(Database &d, vector<string> query){
 
-string expr = query[0];
-//Renaming
+    string expr = query[0];
+    //Renaming
 	if (expr == "rename")
 		return make_rename(d, query);
-//Projection
-                                               	else if (expr == "project")
+    //Projection
+    else if (expr == "project")
 		return make_project(d, query);
-//Selection
-	else if (expr == "select")
-		return make_select(d, query);
-//relation cases n
+	//Selection
+	else if (expr == "select"){
+		vector<string> _query(query.begin() + 1, query.end());	
+		return make_select(d, _query);
+	}
+		//relation cases n
 	else{
 		string expr2=query[1];
-//Product
+    //Product
 		if (expr2 == "*")
 				return make_product( d, query);
-//Difference
+    //Difference
 		else if (expr2	== "-")
 				return make_difference( d, query);
-//Union
+    //Union
 		else if (expr2 == "+")
 				return make_union( d, query);
 
@@ -263,7 +323,7 @@ string expr = query[0];
 
 
 void Action(Database &d, vector<string> command){
-        command[command.size()-1].pop_back();
+   // command[command.size()-1].pop_back();
 	if(is_command(command[0]))
                 make_command(d, command);
         else if(is_query(command[0])){
