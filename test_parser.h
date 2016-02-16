@@ -192,7 +192,7 @@ bool is_attribute_name_ForLoop(string identifier){
 			for(int i=1; i+1 < identifier.size()-1;i++){
 				if (!isalnum(identifier[i])){
 					if(identifier[i] != '_'){
-						printf("%s is not an identifier.", identifier);
+						printf("%s is not an identifier.", identifier.c_str());
 						return false;
 					}
 				}

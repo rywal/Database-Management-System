@@ -1,4 +1,4 @@
-#include <iostream>
+/*#include <iostream>
 #include <stdexcept>
 #include <vector>
 #include "Relation.h" 
@@ -130,4 +130,4 @@ int main(){
     DB.print_relation(query);
 	
     return 0;
-}
+}*/
