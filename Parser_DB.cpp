@@ -307,11 +307,13 @@ void make_command(Database &d, vector<string> command){
 }
 
 Relation make_query(Database &d, vector<string> query){
+	string expr=query[0];
 	if(1==query.size()){
-		cout<<"HERE!\n";
-		expr=query[0].substr(0,query[0].size()-1);
-		return d.get_relation(expr);
-    string expr = query[0];
+		string expr1=expr.substr(0,expr.size()-1);
+		
+		return d.get_relation(expr1);
+	}
+    expr = query[0];
     cout<<expr<<'\n';
 	//Renaming
 	if (expr == "rename")
@@ -326,8 +328,6 @@ Relation make_query(Database &d, vector<string> query){
 	}
 		//relation cases n
 		//just a relation name
-	else 
-	}
 	else{
 		string expr2=query[1];
     //Product
