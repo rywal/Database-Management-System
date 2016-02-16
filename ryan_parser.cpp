@@ -21,8 +21,8 @@ bool interpret_create(Database &db, std::vector<std::string> command) {
         std::vector<std::string> attribute_names;
         std::vector<int> attribute_sizes;
         std::vector<std::string> primary_keys;
-        
-        for (int i = 1; i < command.size(); i++){
+        int i = 1;
+        for (i = 1; i < command.size(); i++){
             if (command[i] == "PRIMARY")
                 break;
             
@@ -43,6 +43,12 @@ bool interpret_create(Database &db, std::vector<std::string> command) {
                 }
                 
                 column_name_just_found = false;
+            }
+        }
+        
+        if (command[i] == "PRIMARY" && command[i+1] == "KEY") {
+            for (i ; <#condition#>; <#increment#>) {
+                <#statements#>
             }
         }
         
