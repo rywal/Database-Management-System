@@ -149,3 +149,4 @@ Exits the DML interpreter.
 * *Mon, 15 Feb 2016*
    * Nathan and Jonathan worked on the integrated parser.
    * Ryan worked on bringing back Core Code files that previously worked. Remerged them into the repo. Holding work on application in order to help out with parser + core code integration.
+   * Ryan, Nathan and Jonathan working to fix errors on parser + core code integration
