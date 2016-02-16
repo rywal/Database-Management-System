@@ -1,6 +1,7 @@
 #include "Database.h"
 #include "string.h"
 #include <boost/algorithm/string.hpp>
+#include "test_parser.h"//
 
 bool is_command(string command){
         //uses ascii to check if the first letter is uppercase
@@ -11,7 +12,7 @@ bool is_query(string command){
         //uses ascii to check if the first letter is lowercase
         return ((command[0]>97 && command[0]<122)||command[0]==95);
 }
-
+/*
 int which_atomic(string atomic, string at2){
 	//at2 is the next element, "null"
 	if (atomic == "EXIT" || atomic == "CLOSE" || atomic == "SAVE" || atomic == "OPEN" || atomic == "SHOW" || atomic == "CREATE" || atomic == "UPDATE" || atomic == "INSERT" || atomic == "DELETE"){
@@ -21,7 +22,7 @@ int which_atomic(string atomic, string at2){
 	} else{
 		return 2; //Relation-Name
 	}
-}
+}*/
 
 Relation make_query(Database &d, vector<string> query);
 
@@ -30,23 +31,23 @@ void make_command(Database &d, vector<string> query);
 void make_update(){}
 
 vector<string> make_insert(vector<string> command){
-
-		vector<string> values;
+		vector<string> values; 
 		for (int i=0; i < command.size(); i++){
 		//	if (command[i].front()=='"'){
-		//		command[i].erase(0);
-		//		command[i].pop_back();
-		//	}
-			command[i].pop_back();
+		//		command[i].erase(0,1);
+		//		command[i].erase(std::remove(command[i].begin(), command[i].end(), ','), command[i].end());
+		//	} printf("%s function, line: %d\n\n", __func__, __LINE__);
+			command[i].erase(std::remove(command[i].begin(), command[i].end(), ','), command[i].end());
 			values.push_back(command[i]);
-		}
+		} 
+	return values;
 }
 
 void make_create(){}
 
 Relation make_product(Database &d, vector<string> query){
 	if(query[2].front()=='('){
-		query[2].erase(0);
+		query[2].erase(0,1);
 		vector<string> _query(query.begin() + 2, query.end());
 		return d.cross_product(" ", d.get_relation(query[0]), make_query(d, _query));	
 	}
@@ -55,7 +56,7 @@ Relation make_product(Database &d, vector<string> query){
 
 Relation make_difference(Database &d, vector<string> query){
 	if(query[2].front()=='('){
-		query[2].erase(0);
+		query[2].erase(0,1);
 		vector<string> _query(query.begin() + 2, query.end());
 		return d.set_difference(" ", d.get_relation(query[0]), make_query(d, _query));	
 	}
@@ -64,7 +65,7 @@ Relation make_difference(Database &d, vector<string> query){
 
 Relation make_union(Database &d, vector<string> query){
 	if(query[2].front()=='('){
-		query[2].erase(0);
+		query[2].erase(0,1);
 		vector<string> _query(query.begin() + 2, query.end());
 		return d.set_union(" ", d.get_relation(query[0]), make_query(d, _query));	
 	}
@@ -74,7 +75,7 @@ Relation make_union(Database &d, vector<string> query){
 
 Relation make_select(Database &d, vector<string> query){
 	if(query[0].front()=='(')
-		query[0].erase(0);
+		query[0].erase(0,1);
 	string att_name=query[0];
 	string compare=query[1];
 	string value=query[2];
@@ -84,16 +85,14 @@ Relation make_select(Database &d, vector<string> query){
 		vector<string> _query(query.begin() + 3, query.end());
 		return d.select(att_name, value, compare, make_query(d, _query));
 	} else if( query[3]=="&&"){
-		for(i=4; i<query.size(); i++)
-			if (query[0].back()==')')break;
+		for(i=4; query[i].back()!=')'; i++){}
 		vector<string> _query(query.begin() + i + 1, query.end());
 		vector<string> _query2(query.begin() + 4, query.end());
 		return d.set_difference(" ", d.select(att_name, value, compare, make_query(d, _query) ), make_select(d, _query2));
 		
 	}
 	else if( query[3] =="||"){
-		for(i=4; i<query.size(); i++)
-			if (query[0].back()==')')break;
+		for(i=4; query[i].back()!=')'; i++){}
 		vector<string> _query(query.begin() + i + 1, query.end());
 		vector<string> _query2(query.begin() + 4, query.end());
 		return d.set_union( " ", d.select(att_name, value, compare, make_query(d, _query) ), make_select(d, _query2));	
@@ -142,16 +141,16 @@ Relation make_select(Database &d, vector<string> query){
 Relation make_project(Database &d, vector<string> query){
 	int i;
 	vector<string> names;
-	query[1].erase(0);
+	query[1].erase(0,1);
 	for(i=1; query[i].back()!=')'; i++){
 		//get rid of comma
-		query[i].pop_back();
+		query[i].erase(query[i].size()-1, 1);
  		names.push_back( query[i]);
 	}
-	query[i].pop_back();
+	query[i].erase(query[i].size()-1, 1);
 	names.push_back(query[i]);
 	if (query[i+=1].front()=='('){
-		query[i].erase(0);
+		query[i].erase(0,1);
 		vector<string> _query(query.begin() + i, query.end());
 		return d.project(names, make_query(d, _query));
 	}
@@ -162,16 +161,16 @@ Relation make_project(Database &d, vector<string> query){
 Relation make_rename(Database &d, vector<string> query){
 	int i;
 	vector<string> names;
-	query[1].erase(0);
+	query[1].erase(0,1);
 	for(i=1; query[i].back()!=')'; i++){
 		//get rid of comma
-		query[i].pop_back();
+		query[i].erase(query[i].size()-1, 1);
  		names.push_back( query[i]);
 	}
-	query[i].pop_back();
+	query[i].erase(query[i].size()-1, 1);
 	names.push_back(query[i]);
 	if (query[i+=1].front()=='('){
-		query[i].erase(0);
+		query[i].erase(0,1);
 		vector<string> _query(query.begin() + i, query.end());
 		return d.renaming(" ", names, make_query(d, _query));
 	}
@@ -190,7 +189,7 @@ string which_op(string op){
 	return "eq"; //Compare should be eq by default
 }
 
-void make_command(Database &d, vector<string> command){
+void make_command(Database &d, vector<string> command){ 
 	string Com = command[0];
 //Exit
 		if(Com=="EXIT"){
@@ -199,7 +198,7 @@ void make_command(Database &d, vector<string> command){
 //Show
 		else if(Com=="SHOW"){
 			if(command[1].front()=='('){
-				command[1].erase(0);
+				command[1].erase(0,1);
 				vector<string> _query(command.begin() + 1, command.end());
 				d.show(make_query(d, _query));	
 			}
@@ -233,22 +232,65 @@ void make_command(Database &d, vector<string> command){
 		//	d.update();
 }
 //Insert
-		else if (Com == "INSERT") {
-			if (command[5].front() == '(') {
-				command[5].erase(0);
+		else if (Com == "INSERT") { 
+			if (command[5].front() == '(') { 
+				command[5].erase(0,1);
 				vector<string> _command(command.begin() + 5, command.end());
-				d.get_relation(command[2]).insert_tuple(make_insert(command));
-			}
-			else {
+				d.get_relation(command[2]).insert_tuple(make_insert(command)); 
+			} 
+			else { 
 				vector<string> _query(command.begin() + 6, command.end());
-				//	d.get_relation(command[2]).insert_tuples(make_query(d, _query));
+				d.get_relation(command[2]).insert_relation(make_query(d, _query));
 			}
 		}
 //Create
-		else if(Com=="CREATE"){
-		
-
-		//	d.create_relation(command[1],  )
+		else if(Com=="CREATE"){ 
+			int i, length;
+			string check;
+			vector<string> att_names;
+			vector<int> att_lengths;
+			vector<string> primary; 
+			command[3].erase(0,1); 
+			for(i=4; command[i].back()!=')'; i+=2){ 
+				//command[i].erase(std::remove(command[i].begin(), command[i].end(), ','), command[i].end()); 
+				
+				command[i].erase(command[i].size()-1, 1);
+				
+				
+				att_names.push_back(command[i-1]); 
+				check=command[i].substr(0,7); 
+				if(check=="VARCHAR"){ 
+					length=stoi(command[i].substr(8, command[i].size()-9)); 
+					att_lengths.push_back(length); 
+				}	
+				else if(check=="INTEGER"){
+					length=0; 
+					att_lengths.push_back(length); 
+				} 
+			} 
+			command[i].erase(std::remove(command[i].begin(), command[i].end(), ','), command[i].end()); 
+			att_names.push_back(command[i-1]); 
+			check=command[i].substr(0,7); 
+			if(check=="VARCHAR"){ 
+				length=stoi(command[i].substr(8, command[i].size()-9));	 				
+				att_lengths.push_back(length); 
+			}
+			else if(check=="INTEGER"){ 
+				length=0; 
+				att_lengths.push_back(length); 
+			}
+//set the primary keys			 
+			i+=3; 							//skip PRIMARY KEY
+			command[i].erase(0,1);					//erase '(' 
+			for(; command[i].back()!=')'; i++){	 
+				command[i].erase(std::remove(command[i].begin(), command[i].end(), ','), command[i].end());				
+				primary.push_back(command[i]); 
+				if(strstr(command[i].c_str(),")")){break;}
+			}
+			command[i].erase(std::remove(command[i].begin(), command[i].end(), ','), command[i].end());				
+			primary.push_back(command[i]);
+			
+			d.create_relation(command[2], att_names, att_lengths, primary  );
 		
 		}
 
@@ -287,45 +329,99 @@ Relation make_query(Database &d, vector<string> query){
 
 
 void Action(Database &d, vector<string> command){
-    command[command.size()-1].pop_back();
-	if(is_command(command[0]))
-                make_command(d, command);
-        else if(is_query(command[0])){
+   // command[command.size()-1].pop_back();
+	
+	if(is_command(command[0])){ 
+                make_command(d, command); 
+	}else if(is_query(command[0])){
 		vector<string> query(command.begin() + 2, command.end());
                d.create_relation(command[0], make_query(d, query));
 	}else {}//error
 }
-/*
+
+void main_loop(vector<string> &command_list, string &command, int &line_number, Database &d){
+	if(command_list.size()>0){
+		command_list[command_list.size()-1].erase(std::remove(command_list[command_list.size()-1].begin(), command_list[command_list.size()-1].end(), ';'), command_list[command_list.size()-1].end());
+		if(equal_parentheses(command_list)){
+			int num=0; int num2=0;
+			if(is_command(command_list, num2)){
+				Action(d, command_list);
+				output << "line " << to_string(line_number) <<"was successful!"<<endl;
+			}else if(is_query(command_list, num)){
+				Action(d, command_list);
+				output << "line " << to_string(line_number) <<"was successful!"<<endl;
+			}else {
+				cout<<"\nThis is NOT a valid statement. This was given on index: " << num << endl;
+				output << "line " << to_string(line_number) <<" failed"<<endl;
+			}
+		} else{
+		cout << "There are not an equal number of begining and ending parentheses.\n";
+		output << "line " << to_string(line_number) <<" failed"<<endl;
+		}
+	} else{
+		cout << "There is not enough arguments" << endl;
+		output << "line " << to_string(line_number) <<" failed"<<endl;
+	}
+	line_number++;
+}
+
 int main(){
-	std::ifstream input("Input.txt");//From vaild statement input
-	std::ifstream output("Ouput.txt");//From test_parser.cpp
-	if(!input || !output){
-		printf("\nThe Paser files not found!");
+	output.open ("Output.txt");
+	Database d("d");
+	if(!output){ //This should never happen
+		printf("\nThe Output file is not found!");
 		exit(EXIT_FAILURE);//Showing error status code
 	}
-	string output_text;
-	string command;
-	while(std::getline(output, output_text)){
-		if(input_text!="success"){//don't do unless valid
-			printf("\nThis statement was not valid. **SKIPPED**");
-		} else{//This line/command is valid
-			getline(input, command);//Not sure about syntax
-			
+	printf("This is the Beginning of %s, in the %s function, which is on line: %d\n\n", __FILE__, __func__, __LINE__);//This is for error management
+	string f_or_h;
+	printf("For this run, would you like to take input from an \"Input.txt\" file [f], or type commands in by hand[h]? [f\\h]\n>");//Giving better testing handles
+	cin >>  f_or_h;
+	int loop=1;
+	while (loop==1){
+		if(f_or_h != "h" && f_or_h != "H" && f_or_h != "hand" && f_or_h != "f" && f_or_h != "F" && f_or_h != "file"){
+			std::cin.ignore( std::numeric_limits<std::streamsize>::max(), '\n' );
+			f_or_h = "";
+			printf("Please re-enter your prefered input method [f\\h]\n>");
+			cin >>  f_or_h;
+		} else{loop=0;}
+	}
+	if(f_or_h == "f" || f_or_h == "F" || f_or_h == "file"){
+		string command;
+		string input_file = "";
+			printf("Please input the file you would like to use. \n(Please note, this is automated, no other input will be read)\n>");
+			cin >> input_file;
+			std::ifstream input(input_file);
+			if(!input){
+				printf("\nThe input file not found!");
+				printf("\nPlease place a file named \"Input.txt\" in the same folder as %s.\n\n", __FILE__);
+				exit(EXIT_FAILURE);//Showing error status code
+			}
+		int line_number=1;
+		while(std::getline(input, command)){ 
+			cout << "\nThe command given is: " << command.c_str() << endl;
 			vector<string> command_list;
 			boost::split(command_list, command, boost::is_any_of(" "));
-			command_list[command_list.size()-1].erase(std::remove(command_list[command_list.size()-1].begin(), command_list[command_list.size()-1].end(), ';'), command_list[command_list.size()-1].end());
-			/*
-			
-			Use command_list!
-			
-			command_list is a delimited version of the line it got from the input file.
-			
-			Not quite done with thought process yet.
-			
-			*/
-			
-	//	}
-//	return 0;
-//}
+			main_loop(command_list, command, line_number,d);
+		}
+		input.close();
+	} else if (f_or_h == "h" || f_or_h == "H" || f_or_h == "hand"){
+		int line_number=1;
+		std::cin.ignore( std::numeric_limits<std::streamsize>::max(), '\n' );
+		while(1){ 
+			string command;
+			printf("Please enter a command:\n");
+			std::getline (std::cin,command);
+			cout<<"1\n";
+			stringstream ss(command);
+			cout<<command<<'\n';
+			istream_iterator<string> begin(ss);
+			istream_iterator<string> end;
+			vector<string> command_list(begin, end);
+			main_loop(command_list, command, line_number,d);
+		}
+	}
+	output.close();
+	return 0;
+}
 
 	

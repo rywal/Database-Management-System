@@ -23,18 +23,27 @@ void Relation::insert_tuple(vector<string> values){
 //    std::cout << values.size() << "Values " << attribute_list.num_attributes() << " num attributes\n";
     if (values.size() == attribute_list.num_attributes()) {
         Tuple new_tuple( values.size() );
-        
         for (int i = 0; i < values.size(); i++){
-            Cell new_cell( values[i], attribute_list.attributes[i].get_max_length() );
+			cout<<values[i]<<endl;
+		   Cell new_cell( values[i], attribute_list.attributes[i].get_max_length() ); 
             new_tuple.insert_cell(i, new_cell);
         }
-        
         tuples.push_back(new_tuple);
     }
 }
 
 void Relation::insert_tuple(Tuple new_tuple){
 	tuples.push_back(new_tuple);
+}
+
+void Relation::insert_relation(Relation r){
+		for(int i=0; i<r.attribute_list.num_attributes(); i++)
+			if(attribute_exist(r.get_attribute_name(i))){
+				for(int j=0; j<r.get_size(); j++)
+					tuples.push_back(r.tuples[j]);
+			}
+			else
+				cerr<<"The atribute given did not match any attributes in original relation\n";
 }
 
 Relation Relation::delete_tuple(Relation &original_relation, string att_name, string compare_value, string compare_operator){
