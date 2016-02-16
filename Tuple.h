@@ -14,7 +14,6 @@ public:
     int num_att;
     
     Tuple( int _num_attributes );
-    ~Tuple();
     int insert_value( int index, string value, int max_length );
     int insert_cell( int index, Cell cell );
     Cell get_cell(int index);

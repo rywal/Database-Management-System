@@ -203,6 +203,7 @@ string which_op(string op){
 void make_command(Database &d, vector<string> command){ 
 	string Com = command[0];
 	string temp=command[1].substr(0,command[1].size()-1);
+//    string temp = command[1];
 //Exit
 		if(Com=="EXIT"){
 			exit(0);

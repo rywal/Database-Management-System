@@ -15,7 +15,7 @@ Relation& Database::get_relation(string name) {
 		if(relations[i].name == name){
 		   return relations[i];
 		}
-				cout<<"nope\n";
+        cout<<"nope\n";
 	}
 }
 

@@ -6,10 +6,6 @@ Tuple::Tuple( int _num_attributes ){
     num_att = _num_attributes;
 }
 
-Tuple::~Tuple(){
-    
-}
-
 int Tuple::insert_value( int index, string value, int max_length ){
     if (index >= 0 && index < num_attributes()) {
         Cell new_cell(value, max_length);
