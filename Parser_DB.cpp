@@ -102,6 +102,7 @@ Relation make_select(Database &d, vector<string> query){
 		value.pop_back();
 		if(query[3].front()=='('){query[3].erase(0,1);}
 		vector<string> _query(query.begin() + 3, query.end());
+        std::cout << "Selecting " << att_name << " with value " << value << " with operation " << which_op(compare) << endl;
 		return d.select(att_name, value, which_op(compare), make_query(d, _query));
 	} else if( query[3]=="&&"){
 		for(i=4; query[i].back()!=')'; i++){}
