@@ -28,7 +28,7 @@ public:
     Relation cross_product(string name, Relation a, Relation b);
     std::vector<string> outputRelation(int index);
     bool save(int index);
-    bool close();
+    bool close(int index);
 	void EXIT(); 		//defined in database.cpp
     Relation select(string att_name, string compare_value, string compare_operator, Relation in_rel);
     Relation project(vector<string> att_names, Relation in_rel);
