@@ -13,7 +13,7 @@ int main(){
     std::vector<int> attribute_types1 = {10, 0, 0, 10};
 
     std::vector<string> primary_keys_names1 = {"Name", "ID"};
-	DB.create_relation("Relation_A", attribute_names1, attribute_types1, primary_keys_names1);
+	DB.create_relation("Relation A", attribute_names1, attribute_types1, primary_keys_names1);
     
     Relation relA = DB.get_relation("Relation A");
 	
@@ -26,8 +26,6 @@ int main(){
 	relA.insert_tuple(r1_t2);
     relA.insert_tuple(r1_t3);
     relA.insert_tuple(r1_t0);
-    
-    DB.save();
     
 //	cout<<"1\n";	
 	DB.print_relation(relA);
