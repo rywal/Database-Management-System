@@ -10,10 +10,12 @@ Database::Database(string _name){name = _name; std::cout << "Relations size is "
 
 
 Relation& Database::get_relation(string name) {
-    for (int i = 0; i < relations.size(); i++){
-        if(relations[i].name == name)
-            return relations[i];
-    }
+   for (int i = 0; i < relations.size(); i++){
+		if(relations[i].name == name){
+		   return relations[i];
+		
+		}
+	}
 }
 
 Relation& Database::get_relation(int index) {
@@ -152,10 +154,10 @@ Relation Database::cross_product(string name, Relation a, Relation b){
 
 Relation Database::select( string att_name, string compare_value, string compare_operator, Relation in_rel ){
     Relation out_rel(in_rel.name, in_rel.attribute_list.names(), in_rel.attribute_list.maxes(), in_rel.primary_keys);
-    
+    cout<<"HERE\n";
     int index = in_rel.get_attribute_index( att_name );
     vector<int> matching_tuples;
-    
+    cout<<"Or here\n";
     in_rel.compare(matching_tuples, compare_value, compare_operator, index);
     
     if ( index > -1 ) {
