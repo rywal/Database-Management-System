@@ -311,14 +311,13 @@ void make_command(Database &d, vector<string> command){
 			i+=3; 							//skip PRIMARY KEY
 			command[i].erase(0,1);					//erase '(' 
 			for(; command[i].back()!=')'; i++){	 
-				command[i].erase(std::remove(command[i].begin(), command[i].end(), ','), command[i].end());
-                std::cout << "Pushing back value to primary keys: " << command[i] << std::end;
-				primary.push_back(command[i]);
+                command[i].erase(std::remove(command[i].begin(), command[i].end(), ','), command[i].end());
+                cout << "Pushing back value to primary keys: " << command[i] << endl;
+                primary.push_back(command[i]);
 				if(strstr(command[i].c_str(),")")){break;}
 			}
-			command[i].erase(std::remove(command[i].begin(), command[i].end(), ','), command[i].end());				
-			primary.push_back(command[i]);
-			d.create_relation(command[2], att_names, att_lengths, primary  );
+//			primary.push_back(command[i]);
+			d.create_relation(command[2], att_names, att_lengths, primary);
 		
 		}
 
