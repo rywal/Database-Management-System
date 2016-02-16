@@ -325,11 +325,12 @@ Relation make_query(Database &d, vector<string> query){
 
 void Action(Database &d, vector<string> command){
    // command[command.size()-1].pop_back();
-	if(is_command(command[0]))
-                make_command(d, command);
-        else if(is_query(command[0])){
-		vector<string> query(command.begin() + 2, command.end());
-               d.create_relation(command[0], make_query(d, query));
+   printf("ERROR LOG1 %s, in the %s function, which is on line: %d\n\n", __FILE__, __func__, __LINE__);
+	if(is_command(command[0])) printf("ERROR LOG1 %s, in the %s function, which is on line: %d\n\n", __FILE__, __func__, __LINE__);
+                make_command(d, command); printf("ERROR LOG1 %s, in the %s function, which is on line: %d\n\n", __FILE__, __func__, __LINE__);
+        else if(is_query(command[0])){ printf("ERROR LOG1 %s, in the %s function, which is on line: %d\n\n", __FILE__, __func__, __LINE__);
+		vector<string> query(command.begin() + 2, command.end()); printf("ERROR LOG1 %s, in the %s function, which is on line: %d\n\n", __FILE__, __func__, __LINE__);
+               d.create_relation(command[0], make_query(d, query)); printf("ERROR LOG1 %s, in the %s function, which is on line: %d\n\n", __FILE__, __func__, __LINE__);
 	}else {}//error
 }
 
