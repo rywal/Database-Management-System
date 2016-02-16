@@ -125,36 +125,30 @@ bool Database::cross_compatible(Relation a,Relation b){
 }
 
 Relation Database::cross_product(string name, Relation a, Relation b){
-printf("%s file, %s function, line: %d\n", __FILE__, __func__, __LINE__);
-cout <<"|"<<a.get_size()<<":"<<b.get_size()<<endl;
-	if (cross_compatible(a,b)){printf("%s file, %s function, line: %d\n", __FILE__, __func__, __LINE__);
-        vector<string> prim_keys = a.primary_keys;printf("%s file, %s function, line: %d\n", __FILE__, __func__, __LINE__);
-        prim_keys.insert( prim_keys.end(), b.primary_keys.begin(), b.primary_keys.end() );printf("%s file, %s function, line: %d\n", __FILE__, __func__, __LINE__);
+	if (cross_compatible(a,b)){
+        vector<string> prim_keys = a.primary_keys;
+        prim_keys.insert( prim_keys.end(), b.primary_keys.begin(), b.primary_keys.end() );
 		Relation result(name, a.attribute_list.combine_names(a.attribute_list, b.attribute_list), a.attribute_list.combine_max(a.attribute_list, b.attribute_list), prim_keys);
-//        cout << a.get_num_attributes() << " + " << b.get_num_attributes() << "\n";
-		for (int i=0; i<a.tuples.size(); i++){printf("%s file, %s function, line: %d\n", __FILE__, __func__, __LINE__);
-			for (int j=0; j<b.tuples.size(); j++){printf("%s file, %s function, line: %d\n", __FILE__, __func__, __LINE__);
-            Tuple temp (a.get_num_attributes() + b.get_num_attributes());printf("%s file, %s function, line: %d\n", __FILE__, __func__, __LINE__);
-				for (int k=0; k<temp.num_attributes(); k++){printf("%s file, %s function, line: %d\n", __FILE__, __func__, __LINE__);
-//                    cout << "i: " << i << " j: " << j << " k: " << k << "\n";
-                    if (k<a.get_num_attributes()){printf("%s file, %s function, line: %d\n", __FILE__, __func__, __LINE__);
-//                        cout << a.tuples[i].get_cell(k).get_data() << " a - Data\n";
-						temp.insert_value(k, a.tuples[i].get_cell(k).get_data(), a.tuples[i].get_cell(k).get_max_length());printf("%s file, %s function, line: %d\n", __FILE__, __func__, __LINE__);
+		for (int i=0; i<a.tuples.size(); i++){
+			for (int j=0; j<b.tuples.size(); j++){
+            Tuple temp (a.get_num_attributes() + b.get_num_attributes());
+				for (int k=0; k<temp.num_attributes(); k++){
+                    if (k<a.get_num_attributes()){
+						temp.insert_value(k, a.tuples[i].get_cell(k).get_data(), a.tuples[i].get_cell(k).get_max_length());
                     } else {
-//                        cout << b.tuples[j].get_cell(k-a.get_num_attributes()).get_data() << " b - Data\n";
-                        temp.insert_value(k, b.tuples[j].get_cell(k-a.get_num_attributes()).get_data(), b.tuples[j].get_cell(k-a.get_num_attributes()).get_max_length());printf("%s file, %s function, line: %d\n", __FILE__, __func__, __LINE__);
+                        temp.insert_value(k, b.tuples[j].get_cell(k-a.get_num_attributes()).get_data(), b.tuples[j].get_cell(k-a.get_num_attributes()).get_max_length());
                     }
-                }printf("%s file, %s function, line: %d\n", __FILE__, __func__, __LINE__);
+                }
                 result.insert_tuple( temp);
             }
-		}printf("%s file, %s function, line: %d\n", __FILE__, __func__, __LINE__);
-		
+		}
+		printf("%s file, %s function, line: %d\n", __FILE__, __func__, __LINE__);
 		print_relation(result);
 		return result;
 	}
 	else{
         std::cerr << "These relations are not compatible for using the cross product function. Rename the attributes in one of the relations.";
-	}printf("%s file, %s function, line: %d\n", __FILE__, __func__, __LINE__);
+	}
 }
 
 Relation Database::select( string att_name, string compare_value, string compare_operator, Relation in_rel ){

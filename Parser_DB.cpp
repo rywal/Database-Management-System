@@ -46,7 +46,7 @@ vector<string> make_insert(vector<string> command){
 
 void make_create(){}
 
-Relation make_product(Database &d, vector<string> query){
+Relation make_product(Database &d, vector<string> query){ 
 	if(query[2].front()=='('){
 		query[query.size()-1].erase(query[query.size()-1].size()-1, 1);
 		query[2].erase(0,1);
@@ -55,8 +55,11 @@ Relation make_product(Database &d, vector<string> query){
 	}
 	else{
 		vector<string> _query(query.begin() + 2, query.end());
-        std::cout << "trying to get query of " << query[0] << endl;
-		return d.cross_product(" ", d.get_relation(query[0]), make_query(d, _query));
+		//_query.erase(std::remove(_query.begin(), _query.end(), ')'), _query.end());
+		if(_query.size()>0){
+			std::cout << "trying to get query of " << query[0] << endl;
+			return d.cross_product(" ", d.get_relation(query[0]), make_query(d, _query));
+		}
 	}
 }
 
@@ -353,16 +356,17 @@ Relation make_query(Database &d, vector<string> query){
 		//just a relation name
 	else{
 		string expr2=query[1];
-    //Product
-		if (expr2 == "*")
-				return make_product( d, query);
-    //Difference
-		else if (expr2	== "-")
-				return make_difference( d, query);
-    //Union
-		else if (expr2 == "+")
-				return make_union( d, query);
-
+		if((query.size())>3){
+		//Product
+			if (expr2 == "*")
+					return make_product( d, query);
+		//Difference
+			else if (expr2	== "-")
+					return make_difference( d, query);
+		//Union
+			else if (expr2 == "+")
+					return make_union( d, query);
+		}
 	}
 }
 

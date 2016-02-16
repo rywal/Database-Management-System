@@ -21,3 +21,4 @@ common_names <- project (name) (select (aname == name && akind != kind) (a * ani
 SHOW common_names;
 answer <- common_names;
 SHOW answer;
+EXIT;
