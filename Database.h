@@ -14,8 +14,8 @@ public:
     std::vector<Relation> relations;
     
     Database(string _name);
-    Relation get_relation(string name);
-    Relation get_relation(int index);
+    Relation& get_relation(string name);
+    Relation& get_relation(int index);
 	int get_relation_index( string rel_name );
 	void create_relation(string name, Relation a);
     void create_relation(string name, vector<string> attribute_names, vector<int> attribute_types, vector<string> primary_keys);

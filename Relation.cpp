@@ -28,7 +28,7 @@ void Relation::insert_tuple(vector<string> values){
 		   Cell new_cell( values[i], attribute_list.attributes[i].get_max_length() ); 
             new_tuple.insert_cell(i, new_cell);
         }
-        tuples.push_back(new_tuple);
+        this->tuples.push_back(new_tuple);
     }
 }
 
