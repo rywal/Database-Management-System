@@ -48,18 +48,20 @@ void make_create(){}
 
 Relation make_product(Database &d, vector<string> query){ 
 	if(query[2].front()=='('){
+		cout<<"CP first route\n";
 		query[query.size()-1].erase(query[query.size()-1].size()-1, 1);
 		query[2].erase(0,1);
 		vector<string> _query(query.begin() + 2, query.end());
 		return d.cross_product(" ", d.get_relation(query[0]), make_query(d, _query));	
 	}
 	else{
+		cout<<"CP second route\n";
 		vector<string> _query(query.begin() + 2, query.end());
-		//_query.erase(std::remove(_query.begin(), _query.end(), ')'), _query.end());
-		if(_query.size()>0){
-			std::cout << "trying to get query of " << query[0] << endl;
-			return d.cross_product(" ", d.get_relation(query[0]), make_query(d, _query));
-		}
+		string expr=query[2];
+		string expr1=expr.substr(0,expr.size()-1);
+		cout<<query[0]<<" : "<<expr1<<endl;
+		return d.cross_product(" ", d.get_relation(query[0]), d.get_relation(expr1));
+
 	}
 }
 
@@ -170,11 +172,13 @@ Relation make_project(Database &d, vector<string> query){
 	query[i].erase(query[i].size()-1, 1);
 	names.push_back(query[i]);
 	if (query[i+=1].front()=='('){
+		cout<<"first route\n";
 		query[i].erase(0,1);
 		vector<string> _query(query.begin() + i, query.end());
 		return d.project(names, make_query(d, _query));
 	}
 	else{
+		cout<<"second route\n";
 		vector<string> _query(query.begin() + i, query.end());
 		return d.project(names, make_query(d,_query));	
 	}
@@ -335,7 +339,6 @@ void make_command(Database &d, vector<string> command){
 }
 
 Relation make_query(Database &d, vector<string> query){
-	cout<<"count "<<query[0]<<endl;
 	string expr=query[0];
 	if(1==query.size()){
 		string expr1=expr.substr(0,expr.size()-1);
@@ -357,7 +360,6 @@ Relation make_query(Database &d, vector<string> query){
 		//just a relation name
 	else{
 		string expr2=query[1];
-		if((query.size())>3){
 		//Product
 			if (expr2 == "*")
 					return make_product( d, query);
@@ -367,7 +369,7 @@ Relation make_query(Database &d, vector<string> query){
 		//Union
 			else if (expr2 == "+")
 					return make_union( d, query);
-		}
+		
 	}
 }
 
