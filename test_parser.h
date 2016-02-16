@@ -21,7 +21,7 @@ bool is_renaming(vector<string> &command_list, int &index);
 bool is_atomic(vector<string> &command_list, int &index);
 bool is_expr(vector<string> &command_list, int &index);
 
-bool is_operator(string op){
+bool is_operator(string op){//Tests operator
 	if(op == "==" || op == "!=" || op == "<" || op == ">" || op == "<=" || op == ">="){
 		return true;
 	}else{
@@ -31,7 +31,7 @@ bool is_operator(string op){
 }
 
 bool contains_operand_combo(vector<string> &command_list, int &index){
-	if((command_list.size() - index)>3){
+	if((command_list.size() - index)>3){//this checks if the operator combo is correct
 		if(!strstr(command_list[index].c_str(),")") && !strstr(command_list[index].c_str(),"(") && !strstr(command_list[index+1].c_str(),")")&&!strstr(command_list[index+1].c_str(),"(")&&!strstr(command_list[index+2].c_str(),"(")){
 			if (is_operator(command_list[index+1])){
 				index += 3;
@@ -47,7 +47,7 @@ bool contains_operand_combo(vector<string> &command_list, int &index){
 }
 
 
-bool contains_comparison(vector<string> &command_list, int &index){
+bool contains_comparison(vector<string> &command_list, int &index){ //This asks if the pattern is correct for a comparision
 	for (int i = index; i < command_list.size();i++){
 		if (!contains_operand_combo(command_list, i)){
 			if(strstr(command_list[i].c_str(),"(")){
@@ -65,7 +65,7 @@ bool contains_comparison(vector<string> &command_list, int &index){
 	return true;
 }
 
-bool contains_conjunction(vector<string> &command_list, int &index){
+bool contains_conjunction(vector<string> &command_list, int &index){//This asks if the pattern is correct for a conjunction
 	int temp = index;
 	if(contains_comparison(command_list,index)){
 		for (int i = index; i < command_list.size();i++){
@@ -82,7 +82,7 @@ bool contains_conjunction(vector<string> &command_list, int &index){
 	return true;
 }
 
-bool contains_condition(vector<string> &command_list, int &index){
+bool contains_condition(vector<string> &command_list, int &index){ //This asks if the pattern is correct for a condition
 	int temp = index;
 	if(contains_conjunction(command_list,index)){
 		for (int i = index; i < command_list.size();i++){
@@ -103,7 +103,7 @@ bool contains_condition(vector<string> &command_list, int &index){
 	return true;
 }
 
-bool is_selection(vector<string> &command_list, int &index){
+bool is_selection(vector<string> &command_list, int &index){ //This asks if the statement is a selection
 	if(command_list[index] == "select"){
 		index += 1;
 		if(strstr(command_list[index].c_str(),"(")){
@@ -125,7 +125,7 @@ bool is_selection(vector<string> &command_list, int &index){
 	return false;
 }
 
-bool is_identifier(string identifier){
+bool is_identifier(string identifier){ //This asks if the statement is an identifier(basically if it can be a name)
 	if(identifier.size()!=0){
 		if(isalpha(identifier[0])){
 			for(int i=0; i < identifier.size();i++){
@@ -155,7 +155,7 @@ bool is_identifier(string identifier){
 	return false;
 }
 
-bool is_atomic(vector<string> &command_list, int &index){
+bool is_atomic(vector<string> &command_list, int &index){ //This asks if the statement is an atomic expression
 	if(is_identifier(command_list[index])){
 		index + 1;
 		return true;
@@ -186,7 +186,7 @@ bool is_atomic(vector<string> &command_list, int &index){
 	return false;
 }
 
-bool is_attribute_name_ForLoop(string identifier){
+bool is_attribute_name_ForLoop(string identifier){ //This is used for Create
 	if(identifier.size()!=0){
 		if(isalpha(identifier[0])){
 			for(int i=1; i+1 < identifier.size()-1;i++){
@@ -214,7 +214,7 @@ bool is_attribute_name_ForLoop(string identifier){
 	return false;
 }
 
-bool contains_attribute_list(vector<string> &command_list, int &index){
+bool contains_attribute_list(vector<string> &command_list, int &index){ //This asks if the pattern is right for attribute list
 	if(index >= (command_list.size())){
 		printf("There was not enough arguments for an Attribute List\n");
 		return false;
@@ -244,7 +244,7 @@ bool contains_attribute_list(vector<string> &command_list, int &index){
 	return false;
 }
 
-bool is_projection(vector<string> &command_list, int &index){
+bool is_projection(vector<string> &command_list, int &index){ //This asks if the statement is a projection
 	if(command_list[index] == "project"){
 		index += 1;
 		if(strstr(command_list[index].c_str(),"(")){
@@ -266,15 +266,10 @@ bool is_projection(vector<string> &command_list, int &index){
 	return false;
 }
 
-bool is_renaming(vector<string> &command_list, int &index){
+bool is_renaming(vector<string> &command_list, int &index){ //This asks if the statement is a rename
 	if(command_list[index] == "rename"){
 		index += 1;
 		if(strstr(command_list[index].c_str(),"(")){
-			/*command_list[index].erase(0,1);
-			if(strstr(command_list[index].c_str(),"(")){
-				printf("The parentheses for a Renaming was not at the begining of the first argument.\n");
-				return false;
-			}*/
 		} else{
 			printf("A parentheses is needed when calling an Attribute List for Renaming.\n");
 			return false;
@@ -288,7 +283,7 @@ bool is_renaming(vector<string> &command_list, int &index){
 	return false;
 }
 
-int is_udp(vector<string> &command_list, int &index){
+int is_udp(vector<string> &command_list, int &index){ //This asks if the statement is a union, difference, or product
 	int return_val = 0;
 	if(is_atomic(command_list,index)){
 		index+=1;
@@ -314,7 +309,7 @@ int is_udp(vector<string> &command_list, int &index){
 	return 0;
 }
 
-bool is_expr(vector<string> &command_list, int &index){
+bool is_expr(vector<string> &command_list, int &index){ //This asks if the statement is an expression
 	if (command_list[index] == "select"){
 		if(is_selection(command_list,index)){
 			return true;
@@ -335,7 +330,7 @@ bool is_expr(vector<string> &command_list, int &index){
 	return false;
 }
 
-bool is_query(vector<string> &command_list, int &index){
+bool is_query(vector<string> &command_list, int &index){ //This asks if the statement is a query
 	if(command_list.size() > (index + 3)){
 		for(int i=index; i< command_list.size();i++){
 			if (is_identifier(command_list[index])){
@@ -345,7 +340,7 @@ bool is_query(vector<string> &command_list, int &index){
 					if(!is_expr(command_list,index)){
 						return false;
 					} else{
-						if (is_atomic(command_list,index) /*&& (index == command_list.size()-1)*/){
+						if (is_atomic(command_list,index)){
 							return true;
 						} else{
 							return false;
@@ -377,7 +372,7 @@ bool is_query(vector<string> &command_list, int &index){
 	return true;
 }
 
-bool is_type_wo(vector<string> &command_list, int &index){
+bool is_type_wo(vector<string> &command_list, int &index){ //This asks if the statement is a type without commas
 	if(command_list[index] != "INTEGER"){
 		index += 1;
 		if(command_list[index] != "VARCHAR"){
@@ -397,10 +392,10 @@ bool is_type_wo(vector<string> &command_list, int &index){
 	return false;
 }
 
-bool is_var(string var){
+bool is_var(string var){ //This asks if the statement is a VARCHAR
 	if(var.size()>8){
-		if(var[0]=='V'){
-			if(var[1]=='A'){
+		if(var[0]=='V'){//The layout was made like this for debugging,
+			if(var[1]=='A'){//but I liked how it looked, so I kept it.
 				if(var[2]=='R'){
 					if (var[3]=='C'){
 						if(var[4]=='H'){
@@ -427,7 +422,7 @@ bool is_var(string var){
 	return false;
 }
 
-bool is_type(vector<string> &command_list, int &index){
+bool is_type(vector<string> &command_list, int &index){//This is to see if it is a type
 	index -= 2;
 	if(command_list[index] != "INTEGER"){
 		index += 1;//IGNORE the Relation name
@@ -443,7 +438,7 @@ bool is_type(vector<string> &command_list, int &index){
 	return false;
 }
 
-bool is_attribute_type_ForLoop(vector<string> command_list, int &index){
+bool is_attribute_type_ForLoop(vector<string> command_list, int &index){//This is used to non-create commands
 	for(int i=index; i < command_list.size(); i++){
 		if(is_identifier(command_list[i])){
 			i+=1;
@@ -462,7 +457,7 @@ bool is_attribute_type_ForLoop(vector<string> command_list, int &index){
 	return false;
 }
 
-bool contains_attribute_type(vector<string> &command_list, int &index){
+bool contains_attribute_type(vector<string> &command_list, int &index){ //This is used to see if the statement contains typed-attribute list
 	int also =0; int no_loop=0;
 	if(index >= (command_list.size() - 1)){
 		printf("There was not enough arguments for a typed Attribute List\n");
@@ -501,7 +496,7 @@ bool contains_attribute_type(vector<string> &command_list, int &index){
 	return false;
 }
 
-bool is_command(vector<string> command_list, int &index){
+bool is_command(vector<string> command_list, int &index){//This is used to tell if the statement is a command
 	if (command_list[index] == "OPEN"){
 		if(is_identifier(command_list[index+=1])){
 			return true;
@@ -621,7 +616,7 @@ bool is_command(vector<string> command_list, int &index){
 	}
 }
 
-bool equal_parentheses(vector<string> command_list){
+bool equal_parentheses(vector<string> command_list){//This eliminates some statements immiedately
 	int number_of_beg_parenthesis=0;
 	int number_of_end_parenthesis=0;
 	if(command_list.size()>0){
