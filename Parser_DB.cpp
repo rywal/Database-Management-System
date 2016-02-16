@@ -47,6 +47,7 @@ void make_create(){}
 
 Relation make_product(Database &d, vector<string> query){
 	if(query[2].front()=='('){
+		query[query.size()-1].erase(query[query.size()-1].size()-1, 1);
 		query[2].erase(0,1);
 		vector<string> _query(query.begin() + 2, query.end());
 		return d.cross_product(" ", d.get_relation(query[0]), make_query(d, _query));	
@@ -56,6 +57,7 @@ Relation make_product(Database &d, vector<string> query){
 
 Relation make_difference(Database &d, vector<string> query){
 	if(query[2].front()=='('){
+		query[query.size()-1].erase(query[query.size()-1].size()-1, 1);
 		query[2].erase(0,1);
 		vector<string> _query(query.begin() + 2, query.end());
 		return d.set_difference(" ", d.get_relation(query[0]), make_query(d, _query));	
@@ -65,6 +67,7 @@ Relation make_difference(Database &d, vector<string> query){
 
 Relation make_union(Database &d, vector<string> query){
 	if(query[2].front()=='('){
+		query[query.size()-1].erase(query[query.size()-1].size()-1, 1);
 		query[2].erase(0,1);
 		vector<string> _query(query.begin() + 2, query.end());
 		return d.set_union(" ", d.get_relation(query[0]), make_query(d, _query));	
@@ -310,11 +313,13 @@ void make_command(Database &d, vector<string> command){
 }
 
 Relation make_query(Database &d, vector<string> query){
-    std::cout << "Making Query:\n";
-    for (string s : query) {
-        std::cout << '"' << s << '"' << "\n";
-    }
-    string expr = query[0];
+	string expr=query[0];
+	if(1==query.size()){
+		string expr1=expr.substr(0,expr.size()-1);
+		
+		return d.get_relation(expr1);
+	}
+    expr = query[0];
     cout<<expr<<'\n';
 	//Renaming
 	if (expr == "rename")
@@ -329,14 +334,6 @@ Relation make_query(Database &d, vector<string> query){
 	}
 		//relation cases n
 		//just a relation name
-	else if(1==query.size()){
-        expr.erase(expr.size() - 1);
-        
-        expr.erase(expr.size() - 1);
-		cout<<"HERE! we are trying to get " << expr.c_str() << " of length: " << expr.length() << "\n";
-        
-		return d.get_relation(expr);
-	}
 	else{
 		string expr2=query[1];
     //Product
