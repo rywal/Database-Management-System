@@ -12,7 +12,7 @@ bool is_query(string command){
         //uses ascii to check if the first letter is lowercase
         return ((command[0]>97 && command[0]<122)||command[0]==95);
 }
-
+/*
 int which_atomic(string atomic, string at2){
 	//at2 is the next element, "null"
 	if (atomic == "EXIT" || atomic == "CLOSE" || atomic == "SAVE" || atomic == "OPEN" || atomic == "SHOW" || atomic == "CREATE" || atomic == "UPDATE" || atomic == "INSERT" || atomic == "DELETE"){
@@ -22,7 +22,7 @@ int which_atomic(string atomic, string at2){
 	} else{
 		return 2; //Relation-Name
 	}
-}
+}*/
 
 Relation make_query(Database &d, vector<string> query);
 
@@ -145,10 +145,10 @@ Relation make_project(Database &d, vector<string> query){
 	query[1].erase(0,1);
 	for(i=1; query[i].back()!=')'; i++){
 		//get rid of comma
-		query[i].pop_back();
+		query[i].erase(query[i].size()-1, 1);
  		names.push_back( query[i]);
 	}
-	query[i].pop_back();
+	query[i].erase(query[i].size()-1, 1);
 	names.push_back(query[i]);
 	if (query[i+=1].front()=='('){
 		query[i].erase(0,1);
@@ -165,10 +165,10 @@ Relation make_rename(Database &d, vector<string> query){
 	query[1].erase(0,1);
 	for(i=1; query[i].back()!=')'; i++){
 		//get rid of comma
-		query[i].pop_back();
+		query[i].erase(query[i].size()-1, 1);
  		names.push_back( query[i]);
 	}
-	query[i].pop_back();
+	query[i].erase(query[i].size()-1, 1);
 	names.push_back(query[i]);
 	if (query[i+=1].front()=='('){
 		query[i].erase(0,1);
