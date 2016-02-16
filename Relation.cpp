@@ -37,6 +37,16 @@ void Relation::insert_tuple(Tuple new_tuple){
 	tuples.push_back(new_tuple);
 }
 
+void Relation::insert_relation(Relation r){
+		for(int i=0; i<r.attribute_list.num_attributes(); i++)
+			if(attribute_exist(r.get_attribute_name(i))){
+				for(int j=0; j<r.get_size(); j++)
+					tuples.push_back(r.tuples[j]);
+			}
+			else
+				cerr<<"The atribute given did not match any attributes in original relation\n";
+}
+
 Relation Relation::delete_tuple(Relation &original_relation, string att_name, string compare_value, string compare_operator){
     Database db("name");
     return db.set_difference(name+"_Deleted", original_relation, db.select(att_name, compare_value, compare_operator, original_relation));
