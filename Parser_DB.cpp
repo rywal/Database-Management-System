@@ -32,12 +32,13 @@ void make_update(){}
 
 vector<string> make_insert(vector<string> command){
 		vector<string> values; 
-		for (int i=0; i < command.size(); i++){
-		//	if (command[i].front()=='"'){
-		//		command[i].erase(0,1);
-		//		command[i].erase(std::remove(command[i].begin(), command[i].end(), ','), command[i].end());
-		//	} printf("%s function, line: %d\n\n", __func__, __LINE__);
-			command[i].erase(std::remove(command[i].begin(), command[i].end(), ','), command[i].end());
+		for (int i=5; i < command.size(); i++){
+			if (command[i].front()=='"'){
+				command[i].erase(std::remove(command[i].begin(), command[i].end(), '"'), command[i].end());
+            } //printf("%s function, line: %d\n\n", __func__, __LINE__);
+            command[i].erase(std::remove(command[i].begin(), command[i].end(), ','), command[i].end());
+			command[i].erase(std::remove(command[i].begin(), command[i].end(), ')'), command[i].end());
+            std::cout << "Inserting value: " << command[i] << "\n";
 			values.push_back(command[i]);
 		} 
 	return values;
@@ -261,6 +262,7 @@ void make_command(Database &d, vector<string> command){
 				command[5].erase(0,1);
 				vector<string> _command(command.begin() + 5, command.end());
                 Relation &r = d.get_relation(command[2]);
+                std::cout << "inserting tuple\n";
 				r.insert_tuple(make_insert(command));
 			} 
 			else { 
