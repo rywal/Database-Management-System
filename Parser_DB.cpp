@@ -212,6 +212,7 @@ void make_command(Database &d, vector<string> command){
 				vector<string> _query(command.begin() + 1, command.end());
 				d.show(make_query(d, _query));	
 			}
+            std::cout << "name of relation is " << temp << " with length: " << temp.length() << "\n";
 			d.print_relation(d.get_relation(temp));
 		}
 //Save
@@ -246,11 +247,13 @@ void make_command(Database &d, vector<string> command){
 			if (command[5].front() == '(') { 
 				command[5].erase(0,1);
 				vector<string> _command(command.begin() + 5, command.end());
-				d.get_relation(command[2]).insert_tuple(make_insert(command)); 
+                Relation &r = d.get_relation(command[2]);
+				r.insert_tuple(make_insert(command));
 			} 
 			else { 
 				vector<string> _query(command.begin() + 6, command.end());
-				d.get_relation(command[2]).insert_relation(make_query(d, _query));
+                Relation &r = d.get_relation(command[2]);
+				r.insert_relation(make_query(d, _query));
 			}
 		}
 //Create
@@ -307,7 +310,10 @@ void make_command(Database &d, vector<string> command){
 }
 
 Relation make_query(Database &d, vector<string> query){
-
+    std::cout << "Making Query:\n";
+    for (string s : query) {
+        std::cout << '"' << s << '"' << "\n";
+    }
     string expr = query[0];
     cout<<expr<<'\n';
 	//Renaming
@@ -324,7 +330,11 @@ Relation make_query(Database &d, vector<string> query){
 		//relation cases n
 		//just a relation name
 	else if(1==query.size()){
-		cout<<"HERE!\n";
+        expr.erase(expr.size() - 1);
+        
+        expr.erase(expr.size() - 1);
+		cout<<"HERE! we are trying to get " << expr.c_str() << " of length: " << expr.length() << "\n";
+        
 		return d.get_relation(expr);
 	}
 	else{

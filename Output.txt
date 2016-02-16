@@ -1,7 +1,1 @@
 line 1was successful!
-line 2was successful!
-line 3was successful!
-line 4was successful!
-line 5was successful!
-line 6was successful!
-line 7was successful!
