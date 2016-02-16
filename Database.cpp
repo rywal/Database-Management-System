@@ -10,12 +10,12 @@ Database::Database(string _name){name = _name; std::cout << "Relations size is "
 
 
 Relation& Database::get_relation(string name) {
-   cout<<'('<<name<<')'<<endl;
+   while(name.back()==')'){name.erase(name.size()-1, 1);
+   cout<<name<<endl;}
    for (int i = 0; i < relations.size(); i++){
 		if(relations[i].name == name){
 		  return relations[i];
 		}
-				cout<<"nope\n";
 	}
 }
 
@@ -116,8 +116,10 @@ bool Database::cross_compatible(Relation a,Relation b){
 	
 	for(int i=0; i<a.get_num_attributes(); i++){
 		for( int j=0; j<b.get_num_attributes(); j++){
-			if(a.get_attribute_name(i)==b.get_attribute_name(j))
+			if(a.get_attribute_name(i)==b.get_attribute_name(j)){
+				cout<<a.get_attribute_name(i)<<" : "<<b.get_attribute_name(j)<<endl;
 				return false;
+			}
 		}
 	}
 	return true;
@@ -155,10 +157,8 @@ Relation Database::cross_product(string name, Relation a, Relation b){
 
 Relation Database::select( string att_name, string compare_value, string compare_operator, Relation in_rel ){
     Relation out_rel(in_rel.name, in_rel.attribute_list.names(), in_rel.attribute_list.maxes(), in_rel.primary_keys);
-    cout<<"HERE\n";
     int index = in_rel.get_attribute_index( att_name );
     vector<int> matching_tuples;
-    cout<<"Or here\n";
     in_rel.compare(matching_tuples, compare_value, compare_operator, index);
     
     if ( index > -1 ) {

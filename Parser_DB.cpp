@@ -10,7 +10,7 @@ bool is_command(string command){
 
 bool is_query(string command){
         //uses ascii to check if the first letter is lowercase
-        return ((command[0]>97 && command[0]<122)||command[0]==95);
+        return ((command[0]>96 && command[0]<123)||command[0]==95);
 }
 /*
 int which_atomic(string atomic, string at2){
@@ -52,7 +52,10 @@ Relation make_product(Database &d, vector<string> query){
 		vector<string> _query(query.begin() + 2, query.end());
 		return d.cross_product(" ", d.get_relation(query[0]), make_query(d, _query));	
 	}
-	else return d.cross_product(" ", d.get_relation(query[0]), d.get_relation(query[2]));
+	else{
+		vector<string> _query(query.begin() + 2, query.end());
+		return d.cross_product(" ", d.get_relation(query[0]), make_query(d, _query));
+	}
 }
 
 Relation make_difference(Database &d, vector<string> query){
@@ -62,7 +65,10 @@ Relation make_difference(Database &d, vector<string> query){
 		vector<string> _query(query.begin() + 2, query.end());
 		return d.set_difference(" ", d.get_relation(query[0]), make_query(d, _query));	
 	}
-	else return d.set_difference(" ", d.get_relation(query[0]), d.get_relation(query[2]));
+	else{
+		vector<string> _query(query.begin() + 2, query.end());
+		return d.set_difference(" ", d.get_relation(query[0]), make_query(d, _query));
+	}
 }
 
 Relation make_union(Database &d, vector<string> query){
@@ -72,28 +78,24 @@ Relation make_union(Database &d, vector<string> query){
 		vector<string> _query(query.begin() + 2, query.end());
 		return d.set_union(" ", d.get_relation(query[0]), make_query(d, _query));	
 	}
-	else return d.set_union(" ", d.get_relation(query[0]), d.get_relation(query[2]));
+	else{
+		vector<string> _query(query.begin() + 2, query.end());
+		return d.set_union(" ", d.get_relation(query[0]), make_query(d, _query));
+	}
 }
  
 
 Relation make_select(Database &d, vector<string> query){
-	cout<<"1\n";
 	if(query[0].front()=='(')
 		query[0].erase(0,1);
-	cout<<"2\n";
 	string att_name=query[0];
-	cout<<"3\n";
 	string compare=query[1];
-	cout<<"4\n";
 	string value=query[2];
-	cout<<"4\n";
 	int i;
 	if(query[2].back()==')'){
-		cout<<"5a\n";
 		value.pop_back();
-		cout<<"6a\n";
+		if(query[3].front()=='('){query[3].erase(0,1);}
 		vector<string> _query(query.begin() + 3, query.end());
-		cout<<"7a\n";
 		return d.select(att_name, value, which_op(compare), make_query(d, _query));
 	} else if( query[3]=="&&"){
 		for(i=4; query[i].back()!=')'; i++){}
@@ -175,6 +177,7 @@ Relation make_rename(Database &d, vector<string> query){
 	int i;
 	vector<string> names;
 	query[1].erase(0,1);
+	cout<<">>>>>>"<<query[1]<<endl;
 	for(i=1; query[i].back()!=')'; i++){
 		//get rid of comma
 		query[i].erase(query[i].size()-1, 1);
@@ -182,14 +185,18 @@ Relation make_rename(Database &d, vector<string> query){
 	}
 	query[i].erase(query[i].size()-1, 1);
 	names.push_back(query[i]);
+	for(int i=0; i<names.size(); i++){
+		cout<<names[i]<<i<<endl;
+	}
 	if (query[i+=1].front()=='('){
 		query[i].erase(0,1);
 		vector<string> _query(query.begin() + i, query.end());
 		return d.renaming(" ", names, make_query(d, _query));
 	}
-	else
-		return d.renaming(" ", names, d.get_relation(query[i]));		
-
+	else{
+		vector<string> _query(query.begin() + i, query.end());
+		return d.renaming(" ", names, make_query(d, _query));		
+	}
 }
 
 string which_op(string op){
@@ -304,7 +311,6 @@ void make_command(Database &d, vector<string> command){
 			}
 			command[i].erase(std::remove(command[i].begin(), command[i].end(), ','), command[i].end());				
 			primary.push_back(command[i]);
-			cout<<command[2]<<endl;
 			d.create_relation(command[2], att_names, att_lengths, primary  );
 		
 		}
@@ -319,7 +325,6 @@ Relation make_query(Database &d, vector<string> query){
 		return d.get_relation(expr1);
 	}
     expr = query[0];
-    cout<<expr<<'\n';
 	//Renaming
 	if (expr == "rename")
 		return make_rename(d, query);
