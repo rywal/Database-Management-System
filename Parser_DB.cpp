@@ -55,6 +55,7 @@ Relation make_product(Database &d, vector<string> query){
 	}
 	else{
 		vector<string> _query(query.begin() + 2, query.end());
+        std::cout << "trying to get query of " << query[0] << endl;
 		return d.cross_product(" ", d.get_relation(query[0]), make_query(d, _query));
 	}
 }
