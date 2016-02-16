@@ -15,7 +15,7 @@ private:
     
 public:
     Database(string _name);
-    Relation get_relation(string name);
+    Relation& get_relation(string name);
     Relation get_relation(int index);
 	int get_relation_index( string rel_name );
 	void create_relation(string name, Relation a);
