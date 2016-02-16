@@ -221,30 +221,31 @@ string which_op(string op){
 void make_command(Database &d, vector<string> command){ 
 	string Com = command[0];
 	string temp=command[1].substr(0,command[1].size()-1);
+	printf("%s file, %s function, line: %d\n\n", __FILE__, __func__, __LINE__);
 //    string temp = command[1];
-//Exit
-		if(Com=="EXIT"){
-			exit(0);
+//Exit printf("%s file, %s function, line: %d\n\n", __FILE__, __func__, __LINE__);
+		if(Com=="EXIT"){printf("%s file, %s function, line: %d\n\n", __FILE__, __func__, __LINE__);
+			exit(0);printf("%s file, %s function, line: %d\n\n", __FILE__, __func__, __LINE__);
 		}
 //Show
-		else if(Com=="SHOW"){
-			if(temp.front()=='('){
-				printf("Hello\n");
-				temp.erase(0,1);
-				vector<string> _query(command.begin() + 1, command.end());
-				d.show(make_query(d, _query));	
+		else if(Com=="SHOW"){printf("%s file, %s function, line: %d\n\n", __FILE__, __func__, __LINE__);
+			if(temp.front()=='('){printf("%s file, %s function, line: %d\n\n", __FILE__, __func__, __LINE__);
+				printf("Hello\n");printf("%s file, %s function, line: %d\n\n", __FILE__, __func__, __LINE__);
+				temp.erase(0,1);printf("%s file, %s function, line: %d\n\n", __FILE__, __func__, __LINE__);
+				vector<string> _query(command.begin() + 1, command.end());printf("%s file, %s function, line: %d\n\n", __FILE__, __func__, __LINE__);
+				d.show(make_query(d, _query));	printf("%s file, %s function, line: %d\n\n", __FILE__, __func__, __LINE__);
 			}
-            std::cout << "name of relation is " << temp << " with length: " << temp.length() << "\n";
+            std::cout << "name of relation is " << temp << " with length: " << temp.length() << "\n";printf("%s file, %s function, line: %d\n\n", __FILE__, __func__, __LINE__);
 			d.print_relation(d.get_relation(temp));
 		}
-//Save
-		else if(Com=="SAVE"){
+//Saveprintf("%s file, %s function, line: %d\n\n", __FILE__, __func__, __LINE__);
+		else if(Com=="SAVE"){ printf("%s file, %s function, line: %d\n\n", __FILE__, __func__, __LINE__);
 		//	d.save(d.get_relation(command[1]));
 		}
 
 			
 //Open
-		else if(Com=="OPEN"){
+		else if(Com=="OPEN"){printf("%s file, %s function, line: %d\n\n", __FILE__, __func__, __LINE__);
 		//	d.open(d.get_relation(command[1]));
 		}
 //Close
