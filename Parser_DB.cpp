@@ -1,6 +1,7 @@
 #include "Database.h"
 #include "string.h"
 #include <boost/algorithm/string.hpp>
+#include "test_parser.h"
 
 bool is_command(string command){
         //uses ascii to check if the first letter is uppercase
@@ -331,37 +332,85 @@ void Action(Database &d, vector<string> command){
                d.create_relation(command[0], make_query(d, query));
 	}else {}//error
 }
-/*
+
+void main_loop(vector<string> &command_list, string &command, int &line_number){
+	if(command_list.size()>0){
+		command_list[command_list.size()-1].erase(std::remove(command_list[command_list.size()-1].begin(), command_list[command_list.size()-1].end(), ';'), command_list[command_list.size()-1].end());
+		if(equal_parentheses(command_list)){
+			int num=0; int num2=0;
+			if(is_command(command_list, num2)){
+				output << "line " << to_string(line_number) <<"was successful!"<<endl;
+			}else if(is_query(command_list, num)){
+				output << "line " << to_string(line_number) <<"was successful!"<<endl;
+			}else {
+				cout<<"\nThis is NOT a valid statement. This was given on index: " << num << endl;
+				output << "line " << to_string(line_number) <<" failed"<<endl;
+			}
+		} else{
+		cout << "There are not an equal number of begining and ending parentheses.\n";
+		output << "line " << to_string(line_number) <<" failed"<<endl;
+		}
+	} else{
+		cout << "There is not enough arguments" << endl;
+		output << "line " << to_string(line_number) <<" failed"<<endl;
+	}
+	line_number++;
+}
+
 int main(){
-	std::ifstream input("Input.txt");//From vaild statement input
-	std::ifstream output("Ouput.txt");//From test_parser.cpp
-	if(!input || !output){
-		printf("\nThe Paser files not found!");
+	output.open ("Output.txt");
+	if(!output){ //This should never happen
+		printf("\nThe Output file is not found!");
 		exit(EXIT_FAILURE);//Showing error status code
 	}
-	string output_text;
-	string command;
-	while(std::getline(output, output_text)){
-		if(input_text!="success"){//don't do unless valid
-			printf("\nThis statement was not valid. **SKIPPED**");
-		} else{//This line/command is valid
-			getline(input, command);//Not sure about syntax
-			
+	printf("This is the Beginning of %s, in the %s function, which is on line: %d\n\n", __FILE__, __func__, __LINE__);//This is for error management
+	string f_or_h;
+	printf("For this run, would you like to take input from an \"Input.txt\" file [f], or type commands in by hand[h]? [f\\h]\n>");//Giving better testing handles
+	cin >>  f_or_h;
+	int loop=1;
+	while (loop==1){
+		if(f_or_h != "h" && f_or_h != "H" && f_or_h != "hand" && f_or_h != "f" && f_or_h != "F" && f_or_h != "file"){
+			std::cin.ignore( std::numeric_limits<std::streamsize>::max(), '\n' );
+			f_or_h = "";
+			printf("Please re-enter your prefered input method [f\\h]\n>");
+			cin >>  f_or_h;
+		} else{loop=0;}
+	}
+	if(f_or_h == "f" || f_or_h == "F" || f_or_h == "file"){
+		string command;
+		string input_file = "";
+			printf("Please input the file you would like to use. \n(Please note, this is automated, no other input will be read)\n>");
+			cin >> input_file;
+			std::ifstream input(input_file);
+			if(!input){
+				printf("\nThe input file not found!");
+				printf("\nPlease place a file named \"Input.txt\" in the same folder as %s.\n\n", __FILE__);
+				exit(EXIT_FAILURE);//Showing error status code
+			}
+		int line_number=1;
+		while(std::getline(input, command)){ 
+			cout << "\nThe command given is: " << command.c_str() << endl;
 			vector<string> command_list;
 			boost::split(command_list, command, boost::is_any_of(" "));
-			command_list[command_list.size()-1].erase(std::remove(command_list[command_list.size()-1].begin(), command_list[command_list.size()-1].end(), ';'), command_list[command_list.size()-1].end());
-			/*
-			
-			Use command_list!
-			
-			command_list is a delimited version of the line it got from the input file.
-			
-			Not quite done with thought process yet.
-			
-			*/
-			
-	//	}
-//	return 0;
-//}
+			main_loop(command_list, command, line_number);
+		}
+		input.close();
+	} else if (f_or_h == "h" || f_or_h == "H" || f_or_h == "hand"){
+		int line_number=1;
+		std::cin.ignore( std::numeric_limits<std::streamsize>::max(), '\n' );
+		while(1){ 
+			string command;
+			printf("Please enter a command:\n");
+			std::getline (std::cin,command);
+			stringstream ss(command);
+			istream_iterator<string> begin(ss);
+			istream_iterator<string> end;
+			vector<string> command_list(begin, end);
+			main_loop(command_list, command, line_number);
+		}
+	}
+	output.close();
+	return 0;
+}
 
 	
