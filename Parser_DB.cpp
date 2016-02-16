@@ -1,7 +1,7 @@
 #include "Database.h"
 #include "string.h"
 #include <boost/algorithm/string.hpp>
-#include "test_parser.h"
+#include "test_parser.h"//
 
 bool is_command(string command){
         //uses ascii to check if the first letter is uppercase
