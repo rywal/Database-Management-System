@@ -47,6 +47,7 @@ void make_create(){}
 
 Relation make_product(Database &d, vector<string> query){
 	if(query[2].front()=='('){
+		query[query.size()-1].erase(query[query.size()-1].size()-1, 1);
 		query[2].erase(0,1);
 		vector<string> _query(query.begin() + 2, query.end());
 		return d.cross_product(" ", d.get_relation(query[0]), make_query(d, _query));	
@@ -56,6 +57,7 @@ Relation make_product(Database &d, vector<string> query){
 
 Relation make_difference(Database &d, vector<string> query){
 	if(query[2].front()=='('){
+		query[query.size()-1].erase(query[query.size()-1].size()-1, 1);
 		query[2].erase(0,1);
 		vector<string> _query(query.begin() + 2, query.end());
 		return d.set_difference(" ", d.get_relation(query[0]), make_query(d, _query));	
@@ -65,6 +67,7 @@ Relation make_difference(Database &d, vector<string> query){
 
 Relation make_union(Database &d, vector<string> query){
 	if(query[2].front()=='('){
+		query[query.size()-1].erase(query[query.size()-1].size()-1, 1);
 		query[2].erase(0,1);
 		vector<string> _query(query.begin() + 2, query.end());
 		return d.set_union(" ", d.get_relation(query[0]), make_query(d, _query));	
