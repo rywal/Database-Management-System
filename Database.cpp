@@ -10,8 +10,7 @@ Database::Database(string _name){name = _name; std::cout << "Relations size is "
 
 
 Relation& Database::get_relation(string name) {
-   while(name.back()==')'){name.erase(name.size()-1, 1);
-   cout<<name<<endl;}
+   while(name.back()==')'){name.erase(name.size()-1, 1);}
    for (int i = 0; i < relations.size(); i++){
 		if(relations[i].name == name){
 		   return relations[i];
