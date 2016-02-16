@@ -47,9 +47,7 @@ bool interpret_create(Database &db, std::vector<std::string> command) {
         }
         
         if (command[i] == "PRIMARY" && command[i+1] == "KEY") {
-            for (i ; <#condition#>; <#increment#>) {
-                <#statements#>
-            }
+            
         }
         
     } else {
