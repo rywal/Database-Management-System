@@ -16,7 +16,6 @@ public:
     AttributeList attribute_list;
     std::vector<string> primary_keys;
 
-	Relation() {}
     Relation(
              string _name,
              vector<string> attribute_names,         // Name of each attribute
