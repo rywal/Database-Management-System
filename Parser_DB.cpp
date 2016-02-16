@@ -197,12 +197,14 @@ void make_command(Database &d, vector<string> command){
 		}
 //Show
 		else if(Com=="SHOW"){
-			if(command[1].front()=='('){
-				command[1].erase(0,1);
+			string temp=command[1].substr(0,command[1].size()-1);
+			if(temp.front()=='('){
+				printf("Hello\n");
+				temp.erase(0,1);
 				vector<string> _query(command.begin() + 1, command.end());
 				d.show(make_query(d, _query));	
 			}
-			d.print_relation(d.get_relation(command[1]));
+			d.print_relation(d.get_relation(temp));
 		}
 //Save
 		else if(Com=="SAVE"){
@@ -289,7 +291,7 @@ void make_command(Database &d, vector<string> command){
 			}
 			command[i].erase(std::remove(command[i].begin(), command[i].end(), ','), command[i].end());				
 			primary.push_back(command[i]);
-			
+			cout<<command[2]<<endl;
 			d.create_relation(command[2], att_names, att_lengths, primary  );
 		
 		}
