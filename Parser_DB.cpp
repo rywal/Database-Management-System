@@ -330,6 +330,7 @@ void make_command(Database &d, vector<string> command){
 }
 
 Relation make_query(Database &d, vector<string> query){
+	cout<<"count "<<query[0]<<endl;
 	string expr=query[0];
 	if(1==query.size()){
 		string expr1=expr.substr(0,expr.size()-1);
