@@ -333,14 +333,16 @@ void Action(Database &d, vector<string> command){
 	}else {}//error
 }
 
-void main_loop(vector<string> &command_list, string &command, int &line_number){
+void main_loop(vector<string> &command_list, string &command, int &line_number, Database &d){
 	if(command_list.size()>0){
 		command_list[command_list.size()-1].erase(std::remove(command_list[command_list.size()-1].begin(), command_list[command_list.size()-1].end(), ';'), command_list[command_list.size()-1].end());
 		if(equal_parentheses(command_list)){
 			int num=0; int num2=0;
 			if(is_command(command_list, num2)){
+				Action(d, command_list);
 				output << "line " << to_string(line_number) <<"was successful!"<<endl;
 			}else if(is_query(command_list, num)){
+				Action(d, command_list);
 				output << "line " << to_string(line_number) <<"was successful!"<<endl;
 			}else {
 				cout<<"\nThis is NOT a valid statement. This was given on index: " << num << endl;
@@ -359,6 +361,7 @@ void main_loop(vector<string> &command_list, string &command, int &line_number){
 
 int main(){
 	output.open ("Output.txt");
+	Database d("d");
 	if(!output){ //This should never happen
 		printf("\nThe Output file is not found!");
 		exit(EXIT_FAILURE);//Showing error status code
@@ -392,7 +395,7 @@ int main(){
 			cout << "\nThe command given is: " << command.c_str() << endl;
 			vector<string> command_list;
 			boost::split(command_list, command, boost::is_any_of(" "));
-			main_loop(command_list, command, line_number);
+			main_loop(command_list, command, line_number,d);
 		}
 		input.close();
 	} else if (f_or_h == "h" || f_or_h == "H" || f_or_h == "hand"){
@@ -406,7 +409,7 @@ int main(){
 			istream_iterator<string> begin(ss);
 			istream_iterator<string> end;
 			vector<string> command_list(begin, end);
-			main_loop(command_list, command, line_number);
+			main_loop(command_list, command, line_number,d);
 		}
 	}
 	output.close();
