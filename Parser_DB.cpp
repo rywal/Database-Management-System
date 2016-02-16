@@ -57,18 +57,11 @@ Relation make_product(Database &d, vector<string> query){
 	else{
 		cout<<"CP second route\n";
 		vector<string> _query(query.begin() + 2, query.end());
-<<<<<<< HEAD
-        std::cout << "trying to get query of " << _query[0] << endl;
 		string expr=query[2];
 		string expr1=expr.substr(0,expr.size()-1);
+		cout<<query[0]<<" : "<<expr1<<endl;
 		return d.cross_product(" ", d.get_relation(query[0]), d.get_relation(expr1));
-=======
-		//_query.erase(std::remove(_query.begin(), _query.end(), ')'), _query.end());
-		if(_query.size()>0){
-			std::cout << "trying to get query of " << query[0] << endl;
-			return d.cross_product(" ", d.get_relation(query[0]), make_query(d, _query));
-		}
->>>>>>> 9733e9b4aee7839d68f22abaa3c25cf5567dcc15
+
 	}
 }
 
@@ -367,7 +360,6 @@ Relation make_query(Database &d, vector<string> query){
 		//just a relation name
 	else{
 		string expr2=query[1];
-		if((query.size())>3){
 		//Product
 			if (expr2 == "*")
 					return make_product( d, query);
@@ -377,7 +369,7 @@ Relation make_query(Database &d, vector<string> query){
 		//Union
 			else if (expr2 == "+")
 					return make_union( d, query);
-		}
+		
 	}
 }
 
