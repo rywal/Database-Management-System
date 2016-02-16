@@ -31,16 +31,18 @@ void make_command(Database &d, vector<string> query);
 void make_update(){}
 
 vector<string> make_insert(vector<string> command){
-printf("%s function, line: %d\n\n", __func__, __LINE__);
-		vector<string> values; printf("%s function, line: %d\n\n", __func__, __LINE__);
-		for (int i=0; i < command.size(); i++){ printf("%s function, line: %d\n\n", __func__, __LINE__);
+
+		vector<string> values; 
+		for (int i=0; i < command.size(); i++){ 
 		//	if (command[i].front()=='"'){
 		//		command[i].erase(0,1);
 		//		command[i].erase(std::remove(command[i].begin(), command[i].end(), ','), command[i].end());
-		//	} printf("%s function, line: %d\n\n", __func__, __LINE__);
+		//	} 
 			command[i].erase(std::remove(command[i].begin(), command[i].end(), ','), command[i].end());
-			values.push_back(command[i]); printf("%s function, line: %d\n\n", __func__, __LINE__);
-		} printf("%s function, line: %d\n\n", __func__, __LINE__);
+			command[i].erase(std::remove(command[i].begin(), command[i].end(), ')'), command[i].end());
+			values.push_back(command[i]); 
+		} 
+		return values;
 }
 
 void make_create(){}
@@ -189,7 +191,7 @@ string which_op(string op){
 	return "eq"; //Compare should be eq by default
 }
 
-void make_command(Database &d, vector<string> command){ printf("%s function, line: %d\n\n", __func__, __LINE__);
+void make_command(Database &d, vector<string> command){ 
 	string Com = command[0];
 //Exit
 		if(Com=="EXIT"){
@@ -232,15 +234,15 @@ void make_command(Database &d, vector<string> command){ printf("%s function, lin
 		//	d.update();
 }
 //Insert
-		else if (Com == "INSERT") { printf("%s function, line: %d\n\n", __func__, __LINE__);
-			if (command[5].front() == '(') { printf("%s function, line: %d\n\n", __func__, __LINE__);
-				command[5].erase(0,1); printf("%s function, line: %d\n\n", __func__, __LINE__);
-				vector<string> _command(command.begin() + 5, command.end()); printf("%s function, line: %d\n\n", __func__, __LINE__);
-				d.get_relation(command[2]).insert_tuple(make_insert(command)); printf("%s function, line: %d\n\n", __func__, __LINE__);
+		else if (Com == "INSERT") { 
+			if (command[5].front() == '(') { 
+				command[5].erase(0,1); 
+				vector<string> _command(command.begin() + 5, command.end()); 
+				d.get_relation(command[2]).insert_tuple(make_insert(_command)); 
 			} 
-			else { printf("%s function, line: %d\n\n", __func__, __LINE__);
-				vector<string> _query(command.begin() + 6, command.end()); printf("%s function, line: %d\n\n", __func__, __LINE__);
-				//	d.get_relation(command[2]).insert_tuples(make_query(d, _query));
+			else { 
+				vector<string> _query(command.begin() + 6, command.end()); 
+				d.get_relation(command[2]).insert_relation(make_query(d, _query));
 			}
 		}
 //Create
@@ -250,7 +252,7 @@ void make_command(Database &d, vector<string> command){ printf("%s function, lin
 			vector<string> att_names;
 			vector<int> att_lengths;
 			vector<string> primary; 
-			command[4].erase(0,1); 
+			command[3].erase(0,1); 
 			for(i=4; command[i].back()!=')'; i+=2){ 
 				//command[i].erase(std::remove(command[i].begin(), command[i].end(), ','), command[i].end()); 
 				
