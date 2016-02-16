@@ -55,6 +55,7 @@ Relation make_product(Database &d, vector<string> query){
 	}
 	else{
 		vector<string> _query(query.begin() + 2, query.end());
+        std::cout << "trying to get query of " << query[0] << endl;
 		return d.cross_product(" ", d.get_relation(query[0]), make_query(d, _query));
 	}
 }
@@ -92,6 +93,7 @@ Relation make_select(Database &d, vector<string> query){
 	string att_name=query[0];
 	string compare=query[1];
 	string value=query[2];
+	value.erase(std::remove(value.begin(), value.end(), '"'), value.end());
 	int i;
 	if(query[2].back()==')'){
 		value.pop_back();
