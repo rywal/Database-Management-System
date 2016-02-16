@@ -29,13 +29,6 @@ int Database::get_relation_index( string rel_name ){
 		return -1; //DOES NOT EXIST
 }
 
-void Database::create_relation(string name, Relation a){
-	vector<string> att_names = a.attribute_list.names();
-    vector<int> att_lengths = a.attribute_list.maxes();
-	Relation new_relation(name,att_names, att_lengths, a.primary_keys);
-	new_relation.tuples=a.tuples;
-	relations.push_back(new_relation);
-}
 void Database::create_relation(string name, vector<string> attribute_names, vector<int> attribute_types, vector<string> primary_keys){
     Relation new_relation(name, attribute_names, attribute_types, primary_keys);
     relations.push_back(new_relation);
@@ -149,7 +142,7 @@ Relation Database::cross_product(string name, Relation a, Relation b){
 	}
 }
 
-Relation Database::select( string att_name, string compare_value, string compare_operator, Relation in_rel ){
+Relation Database::select( string att_name, string compare_value, string compare_operator, Relation &in_rel ){
     Relation out_rel(in_rel.name, in_rel.attribute_list.names(), in_rel.attribute_list.maxes(), in_rel.primary_keys);
     
     int index = in_rel.get_attribute_index( att_name );
@@ -166,7 +159,7 @@ Relation Database::select( string att_name, string compare_value, string compare
     return out_rel;
 }
 
-Relation Database::project(vector<string> att_names, Relation in_rel){
+Relation Database::project(vector<string> att_names, Relation &in_rel){
 	Relation out_rel((in_rel.name + "_Projection"), att_names, in_rel.attribute_list.maxes(), in_rel.primary_keys);
     
     vector<int> max_lengths;
@@ -198,7 +191,7 @@ Relation Database::project(vector<string> att_names, Relation in_rel){
 	return out_rel;
 }
 
-Relation Database::renaming(string out_name, vector<string> att_renames , Relation in_rel){
+Relation Database::renaming(string out_name, vector<string> att_renames , Relation &in_rel){
 	Relation out_rel(out_name, att_renames, in_rel.get_max(), in_rel.primary_keys);
 	if(in_rel.attribute_list.num_attributes() != att_renames.size()){
 		printf ("There was not enough Attributes given or in the Relation.");
@@ -220,11 +213,7 @@ void Database::update(Relation &in_rel, string att_name, string compare_operator
         in_rel.tuples[n].cells[in_rel.get_attribute_index(att_name)].set_value(update_name);
     }
     tuple_indexes.clear();
-}/*
-void CLOSE(FILE *f){		This needs to close out the database
-	fclose (f);
 }
-*/
 
 std::vector<string> Database::outputRelation(int index) {
     std::vector<string> output;
@@ -268,16 +257,18 @@ std::vector<string> Database::outputRelation(int index) {
     return output;
 }
 
-bool Database::save(){
+bool Database::save(int index){
+    Relation r = relations[index];
+    
     ofstream outputFile;
-    std::cout << "Opening " << name << ".db\n";
-    outputFile.open (name + ".db");
+    std::cout << "Opening " << r.name << ".db\n";
+    outputFile.open (r.name + ".db");
     
     std::vector<string> outputLines;
-    for (int i = 0; i < relations.size(); i++) {
-        outputLines = outputRelation(i);
-        
-        for (auto line : outputLines) {
+    outputLines = outputRelation(index);
+    
+    for (auto line : outputLines) {
+        if (line.length()) {
             outputFile << line << "\n";
         }
     }
@@ -292,11 +283,11 @@ void EXIT(){		//This closes out the application
 	exit(0);
 }
 
-std::vector<Tuple> Database::show(Relation relation_name){
+std::vector<Tuple> Database::show(Relation &relation_name){
 	return relation_name.tuples;
 }
 
-void Database::print_relation(Relation relation_name){
+void Database::print_relation(Relation &relation_name){
 	printf ("\n-=-=-=-=-=BEGIN-=-=-=-=-\n");
 	printf ("Relation name:%s \n", relation_name.name.c_str());
     std::cout << "Relation size " << relation_name.tuples.size() << std::endl;
