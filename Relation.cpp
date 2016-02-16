@@ -20,15 +20,16 @@ Relation::Relation(string _name, vector<string> attribute_names, vector<int> att
 }
 
 void Relation::insert_tuple(vector<string> values){
+	printf("%s function, line: %d\n\n", __func__, __LINE__);
 //    std::cout << values.size() << "Values " << attribute_list.num_attributes() << " num attributes\n";
-    if (values.size() == attribute_list.num_attributes()) {
-        Tuple new_tuple( values.size() );
-        
-        for (int i = 0; i < values.size(); i++){
-            Cell new_cell( values[i], attribute_list.attributes[i].get_max_length() );
-            new_tuple.insert_cell(i, new_cell);
+    if (values.size() == attribute_list.num_attributes()) { printf("%s function, line: %d\n\n", __func__, __LINE__);
+        Tuple new_tuple( values.size() ); printf("%s function, line: %d\n\n", __func__, __LINE__);
+         printf("%s function, line: %d\n\n", __func__, __LINE__);
+        for (int i = 0; i < values.size(); i++){ printf("%s function, line: %d\n\n", __func__, __LINE__);
+            Cell new_cell( values[i], attribute_list.attributes[i].get_max_length() ); printf("%s function, line: %d\n\n", __func__, __LINE__);
+            new_tuple.insert_cell(i, new_cell); printf("%s function, line: %d\n\n", __func__, __LINE__);
         }
-        
+        printf("%s function, line: %d\n\n", __func__, __LINE__);
         tuples.push_back(new_tuple);
     }
 }

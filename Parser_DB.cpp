@@ -31,23 +31,23 @@ void make_command(Database &d, vector<string> query);
 void make_update(){}
 
 vector<string> make_insert(vector<string> command){
-
-		vector<string> values;
-		for (int i=0; i < command.size(); i++){
+printf("%s function, line: %d\n\n", __func__, __LINE__);
+		vector<string> values; printf("%s function, line: %d\n\n", __func__, __LINE__);
+		for (int i=0; i < command.size(); i++){ printf("%s function, line: %d\n\n", __func__, __LINE__);
 		//	if (command[i].front()=='"'){
-		//		command[i].erase(0);
-		//		command[i].pop_back();
-		//	}
-			command[i].pop_back();
-			values.push_back(command[i]);
-		}
+		//		command[i].erase(0,1);
+		//		command[i].erase(std::remove(command[i].begin(), command[i].end(), ','), command[i].end());
+		//	} printf("%s function, line: %d\n\n", __func__, __LINE__);
+			command[i].erase(std::remove(command[i].begin(), command[i].end(), ','), command[i].end());
+			values.push_back(command[i]); printf("%s function, line: %d\n\n", __func__, __LINE__);
+		} printf("%s function, line: %d\n\n", __func__, __LINE__);
 }
 
 void make_create(){}
 
 Relation make_product(Database &d, vector<string> query){
 	if(query[2].front()=='('){
-		query[2].erase(0);
+		query[2].erase(0,1);
 		vector<string> _query(query.begin() + 2, query.end());
 		return d.cross_product(" ", d.get_relation(query[0]), make_query(d, _query));	
 	}
@@ -56,7 +56,7 @@ Relation make_product(Database &d, vector<string> query){
 
 Relation make_difference(Database &d, vector<string> query){
 	if(query[2].front()=='('){
-		query[2].erase(0);
+		query[2].erase(0,1);
 		vector<string> _query(query.begin() + 2, query.end());
 		return d.set_difference(" ", d.get_relation(query[0]), make_query(d, _query));	
 	}
@@ -65,7 +65,7 @@ Relation make_difference(Database &d, vector<string> query){
 
 Relation make_union(Database &d, vector<string> query){
 	if(query[2].front()=='('){
-		query[2].erase(0);
+		query[2].erase(0,1);
 		vector<string> _query(query.begin() + 2, query.end());
 		return d.set_union(" ", d.get_relation(query[0]), make_query(d, _query));	
 	}
@@ -75,7 +75,7 @@ Relation make_union(Database &d, vector<string> query){
 
 Relation make_select(Database &d, vector<string> query){
 	if(query[0].front()=='(')
-		query[0].erase(0);
+		query[0].erase(0,1);
 	string att_name=query[0];
 	string compare=query[1];
 	string value=query[2];
@@ -141,7 +141,7 @@ Relation make_select(Database &d, vector<string> query){
 Relation make_project(Database &d, vector<string> query){
 	int i;
 	vector<string> names;
-	query[1].erase(0);
+	query[1].erase(0,1);
 	for(i=1; query[i].back()!=')'; i++){
 		//get rid of comma
 		query[i].pop_back();
@@ -150,7 +150,7 @@ Relation make_project(Database &d, vector<string> query){
 	query[i].pop_back();
 	names.push_back(query[i]);
 	if (query[i+=1].front()=='('){
-		query[i].erase(0);
+		query[i].erase(0,1);
 		vector<string> _query(query.begin() + i, query.end());
 		return d.project(names, make_query(d, _query));
 	}
@@ -161,7 +161,7 @@ Relation make_project(Database &d, vector<string> query){
 Relation make_rename(Database &d, vector<string> query){
 	int i;
 	vector<string> names;
-	query[1].erase(0);
+	query[1].erase(0,1);
 	for(i=1; query[i].back()!=')'; i++){
 		//get rid of comma
 		query[i].pop_back();
@@ -170,7 +170,7 @@ Relation make_rename(Database &d, vector<string> query){
 	query[i].pop_back();
 	names.push_back(query[i]);
 	if (query[i+=1].front()=='('){
-		query[i].erase(0);
+		query[i].erase(0,1);
 		vector<string> _query(query.begin() + i, query.end());
 		return d.renaming(" ", names, make_query(d, _query));
 	}
@@ -189,7 +189,7 @@ string which_op(string op){
 	return "eq"; //Compare should be eq by default
 }
 
-void make_command(Database &d, vector<string> command){
+void make_command(Database &d, vector<string> command){ printf("%s function, line: %d\n\n", __func__, __LINE__);
 	string Com = command[0];
 //Exit
 		if(Com=="EXIT"){
@@ -198,7 +198,7 @@ void make_command(Database &d, vector<string> command){
 //Show
 		else if(Com=="SHOW"){
 			if(command[1].front()=='('){
-				command[1].erase(0);
+				command[1].erase(0,1);
 				vector<string> _query(command.begin() + 1, command.end());
 				d.show(make_query(d, _query));	
 			}
@@ -232,57 +232,62 @@ void make_command(Database &d, vector<string> command){
 		//	d.update();
 }
 //Insert
-		else if (Com == "INSERT") {
-			if (command[5].front() == '(') {
-				command[5].erase(0);
-				vector<string> _command(command.begin() + 5, command.end());
-				d.get_relation(command[2]).insert_tuple(make_insert(command));
-			}
-			else {
-				vector<string> _query(command.begin() + 6, command.end());
+		else if (Com == "INSERT") { printf("%s function, line: %d\n\n", __func__, __LINE__);
+			if (command[5].front() == '(') { printf("%s function, line: %d\n\n", __func__, __LINE__);
+				command[5].erase(0,1); printf("%s function, line: %d\n\n", __func__, __LINE__);
+				vector<string> _command(command.begin() + 5, command.end()); printf("%s function, line: %d\n\n", __func__, __LINE__);
+				d.get_relation(command[2]).insert_tuple(make_insert(command)); printf("%s function, line: %d\n\n", __func__, __LINE__);
+			} 
+			else { printf("%s function, line: %d\n\n", __func__, __LINE__);
+				vector<string> _query(command.begin() + 6, command.end()); printf("%s function, line: %d\n\n", __func__, __LINE__);
 				//	d.get_relation(command[2]).insert_tuples(make_query(d, _query));
 			}
 		}
 //Create
-		else if(Com=="CREATE"){
+		else if(Com=="CREATE"){ 
 			int i, length;
 			string check;
 			vector<string> att_names;
 			vector<int> att_lengths;
-			vector<string> primary;
-			command[4].erase(0);
-			for(i=4; command[i].back()!=')'; i+=2){
-				command[i].pop_back();
-				att_names.push_back(command[i-1]);
-				check=command[i].substr(0,7);
-				if(check=="VARCHAR"){
-					length=stoi(command[i].substr(8, command[i].size()-9));
-					att_lengths.push_back(length);
+			vector<string> primary; 
+			command[4].erase(0,1); 
+			for(i=4; command[i].back()!=')'; i+=2){ 
+				//command[i].erase(std::remove(command[i].begin(), command[i].end(), ','), command[i].end()); 
+				
+				command[i].erase(std::remove(command[i].begin(), command[i].end(), ','), command[i].end());
+				
+				
+				att_names.push_back(command[i-1]); 
+				check=command[i].substr(0,7); 
+				if(check=="VARCHAR"){ 
+					length=stoi(command[i].substr(8, command[i].size()-9)); 
+					att_lengths.push_back(length); 
 				}	
 				else if(check=="INTEGER"){
-					length=0;
-					att_lengths.push_back(length);
-				}
+					length=0; 
+					att_lengths.push_back(length); 
+				} 
+			} 
+			command[i].erase(std::remove(command[i].begin(), command[i].end(), ','), command[i].end()); 
+			att_names.push_back(command[i-1]); 
+			check=command[i].substr(0,7); 
+			if(check=="VARCHAR"){ 
+				length=stoi(command[i].substr(8, command[i].size()-9));	 				
+				att_lengths.push_back(length); 
 			}
-			command[i].pop_back();
-			att_names.push_back(command[i-1]);
-			check=command[i].substr(0,7);
-			if(check=="VARCHAR"){
-				length=stoi(command[i].substr(8, command[i].size()-9));					
-				att_lengths.push_back(length);
-			}	
-			else if(check=="INTEGER"){
-				length=0;
-				att_lengths.push_back(length);
+			else if(check=="INTEGER"){ 
+				length=0; 
+				att_lengths.push_back(length); 
 			}
-//set the primary keys			
-			i+=3; 										//skip PRIMARY KEY
-			command[i].erase(0);						//erase '('
-			for(; command[i].back()!=')'; i++){	
-				command[i].pop_back();				
-				primary.push_back(command[i]);
+//set the primary keys			 
+			i+=3; 							//skip PRIMARY KEY
+			command[i].erase(0,1);					//erase '(' 
+			for(; command[i].back()!=')'; i++){	 
+				command[i].erase(std::remove(command[i].begin(), command[i].end(), ','), command[i].end());				
+				primary.push_back(command[i]); 
+				if(strstr(command[i].c_str(),")")){break;}
 			}
-			command[i].pop_back();				
+			command[i].erase(std::remove(command[i].begin(), command[i].end(), ','), command[i].end());				
 			primary.push_back(command[i]);
 			
 			d.create_relation(command[2], att_names, att_lengths, primary  );
@@ -325,12 +330,12 @@ Relation make_query(Database &d, vector<string> query){
 
 void Action(Database &d, vector<string> command){
    // command[command.size()-1].pop_back();
-   printf("ERROR LOG1 %s, in the %s function, which is on line: %d\n\n", __FILE__, __func__, __LINE__);
-	if(is_command(command[0])) printf("ERROR LOG1 %s, in the %s function, which is on line: %d\n\n", __FILE__, __func__, __LINE__);
-                make_command(d, command); printf("ERROR LOG1 %s, in the %s function, which is on line: %d\n\n", __FILE__, __func__, __LINE__);
-        else if(is_query(command[0])){ printf("ERROR LOG1 %s, in the %s function, which is on line: %d\n\n", __FILE__, __func__, __LINE__);
-		vector<string> query(command.begin() + 2, command.end()); printf("ERROR LOG1 %s, in the %s function, which is on line: %d\n\n", __FILE__, __func__, __LINE__);
-               d.create_relation(command[0], make_query(d, query)); printf("ERROR LOG1 %s, in the %s function, which is on line: %d\n\n", __FILE__, __func__, __LINE__);
+	
+	if(is_command(command[0])){ 
+                make_command(d, command); 
+	}else if(is_query(command[0])){
+		vector<string> query(command.begin() + 2, command.end());
+               d.create_relation(command[0], make_query(d, query));
 	}else {}//error
 }
 
