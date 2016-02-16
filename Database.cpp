@@ -306,6 +306,11 @@ bool Database::save(int index){
     return true;
 }
 
+bool Database::save(string r){
+    std::cout << "Saving r " << r << " with index " << get_relation_index(r) << endl;
+    return save( get_relation_index(r) );
+}
+
 bool Database::close(int index){
     save(index);
     return true;

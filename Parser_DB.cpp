@@ -202,7 +202,9 @@ void make_command(Database &d, vector<string> command){
 		}
 //Save
 		else if(Com=="SAVE"){
-			d.save(d.get_relation_index(command[1]));
+            string expr1=command[1].substr(0,command[1].size()-1);
+            cout << "Saving " << expr1 << "with length" << expr1.length() << endl;
+			d.save(expr1);
 		}
 
 			
@@ -226,7 +228,8 @@ void make_command(Database &d, vector<string> command){
 			vector<string>  _query(command.begin() + 3, command.end());
 			
 		//	d.update();
-}
+        }
+    
 //Insert
 		else if (Com == "INSERT") { 
 			if (command[5].front() == '(') { 
