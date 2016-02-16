@@ -245,21 +245,30 @@ void make_command(Database &d, vector<string> command){
 		}
 //Create
 		else if(Com=="CREATE"){
+			cout<<"1\n"<< endl;
 			int i, length;
 			string check;
 			vector<string> att_names;
 			vector<int> att_lengths;
 			vector<string> primary;
-			command[4].erase(0);
-			for(i=4; command[i].back()!=')'; i+=2){
-				command[i].pop_back();
+			cout<<"2\n";
+			command[3].erase(0,1);
+			cout<<"3\n";
+			for(i=4; command[i].substr((command[i].size()-1),1)!=")"; i+=2){
+				cout<<"4\n";
+				cout<<command[i]<<endl;
+				command[i].erase(command[i].size()-1,1);
+				cout<<command[i]<<endl;
+				cout<<"hi\n";
 				att_names.push_back(command[i-1]);
 				check=command[i].substr(0,7);
 				if(check=="VARCHAR"){
+					cout<<"v\n";
 					length=stoi(command[i].substr(8, command[i].size()-9));
 					att_lengths.push_back(length);
 				}	
 				else if(check=="INTEGER"){
+					cout<<"i\n";
 					length=0;
 					att_lengths.push_back(length);
 				}
@@ -405,7 +414,9 @@ int main(){
 			string command;
 			printf("Please enter a command:\n");
 			std::getline (std::cin,command);
+			cout<<"1\n";
 			stringstream ss(command);
+			cout<<command<<'\n';
 			istream_iterator<string> begin(ss);
 			istream_iterator<string> end;
 			vector<string> command_list(begin, end);

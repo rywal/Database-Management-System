@@ -1,3 +1,0 @@
-line 1 failed
-line 2 failed
-line 3 failed
