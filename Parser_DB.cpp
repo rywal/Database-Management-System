@@ -93,6 +93,7 @@ Relation make_select(Database &d, vector<string> query){
 	string att_name=query[0];
 	string compare=query[1];
 	string value=query[2];
+	value.erase(std::remove(value.begin(), value.end(), '"'), value.end());
 	int i;
 	if(query[2].back()==')'){
 		value.pop_back();

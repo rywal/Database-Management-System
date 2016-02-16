@@ -339,10 +339,12 @@ void Database::print_relation(Relation relation_name){
 		printf ("\n");
 	}
     printf ("Primary Keys: ");
+	//cout << "|"<<relation_name.primary_keys.size()<<":"<<relation_name.primary_keys[0]<<"|"<<endl;
 	if(relation_name.primary_keys.size()>0) {
-		printf ("%s", relation_name.primary_keys[0].c_str());
+		//printf ("%s", relation_name.primary_keys[0].c_str());
+		cout << relation_name.primary_keys[0];
         for(int i=1; i<relation_name.primary_keys.size(); i++){
-            printf (", %s", relation_name.primary_keys[i].c_str());
+            cout <<","<<relation_name.primary_keys[i]<<endl;
 		}
 	}
 	printf ("\n=-=-=-=-=-=END-=-=-=-=-=\n\n\n");
