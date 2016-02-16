@@ -27,9 +27,6 @@ int main(){
     relA.insert_tuple(r1_t3);
     relA.insert_tuple(r1_t0);
     
-//    DB.relations[0] = relA;
-    
-    DB.save(0);
 //	cout<<"1\n";	
 	DB.print_relation(relA);
 	printf("Select all rows that Name=Joe from Relation A:\n");
@@ -132,6 +129,15 @@ int main(){
     Relation urd = DB.get_relation("Relation_D");
     query = DB.cross_product("Relation A-D_CrossProduct", ura, urd);
     DB.print_relation(query);
+    
+    int a_index = DB.get_relation_index( DB.get_relation("Relation_A").name );
+    DB.save(a_index);
+    
+    int c_index = DB.get_relation_index( DB.get_relation("Relation_C").name );
+    DB.save(c_index);
+    
+    int d_index = DB.get_relation_index( DB.get_relation("Relation_D").name );
+    DB.save(d_index);
 	
     return 0;
 }
