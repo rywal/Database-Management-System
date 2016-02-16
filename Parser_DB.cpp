@@ -184,10 +184,11 @@ void make_command(Database &d, vector<string> command){
 	string Com = command[0];
 	//this is to take care of a glitch in the program. An extra character was being added so we deleted it
 	string temp=command[1].substr(0,command[1].size()-1);
+	printf("%s file, %s function, line: %d\n\n", __FILE__, __func__, __LINE__);
 //    string temp = command[1];
-//Exit
-		if(Com=="EXIT"){
-			exit(0);
+//Exit printf("%s file, %s function, line: %d\n\n", __FILE__, __func__, __LINE__);
+		if(Com=="EXIT"){printf("%s file, %s function, line: %d\n\n", __FILE__, __func__, __LINE__);
+			exit(0);printf("%s file, %s function, line: %d\n\n", __FILE__, __func__, __LINE__);
 		}
 //Show
 		else if(Com=="SHOW"){
@@ -197,7 +198,7 @@ void make_command(Database &d, vector<string> command){
 				vector<string> _query(command.begin() + 1, command.end());
 				d.show(make_query(d, _query));	
 			}
-            std::cout << "name of relation is " << temp << " with length: " << temp.length() << "\n";
+            std::cout << "name of relation is " << temp << " with length: " << temp.length() << "\n";printf("%s file, %s function, line: %d\n\n", __FILE__, __func__, __LINE__);
 			d.print_relation(d.get_relation(temp));
 		}
 //Save
@@ -209,7 +210,7 @@ void make_command(Database &d, vector<string> command){
 
 			
 //Open
-		else if(Com=="OPEN"){
+		else if(Com=="OPEN"){printf("%s file, %s function, line: %d\n\n", __FILE__, __func__, __LINE__);
 		//	d.open(d.get_relation(command[1]));
 		}
 //Close
