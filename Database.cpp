@@ -306,10 +306,12 @@ bool Database::save(int index){
         }
     }
     outputFile.close();
+    return true;
 }
 
-bool Database::close(){
-    
+bool Database::close(int index){
+    save(index);
+    return true;
 }
 
 void EXIT(){		//This closes out the application
