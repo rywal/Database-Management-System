@@ -12,22 +12,11 @@ bool is_query(string command){
         //uses ascii to check if the first letter is lowercase
         return ((command[0]>96 && command[0]<123)||command[0]==95);
 }
-/*
-int which_atomic(string atomic, string at2){
-	//at2 is the next element, "null"
-	if (atomic == "EXIT" || atomic == "CLOSE" || atomic == "SAVE" || atomic == "OPEN" || atomic == "SHOW" || atomic == "CREATE" || atomic == "UPDATE" || atomic == "INSERT" || atomic == "DELETE"){
-		return 0; //Command
-	} else if (atomic == "select" || atomic == "project" || atomic == "rename" || at2 == "+" || at2 == "-" || at2 == "*"){
-		return 1; //Query
-	} else{
-		return 2; //Relation-Name
-	}
-}*/
-
+//declare functions for recursive use
 Relation make_query(Database &d, vector<string> query);
 string which_op(string a);
 void make_command(Database &d, vector<string> query);
-
+//
 void make_update(){}
 
 vector<string> make_insert(vector<string> command){
@@ -36,15 +25,16 @@ vector<string> make_insert(vector<string> command){
 			if (command[i].front()=='"'){
 				command[i].erase(std::remove(command[i].begin(), command[i].end(), '"'), command[i].end());
             } //printf("%s function, line: %d\n\n", __func__, __LINE__);
+			//gets rid of ) and ,
             command[i].erase(std::remove(command[i].begin(), command[i].end(), ','), command[i].end());
 			command[i].erase(std::remove(command[i].begin(), command[i].end(), ')'), command[i].end());
             std::cout << "Inserting value: " << command[i] << "\n";
+			//makes a string of data values for insert
 			values.push_back(command[i]);
 		} 
 	return values;
 }
 
-void make_create(){}
 
 Relation make_product(Database &d, vector<string> query){ 
 	if(query[2].front()=='('){
@@ -91,74 +81,43 @@ Relation make_union(Database &d, vector<string> query){
 	}
 }
  
-
+//creates a selection
 Relation make_select(Database &d, vector<string> query){
+	//get rid of (
 	if(query[0].front()=='(')
 		query[0].erase(0,1);
+	//declareand initialize the arguments for the select function
 	string att_name=query[0];
 	string compare=query[1];
 	string value=query[2];
+	//get rid of )
 	value.erase(std::remove(value.begin(), value.end(), '"'), value.end());
 	int i;
+//three cases:
+	//1) the selection is at the end of it's conditions
 	if(query[2].back()==')'){
 		value.pop_back();
 		if(query[3].front()=='('){query[3].erase(0,1);}
 		vector<string> _query(query.begin() + 3, query.end());
         std::cout << "Selecting " << att_name << " with value " << value << " with operation " << which_op(compare) << endl;
 		return d.select(att_name, value, which_op(compare), make_query(d, _query));
-	} else if( query[3]=="&&"){
+	} 
+	//2) the selection is goin to set_difference two conditions
+	else if( query[3]=="&&"){
 		for(i=4; query[i].back()!=')'; i++){}
 		vector<string> _query(query.begin() + i + 1, query.end());
 		vector<string> _query2(query.begin() + 4, query.end());
 		return d.set_difference(" ", d.select(att_name, value, which_op(compare), make_query(d, _query) ), make_select(d, _query2));
 		
 	}
+	//3) the selection is going to set_union two conditions
 	else if( query[3] =="||"){
 		for(i=4; query[i].back()!=')'; i++){}
 		vector<string> _query(query.begin() + i + 1, query.end());
 		vector<string> _query2(query.begin() + 4, query.end());
 		return d.set_union( " ", d.select(att_name, value, which_op(compare), make_query(d, _query) ), make_select(d, _query2));	
 	}
-
-/*	for(int i=0; i < query.size();i++){	
-		if(strstr(query[i].c_str(),")")){
-				atomic_start=i;
-				i=query.size()+1;//"+1" to show exiting for loop
-		}
-	}
-	vector<string> atom(query.begin() + atomic_start, query.end());
-		
-	d.create_relation(query.back() + "_select", d.get_relation(query.back()).attribute_list.names(), d.get_relation(query.back()).attribute_list.maxes(), d.get_relation(query.back()).primary_keys);
-	Relation rel_sel = d.get_relation(query.back() + "_select");
-	Relation sel;
-
-	for(int i=1; i < query.size();i++){		
-		if(strstr(query[i].c_str(),")")){//end of condition
-			query[i].pop_back();
-			i=query.size()+1;//"+1" to show exiting for loop
-		}
-//may be wrong logic for the which_atomic arguments
-//I just put in the same string as the second argument
-
-//some logic need to be fixed here but I don't know exactly what's going on
-		if(which_atomic(query[atomic_start],query[atomic_start])== 0){//query
-//ERROR:: create_relation doesn't return a relation also create_relation adds a relation to the database and my thought was that we were only adding the final relation to the database
-	//		sel = d.select(query[i],query[i+3], query[i+2], d.create_relation(query.back() + "_atomic", make_query(d, atom)));
-	//	} else if(which_atomic(query[atomic_start],query[atomic_start])== 1){//command
-		//	sel = d.select(query[i],query[i+3], query[i+2], d.create_relation(query.back() + "_atomic", make_command(d, atom)));
-	//	} else if(which_atomic(query[atomic_start],query[atomic_start])== 2){//relation name
-		//	sel = d.select(query[i],query[i+3], query[i+2], d.get_relation(query[atomic_start]));
-		}
-		if((i+4)>=query.size()){ //Preventing Seg_fault
-			if(query[i+4] == "&&"){
-				Relation rel_sel = d.set_union(query.back() + "_union" + std::to_string(i), rel_sel, sel);
-			}else if(query[i+4] == "||"){
-				Relation rel_sel = d.set_difference(query.back() + "_differce" + std::to_string(i), rel_sel, sel);
-			}
-		}
-	}
-	return rel_sel;
-*/}
+}
 
 Relation make_project(Database &d, vector<string> query){
 	int i;
@@ -196,18 +155,21 @@ Relation make_rename(Database &d, vector<string> query){
 		query[i].erase(query[i].size()-1, 1);
  		names.push_back( query[i]);
 	}
-
+//two cases
+	//1) the atomic-expr is an expr
 	if (query[i].front()=='('){
 		query[i].erase(0,1);
 		vector<string> _query(query.begin() + i, query.end());
+		//recursively call for another query 
 		return d.renaming(" ", names, make_query(d, _query));
 	}
+	//2) the atomic-expr is a relation name
 	else{
 		vector<string> _query(query.begin() + i, query.end());
 		return d.renaming(" ", names, make_query(d, _query));		
 	}
 }
-
+//which_op takes "==" symbols and outputs something our program can handle
 string which_op(string op){
 	if(op=="=="){return "eq";}
 	if(op=="!="){return "neq";}
@@ -220,6 +182,7 @@ string which_op(string op){
 
 void make_command(Database &d, vector<string> command){ 
 	string Com = command[0];
+	//this is to take care of a glitch in the program. An extra character was being added so we deleted it
 	string temp=command[1].substr(0,command[1].size()-1);
 //    string temp = command[1];
 //Exit
@@ -228,9 +191,9 @@ void make_command(Database &d, vector<string> command){
 		}
 //Show
 		else if(Com=="SHOW"){
-			if(temp.front()=='('){
-				printf("Hello\n");
+			if(temp.front()=='('){	//erase the (
 				temp.erase(0,1);
+				//create new vector for new query
 				vector<string> _query(command.begin() + 1, command.end());
 				d.show(make_query(d, _query));	
 			}
@@ -239,7 +202,7 @@ void make_command(Database &d, vector<string> command){
 		}
 //Save
 		else if(Com=="SAVE"){
-		//	d.save(d.get_relation(command[1]));
+			d.save(d.get_relation_index(command[1]));
 		}
 
 			
@@ -287,6 +250,7 @@ void make_command(Database &d, vector<string> command){
 			vector<int> att_lengths;
 			vector<string> primary; 
 			command[3].erase(0,1); 
+			//create the attribute_list
 			for(i=4; command[i].back()!=')'; i+=2){ 
 				//command[i].erase(std::remove(command[i].begin(), command[i].end(), ','), command[i].end()); 
 				
