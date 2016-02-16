@@ -241,7 +241,7 @@ std::vector<string> Database::outputRelation(int index) {
             line = line + "INTEGER";
         } else {
             int ml = rel.attribute_list.attributes[a].get_max_length();
-            std::cout << "max size for " << rel.attribute_list.attributes[a].get_name() << " is " << ml << "\n";
+//            std::cout << "max size for " << rel.attribute_list.attributes[a].get_name() << " is " << ml << "\n";
             line = line + "VARCHAR(";
             line = line + std::to_string(ml);
             line = line + ")";
@@ -261,11 +261,11 @@ std::vector<string> Database::outputRelation(int index) {
     }
     
     line += ";";
-    std::cout << "Pushing back: " << line << "\n";
+//    std::cout << "Pushing back: " << line << "\n";
     output.push_back(line);
     
     for(int t = 0; t < rel.tuples.size(); t++){
-        std::cout << "Size: " << rel.tuples.size() << "\n";
+//        std::cout << "Size: " << rel.tuples.size() << "\n";
         line = "INSERT INTO " + rel.name + " VALUES FROM (";
         
         for(int a = 0; a < rel.attribute_list.attributes.size(); a++){
@@ -290,11 +290,11 @@ std::vector<string> Database::outputRelation(int index) {
 }
 
 bool Database::save(int index){
-    std::cout << "Index is: " << index << "\n";
+//    std::cout << "Index is: " << index << "\n";
     Relation r = relations[index];
     
     ofstream outputFile;
-    std::cout << "Opening " << r.name << ".db\n";
+//    std::cout << "Opening " << r.name << ".db\n";
     outputFile.open (r.name + ".db");
     
     std::vector<string> outputLines;
@@ -306,10 +306,12 @@ bool Database::save(int index){
         }
     }
     outputFile.close();
+    return true;
 }
 
-bool Database::close(){
-    
+bool Database::close(int index){
+    save(index);
+    return true;
 }
 
 void EXIT(){		//This closes out the application
