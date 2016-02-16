@@ -30,6 +30,7 @@ public:
     bool save(int index);
     bool save(string r);
     bool close(int index);
+    bool close(string r);
 	void EXIT(); 		//defined in database.cpp
     Relation select(string att_name, string compare_value, string compare_operator, Relation in_rel);
     Relation project(vector<string> att_names, Relation in_rel);

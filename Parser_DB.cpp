@@ -215,7 +215,9 @@ void make_command(Database &d, vector<string> command){
 		}
 //Close
 		else if(Com=="CLOSE"){
-		//	d.close(d.get_relation(command[1]));
+            string expr1=command[1].substr(0,command[1].size()-1);
+            cout << "Closing " << expr1 << "with length" << expr1.length() << endl;
+            d.close(expr1);
 		}
 //Delete
 		else if(Com=="DELETE"){

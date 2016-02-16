@@ -316,6 +316,11 @@ bool Database::close(int index){
     return true;
 }
 
+bool Database::close(string r){
+    std::cout << "Closing r " << r << " with index " << get_relation_index(r) << endl;
+    return close( get_relation_index(r) );
+}
+
 void EXIT(){		//This closes out the application
 	exit(0);
 }
