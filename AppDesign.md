@@ -114,4 +114,4 @@
   * A single instance of a database will be instantiated with name "rbdms"
   * All functions will perform database operations by calling "rdbms" and then the needed function name
     * For example: To insert a tuple you should use 
-        rdbs.get_relation("relation_name").insert_tuple(values);
+    *     rdbs.get_relation("relation_name").insert_tuple(values);
