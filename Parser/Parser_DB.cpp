@@ -36,7 +36,7 @@ vector<string> make_insert(vector<string> command){
 }
 
 
-Relation make_product(Database &d, vector<string> query, int &loop){ 
+Relation make_product(Database &d, vector<string> query){ 
 	if(query[2].front()=='('){
 		cout<<"CP first route\n";
 		query[query.size()-1].erase(query[query.size()-1].size()-1, 1);
@@ -51,13 +51,7 @@ Relation make_product(Database &d, vector<string> query, int &loop){
 		string expr1=expr.substr(0,expr.size()-1);
 		cout<<query[0]<<" : "<<expr1<<endl;
 		cout<<"loop: "<<loop<<endl; 
-		if (loop = 1){
-			loop = 0;
-			return d.cross_product(" ", d.get_relation(query[0]), d.get_relation(expr1));
-		} else{
-			return d.cross_product(" ", d.get_relation(query[0]), d.get_relation(query[0]));
-		}
-
+		return d.cross_product(" ", d.get_relation(query[0]), d.get_relation(expr1));
 	}
 }
 
@@ -364,12 +358,11 @@ Relation make_query(Database &d, vector<string> query){
 	}
 		//relation cases n
 		//just a relation name
-	else if(loop==1){
+	else if{
 		string expr2=query[1];
 		//Product
-		int loop = 1;
 		if (expr2 == "*")
-				return make_product( d, query, loop);
+				return make_product( d, query);
 		//Difference
 		else if (expr2	== "-")
 				return make_difference( d, query);
