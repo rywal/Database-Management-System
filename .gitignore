@@ -8,12 +8,6 @@
 *.out
 *.tmp
 .idea
-a.out
-notes.txt
-records.txt
-save-cmd
-corecode
-save-cpp.cpp
-DBengine
-test
-Output.txt
+.DS_Store
+run-dbcore
+run-parser

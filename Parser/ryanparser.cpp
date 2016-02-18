@@ -10,7 +10,7 @@
 #include <iostream>
 #include <cstring>
 #include <vector>
-#include "Database.h"
+#include "../DBCore/Database.h"
 
 bool interpret_create(Database &db, std::vector<std::string> command) {
     if (command.size() > 5) {
