@@ -9,19 +9,13 @@ else
     cc = g++-4.7
 endif
 
-all: test Cell Attribute AttributeList Tuple Relation Database
+all: DBCore Parser
 
-Cell: Cell.h Cell.cpp
-$(cc) -std=c++14 -c -g Cell.cpp
+DBCore:
+	$(cc) -std=c++11 -g -o run-dbcore DBCore/Cell.cpp  DBCore/Database.cpp  DBCore/Relation.cpp  DBCore/test.cpp  DBCore/Tuple.cpp
 
-Tuple: Tuple.h Tuple.cpp Cell.o
-$(cc) -std=c++14 -c -g Tuple.cpp Cell.o
+Parser:
+	$(cc) -std=c++14 -g -o run-parser DBCore/Cell.cpp  DBCore/Database.cpp  DBCore/Relation.cpp DBCore/Tuple.cpp Parser/Parser_DB.cpp
 
-Relation: Relation.h Relation.cpp Tuple.o
-$(cc) -std=c++14 -c -g Relation.cpp Tuple.o
-
-Database: Database.h Database.cpp Relation.o Tuple.o
-$(cc) -std=c++14 -c -g Database.cpp Relation.o Tuple.o
-
-test: test Database.o
-$(cc) -std=c++14 -g -o test test.cpp Database.o
+clean:
+	rm run-dbcore run-parser *.db
