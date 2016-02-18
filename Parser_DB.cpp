@@ -36,7 +36,7 @@ vector<string> make_insert(vector<string> command){
 }
 
 
-Relation make_product(Database &d, vector<string> query){ 
+Relation make_product(Database &d, vector<string> query, int &loop){ 
 	if(query[2].front()=='('){
 		cout<<"CP first route\n";
 		query[query.size()-1].erase(query[query.size()-1].size()-1, 1);
@@ -50,7 +50,13 @@ Relation make_product(Database &d, vector<string> query){
 		string expr=query[2];
 		string expr1=expr.substr(0,expr.size()-1);
 		cout<<query[0]<<" : "<<expr1<<endl;
-		return d.cross_product(" ", d.get_relation(query[0]), d.get_relation(expr1));
+		cout<<"loop: "<<loop<<endl; 
+		if (loop = 1){
+			loop = 0;
+			return d.cross_product(" ", d.get_relation(query[0]), d.get_relation(expr1));
+		} else{
+			return d.cross_product(" ", d.get_relation(query[0]), d.get_relation(query[0]));
+		}
 
 	}
 }
@@ -228,7 +234,37 @@ void make_command(Database &d, vector<string> command){
 
 //Update
 		else if(Com=="UPDATE"){
-			vector<string>  _query(command.begin() + 3, command.end());
+			vector<string> _query(command.begin() + 3, command.end());
+			
+			vector<string> names;
+			vector<string> compare_values;
+			vector<string> lit;
+			vector<string> op_v;
+
+			string relation_n = command[1];
+			int loop = 1; int temp_ind=0;
+			for(int i=0; i<_query.size(); i++){
+				//get rid of comma
+				names.push_back(_query[i]);
+				i+2;
+				if(!strstr(_query[i].c_str(),",")){loop=0;}
+				_query[i].erase(std::remove(_query[i].begin(), _query[i].end(), ','), _query[i].end());
+				lit.push_back(_query[i]);
+				if(loop==0){loop==1;temp_ind=i;break;}
+			}
+			
+			for(int i=temp_ind+1; i+2<_query.size(); i++){
+				//get rid of comma
+				op_v.push_back(_query[i]);
+				i+1;
+				compare_values.push_back(_query[i]);
+			}
+			
+
+			for(int i=0; i<compare_values.size(); i++){
+				d.update(d.get_relation(relation_n),names[i],op_v[i],compare_values[i],lit[i]);
+			}
+			
 			
 		//	d.update();
         }
@@ -328,17 +364,18 @@ Relation make_query(Database &d, vector<string> query){
 	}
 		//relation cases n
 		//just a relation name
-	else{
+	else if(loop==1){
 		string expr2=query[1];
 		//Product
-			if (expr2 == "*")
-					return make_product( d, query);
+		int loop = 1;
+		if (expr2 == "*")
+				return make_product( d, query, loop);
 		//Difference
-			else if (expr2	== "-")
-					return make_difference( d, query);
+		else if (expr2	== "-")
+				return make_difference( d, query);
 		//Union
-			else if (expr2 == "+")
-					return make_union( d, query);
+		else if (expr2 == "+")
+				return make_union( d, query);
 		
 	}
 }

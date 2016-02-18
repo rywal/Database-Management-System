@@ -559,10 +559,10 @@ bool is_command(vector<string> command_list, int &index){//This is used to tell 
 				if (command_list[index+=1] != "="){
 					return false;
 				}
-				if(!strstr(command_list[index+=1].c_str(),",")){
+				if(!strstr(command_list[index+=1].c_str(),",")){ cout<<"562"<<endl;
 					return false;
 				}
-				for(int i = index+6; i < command_list.size()+3;i++){
+				for(int i = index+3; i < command_list.size()+3;i++){ cout<<"565"<<endl;
 					if(command_list[i] != "SET" || !is_identifier(command_list[i+1]) || command_list[i+2] != "=" ){
 						if(strstr(command_list[i+3].c_str(),",") && command_list[i+4] == "WHERE"){
 							return false;
@@ -575,7 +575,7 @@ bool is_command(vector<string> command_list, int &index){//This is used to tell 
 					index=i;
 				}
 				if(command_list[index+=1] == "WHERE"){
-					if(contains_condition(command_list, index+=1)){
+					if(contains_condition(command_list, index+=1)){cout<<"This is true"<<endl;
 						return true;
 					}
 				}
