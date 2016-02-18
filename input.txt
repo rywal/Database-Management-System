@@ -6,6 +6,8 @@ INSERT INTO animals VALUES FROM ("Tweety", "bird", 1);
 INSERT INTO animals VALUES FROM ("Joe", "bird", 2);
 SHOW animals;
 SAVE animals;
+UPDATE animals SET name = "Joe", WHERE name == "Joe";
+SHOW animals;
 dogs <- select (kind == "dog") animals;
 SHOW dogs;
 old_dogs <- select (age > 10) dogs;
