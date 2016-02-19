@@ -16,6 +16,7 @@ bool is_query(string command){
 Relation make_query(Database &d, vector<string> query);
 string which_op(string a);
 void make_command(Database &d, vector<string> query);
+int already_parsed;
 //
 void make_update(){}
 
@@ -50,7 +51,7 @@ Relation make_product(Database &d, vector<string> query){
 		string expr=query[2];
 		string expr1=expr.substr(0,expr.size()-1);
 		cout<<query[0]<<" : "<<expr1<<endl;
-		cout<<"loop: "<<loop<<endl; 
+		cout << "THIS IS HERE::"<<endl;
 		return d.cross_product(" ", d.get_relation(query[0]), d.get_relation(expr1));
 	}
 }
@@ -339,7 +340,9 @@ void make_command(Database &d, vector<string> command){
 }
 
 Relation make_query(Database &d, vector<string> query){
+	
 	string expr=query[0];
+	cout<<"Already_parsed"<< already_parsed<<endl;
 	if(1==query.size()){
 		string expr1=expr.substr(0,expr.size()-1);
 		return d.get_relation(expr1);
@@ -358,7 +361,8 @@ Relation make_query(Database &d, vector<string> query){
 	}
 		//relation cases n
 		//just a relation name
-	else if{
+	else if(already_parsed==0){
+		already_parsed=1;
 		string expr2=query[1];
 		//Product
 		if (expr2 == "*")
@@ -376,7 +380,7 @@ Relation make_query(Database &d, vector<string> query){
 
 void Action(Database &d, vector<string> command){
    // command[command.size()-1].pop_back();
-	
+	already_parsed=0;
 	if(is_command(command[0])){ 
                 make_command(d, command); 
 	}else if(is_query(command[0])){
@@ -412,7 +416,7 @@ void main_loop(vector<string> &command_list, string &command, int &line_number, 
 }
 
 int main(){
-	output.open ("Output.txt");
+	output.open ("Parser/Output.txt");
 	Database d("d");
 	if(!output){ //This should never happen
 		printf("\nThe Output file is not found!");
@@ -434,9 +438,10 @@ int main(){
 	if(f_or_h == "f" || f_or_h == "F" || f_or_h == "file"){
 		string command;
 		string input_file = "";
-			printf("Please input the file you would like to use. \n(Please note, this is automated, no other input will be read)\n>");
+			printf("Please input the file you would like to use (With Respect to Parser/). \n(Please note, this is automated, no other input will be read)\n>");
 			cin >> input_file;
-			std::ifstream input(input_file);
+			string input_w = "Parser/" + input_file;
+			std::ifstream input(input_w);
 			if(!input){
 				printf("\nThe input file not found!");
 				printf("\nPlease place a file named \"Input.txt\" in the same folder as %s.\n\n", __FILE__);
