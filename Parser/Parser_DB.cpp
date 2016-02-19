@@ -16,7 +16,6 @@ bool is_query(string command){
 Relation make_query(Database &d, vector<string> query);
 string which_op(string a);
 void make_command(Database &d, vector<string> query);
-int already_parsed;
 //
 void make_update(){}
 
@@ -43,16 +42,18 @@ Relation make_product(Database &d, vector<string> query){
 		query[query.size()-1].erase(query[query.size()-1].size()-1, 1);
 		query[2].erase(0,1);
 		vector<string> _query(query.begin() + 2, query.end());
-		return d.cross_product(" ", d.get_relation(query[0]), make_query(d, _query));	
+		return d.cross_product(" ", d.get_relation(query[0]), make_query(d, _query));
 	}
 	else{
 		cout<<"CP second route\n";
 		vector<string> _query(query.begin() + 2, query.end());
 		string expr=query[2];
+		string arg=query[0];
+		string arg1=arg.substr(0,expr.size()-1);
+		arg1.erase(std::remove(arg1.begin(), arg1.end(), '('), arg1.end());
 		string expr1=expr.substr(0,expr.size()-1);
-		cout<<query[0]<<" : "<<expr1<<endl;
-		cout << "THIS IS HERE::"<<endl;
-		return d.cross_product(" ", d.get_relation(query[0]), d.get_relation(expr1));
+		expr1.erase(std::remove(expr1.begin(), expr1.end(), ')'), expr1.end());
+		return d.cross_product(" ", d.get_relation(arg1), d.get_relation(expr1));	
 	}
 }
 
@@ -185,11 +186,11 @@ void make_command(Database &d, vector<string> command){
 	string Com = command[0];
 	//this is to take care of a glitch in the program. An extra character was being added so we deleted it
 	string temp=command[1].substr(0,command[1].size()-1);
-	printf("%s file, %s function, line: %d\n\n", __FILE__, __func__, __LINE__);
+	
 //    string temp = command[1];
-//Exit printf("%s file, %s function, line: %d\n\n", __FILE__, __func__, __LINE__);
-		if(Com=="EXIT"){printf("%s file, %s function, line: %d\n\n", __FILE__, __func__, __LINE__);
-			exit(0);printf("%s file, %s function, line: %d\n\n", __FILE__, __func__, __LINE__);
+//Exit 
+		if(Com=="EXIT"){
+			exit(0);
 		}
 //Show
 		else if(Com=="SHOW"){
@@ -199,7 +200,7 @@ void make_command(Database &d, vector<string> command){
 				vector<string> _query(command.begin() + 1, command.end());
 				d.show(make_query(d, _query));	
 			}
-            std::cout << "name of relation is " << temp << " with length: " << temp.length() << "\n";printf("%s file, %s function, line: %d\n\n", __FILE__, __func__, __LINE__);
+            std::cout << "name of relation is " << temp << " with length: " << temp.length() << "\n";
 			d.print_relation(d.get_relation(temp));
 		}
 //Save
@@ -211,7 +212,7 @@ void make_command(Database &d, vector<string> command){
 
 			
 //Open
-		else if(Com=="OPEN"){printf("%s file, %s function, line: %d\n\n", __FILE__, __func__, __LINE__);
+		else if(Com=="OPEN"){
 		//	d.open(d.get_relation(command[1]));
 		}
 //Close
@@ -340,13 +341,13 @@ void make_command(Database &d, vector<string> command){
 }
 
 Relation make_query(Database &d, vector<string> query){
-	
+
 	string expr=query[0];
-	cout<<"Already_parsed"<< already_parsed<<endl;
 	if(1==query.size()){
 		string expr1=expr.substr(0,expr.size()-1);
 		return d.get_relation(expr1);
 	}
+	printf("%s function, line: %d\n", __func__, __LINE__);
     expr = query[0];
 	//Renaming
 	if (expr == "rename")
@@ -361,8 +362,7 @@ Relation make_query(Database &d, vector<string> query){
 	}
 		//relation cases n
 		//just a relation name
-	else if(already_parsed==0){
-		already_parsed=1;
+	else {
 		string expr2=query[1];
 		//Product
 		if (expr2 == "*")
@@ -373,14 +373,12 @@ Relation make_query(Database &d, vector<string> query){
 		//Union
 		else if (expr2 == "+")
 				return make_union( d, query);
-		
-	}
+		}
 }
 
 
 void Action(Database &d, vector<string> command){
    // command[command.size()-1].pop_back();
-	already_parsed=0;
 	if(is_command(command[0])){ 
                 make_command(d, command); 
 	}else if(is_query(command[0])){
@@ -395,6 +393,7 @@ void main_loop(vector<string> &command_list, string &command, int &line_number, 
 		if(equal_parentheses(command_list)){
 			int num=0; int num2=0;
 			if(is_command(command_list, num2)){
+				if(command_list[0]=="EXIT"){exit(0);}//Saves time
 				Action(d, command_list);
 				output << "line " << to_string(line_number) <<"was successful!"<<endl;
 			}else if(is_query(command_list, num)){
@@ -425,6 +424,7 @@ int main(){
 	printf("This is the Beginning of %s, in the %s function, which is on line: %d\n\n", __FILE__, __func__, __LINE__);//This is for error management
 	string f_or_h;
 	printf("For this run, would you like to take input from an \"Input.txt\" file [f], or type commands in by hand[h]? [f\\h]\n>");//Giving better testing handles
+	
 	cin >>  f_or_h;
 	int loop=1;
 	while (loop==1){
