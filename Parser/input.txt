@@ -19,6 +19,7 @@ SHOW species;
 a <- rename (aname, akind) (project (name, kind) animals);
 SHOW a;
 common_names <- project (name) (select (aname == name && akind != kind) (a * animals));
+SHOW common_names;
 answer <- common_names;
 SHOW answer;
 EXIT;
