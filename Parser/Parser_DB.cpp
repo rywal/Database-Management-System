@@ -138,10 +138,16 @@ Relation make_select(Database &d, vector<string> query){
 Relation make_project(Database &d, vector<string> query){
 	int i;
 	vector<string> names;
-	query[1].erase(0,1);
+	cout << "IN MAKE (out):" << query[1] << endl;
+	
+	//query[1].erase(0,1);
 	for(i=1; query[i].back()!=')'; i++){
+		cout << "IN MAEK:" << query[i] << endl;
 		//get rid of comma
-		query[i].erase(query[i].size()-1, 1);
+		//query[i].erase(query[i].size()-1, 1);
+		query[i].erase(std::remove(query[i].begin(), query[i].end(), ')'), query[i].end());
+		query[i].erase(std::remove(query[i].begin(), query[i].end(), '('), query[i].end());
+		query[i].erase(std::remove(query[i].begin(), query[i].end(), ','), query[i].end());
  		names.push_back( query[i]);
 	}
 	query[i].erase(query[i].size()-1, 1);
@@ -361,7 +367,6 @@ Relation make_query(Database &d, vector<string> query){
 		string expr1=expr.substr(0,expr.size()-1);
 		return d.get_relation(expr1);
 	}
-	printf("%s function, line: %d\n", __func__, __LINE__);
     expr = query[0];
 	//Renaming
 	if (expr == "rename")
