@@ -66,7 +66,14 @@ Relation make_difference(Database &d, vector<string> query){
 	}
 	else{
 		vector<string> _query(query.begin() + 2, query.end());
-		return d.set_difference(" ", d.get_relation(query[0]), make_query(d, _query));
+		string expr=query[2];
+		string arg=query[0];
+		string arg1=arg.substr(0,expr.size()-1);
+		arg1.erase(std::remove(arg1.begin(), arg1.end(), '('), arg1.end());
+		string expr1=expr.substr(0,expr.size()-1);
+		expr1.erase(std::remove(expr1.begin(), expr1.end(), ')'), expr1.end());
+		//expr1 is not used yet	
+		return d.set_difference(" ", d.get_relation(arg1), make_query(d, _query));
 	}
 }
 
@@ -79,7 +86,14 @@ Relation make_union(Database &d, vector<string> query){
 	}
 	else{
 		vector<string> _query(query.begin() + 2, query.end());
-		return d.set_union(" ", d.get_relation(query[0]), make_query(d, _query));
+		string expr=query[2];
+		string arg=query[0];
+		string arg1=arg.substr(0,expr.size()-1);
+		arg1.erase(std::remove(arg1.begin(), arg1.end(), '('), arg1.end());
+		string expr1=expr.substr(0,expr.size()-1);
+		expr1.erase(std::remove(expr1.begin(), expr1.end(), ')'), expr1.end());
+		//expr1 is not used yet
+		return d.set_union(" ", d.get_relation(arg1), make_query(d, _query));
 	}
 }
  
@@ -124,10 +138,16 @@ Relation make_select(Database &d, vector<string> query){
 Relation make_project(Database &d, vector<string> query){
 	int i;
 	vector<string> names;
-	query[1].erase(0,1);
+	cout << "IN MAKE (out):" << query[1] << endl;
+	
+	//query[1].erase(0,1);
 	for(i=1; query[i].back()!=')'; i++){
+		cout << "IN MAEK:" << query[i] << endl;
 		//get rid of comma
-		query[i].erase(query[i].size()-1, 1);
+		//query[i].erase(query[i].size()-1, 1);
+		query[i].erase(std::remove(query[i].begin(), query[i].end(), ')'), query[i].end());
+		query[i].erase(std::remove(query[i].begin(), query[i].end(), '('), query[i].end());
+		query[i].erase(std::remove(query[i].begin(), query[i].end(), ','), query[i].end());
  		names.push_back( query[i]);
 	}
 	query[i].erase(query[i].size()-1, 1);
@@ -347,7 +367,6 @@ Relation make_query(Database &d, vector<string> query){
 		string expr1=expr.substr(0,expr.size()-1);
 		return d.get_relation(expr1);
 	}
-	printf("%s function, line: %d\n", __func__, __LINE__);
     expr = query[0];
 	//Renaming
 	if (expr == "rename")
