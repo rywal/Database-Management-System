@@ -150,7 +150,7 @@ Relation make_project(Database &d, vector<string> query){
 		query[i].erase(std::remove(query[i].begin(), query[i].end(), ','), query[i].end());
  		names.push_back( query[i]);
 	}
-	query[i].erase(query[i].size()-1, 1);
+	query[i].erase(std::remove(query[i].begin(), query[i].end(), ')'), query[i].end());
 	names.push_back(query[i]);
 	if (query[i+=1].front()=='('){
 		cout<<"first route\n";
