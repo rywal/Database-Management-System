@@ -66,15 +66,13 @@ Relation make_difference(Database &d, vector<string> query){
 	}
 	else{
 		vector<string> _query(query.begin() + 2, query.end());
-		//string expr=query[2];
+		string expr=query[2];
 		string arg=query[0];
 		string arg1=arg.substr(0,expr.size()-1);
 		arg1.erase(std::remove(arg1.begin(), arg1.end(), '('), arg1.end());
-		/*string expr1=expr.substr(0,expr.size()-1);
+		string expr1=expr.substr(0,expr.size()-1);
 		expr1.erase(std::remove(expr1.begin(), expr1.end(), ')'), expr1.end());
-		return d.cross_product(" ", d.get_relation(arg1), d.get_relation(expr1));*/
-
-		vector<string> _query(query.begin() + 2, query.end());
+		//expr1 is not used yet	
 		return d.set_difference(" ", d.get_relation(arg1), make_query(d, _query));
 	}
 }
@@ -88,10 +86,14 @@ Relation make_union(Database &d, vector<string> query){
 	}
 	else{
 		vector<string> _query(query.begin() + 2, query.end());
+		string expr=query[2];
 		string arg=query[0];
 		string arg1=arg.substr(0,expr.size()-1);
 		arg1.erase(std::remove(arg1.begin(), arg1.end(), '('), arg1.end());
-		return d.set_union(" ", d.get_relation(args1), make_query(d, _query));
+		string expr1=expr.substr(0,expr.size()-1);
+		expr1.erase(std::remove(expr1.begin(), expr1.end(), ')'), expr1.end());
+		//expr1 is not used yet
+		return d.set_union(" ", d.get_relation(arg1), make_query(d, _query));
 	}
 }
  
