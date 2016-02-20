@@ -64,6 +64,30 @@ Relation interpret_select(Database &db, std::vector<std::string> query){
     }
 }
 
+Relation interpret_rename(Database &db, std::vector<std::string> query){
+	int i;
+	vector<string> names;
+	
+	for(i=0; query.size()-1; i++){
+		if(query[i]!="select"&&query[i]!="project"&&query[i]!="rename"){
+			if((i+4)==query.size()){ //Is Union,Diff, or prod
+				if(query[i+2]=="+"||query[i+2]=="-"||query[i+2]=="*"){
+					names.push_back(query[i]);//the last name
+					break;
+				}
+			}
+			names.push_back(query[i]);
+		} else{break;} //The next thing is an expr
+	} //If it doesn't hit a "break;", then it is a relation name
+	
+	vector<string> _query(query.begin() + i, query.end());
+	return db.renaming(" ", names, interpret_query(db, _query));
+}
+
+Relation interpret_project(Database &db, std::vector<std::string> query){
+	cout<<"Project has not been defined yet"<<endl;
+}
+
 bool interpret_create(Database &db, std::vector<std::string> command) {
     if (command.size() > 5) {
         string relation_name = command[0];
@@ -196,13 +220,28 @@ void interpret_command(Database &db, std::vector<std::string> command) {
 }
 Relation interpret_query(Database &db, std::vector<std::string> query){
     if (query[0]=="select"){
-	query.erase(query.begin(), query.begin()+1); 
-	std::vector<std::string> rest_of_query = query;
-	return interpret_select(db, rest_of_query);
-    } 
-
-else{
-	return	db.get_relation(query[0]);
+		query.erase(query.begin(), query.begin()+1); 
+		std::vector<std::string> rest_of_query = query;
+		return interpret_select(db, rest_of_query);
+    } else if (query[0]=="rename"){
+		query.erase(query.begin(), query.begin()+1); 
+		std::vector<std::string> rest_of_query = query;
+		return interpret_rename(db, rest_of_query);
+	} else if (query[0]=="project"){
+		query.erase(query.begin(), query.begin()+1); 
+		std::vector<std::string> rest_of_query = query;
+		return interpret_project(db, rest_of_query);
+	} else{
+		if(query.size()>2){//Prevent SegFault
+			if(query[1]=="+"){
+				////NEEDS TO BE DEFINED
+			} else if(query[1]=="-"){
+				////NEEDS TO BE DEFINED
+			} else if(query[1]=="*"){
+				////NEEDS TO BE DEFINED
+			}
+		}
+		return	db.get_relation(query[0]);
     }	
 }
 
