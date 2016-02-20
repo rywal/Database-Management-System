@@ -67,7 +67,6 @@ Relation interpret_select(Database &db, std::vector<std::string> query){
 Relation interpret_rename(Database &db, std::vector<std::string> query){
 	int i;
 	vector<string> names;
-	
 	for(i=0; query.size()-1; i++){
 		if(query[i]!="select"&&query[i]!="project"&&query[i]!="rename"){
 			if((i+4)==query.size()){ //Is Union,Diff, or prod
@@ -79,13 +78,26 @@ Relation interpret_rename(Database &db, std::vector<std::string> query){
 			names.push_back(query[i]);
 		} else{break;} //The next thing is an expr
 	} //If it doesn't hit a "break;", then it is a relation name
-	
 	vector<string> _query(query.begin() + i, query.end());
 	return db.renaming(" ", names, interpret_query(db, _query));
 }
 
 Relation interpret_project(Database &db, std::vector<std::string> query){
-	cout<<"Project has not been defined yet"<<endl;
+	int i;
+	vector<string> names;
+	for(i=0; query.size()-1; i++){
+		if(query[i]!="select"&&query[i]!="project"&&query[i]!="rename"){
+			if((i+4)==query.size()){ //Is Union,Diff, or prod
+				if(query[i+2]=="+"||query[i+2]=="-"||query[i+2]=="*"){
+					names.push_back(query[i]);//the last name
+					break;
+				}
+			}
+			names.push_back(query[i]);
+		} else{break;} //The next thing is an expr
+	} //If it doesn't hit a "break;", then it is a relation name
+	vector<string> _query(query.begin() + i, query.end());
+	return db.project(names, interpret_query(db, _query));
 }
 
 bool interpret_create(Database &db, std::vector<std::string> command) {
