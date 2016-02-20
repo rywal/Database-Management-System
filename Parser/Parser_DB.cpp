@@ -138,13 +138,10 @@ Relation make_select(Database &d, vector<string> query){
 Relation make_project(Database &d, vector<string> query){
 	int i;
 	vector<string> names;
-	cout << "IN MAKE (out):" << query[1] << endl;
 	
 	//query[1].erase(0,1);
 	for(i=1; query[i].back()!=')'; i++){
-		cout << "IN MAEK:" << query[i] << endl;
 		//get rid of comma
-		//query[i].erase(query[i].size()-1, 1);
 		query[i].erase(std::remove(query[i].begin(), query[i].end(), ')'), query[i].end());
 		query[i].erase(std::remove(query[i].begin(), query[i].end(), '('), query[i].end());
 		query[i].erase(std::remove(query[i].begin(), query[i].end(), ','), query[i].end());
@@ -442,30 +439,35 @@ int main(){
 	}
 	printf("This is the Beginning of %s, in the %s function, which is on line: %d\n\n", __FILE__, __func__, __LINE__);//This is for error management
 	string f_or_h;
-	printf("For this run, would you like to take input from an \"Input.txt\" file [f], or type commands in by hand[h]? [f\\h]\n>");//Giving better testing handles
-	
+	printf("For this run, would you like to take input from an \"Input.txt\" file [f], or type commands in by hand[h]?\n(If your input has a \".txt\" in it, it'll be processes as a file)\n>");
+	//Giving better testing handles
 	cin >>  f_or_h;
 	int loop=1;
 	while (loop==1){
-		if(f_or_h != "h" && f_or_h != "H" && f_or_h != "hand" && f_or_h != "f" && f_or_h != "F" && f_or_h != "file"){
+		if(f_or_h != "h" && f_or_h != "H" && f_or_h != "hand" && f_or_h != "f" && f_or_h != "F" && f_or_h != "file" && !strstr(f_or_h.c_str(),".txt")){
 			std::cin.ignore( std::numeric_limits<std::streamsize>::max(), '\n' );
 			f_or_h = "";
 			printf("Please re-enter your prefered input method [f\\h]\n>");
 			cin >>  f_or_h;
 		} else{loop=0;}
 	}
-	if(f_or_h == "f" || f_or_h == "F" || f_or_h == "file"){
+	if(f_or_h == "f" || f_or_h == "F" || f_or_h == "file" || strstr(f_or_h.c_str(),".txt")){
 		string command;
 		string input_file = "";
+		string input_w;
+		if(!strstr(f_or_h.c_str(),".txt")){
 			printf("Please input the file you would like to use (With Respect to Parser/). \n(Please note, this is automated, no other input will be read)\n>");
 			cin >> input_file;
-			string input_w = "Parser/" + input_file;
-			std::ifstream input(input_w);
-			if(!input){
-				printf("\nThe input file not found!");
-				printf("\nPlease place a file named \"Input.txt\" in the same folder as %s.\n\n", __FILE__);
-				exit(EXIT_FAILURE);//Showing error status code
-			}
+			input_w = "Parser/" + input_file;
+		} else {
+			input_w = "Parser/" + f_or_h;
+		}
+		std::ifstream input(input_w);
+		if(!input){
+			printf("\nThe input file not found!");
+			printf("\nPlease place a file named \"Input.txt\" in the same folder as %s.\n\n", __FILE__);
+			exit(EXIT_FAILURE);//Showing error status code
+		}
 		int line_number=1;
 		while(std::getline(input, command)){ 
 			cout << "\nThe command given is: " << command.c_str() << endl;

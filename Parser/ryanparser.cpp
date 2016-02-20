@@ -152,6 +152,7 @@ bool interpret_show(Database &db, std::vector<std::string> command){
 			db.print_relation(db.get_relation(relation_name));
 		}
 		else{
+			cout << "155: Here"<<endl;
 	//		db.print_relation(interpret_query(db, command));
 		}		
 	}else {
@@ -181,6 +182,10 @@ void interpret_command(Database &db, std::vector<std::string> command) {
 	if (command.size() > 1){
 		command.erase(command.begin(), command.begin()+1); 
 		std::vector<std::string> rest_of_commands = command;
+		if (rest_of_commands.size()==2){
+			rest_of_commands.clear();
+			rest_of_commands.push_back(command[0]);
+		}
 		interpret_show(db, rest_of_commands);
 	}else {
             std::cout << "Error parsing your command - not enough tokens"<< std::endl;
@@ -294,8 +299,6 @@ int main() {
 		getline(&input_file, &buffer_size, stdin);
 		input= fopen("input.txt", "r");
 		}
-		
-		
 		if(!input){
 			printf("\nThe input file not found!");
 			printf("\nPlease place a file named \"Input.txt\" in the same folder as %s.\n\n", __FILE__);
@@ -306,6 +309,7 @@ int main() {
 		while(!feof(input)){
 			getline(&str, &buffer_size, input); 
 			string command(str);
+			cout<< "The following is the command given: " << str << endl;
 			pch = strtok (str, delimiters.c_str());
     			while (pch != NULL) {
        				command_list.push_back(pch);

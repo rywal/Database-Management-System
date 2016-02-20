@@ -178,7 +178,7 @@ Relation Database::project(vector<string> att_names, Relation in_rel){
     out_rel.set_max(max_lengths);
 
 	for(int i=0; i < att_names.size(); i++){
-		cout<<"We are on attribute #" << i<< endl;
+		cout<<"We are on attribute #" << i<< " at:"<< att_names[i] <<endl;
 		if(in_rel.attribute_exist(att_names[i])){
 			//add Attributes to out_rel
 			out_rel.insert_attribute( in_rel.get_attribute_index(att_names[i]), in_rel);

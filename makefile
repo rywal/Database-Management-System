@@ -18,6 +18,9 @@ DBCore:
 
 Parser:
 	$(cc) -std=c++11 -g -o run-parser DBCore/Cell.cpp  DBCore/Database.cpp  DBCore/Relation.cpp DBCore/Tuple.cpp Parser/ryanparser.cpp
+	
+Parser2:
+	$(cc) -std=c++11 -g -o run-parser DBCore/Cell.cpp  DBCore/Database.cpp  DBCore/Relation.cpp DBCore/Tuple.cpp Parser/Parser_DB.cpp
 
 clean:
 	rm run-dbcore run-parser *.db
