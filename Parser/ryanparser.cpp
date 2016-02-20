@@ -182,7 +182,7 @@ void interpret_command(Database &db, std::vector<std::string> command) {
 	if (command.size() > 1){
 		command.erase(command.begin(), command.begin()+1); 
 		std::vector<std::string> rest_of_commands = command;
-		if (rest_of_commands.size()==2){
+		if (rest_of_commands.size()==2){//Doubly insures SHOW
 			rest_of_commands.clear();
 			rest_of_commands.push_back(command[0]);
 		}
@@ -211,7 +211,7 @@ void query_or_command(Database &db, std::vector<std::string> command_line){
 		string relation_name= command_line[0];
 		if(command_line[1]=="<-"){
 			command_line.erase (command_line.begin(), command_line.begin()+2);
-            		std::vector<std::string> rest_of_query = command_line;
+            std::vector<std::string> rest_of_query = command_line;
 			db.create_relation(relation_name, interpret_query(db, rest_of_query));
 			cout<<"just created relation with the name: "<<relation_name<<endl;
 		} else{
@@ -316,10 +316,15 @@ int main() {
         			printf ("%s\n",pch);
         			pch = strtok (NULL, delimiters.c_str());
 			}
+			vector<string> command_list2;
+			for(int i=0; i<(command_list.size()-1);i++){
+				command_list2.push_back(command_list[i]);
+			}
 			cout<<"———\n";
+			
 			cout<<command_list[command_list.size()-1]<<"1"<<endl;
 			cout<<"about to do command"<<command_list.size()<<"\n";
-   			 query_or_command(db, command_list);
+   			query_or_command(db, command_list2);
    			cout<<"did command\n"; 
 			command_list.clear();
     			 free(pch);			
