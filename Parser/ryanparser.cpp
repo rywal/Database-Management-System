@@ -83,20 +83,22 @@ Relation interpret_rename(Database &db, std::vector<std::string> query){
 }
 
 Relation interpret_project(Database &db, std::vector<std::string> query){
-	int i;
-	vector<string> names;
-	for(i=0; query.size()-1; i++){
-		if(query[i]!="select"&&query[i]!="project"&&query[i]!="rename"){
+	int i; printf("%s function, line: %d\n\n", __func__, __LINE__);
+	vector<string> names; printf("%s function, line: %d\n\n", __func__, __LINE__);
+	for(i=0; query.size()-1; i++){ printf("%s function, line: %d\n\n", __func__, __LINE__);
+		if(query[i]!="select"&&query[i]!="project"&&query[i]!="rename"){ printf("%s function, line: %d\n\n", __func__, __LINE__);
 			if((i+4)==query.size()){ //Is Union,Diff, or prod
-				if(query[i+2]=="+"||query[i+2]=="-"||query[i+2]=="*"){
+				if(query[i+2]=="+"||query[i+2]=="-"||query[i+2]=="*"){ printf("%s function, line: %d\n\n", __func__, __LINE__);
 					names.push_back(query[i]);//the last name
 					break;
 				}
-			}
+			} printf("%s function, line: %d\n\n", __func__, __LINE__);
 			names.push_back(query[i]);
 		} else{break;} //The next thing is an expr
 	} //If it doesn't hit a "break;", then it is a relation name
+	printf("%s function, line: %d\n\n", __func__, __LINE__);
 	vector<string> _query(query.begin() + i, query.end());
+	printf("%s function, line: %d\n\n", __func__, __LINE__);
 	return db.project(names, interpret_query(db, _query));
 }
 
