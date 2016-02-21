@@ -89,12 +89,12 @@ Relation Database::set_union(string name, Relation a, Relation b){
 Relation Database::set_difference(string name, Relation a, Relation b){
     vector<string> att_names = a.attribute_list.names();
     vector<int> att_lengths = a.attribute_list.maxes();
-	cout<<"STARTING\n";
+	cout<<"STARTING - "; printf("%s function, line: %d\n\n", __func__, __LINE__);
 	if( union_compatible(a, b)){
 		int j;
 		Relation result( name, att_names, att_lengths, a.primary_keys);
 		Tuple temp(a.attribute_list.num_attributes());
-		cout<<"WORKING\n";
+		cout<<"WORKING - ";printf("%s function, line: %d\n\n", __func__, __LINE__);
 		print_relation(a);
 		print_relation(b);
 		for (int i=0; i<a.tuples.size(); i++){
@@ -107,7 +107,7 @@ Relation Database::set_difference(string name, Relation a, Relation b){
 				temp.cells = a.tuples[i].cells;
 				result.insert_tuple(temp);
 		}
-		cout<<"NO PROBLEM HERE!\n";
+		cout<<"NO PROBLEM HERE! - "; printf("%s function, line: %d\n\n", __func__, __LINE__);
 		return result;			
 	}
 	else{

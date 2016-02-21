@@ -44,7 +44,7 @@ Relation interpret_select(Database &db, std::vector<std::string> query){
 			in_rel_query.push_back(query[j]);
 		query.erase(query.begin(), query.begin() + 4);
 		vector<string> rest_of_query=query;
-		cout<<"CASE 1\n";
+		cout<<"CASE 1 - "; printf("%s function, line: %d\n\n", __func__, __LINE__);
 		return db.set_difference( " ", db.select(att_name, value, which_op(compare), interpret_query(db, in_rel_query) ), interpret_select(db, rest_of_query));	
 	}
 	//2) the selection is going to set_union two conditions
@@ -55,7 +55,7 @@ Relation interpret_select(Database &db, std::vector<std::string> query){
 			in_rel_query.push_back(query[j]);
 		query.erase(query.begin(), query.begin() + 4);
 		vector<string> rest_of_query=query;
-		cout<<"CASE 2\n";
+		cout<<"CASE 2 - "; printf("%s function, line: %d\n\n", __func__, __LINE__);
 		return db.set_union( " ", db.select(att_name, value, which_op(compare), interpret_query(db, in_rel_query) ), interpret_select(db, rest_of_query));	
 	}
 	else {
@@ -63,8 +63,8 @@ Relation interpret_select(Database &db, std::vector<std::string> query){
 		query.erase(query.begin(), query.begin()+3); 
 		std::vector<std::string> rest_of_query = query;
 	//	std::cout << "Selecting " << att_name << " with value " << value << " with operation " << which_op(compare) << endl;
-		cout<<"CASE 3\n";
-		cout<<rest_of_query[0]<<'\n';
+		cout<<"CASE 3\n"; printf("%s function, line: %d\n\n", __func__, __LINE__);
+		cout<<"select: " << rest_of_query[0]<<'\n';
 		return db.select(att_name, value, which_op(compare), interpret_query(db, rest_of_query));
 	} 
     } else{
@@ -295,7 +295,7 @@ Relation interpret_query(Database &db, std::vector<std::string> query){
 			} else if(query[1]=="-"){
 				return interpret_difference(db, query);
 			} else if(query[1]=="*"){
-				return interpret_difference(db, query);
+				return interpret_product(db, query);
 			}
 		}else{
 			return	db.get_relation(query[0]);
