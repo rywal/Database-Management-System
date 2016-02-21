@@ -150,7 +150,7 @@ bool interpret_create(Database &db, std::vector<std::string> command) {
 }
 
 bool interpret_insert(Database &db, std::vector<std::string> command) {
-    if (command.size() > 5) {
+    if (command.size() > 4) {
         string relation_name = command[0];
         
         string next_token = command[1];
@@ -369,17 +369,17 @@ int main() {
         			printf ("%s\n",pch);
         			pch = strtok (NULL, delimiters.c_str());
 			}
-			vector<string> command_list2;
+			/*vector<string> command_list2;
 			for(int i=0; i<(command_list.size()-1);i++){
 				command_list2.push_back(command_list[i]);
-			}
+			}*/
 			cout<<"———\n";
 			
 			//cout<<command_list[command_list.size()-1]<<"1"<<endl;
-			cout<<"about to do command"<<command_list2.size()<<"\n";
+			cout<<"about to do command\n";//<<command_list2.size()<<"\n";
 			if(command_list[0]=="EXIT" && command_list.size()==1){//Preventing SegFault
 				exit(0);
-			} else{query_or_command(db, command_list2);}
+			} else{query_or_command(db, command_list);}
    			cout<<"did command\n"; 
 			command_list.clear();
     			 free(pch);			
