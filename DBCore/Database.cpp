@@ -95,15 +95,17 @@ Relation Database::set_difference(string name, Relation a, Relation b){
 		Relation result( name, att_names, att_lengths, a.primary_keys);
 		Tuple temp(a.attribute_list.num_attributes());
 		cout<<"WORKING\n";
+		print_relation(a);
+		print_relation(b);
 		for (int i=0; i<a.tuples.size(); i++){
 			for(j=0; j<b.tuples.size(); j++){ 
-				if (a.tuples[i] == b.tuples[j])
-		 			break;
+				if(i==a.tuples.size()) return result;
+				if (a.tuples[i] == b.tuples[j]){
+					i++; j=0;
+				}
 			}
-			if(!(a.tuples[i] == b.tuples[j])){
 				temp.cells = a.tuples[i].cells;
 				result.insert_tuple(temp);
-			}
 		}
 		cout<<"NO PROBLEM HERE!\n";
 		return result;			

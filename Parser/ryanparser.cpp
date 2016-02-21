@@ -64,6 +64,7 @@ Relation interpret_select(Database &db, std::vector<std::string> query){
 		std::vector<std::string> rest_of_query = query;
 	//	std::cout << "Selecting " << att_name << " with value " << value << " with operation " << which_op(compare) << endl;
 		cout<<"CASE 3\n";
+		cout<<rest_of_query[0]<<'\n';
 		return db.select(att_name, value, which_op(compare), interpret_query(db, rest_of_query));
 	} 
     } else{
