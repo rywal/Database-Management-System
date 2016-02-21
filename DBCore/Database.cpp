@@ -89,21 +89,23 @@ Relation Database::set_union(string name, Relation a, Relation b){
 Relation Database::set_difference(string name, Relation a, Relation b){
     vector<string> att_names = a.attribute_list.names();
     vector<int> att_lengths = a.attribute_list.maxes();
-
+	cout<<"STARTING\n";
 	if( union_compatible(a, b)){
 		int j;
 		Relation result( name, att_names, att_lengths, a.primary_keys);
 		Tuple temp(a.attribute_list.num_attributes());
+		cout<<"WORKING\n";
 		for (int i=0; i<a.tuples.size(); i++){
 			for(j=0; j<b.tuples.size(); j++){ 
 				if (a.tuples[i] == b.tuples[j])
 		 			break;
 			}
-			if(a.tuples[i] != b.tuples[j]){
+			if(!(a.tuples[i] == b.tuples[j])){
 				temp.cells = a.tuples[i].cells;
 				result.insert_tuple(temp);
 			}
 		}
+		cout<<"NO PROBLEM HERE!\n";
 		return result;			
 	}
 	else{
@@ -152,33 +154,36 @@ Relation Database::cross_product(string name, Relation a, Relation b){
 }
 
 Relation Database::select( string att_name, string compare_value, string compare_operator, Relation in_rel ){
+    cout<<"1\n";
     Relation out_rel(in_rel.name, in_rel.attribute_list.names(), in_rel.attribute_list.maxes(), in_rel.primary_keys);
+    cout<<"2\n";
     int index = in_rel.get_attribute_index( att_name );
+    cout<<"3\n";
     vector<int> matching_tuples;
     in_rel.compare(matching_tuples, compare_value, compare_operator, index);
-    
+    cout<<"4\n";
     if ( index > -1 ) {
         for (int t = 0; t < matching_tuples.size(); t++) {
             out_rel.insert_tuple( in_rel.tuples[ matching_tuples[t] ] );
         }
     }
-    
+    cout<<"5\n";
     return out_rel;
 }
 
 Relation Database::project(vector<string> att_names, Relation in_rel){
-	Relation out_rel((in_rel.name + "_Projection"), att_names, in_rel.attribute_list.maxes(), in_rel.primary_keys);
-    
-    vector<int> max_lengths;
+	vector<int> max_lengths;
     for (int a = 0; a < att_names.size(); a++) {
         max_lengths.push_back( in_rel.attribute_list.attributes[ in_rel.get_attribute_index( att_names[a] ) ].get_max_length() );
     }
+    
+	Relation out_rel((in_rel.name + "_Projection"), att_names, max_lengths, in_rel.primary_keys);
     
     out_rel.set_primary(in_rel.get_primary_keys());
     out_rel.set_max(max_lengths);
 
 	for(int i=0; i < att_names.size(); i++){
-		cout<<"We are on attribute #" << i<< " at:"<< att_names[i] <<endl;
+//		cout<<"We are on attribute #" << i<< " at:"<< att_names[i] <<endl;
 		if(in_rel.attribute_exist(att_names[i])){
 			//add Attributes to out_rel
 			out_rel.insert_attribute( in_rel.get_attribute_index(att_names[i]), in_rel);

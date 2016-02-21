@@ -7,6 +7,7 @@
 #include "Database.h"
 
 Relation::Relation(string _name, vector<string> attribute_names, vector<int> attribute_max_lengths, std::vector<string> _primary_keys){
+    
     name = _name;
     primary_keys = _primary_keys;
     for(int i = 0; i < primary_keys.size(); i++){
@@ -24,7 +25,6 @@ void Relation::insert_tuple(vector<string> values){
     if (values.size() == attribute_list.num_attributes()) {
         Tuple new_tuple( values.size() );
         for (int i = 0; i < values.size(); i++){
-			cout<<values[i]<<endl;
 		   Cell new_cell( values[i], attribute_list.attributes[i].get_max_length() ); 
             new_tuple.insert_cell(i, new_cell);
         }
@@ -37,13 +37,20 @@ void Relation::insert_tuple(Tuple new_tuple){
 }
 
 void Relation::insert_relation(Relation r){
-		for(int i=0; i<r.attribute_list.num_attributes(); i++)
-			if(attribute_exist(r.get_attribute_name(i))){
-				for(int j=0; j<r.get_size(); j++)
-					tuples.push_back(r.tuples[j]);
+		r.get_num_attributes();
+		if(r.get_num_attributes()==attribute_list.num_attributes()) {
+			for(int i=0; i<r.get_num_attributes(); i++){
+				if(r.get_attribute_name(i)!=get_attribute_name(i)) {
+					cerr<<"An attribute given did not match the cooresponding attribute in the original relation\n";
+					return;
+				}
 			}
+			for(int j=0; j<r.get_size(); j++){
+						tuples.push_back(r.tuples[j]);
+			}
+		}
 			else
-				cerr<<"The atribute given did not match any attributes in original relation\n";
+				cerr<<"The attribute_lists did not have the same number of elements\n";
 }
 
 Relation Relation::delete_tuple(Relation &original_relation, string att_name, string compare_value, string compare_operator){

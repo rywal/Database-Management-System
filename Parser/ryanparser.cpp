@@ -35,28 +35,35 @@ Relation interpret_select(Database &db, std::vector<std::string> query){
 	string compare=query[1];
 	string value=query[2];
 	int i;
-	cout<<"Once\n";
 	//three cases:
 	//1) the selection is going to set_difference two conditions
 	if( query[3]=="&&"){
+		for(i=3; query[i]=="&&" || query[i]=="||"; i+=4){}
+		vector<string> in_rel_query;
+		for(int j=i; j<query.size(); j++)
+			in_rel_query.push_back(query[j]);
 		query.erase(query.begin(), query.begin() + 4);
 		vector<string> rest_of_query=query;
-		return db.select(att_name, value, which_op(compare), interpret_select(db, rest_of_query));
-		
+		cout<<"CASE 1\n";
+		return db.set_difference( " ", db.select(att_name, value, which_op(compare), interpret_query(db, in_rel_query) ), interpret_select(db, rest_of_query));	
 	}
 	//2) the selection is going to set_union two conditions
 	else if( query[3] =="||"){
-		for(i=3; query[i]!="&&" && query[i]!="||"; i+=3){}
-		vector<string> in_rel_query(query.begin() + i + 1, query.end());
+		for(i=3; query[i]=="&&" || query[i]=="||"; i+=4){}
+		vector<string> in_rel_query;
+		for(int j=i; j<query.size(); j++)
+			in_rel_query.push_back(query[j]);
 		query.erase(query.begin(), query.begin() + 4);
 		vector<string> rest_of_query=query;
+		cout<<"CASE 2\n";
 		return db.set_union( " ", db.select(att_name, value, which_op(compare), interpret_query(db, in_rel_query) ), interpret_select(db, rest_of_query));	
 	}
 	else {
 	//3) the selection is at the end of it's conditions
 		query.erase(query.begin(), query.begin()+3); 
 		std::vector<std::string> rest_of_query = query;
-		std::cout << "Selecting " << att_name << " with value " << value << " with operation " << which_op(compare) << endl;
+	//	std::cout << "Selecting " << att_name << " with value " << value << " with operation " << which_op(compare) << endl;
+		cout<<"CASE 3\n";
 		return db.select(att_name, value, which_op(compare), interpret_query(db, rest_of_query));
 	} 
     } else{
@@ -102,6 +109,27 @@ Relation interpret_project(Database &db, std::vector<std::string> query){
 	return db.project(names, interpret_query(db, _query));
 }
 
+Relation interpret_union(Database &db, std::vector<std::string> query){
+		string relation_name= query[0];
+		query.erase(query.begin(), query.begin() + 2);
+		vector<string> rest_of_query=query;
+		return db.set_union(" ", db.get_relation(relation_name), interpret_query(db, rest_of_query));	
+}
+
+Relation interpret_difference(Database &db, std::vector<std::string> query){
+		string relation_name=query[0];
+		query.erase(query.begin(), query.begin() + 2);
+		vector<string> rest_of_query=query;
+		return db.set_difference(" ", db.get_relation(relation_name), interpret_query(db, rest_of_query));
+}
+
+Relation interpret_product(Database &db, std::vector<std::string> query){
+		string relation_name= query[0];
+		query.erase(query.begin(), query.begin() + 2);
+		vector<string> rest_of_query=query;
+		return db.cross_product(" ", db.get_relation(relation_name), interpret_query(db, rest_of_query));
+}
+
 bool interpret_create(Database &db, std::vector<std::string> command) {
     if (command.size() > 5) {
         string relation_name = command[0];
@@ -118,7 +146,7 @@ bool interpret_create(Database &db, std::vector<std::string> command) {
             
             if (!column_name_just_found) {
                 attribute_names.push_back( command[i] );
-                std::cout << "Attribute found with name: " << command[i];
+     //           std::cout << "Attribute found with name: " << command[i];
                 column_name_just_found = true;
             } else {
                 if (command[i] == "VARCHAR") {
@@ -126,10 +154,10 @@ bool interpret_create(Database &db, std::vector<std::string> command) {
                     std::string::size_type sz;
                     int attribute_size = std::stoi (command[i], &sz);
                     attribute_sizes.push_back( attribute_size );
-                    std::cout << " Inserting with size: " << attribute_size << std::endl;
+         //           std::cout << " Inserting with size: " << attribute_size << std::endl;
                 } else if(command[i] == "INTEGER") {
                     attribute_sizes.push_back(0);
-                    std::cout << " Inserting with size: 0" << std::endl;
+           //         std::cout << " Inserting with size: 0" << std::endl;
                 }
                 
                 column_name_just_found = false;
@@ -160,21 +188,21 @@ bool interpret_insert(Database &db, std::vector<std::string> command) {
         std::vector<std::string> primary_keys;
         int i = 1;
         for (i = 1; i < command.size(); i++){
-	     if (command[i] == "RELATION" ){
-		 from_relation=true;
+	    	if (command[i] == "RELATION" ){
+		 		from_relation=true;
                 break;
-            }
+       		}
 
             if (command[i]!= "VALUES" && command[i] != "FROM") {
                 attribute_values.push_back( command[i] );
-                std::cout << "Attribute found with name: " << command[i]<<endl;
+           //     std::cout << "Attribute found with name: " << command[i]<<endl;
             }  
         }
         
         if (from_relation) {
-	//     for (i = i+2; i < command.size(); i++){
-      //          primary_keys.push_back( command[i] );
-      //      }
+        	command.erase(command.begin(), command.begin() + i +  1);
+			vector<string> rest_of_query=command;
+			db.get_relation(relation_name).insert_relation(interpret_query(db, rest_of_query));
         }else {
         	db.get_relation(relation_name).insert_tuple(attribute_values);
         }
@@ -190,8 +218,7 @@ bool interpret_show(Database &db, std::vector<std::string> command){
 			db.print_relation(db.get_relation(relation_name));
 		}
 		else{
-			cout << "155: Here"<<endl;
-	//		db.print_relation(interpret_query(db, command));
+			db.print_relation(interpret_query(db, command));
 		}		
 	}else {
           std::cout << "Not enough tokens given to interpret a show statement" << std::endl;
@@ -217,17 +244,32 @@ void interpret_command(Database &db, std::vector<std::string> command) {
             std::cout << "Error parsing your command - either not enough tokens or 'INTO' not found" << std::endl;
         }
     } else if(command[0] == "SHOW"){
-	if (command.size() > 1){
-		command.erase(command.begin(), command.begin()+1); 
-		std::vector<std::string> rest_of_commands = command;
-		if (rest_of_commands.size()==2){//Doubly insures SHOW
-			rest_of_commands.clear();
-			rest_of_commands.push_back(command[0]);
-		}
-		interpret_show(db, rest_of_commands);
-	}else {
+		if (command.size() > 1){
+			command.erase(command.begin(), command.begin()+1); 
+			std::vector<std::string> rest_of_commands = command;
+			if (rest_of_commands.size()==2){//Doubly insures SHOW
+				rest_of_commands.clear();
+				rest_of_commands.push_back(command[0]);
+			}
+			interpret_show(db, rest_of_commands);
+		} else {
             std::cout << "Error parsing your command - not enough tokens"<< std::endl;
         }  
+    } else if(command[0] == "SAVE"){
+    	if (command.size()==2){
+    		db.save(command[1]);
+    	} else{
+    		cout<<"Too many tokens for a SAVE command which can only take the form:\n";
+    		cout<<"SAVE \'relation-name\'\n";
+    	}
+    } else if(command[0]=="OPEN"){
+     
+    } else if(command[0]== "CLOSE"){
+    
+    } else if(command[0]=="DELETE"){
+    
+    } else if(command[0]=="UPDATE"){
+    
     } else {
         std::cout << "Error parsing your command" << std::endl;
     }
@@ -248,15 +290,16 @@ Relation interpret_query(Database &db, std::vector<std::string> query){
 	} else{
 		if(query.size()>2){//Prevent SegFault
 			if(query[1]=="+"){
-				////NEEDS TO BE DEFINED
+				return interpret_union(db, query);
 			} else if(query[1]=="-"){
-				////NEEDS TO BE DEFINED
+				return interpret_difference(db, query);
 			} else if(query[1]=="*"){
-				////NEEDS TO BE DEFINED
+				return interpret_difference(db, query);
 			}
-		}
-		return	db.get_relation(query[0]);
-    }	
+		}else{
+			return	db.get_relation(query[0]);
+    	}
+    }
 }
 
 void query_or_command(Database &db, std::vector<std::string> command_line){
@@ -266,7 +309,7 @@ void query_or_command(Database &db, std::vector<std::string> command_line){
 			command_line.erase (command_line.begin(), command_line.begin()+2);
             std::vector<std::string> rest_of_query = command_line;
 			db.create_relation(relation_name, interpret_query(db, rest_of_query));
-			cout<<"just created relation with the name: "<<relation_name<<endl;
+	//		cout<<"just created relation with the name: "<<relation_name<<endl;
 		} else{
 			cout<<"Error parsing your command expected <- after relation-name"<<endl;	}
 	} else{
@@ -366,21 +409,21 @@ int main() {
 			pch = strtok (str, delimiters.c_str());
     			while (pch != NULL) {
        				command_list.push_back(pch);
-        			printf ("%s\n",pch);
+        	//		printf ("%s\n",pch);
         			pch = strtok (NULL, delimiters.c_str());
 			}
 			/*vector<string> command_list2;
 			for(int i=0; i<(command_list.size()-1);i++){
 				command_list2.push_back(command_list[i]);
 			}*/
-			cout<<"———\n";
+		//	cout<<"———\n";
 			
 			//cout<<command_list[command_list.size()-1]<<"1"<<endl;
-			cout<<"about to do command\n";//<<command_list2.size()<<"\n";
+		//	cout<<"about to do command\n";//<<command_list2.size()<<"\n";
 			if(command_list[0]=="EXIT" && command_list.size()==1){//Preventing SegFault
 				exit(0);
 			} else{query_or_command(db, command_list);}
-   			cout<<"did command\n"; 
+   		//	cout<<"did command\n"; 
 			command_list.clear();
     			 free(pch);			
 		
