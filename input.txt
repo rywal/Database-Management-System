@@ -27,6 +27,8 @@ c <- select (kind == "dog" && name == "Jack") animals;
 SHOW c;
 common_names <- project (name) (select (aname == name && akind != kind) (a * animals));
 SHOW common_names;
+UPDATE animals SET name = "X" WHERE name == "JOE";
+SHOW animals;
 answer <- common_names;
 SHOW answer;
 EXIT;

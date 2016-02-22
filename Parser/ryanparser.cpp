@@ -44,7 +44,7 @@ Relation interpret_select(Database &db, std::vector<std::string> query){
 			in_rel_query.push_back(query[j]);
 		query.erase(query.begin(), query.begin() + 4);
 		vector<string> rest_of_query=query;
-		cout<<"CASE 1 - "; printf("%s function, line: %d\n\n", __func__, __LINE__);
+	//	db.select( att_name, value, which_op(compare), interpret_select(db, rest_of_query) );
 		return db.set_difference( " ", db.select(att_name, value, which_op(compare), interpret_query(db, in_rel_query) ), db.set_difference(" ",  db.select(att_name, value, which_op(compare), interpret_query(db, in_rel_query) ), interpret_select(db, rest_of_query)));	
 	}
 	//2) the selection is going to set_union two conditions
@@ -55,7 +55,6 @@ Relation interpret_select(Database &db, std::vector<std::string> query){
 			in_rel_query.push_back(query[j]);
 		query.erase(query.begin(), query.begin() + 4);
 		vector<string> rest_of_query=query;
-		cout<<"CASE 2 - "; printf("%s function, line: %d\n\n", __func__, __LINE__);
 		return db.set_union( " ", db.select(att_name, value, which_op(compare), interpret_query(db, in_rel_query) ), interpret_select(db, rest_of_query));	
 	}
 	else {
@@ -63,8 +62,6 @@ Relation interpret_select(Database &db, std::vector<std::string> query){
 		query.erase(query.begin(), query.begin()+3); 
 		std::vector<std::string> rest_of_query = query;
 	//	std::cout << "Selecting " << att_name << " with value " << value << " with operation " << which_op(compare) << endl;
-		cout<<"CASE 3 - "; printf("%s function, line: %d\n\n", __func__, __LINE__);
-		cout<<"select from: " << rest_of_query[0]<<'\n';
 		return db.select(att_name, value, which_op(compare), interpret_query(db, rest_of_query));
 	} 
     } else{
@@ -225,7 +222,42 @@ bool interpret_show(Database &db, std::vector<std::string> command){
           std::cout << "Not enough tokens given to interpret a show statement" << std::endl;
        }	
 }
-
+bool interpret_update(Database &db, std::vector<std::string> command, string relation_name){
+	vector<string> names;
+	vector<string> compare_values;
+	vector<string> literals;
+	vector<string> op_v;
+	vector<string> compare_atts;
+	int index;
+	//UPDATES
+	for(index=0; (index+2)<command.size(); index++){
+		if( command[index]=="WHERE"){
+			index++;
+			break;
+		}
+		names.push_back(command[index]);
+		index++;
+		if(command[index] != "="){
+			cerr<<"Expected an \"=\" after the attribute-name\n";
+		}
+		index++;
+		literals.push_back(command[index]);
+	}
+	//CONDITIONS
+	for(index; (index+2)<command.size(); index++){
+		compare_atts.push_back(command[index]);
+		index++;
+		op_v.push_back(command[index]);
+		index++;
+		compare_values.push_back(command[index]);
+	}
+			
+	for(int i=0; i<compare_values.size(); i++){
+		cout<<"updating: "<<names[i]<<" : "<<op_v[i]<<" : "<<compare_values[i]<< " : "<<literals[i]<<" : "<<compare_atts[i]<<endl;
+		db.update(db.get_relation(relation_name), names[i], op_v[i], compare_values[i], literals[i], compare_atts[i]);
+	}
+}	
+			
 void interpret_command(Database &db, std::vector<std::string> command) {	
     if (command[0] == "CREATE") {
         if (command.size() > 2 && command[1] == "TABLE") {
@@ -270,7 +302,14 @@ void interpret_command(Database &db, std::vector<std::string> command) {
     } else if(command[0]=="DELETE"){
     
     } else if(command[0]=="UPDATE"){
-    
+		if(command.size()>6 && command[2]=="SET"){
+			string relation_name= command[1];
+			command.erase(command.begin(), command.begin()+3); 
+			std::vector<std::string> rest_of_commands = command;
+			interpret_update(db, rest_of_commands, relation_name);
+		} else {
+			std::cout << "Error parsing your command - not enough tokens or SET was not found"<< std::endl;
+		}
     } else {
         std::cout << "Error parsing your command" << std::endl;
     }

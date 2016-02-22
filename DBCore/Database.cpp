@@ -91,14 +91,10 @@ Relation Database::set_union(string name, Relation a, Relation b){
 Relation Database::set_difference(string name, Relation a, Relation b){
     vector<string> att_names = a.attribute_list.names();
     vector<int> att_lengths = a.attribute_list.maxes();
-	cout<<"STARTING - "; printf("%s function, line: %d\n\n", __func__, __LINE__);
-	print_relation(a);
-	print_relation(b);
 	if( union_compatible(a, b)){
 		int j;
 		Relation result( name, att_names, att_lengths, a.primary_keys);
 		Tuple temp(a.attribute_list.num_attributes());
-		cout<<"WORKING - ";printf("%s function, line: %d\n\n", __func__, __LINE__);
 		
 		if (b.get_size()==0) return a;
 		if (a.get_size()==0) return b;
@@ -113,7 +109,6 @@ Relation Database::set_difference(string name, Relation a, Relation b){
 				result.insert_tuple(temp);
 			}
 		}
-		cout<<"NO PROBLEM HERE! - "; printf("%s function, line: %d\n\n", __func__, __LINE__);
 		return result;			
 	}
 	else{
@@ -152,7 +147,6 @@ Relation Database::cross_product(string name, Relation a, Relation b){
                 result.insert_tuple( temp);
             }
 		}
-		printf("%s file, %s function, line: %d\n", __FILE__, __func__, __LINE__);
 		return result;
 	}
 	else{
@@ -178,20 +172,15 @@ Relation Database::select( string att_name, string compare_value, string compare
     if (in_rel.attribute_exist(compare_value))
     	return select_att(att_name, compare_value, compare_operator, in_rel);
     
-    //cout<<"1 - "; printf("%s file, %s function, line: %d\n", __FILE__, __func__, __LINE__);
     Relation out_rel(in_rel.name, in_rel.attribute_list.names(), in_rel.attribute_list.maxes(), in_rel.primary_keys);
-    //cout<<"2 - "; printf("%s file, %s function, line: %d\n", __FILE__, __func__, __LINE__);
     int index = in_rel.get_attribute_index( att_name );
-    //cout<<"3 - "; printf("%s file, %s function, line: %d\n", __FILE__, __func__, __LINE__);
     vector<int> matching_tuples;
     in_rel.compare(matching_tuples, compare_value, compare_operator, index);
-    //cout<<"4 - "; printf("%s file, %s function, line: %d\n", __FILE__, __func__, __LINE__);
     if ( index > -1 ) {
         for (int t = 0; t < matching_tuples.size(); t++) {
             out_rel.insert_tuple( in_rel.tuples[ matching_tuples[t] ] );
         }
     }
-    //cout<<"5 - "; printf("%s file, %s function, line: %d\n", __FILE__, __func__, __LINE__);
     return out_rel;
 }
 
@@ -207,7 +196,6 @@ Relation Database::project(vector<string> att_names, Relation in_rel){
     out_rel.set_max(max_lengths);
 
 	for(int i=0; i < att_names.size(); i++){
-//		cout<<"We are on attribute #" << i<< " at:"<< att_names[i] <<endl;
 		if(in_rel.attribute_exist(att_names[i])){
 			//add Attributes to out_rel
 			out_rel.insert_attribute( in_rel.get_attribute_index(att_names[i]), in_rel);
@@ -215,12 +203,10 @@ Relation Database::project(vector<string> att_names, Relation in_rel){
 			printf ("%s attribute was not found.", att_names[i].c_str() );
 		}
 	}
-//    cout << in_rel.tuples.size() << " and     " << att_names.size() << endl;
     for(int i = 0; i < in_rel.tuples.size(); i++){
         vector<string> values;
         for(int col = 0; col < att_names.size(); col++){
             values.push_back( in_rel.tuples[i].cells[in_rel.get_attribute_index(att_names[col])].get_data() );
-//            std::cout << "Cell " << col << " has value " << values[col] << "\n";
         }
         out_rel.insert_tuple(values);
     }
@@ -242,9 +228,9 @@ Relation Database::renaming(string out_name, vector<string> att_renames , Relati
 	}
 	return out_rel;
 }
-void Database::update(Relation &in_rel, string att_name, string compare_operator, string comparison_value, string update_name){
+void Database::update(Relation &in_rel, string att_name, string compare_operator, string comparison_value, string update_name, string compare_att){
 	vector<int> tuple_indexes;
-    in_rel.compare(tuple_indexes,comparison_value,compare_operator,in_rel.get_attribute_index(att_name));
+    in_rel.compare(tuple_indexes,comparison_value,compare_operator,in_rel.get_attribute_index(compare_att/*att_name*/));
     for(int n = 0; n < tuple_indexes.size(); n++){
 //            std::cout << "Updating to a new value " << update_name[i] << "\n";
         in_rel.tuples[n].cells[in_rel.get_attribute_index(att_name)].set_value(update_name);

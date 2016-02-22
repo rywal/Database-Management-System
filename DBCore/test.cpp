@@ -119,8 +119,8 @@ int main(){
 	DB.print_relation(relD);
     
     printf ("After: Update Cat -> Kitten:\n");
-    void update(Relation &in_rel, string att_name, string compare_operator, string comparison_value, string update_name);
-    DB.update(relD, "CatName", "eq", "Cat", "Kitten");
+  //  void update(Relation &in_rel, string att_name, string compare_operator, string comparison_value, string update_name, );
+    DB.update(relD, "CatName", "eq", "Cat", "Kitten", "CatName");
     DB.print_relation(relD);
     
     relD.insert_tuple(r2_t3);

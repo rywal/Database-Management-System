@@ -95,7 +95,7 @@ bool Relation::compare(string comparison_value1, string compare_operator, string
             return comparison_value1 >= comparison_value2;
         }else if(compare_operator == "gr"){
             return comparison_value1 > comparison_value2;
-        }else if(compare_operator == "ne"){
+        }else if(compare_operator == "neq"){
             return comparison_value1 != comparison_value2;
         }
     return false;
@@ -124,7 +124,7 @@ bool Relation::compare(vector<int> &tuple_indexes, string comparison_value, stri
             if (comparison_value > tuples[i].get_cell(attribute_index).get_data()){
                 tuple_indexes.push_back(i);
             }
-        }else if(compare_operator == "ne"){
+        }else if(compare_operator == "neq"){
             if (comparison_value != tuples[i].get_cell(attribute_index).get_data()){
                 tuple_indexes.push_back(i);
             }
