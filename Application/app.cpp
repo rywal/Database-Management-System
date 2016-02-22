@@ -13,6 +13,7 @@ using namespace std;
 
 Database rdbms("db");
 
+// Create needed tables
 void create_exhibits_table() {
     string name = "exhibits";
     vector<string> attribute_names {"company", "address", "contact", "email", "phone", "fax", "category", "booth_personnel", "description", "website"};
@@ -58,6 +59,8 @@ void create_inventory_table() {
     rdbms.create_relation(name, attribute_names, attribute_types, primary_keys);
 }
 
+
+// Display menus
 void display_welcome_message(){
     cout << "\nWelcome to The Convention Exhibit Management System\n";
     cout << "----------------------------------------------- \n \n";
@@ -74,6 +77,7 @@ void display_exhibits_menu() {
     cout << "E4. Remove Exhibitor(s)\n\n";
 }
 
+// TODO: Implement this along with the rest of the menus
 void display_booths_menu() {
     cout << "\nBooths\n";
     cout << "----------\n";
@@ -82,8 +86,14 @@ void display_booths_menu() {
     cout << "B3. \n";
 }
 
+void display_services_menu() {}
+void display_finance_menu() {}
+void display_attendees_menu() {}
+void display_inventory_menu() {}
+
+// Intepret the given command
 bool interpret_command(string command){
-    if (command.at(0) == 'Q' || command.length() ) {
+    if (command.at(0) == 'Q' || command.length() < 2) {
         // Quit command given
         return true;
     }
@@ -119,7 +129,7 @@ bool interpret_command(string command){
 int main(){
     create_exhibits_table();
     create_booths_table();
-    // Add in the rest of the create functions
+    // TODO: Add in the rest of the create functions
     // create_NAME_table();
     
     // Find user's role
@@ -151,6 +161,7 @@ int main(){
     while (!stop) {
         if (role == EXHIBIT_MANAGER){
             display_exhibits_menu();
+            // TODO: Fill in rest of applicable menus here
             cout << "Input your command: ";
             
             cin >> next_command;
