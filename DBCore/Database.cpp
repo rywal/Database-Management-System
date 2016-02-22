@@ -345,39 +345,91 @@ std::vector<Tuple> Database::show(Relation relation_name){
 	return relation_name.tuples;
 }
 
+int count_up(Relation relation_name){
+	int return_val=0;
+	for(int a = 0; a < relation_name.attribute_list.attributes.size(); a++){
+		if(relation_name.attribute_list.attributes[a].get_max_length() == 0){
+			return_val+=10;
+		} else{
+			return_val+=relation_name.attribute_list.attributes[a].get_max_length();
+		}
+    }
+	if(return_val==0){
+		return 5;
+	} else{
+		return (return_val);
+	}
+}
+
 void Database::print_relation(Relation relation_name){
-	int rel_s = relation_name.attribute_list.attributes.size();//FORMATING PERPOSES ONLY
+	int rel_s = count_up(relation_name);//FORMATING PERPOSES ONLY
 	cout<<endl;
-	for(int i = 0; (i-1)<(rel_s/2); i++){printf ("-=-=-=");}
+	for(int i = 0; (i-1)<(rel_s/4); i++){printf ("-=");}
 	printf("-=BEGIN=-=");
-	for(int i = 0; (i-1)<(rel_s/2); i++){printf ("-=-=-=");}
+	for(int i = 0; (i-1)<(rel_s/4); i++){printf ("-=");}
 	cout<<"-"<<endl;//FORMATTING
 	
 	printf ("Relation name:%s \n", relation_name.name.c_str());
     std::cout << "Relation size " << relation_name.tuples.size() << std::endl;
 	cout<<endl;
 	
-	for(int i = 0; (i-1)<(rel_s/2); i++){printf ("------");}
+	for(int i = 0; (i-1)<(rel_s/4); i++){printf ("--");}
 	printf("Attributes");
-	for(int i = 0; (i-1)<(rel_s/2); i++){printf ("------");}
+	for(int i = 0; (i-1)<(rel_s/4); i++){printf ("--");}
 	cout<<"-"<<endl;//FORMATTING
 	
     for(int a = 0; a < relation_name.attribute_list.attributes.size(); a++){
-        printf ("%-10s", relation_name.attribute_list.attributes[a].get_name().c_str());
+		if(relation_name.attribute_list.attributes[a].get_max_length() == 0){
+			for (int i = 0; i < 10; i++){
+				if(i<relation_name.attribute_list.attributes[a].get_name().size()){
+					string temp_sav=relation_name.attribute_list.attributes[a].get_name();
+					cout<<temp_sav[i];
+				} else{
+					printf(" ");
+				}
+			}
+		} else for (int i = 0; i < relation_name.attribute_list.attributes[a].get_max_length(); i++){
+				if(i<relation_name.attribute_list.attributes[a].get_name().size()){
+					string temp_sav=relation_name.attribute_list.attributes[a].get_name();
+					cout<<temp_sav[i];
+				} else{
+					printf(" ");
+				}
+			}
     }
 	
 	cout<<endl;
-    for(int i = 0; (i-1)<(rel_s/2); i++){printf ("------");}
+    for(int i = 0; (i-1)<(rel_s/4); i++){printf ("--");}
 	printf("---Rows---");
-	for(int i = 0; (i-1)<(rel_s/2); i++){printf ("------");}
+	for(int i = 0; (i-1)<(rel_s/4); i++){printf ("--");}
 	cout<<"-"<<endl;//FORMATTING
-	
-    for(int k = 0; k < relation_name.tuples.size(); k++) {
-		for(int i = 0; i < relation_name.tuples[k].num_attributes(); i++){
-			printf("%-10s", relation_name.tuples[k].get_cell(i).get_data().c_str());
+
+	for(int k = 0; k < relation_name.tuples.size(); k++) {
+		for(int i = 0; i < relation_name.tuples[k].num_attributes(); i++){	
+			//printf("%-10s", relation_name.tuples[k].get_cell(i).get_data().c_str());
+			if(relation_name.attribute_list.attributes[i].get_max_length() == 0){
+				for(int a = 0; a<10;a++){
+					if(a<relation_name.tuples[k].get_cell(i).get_data().size()){
+						string temp_sav=relation_name.tuples[k].get_cell(i).get_data().c_str();
+						cout<<temp_sav[a];
+					} else{
+						printf(" ");
+					}
+				}
+			} else {
+				for(int a = 0; a<relation_name.attribute_list.attributes[i].get_max_length();a++){
+					if(a<relation_name.tuples[k].get_cell(i).get_data().size()){
+						string temp_sav=relation_name.tuples[k].get_cell(i).get_data().c_str();
+						cout<<temp_sav[a];
+					} else{
+						printf(" ");
+					}
+				}
+			}
 		}
 		printf ("\n");
 	}
+	
     printf ("\nPrimary Keys: ");
 	if(relation_name.primary_keys.size()>0) {
 		cout << relation_name.primary_keys[0];
@@ -386,8 +438,8 @@ void Database::print_relation(Relation relation_name){
 		}
 	}
 	cout<<endl;
-	for(int i = 0; (i-1)<(rel_s/2); i++){printf ("-=-=-=");}
+	for(int i = 0; (i-1)<(rel_s/4); i++){printf ("-=");}
 	printf("-=-END-=-=");
-	for(int i = 0; (i-1)<(rel_s/2); i++){printf ("-=-=-=");}
+	for(int i = 0; (i-1)<(rel_s/4); i++){printf ("-=");}
 	cout<<"-"<<endl<<endl;//FORMATTING
 }
