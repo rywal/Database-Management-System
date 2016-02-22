@@ -221,19 +221,10 @@ Relation Database::renaming(string out_name, vector<string> att_renames , Relati
 	}
 	else{
 		out_rel.set_tuples_vector(in_rel.tuples); //copy table
-		
-		vector<string> out_keys=in_rel.primary_keys;
-		
+		out_rel.set_primary(in_rel.primary_keys);
 		for(int i=0; i < in_rel.attribute_list.num_attributes(); i++){
-			for(int a=0; a<in_rel.primary_keys.size();a++){
-				if(in_rel.get_attribute_name(i)==in_rel.primary_keys[i]){
-					out_keys[a]=att_renames[i];
-				}
-			}
 			out_rel.rename_attribute(att_renames[i],i);
 		}
-		
-		out_rel.set_primary(out_keys);
 	}
 	return out_rel;
 }
@@ -245,6 +236,19 @@ void Database::update(Relation &in_rel, string att_name, string compare_operator
         in_rel.tuples[n].cells[in_rel.get_attribute_index(att_name)].set_value(update_name);
     }
     tuple_indexes.clear();
+}
+
+void Database::update(Relation &in_rel,vector<string> att_name, vector<string> update_name, Relation rel_update){
+	for(int i=0; i<in_rel.get_size(); i++){
+		for(int j=0; j<rel_update.get_size(); j++){
+			if(in_rel.tuples[i]==rel_update.tuples[j]){
+				for(int k=0; k<att_name.size(); k++)
+					in_rel.tuples[i].cells[in_rel.get_attribute_index(att_name[k])].set_value(update_name[k]);
+				break;
+			}
+		}
+	}
+	
 }
 
 std::vector<string> Database::outputRelation(int index) {

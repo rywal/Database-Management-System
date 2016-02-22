@@ -61,7 +61,7 @@ Relation interpret_select(Database &db, std::vector<std::string> query){
 	//3) the selection is at the end of it's conditions
 		query.erase(query.begin(), query.begin()+3); 
 		std::vector<std::string> rest_of_query = query;
-	//	std::cout << "Selecting " << att_name << " with value " << value << " with operation " << which_op(compare) << endl;
+	std::cout << "Selecting " << att_name << " with value " << value << " with operation " << which_op(compare) <<" from "<<rest_of_query[0]<<endl;
 		return db.select(att_name, value, which_op(compare), interpret_query(db, rest_of_query));
 	} 
     } else{
@@ -228,6 +228,7 @@ bool interpret_update(Database &db, std::vector<std::string> command, string rel
 	vector<string> literals;
 	vector<string> op_v;
 	vector<string> compare_atts;
+	vector<string> conjunctions;
 	int index;
 	//UPDATES
 	for(index=0; (index+2)<command.size(); index++){
@@ -244,18 +245,33 @@ bool interpret_update(Database &db, std::vector<std::string> command, string rel
 		literals.push_back(command[index]);
 	}
 	//CONDITIONS
-	for(index; (index+2)<command.size(); index++){
+	command.erase(command.begin(), command.begin() + index);
+	vector<string> rest_of_query=command;
+	rest_of_query.push_back(relation_name);
+	db.print_relation(interpret_select(db, rest_of_query));
+	db.update(db.get_relation(relation_name), names, literals, interpret_select(db, rest_of_query));
+	/*for(index; (index+3)<command.size(); index++){
 		compare_atts.push_back(command[index]);
 		index++;
 		op_v.push_back(command[index]);
 		index++;
 		compare_values.push_back(command[index]);
+		index++;
+		if (command[index]=="&&" || command[index]=="||" )
+			conjunctions.push_back()
 	}
+		compare_atts.push_back(command[index]);
+		index++;
+		op_v.push_back(command[index]);
+		index++;
+		compare_values.push_back(command[index]);
+		index++;
 			
-	for(int i=0; i<compare_values.size(); i++){
+	for(int i=0; i<names.size(); i++){
+		
 		cout<<"updating: "<<names[i]<<" : "<<op_v[i]<<" : "<<compare_values[i]<< " : "<<literals[i]<<" : "<<compare_atts[i]<<endl;
 		db.update(db.get_relation(relation_name), names[i], op_v[i], compare_values[i], literals[i], compare_atts[i]);
-	}
+	}*/
 }	
 			
 void interpret_command(Database &db, std::vector<std::string> command) {	
