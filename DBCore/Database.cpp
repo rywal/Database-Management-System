@@ -221,10 +221,19 @@ Relation Database::renaming(string out_name, vector<string> att_renames , Relati
 	}
 	else{
 		out_rel.set_tuples_vector(in_rel.tuples); //copy table
-		out_rel.set_primary(in_rel.primary_keys);
+		
+		vector<string> out_keys=in_rel.primary_keys;
+		
 		for(int i=0; i < in_rel.attribute_list.num_attributes(); i++){
+			for(int a=0; a<in_rel.primary_keys.size();a++){
+				if(in_rel.get_attribute_name(i)==in_rel.primary_keys[i]){
+					out_keys[a]=att_renames[i];
+				}
+			}
 			out_rel.rename_attribute(att_renames[i],i);
 		}
+		
+		out_rel.set_primary(out_keys);
 	}
 	return out_rel;
 }
