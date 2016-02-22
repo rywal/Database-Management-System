@@ -32,6 +32,7 @@ public:
     bool close(int index);
     bool close(string r);
 	void EXIT(); 		//defined in database.cpp
+    Relation select_att( string att_name, string compare_value, string compare_operator, Relation in_rel );
     Relation select(string att_name, string compare_value, string compare_operator, Relation in_rel);
     Relation project(vector<string> att_names, Relation in_rel);
     Relation renaming(string out_name, vector<string> att_renames , Relation in_rel);

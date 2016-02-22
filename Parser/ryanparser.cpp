@@ -45,7 +45,7 @@ Relation interpret_select(Database &db, std::vector<std::string> query){
 		query.erase(query.begin(), query.begin() + 4);
 		vector<string> rest_of_query=query;
 		cout<<"CASE 1 - "; printf("%s function, line: %d\n\n", __func__, __LINE__);
-		return db.set_difference( " ", db.select(att_name, value, which_op(compare), interpret_query(db, in_rel_query) ), interpret_select(db, rest_of_query));	
+		return db.set_difference( " ", db.select(att_name, value, which_op(compare), interpret_query(db, in_rel_query) ), db.set_difference(" ",  db.select(att_name, value, which_op(compare), interpret_query(db, in_rel_query) ), interpret_select(db, rest_of_query)));	
 	}
 	//2) the selection is going to set_union two conditions
 	else if( query[3] =="||"){

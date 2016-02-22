@@ -90,22 +90,26 @@ Relation Database::set_difference(string name, Relation a, Relation b){
     vector<string> att_names = a.attribute_list.names();
     vector<int> att_lengths = a.attribute_list.maxes();
 	cout<<"STARTING - "; printf("%s function, line: %d\n\n", __func__, __LINE__);
+	print_relation(a);
+	print_relation(b);
 	if( union_compatible(a, b)){
 		int j;
 		Relation result( name, att_names, att_lengths, a.primary_keys);
 		Tuple temp(a.attribute_list.num_attributes());
 		cout<<"WORKING - ";printf("%s function, line: %d\n\n", __func__, __LINE__);
-		print_relation(a);
-		print_relation(b);
+		
+		if (b.get_size()==0) return a;
+		if (a.get_size()==0) return b;
 		for (int i=0; i<a.tuples.size(); i++){
 			for(j=0; j<b.tuples.size(); j++){ 
-				if(i==a.tuples.size()) return result;
 				if (a.tuples[i] == b.tuples[j]){
-					i++; j=0;
+					break;
 				}
 			}
+			if(a.tuples[i] != b.tuples[j]){
 				temp.cells = a.tuples[i].cells;
 				result.insert_tuple(temp);
+			}
 		}
 		cout<<"NO PROBLEM HERE! - "; printf("%s function, line: %d\n\n", __func__, __LINE__);
 		return result;			
@@ -147,7 +151,6 @@ Relation Database::cross_product(string name, Relation a, Relation b){
             }
 		}
 		printf("%s file, %s function, line: %d\n", __FILE__, __func__, __LINE__);
-		print_relation(result);
 		return result;
 	}
 	else{
@@ -155,7 +158,24 @@ Relation Database::cross_product(string name, Relation a, Relation b){
 	}
 }
 
+Relation Database::select_att( string att_name, string compare_att, string compare_operator, Relation in_rel ){
+	Relation out_rel(in_rel.name, in_rel.attribute_list.names(), in_rel.attribute_list.maxes(), in_rel.primary_keys);
+	int index1=in_rel.get_attribute_index(att_name);
+	int index2=in_rel.get_attribute_index(compare_att);
+	vector<int> matching_tuples;
+
+	for (int i=0; i<in_rel.get_size(); i++){
+		if(in_rel.compare(in_rel.tuples[i].cells[index1].get_data(), compare_operator, in_rel.tuples[i].cells[index2].get_data() ))
+			out_rel.insert_tuple(in_rel.tuples[i]);
+	}
+	return out_rel;
+}
+
 Relation Database::select( string att_name, string compare_value, string compare_operator, Relation in_rel ){
+    
+    if (in_rel.attribute_exist(compare_value))
+    	return select_att(att_name, compare_value, compare_operator, in_rel);
+    
     //cout<<"1 - "; printf("%s file, %s function, line: %d\n", __FILE__, __func__, __LINE__);
     Relation out_rel(in_rel.name, in_rel.attribute_list.names(), in_rel.attribute_list.maxes(), in_rel.primary_keys);
     //cout<<"2 - "; printf("%s file, %s function, line: %d\n", __FILE__, __func__, __LINE__);

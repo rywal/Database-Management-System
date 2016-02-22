@@ -84,6 +84,24 @@ bool is_number(const std::string& s) {
     return !s.empty() && std::find_if(s.begin(), s.end(), [](char c) { return !std::isdigit(c); }) == s.end();
 }
 
+bool Relation::compare(string comparison_value1, string compare_operator, string comparison_value2){
+        if(compare_operator == "le"){
+            return comparison_value1 < comparison_value2;
+        }else if(compare_operator == "leq"){
+           	return comparison_value1 <= comparison_value2;
+        }else if(compare_operator == "eq"){
+            return comparison_value1 == comparison_value2;
+        }else if(compare_operator == "geq"){
+            return comparison_value1 >= comparison_value2;
+        }else if(compare_operator == "gr"){
+            return comparison_value1 > comparison_value2;
+        }else if(compare_operator == "ne"){
+            return comparison_value1 != comparison_value2;
+        }
+    return false;
+}
+
+
 bool Relation::compare(vector<int> &tuple_indexes, string comparison_value, string compare_operator, int attribute_index){
     for(int i=0; i < get_size(); i++){//Compare whole Attribute with an operator and value
         if(compare_operator == "le"){

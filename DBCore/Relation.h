@@ -33,6 +33,7 @@ public:
 	int get_num_attributes();
 	void rename_attribute( string renamed, int index );
 	string get_attribute_name( int index );
+    bool compare(string comparison_value1, string compare_operator, string compare_value2);
     bool compare(vector<int> &tuple_indexes, string comparison_value, string compare_operator, int index);
     void insert_attribute( int original_att_index, Relation &original_relation);
 	void rename_relation(string rename);
