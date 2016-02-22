@@ -6,7 +6,9 @@
 #include <fstream>
 #include "Database.h"
 
-Database::Database(string _name){name = _name; std::cout << "Relations size is " << relations.size() << std::endl;}
+Database::Database(string _name){
+    name = _name;
+}
 
 
 Relation& Database::get_relation(string name) {
