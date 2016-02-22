@@ -9,7 +9,7 @@ else
     cc = g++-4.7
 endif
 
-.PHONY: all DBCore Parser clean
+.PHONY: all DBCore Parser Parser2 Application clean
 
 all: DBCore Parser
 
@@ -22,5 +22,8 @@ Parser:
 Parser2:
 	$(cc) -std=c++11 -g -o run-parser DBCore/Cell.cpp  DBCore/Database.cpp  DBCore/Relation.cpp DBCore/Tuple.cpp Parser/Parser_DB.cpp
 
+Application:
+	$(cc) -std=c++11 -g -o run-app DBCore/Cell.cpp  DBCore/Database.cpp  DBCore/Relation.cpp  Application/app.cpp  DBCore/Tuple.cpp
+
 clean:
-	rm run-dbcore run-parser *.db
+	rm run-dbcore run-parser *.db *.o a.out
