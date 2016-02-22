@@ -156,20 +156,20 @@ Relation Database::cross_product(string name, Relation a, Relation b){
 }
 
 Relation Database::select( string att_name, string compare_value, string compare_operator, Relation in_rel ){
-    cout<<"1\n";
+    //cout<<"1 - "; printf("%s file, %s function, line: %d\n", __FILE__, __func__, __LINE__);
     Relation out_rel(in_rel.name, in_rel.attribute_list.names(), in_rel.attribute_list.maxes(), in_rel.primary_keys);
-    cout<<"2\n";
+    //cout<<"2 - "; printf("%s file, %s function, line: %d\n", __FILE__, __func__, __LINE__);
     int index = in_rel.get_attribute_index( att_name );
-    cout<<"3\n";
+    //cout<<"3 - "; printf("%s file, %s function, line: %d\n", __FILE__, __func__, __LINE__);
     vector<int> matching_tuples;
     in_rel.compare(matching_tuples, compare_value, compare_operator, index);
-    cout<<"4\n";
+    //cout<<"4 - "; printf("%s file, %s function, line: %d\n", __FILE__, __func__, __LINE__);
     if ( index > -1 ) {
         for (int t = 0; t < matching_tuples.size(); t++) {
             out_rel.insert_tuple( in_rel.tuples[ matching_tuples[t] ] );
         }
     }
-    cout<<"5\n";
+    //cout<<"5 - "; printf("%s file, %s function, line: %d\n", __FILE__, __func__, __LINE__);
     return out_rel;
 }
 
@@ -338,29 +338,48 @@ std::vector<Tuple> Database::show(Relation relation_name){
 }
 
 void Database::print_relation(Relation relation_name){
-	printf ("\n-=-=-=-=-=BEGIN-=-=-=-=-\n");
+	int rel_s = relation_name.attribute_list.attributes.size();//FORMATING PERPOSES ONLY
+	cout<<endl;
+	for(int i = 0; (i-1)<(rel_s/2); i++){printf ("-=-=-=");}
+	printf("-=BEGIN=-=");
+	for(int i = 0; (i-1)<(rel_s/2); i++){printf ("-=-=-=");}
+	cout<<"-"<<endl;//FORMATTING
+	
 	printf ("Relation name:%s \n", relation_name.name.c_str());
     std::cout << "Relation size " << relation_name.tuples.size() << std::endl;
-    printf ("\n----------Attributes------------\n");
+	cout<<endl;
+	
+	for(int i = 0; (i-1)<(rel_s/2); i++){printf ("------");}
+	printf("Attributes");
+	for(int i = 0; (i-1)<(rel_s/2); i++){printf ("------");}
+	cout<<"-"<<endl;//FORMATTING
+	
     for(int a = 0; a < relation_name.attribute_list.attributes.size(); a++){
         printf ("%-10s", relation_name.attribute_list.attributes[a].get_name().c_str());
     }
-    printf ("\n-------------Rows---------------\n");
+	
+	cout<<endl;
+    for(int i = 0; (i-1)<(rel_s/2); i++){printf ("------");}
+	printf("---Rows---");
+	for(int i = 0; (i-1)<(rel_s/2); i++){printf ("------");}
+	cout<<"-"<<endl;//FORMATTING
+	
     for(int k = 0; k < relation_name.tuples.size(); k++) {
 		for(int i = 0; i < relation_name.tuples[k].num_attributes(); i++){
 			printf("%-10s", relation_name.tuples[k].get_cell(i).get_data().c_str());
-//            std::cout << "Tried to get cell " << k << " " << i << " with data " << relation_name.tuples[k].get_cell(i).get_data().c_str() << std::endl;
 		}
 		printf ("\n");
 	}
-    printf ("Primary Keys: ");
-	//cout << "|"<<relation_name.primary_keys.size()<<":"<<relation_name.primary_keys[0]<<"|"<<endl;
+    printf ("\nPrimary Keys: ");
 	if(relation_name.primary_keys.size()>0) {
-		//printf ("%s", relation_name.primary_keys[0].c_str());
 		cout << relation_name.primary_keys[0];
         for(int i=1; i<relation_name.primary_keys.size(); i++){
-            cout <<","<<relation_name.primary_keys[i]<<endl;
+            cout <<", "<<relation_name.primary_keys[i];
 		}
 	}
-	printf ("\n=-=-=-=-=-=END-=-=-=-=-=\n\n\n");
+	cout<<endl;
+	for(int i = 0; (i-1)<(rel_s/2); i++){printf ("-=-=-=");}
+	printf("-=-END-=-=");
+	for(int i = 0; (i-1)<(rel_s/2); i++){printf ("-=-=-=");}
+	cout<<"-"<<endl<<endl;//FORMATTING
 }

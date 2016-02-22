@@ -63,8 +63,8 @@ Relation interpret_select(Database &db, std::vector<std::string> query){
 		query.erase(query.begin(), query.begin()+3); 
 		std::vector<std::string> rest_of_query = query;
 	//	std::cout << "Selecting " << att_name << " with value " << value << " with operation " << which_op(compare) << endl;
-		cout<<"CASE 3\n"; printf("%s function, line: %d\n\n", __func__, __LINE__);
-		cout<<"select: " << rest_of_query[0]<<'\n';
+		cout<<"CASE 3 - "; printf("%s function, line: %d\n\n", __func__, __LINE__);
+		cout<<"select from: " << rest_of_query[0]<<'\n';
 		return db.select(att_name, value, which_op(compare), interpret_query(db, rest_of_query));
 	} 
     } else{
