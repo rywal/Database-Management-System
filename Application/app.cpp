@@ -59,6 +59,18 @@ void create_inventory_table() {
     rdbms.create_relation(name, attribute_names, attribute_types, primary_keys);
 }
 
+// Exhibitors
+void list_exhibitors(bool with_criteria) {
+    // If criteria is needed, get it
+    if (with_criteria) {
+        string criteria;
+        cout << "Input your criteria in the grammar of the DML: ";
+        cin >> criteria
+    }
+    
+    
+}
+
 
 // Display menus
 void display_welcome_message(){
@@ -98,13 +110,32 @@ bool interpret_command(string command){
         return true;
     }
     
+    // Get the second character in the given command
+    int sub_command = command.at(1);
+    
     // Quit command not given, continue parsing
     if (command.at(0) == 'E') {
         // Exhibits menu
-        
+        switch (sub_command) {
+            case 1:
+                list_exhibitors(false);
+                break;
+                
+            case 2:
+                list_exhibitors(true);
+                break;
+                
+            case 3:
+                register_exhibitor();
+                break;
+                
+            case 4:
+                remove_exhibitor();
+                break;
+        }
     } else if (command.at(0) == 'B'){
         // Booths menu
-      
+        
     } else if (command.at(0) == 'S'){
         // Services menu
         
