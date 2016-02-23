@@ -25,6 +25,8 @@ d <- a * animals;
 SHOW d;
 c <- select (aname == name || aname == "Jack") (a * animals);
 SHOW c;
+DELETE FROM d WHERE (aname != name && aname != "Jack");
+SHOW d; 
 common_names <- project (name) (select (aname == name || aname == "Jack") (a * animals));
 SHOW common_names;
 UPDATE animals SET (name = "X", kind = "Monkey")  WHERE (name == "Joe" && kind != "bird");
