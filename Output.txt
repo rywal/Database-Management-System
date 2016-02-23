@@ -37,14 +37,14 @@ Line number 35 was successful!
 Line number 36 was successful!
 The relation named: animals does not exist.
 Line number 37 FAILED!
-In file animals.db, line number 1 FAILED!
-In file animals.db, line number 2 FAILED!
-In file animals.db, line number 3 FAILED!
-In file animals.db, line number 4 FAILED!
-In file animals.db, line number 5 FAILED!
-In file animals.db, line number 6 FAILED!
-In file animals.db, line number 7 FAILED!
-The file animals.db FAILED to opened correctly!
-Line number 38 FAILED!
-Line number 39 FAILED!
+In file animals.db, line number 1 was successful!
+In file animals.db, line number 2 was successful!
+In file animals.db, line number 3 was successful!
+In file animals.db, line number 4 was successful!
+In file animals.db, line number 5 was successful!
+In file animals.db, line number 6 was successful!
+In file animals.db, line number 7 was successful!
+The file animals.db was successfully opened!
+Line number 38 was successful!
+Line number 39 was successful!
 -=-=-=-=-EXITED-=-=-=-=-
