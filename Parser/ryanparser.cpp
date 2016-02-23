@@ -16,6 +16,7 @@ bool is_query(string command){
 	return ((command[0]>96 && command[0]<123)||command[0]==95);
 }
 Relation interpret_query(Database &db, std::vector<std::string> command);
+int file_input(Database &db, FILE *input, string filename);
 
 //which_op takes "==" symbols and outputs something our program can handle
 string which_op(string op){
@@ -312,7 +313,10 @@ void interpret_command(Database &db, std::vector<std::string> command) {
     		cout<<"SAVE \'relation-name\'\n";
     	}
     } else if(command[0]=="OPEN"){
-     
+		string input_w = command[1]+".db";
+		string filename = command[1]+".db";
+		FILE *input=fopen(input_w.c_str(), "r");
+		file_input(db, input,filename);
     } else if(command[0]== "CLOSE"){
     
     } else if(command[0]=="DELETE"){
@@ -373,48 +377,38 @@ void query_or_command(Database &db, std::vector<std::string> command_line){
 	}
 }
 
-int main() {
-   /* Database db("db");
-    char str[] = "CREATE TABLE animals (name VARCHAR(20), kind VARCHAR(8), years INTEGER) PRIMARY KEY (name, kind);";
-	//char str2[] = "SHOW animals;";
-	char str2[] = "INSERT INTO animals VALUES FROM (Joe, dog, 4);";
-	char str3[] = "dogs <- select (kind == dog) animals;";
-//    char str[] = "common_names <- project (name) (select (aname == name && akind != kind) (a * animals));";
-    char * pch;
-    std::string delimiters = " ,();";
-    printf ("Splitting string \"%s\" into tokens:\n",str);    
-    std::vector<std::string> current_command;
-    pch = strtok (str, delimiters.c_str());
-    while (pch != NULL) {
-        current_command.push_back(pch);
-        printf ("%s\n",pch);
-        pch = strtok (NULL, delimiters.c_str());
-    }
-    query_or_command(db, current_command);
-    //ROUND 2
-    current_command.clear();
-    free(pch);
-    pch = strtok (str2, delimiters.c_str());
-    while (pch != NULL) {
-        current_command.push_back(pch);
-        printf ("%s\n",pch);
-        pch = strtok (NULL, delimiters.c_str());
-    }
-    query_or_command(db, current_command);
-    //ROUND 3
-    current_command.clear();
-    free(pch);
-    pch = strtok (str3, delimiters.c_str());
-    while (pch != NULL) {
-        current_command.push_back(pch);
-        printf ("%s\n",pch);
-        pch = strtok (NULL, delimiters.c_str());
-    }
-    query_or_command(db, current_command);
-	cout<<"trying to get dogs\n";
-*/
+int file_input(Database &db, FILE *input, string filename){
+	vector<string> command_list;
+	char* str;
+	char* pch;
+	string delimiters = " ,();\n";
+	if(!input){
+		printf("\nThe input file not found!");
+		printf("\nPlease place a file named \"Input.txt\" in the same folder as %s.\n\n", __FILE__);
+		exit(EXIT_FAILURE);//Showing error status code
+	}
+	int line_number=1;
+	size_t buffer_size=0;
+	while(!feof(input)){
+		getline(&str, &buffer_size, input); 
+		string command(str);
+		cout<< "The following is the command given: " << str << endl;
+		pch = strtok (str, delimiters.c_str());
+			while (pch != NULL) {
+				command_list.push_back(pch);
+				pch = strtok (NULL, delimiters.c_str());
+		}
+		if(command_list[0]=="EXIT" && command_list.size()==1){//Preventing SegFault
+			exit(0);
+		} else{query_or_command(db, command_list);}
+		command_list.clear();
+		free(pch);
+	}
+	fclose(input);
+}
 
-	ofstream output;
+int main() {
+ 	ofstream output;
 	output.open ("Output.txt");
 	Database db("db");
 	char* str;
@@ -442,49 +436,19 @@ int main() {
 	if(f_or_h == "f" || f_or_h == "F" || f_or_h == "file" || strstr(f_or_h.c_str(),".txt")){
 		char* input_file;
 		FILE *input;
+		string filename;
 		//input_file="input.txt"; 
 		if(strstr(f_or_h.c_str(),".txt")){
 			string input_w = "Parser/" + f_or_h;
+			filename = "Parser/" + f_or_h;
 			input=fopen(input_w.c_str(), "r");
 		}else{
-		printf("Please input the file you would like to use. \n(Please note, this is automated, no other input will be read)\n>");
-		getline(&input_file, &buffer_size, stdin);
-		input= fopen("input.txt", "r");
+			printf("Please input the file you would like to use. \n(Please note, this is automated, no other input will be read)\n>");
+			getline(&input_file, &buffer_size, stdin);
+			filename = "input.txt";
+			input= fopen("input.txt", "r");
 		}
-		if(!input){
-			printf("\nThe input file not found!");
-			printf("\nPlease place a file named \"Input.txt\" in the same folder as %s.\n\n", __FILE__);
-			exit(EXIT_FAILURE);//Showing error status code
-		}
-		int line_number=1;
-		buffer_size=0;
-		while(!feof(input)){
-			getline(&str, &buffer_size, input); 
-			string command(str);
-			cout<< "The following is the command given: " << str << endl;
-			pch = strtok (str, delimiters.c_str());
-    			while (pch != NULL) {
-       				command_list.push_back(pch);
-        	//		printf ("%s\n",pch);
-        			pch = strtok (NULL, delimiters.c_str());
-			}
-			/*vector<string> command_list2;
-			for(int i=0; i<(command_list.size()-1);i++){
-				command_list2.push_back(command_list[i]);
-			}*/
-		//	cout<<"———\n";
-			
-			//cout<<command_list[command_list.size()-1]<<"1"<<endl;
-		//	cout<<"about to do command\n";//<<command_list2.size()<<"\n";
-			if(command_list[0]=="EXIT" && command_list.size()==1){//Preventing SegFault
-				exit(0);
-			} else{query_or_command(db, command_list);}
-   		//	cout<<"did command\n"; 
-			command_list.clear();
-    			 free(pch);			
-		
-		}
-		fclose(input);
+		file_input(db, input, filename);//Where the action happens
 	} else if (f_or_h == "h" || f_or_h == "H" || f_or_h == "hand"){
 		/*int line_number=1;
 		std::cin.ignore( std::numeric_limits<std::streamsize>::max(), '\n' );
@@ -502,10 +466,7 @@ int main() {
 		}*/
 	}
 	output.close();
-	return 0;
-
-
-    db.print_relation( db.get_relation("dogs") );
-    
+	
+    //db.print_relation( db.get_relation("dogs") );
     return 0;
 }
