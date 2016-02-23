@@ -193,6 +193,10 @@ bool interpret_command(string command){
 int main(){
     create_exhibits_table();
     create_booths_table();
+    create_services_table();
+    create_attendees_table();
+    create_inventory_table();
+
     // TODO: Add in the rest of the create functions
     // create_NAME_table();
     
@@ -231,9 +235,19 @@ int main(){
             cin >> next_command;
             stop = interpret_command(next_command);
         } else if (role == EXHIBITOR) {
-            
+            display_exhibitor_menu();
+	
+            cout << "Input your command: ";
+
+            cin >> next_command;
+	    stop = interpret_command(next_command);
+
         } else if (role == ATTENDEE) {
-            
+            display_attendee_menu();
+	    cout << "Input your command; ";
+
+            cin >> next_command;
+	    stop = interpret_command(next_command);
         }
     }
 	
