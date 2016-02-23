@@ -425,28 +425,30 @@ void display_booths_menu() {
 }
 
 void display_services_menu() {
-	cout << "S1. Electricity";
-	cout << "S2. Furniture";
-	cout << "S3. Electronics";
-	cout << "S4. Bar-Code Scanner";
-	cout << "S5. Advertisement";
-	cout << "S6. Insurance";
+    cout << "\nServices\n";
+    cout << "----------\n";
+	cout << "S1. Assign services to exhibitor\n";
+	cout << "S2. Remove services from exhibitor\n";
+	cout << "S3. List services for exhibitor\n";
 }
 
 void display_finance_menu() {
-	cout << "F1. Invoice";
-	cout << "F2. Revenue";
+    cout << "\nFinance\n";
+    cout << "----------\n";
+	cout << "F1. Show invoice for exhibitor\n";
+	cout << "F2. Show total revenue\n";
 }
 
 void display_attendees_menu() {
-	cout << "A1. Name";
-	cout << "A2. Organizations ";
-	cout << "A3. Addresses ";
-	cout << "A4. E-mails ";
-	cout << "A5. Registration Fees ";
-	cout << "A6. Categories ";
-	cout << "A7. Exhibits visited ";
-	cout << "A8. Badge status ";
+    cout << "\nAttendees\n";
+    cout << "----------\n";
+	cout << "A1. Add attendee to exhibit's visited list\n";
+	cout << "A2. Remove attendee from exhibit's visited list\n";
+    cout << "A3. Show attendees who visited an exhibit\n";
+    cout << "A6. List attendees";
+	cout << "A4. Register new attendee\n";
+	cout << "A5. Remove attendee\n";
+	cout << "A7. Search attendees based on criteria\n";
 }
 void display_inventory_menu() {
 	cout << "I1. Electronics ";
