@@ -139,21 +139,24 @@ void display_services_menu() {
 	cout << "S6. Insurance";
 }
 
-void display_finance_menu() {}
+void display_finance_menu() {
+	cout << "F1. Invoice";
+	cout << "F2. Revenue";
+}
 
 void display_attendees_menu() {
-	cout << "Name:";
-	cout << "Organization: ";
-	cout << "Address: ";
-	cout << "E-mail: ";
-	cout << "Registration Fee: ";
-	cout << "Category: ";
-	cout << "Exhibits visited: ";
-	cout << "Badge status: ";
+	cout << "A1. Name";
+	cout << "A2. Organizations ";
+	cout << "A3. Addresses ";
+	cout << "A4. E-mails ";
+	cout << "A5. Registration Fees ";
+	cout << "A6. Categories ";
+	cout << "A7. Exhibits visited ";
+	cout << "A8. Badge status ";
 }
 void display_inventory_menu() {
-	cout << "Electronics: ";
-	cout << "Furniture: ";
+	cout << "I1. Electronics ";
+	cout << "I2. Furniture";
 }
 
 // Intepret the given command
@@ -189,13 +192,43 @@ bool interpret_command(string command){
         }
     } else if (command.at(0) == 'B'){
         // Booths menu
-        
+	/*	switch (sub_command) {
+            case 1:
+                
+                break;
+                
+            case 2:
+                
+                break;
+                
+            case 3:
+                
+                break;
+        }  */
     } else if (command.at(0) == 'S'){
         // Services menu
-        
+	/*	switch (sub_command) {
+            case 1:
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+			case 5:
+				break;
+			case 6:
+				break;
+        }	*/
     } else if (command.at(0) == 'F'){
         // Finance menu
-        
+    /*    switch (sub_command){
+			case 1:
+				break;
+			case 2:
+				break;
+		}	*/
     } else if (command.at(0) == 'A'){
         // Attendees menu
         
