@@ -1,3 +1,6 @@
+#ifndef Database_h
+#define Database_h
+
 #include <stdexcept>
 #include <vector>
 #include "Relation.h"
@@ -43,3 +46,5 @@ public:
 	void print_relation(Relation relation_name);
     void app_print_relation(Relation relation_name);
 };
+
+#endif /* Database_h */

@@ -3,8 +3,7 @@
 #include <iomanip>
 #include <string>
 #include <vector>
-#include "../DBCore/Database.h"
-#include "../Parser/test_parser.h"
+#include "../Parser/ryanparser.h"
 
 #define EXHIBIT_MANAGER 1
 #define EXHIBITOR 2
@@ -77,18 +76,24 @@ void list_exhibitors(bool with_criteria) {
             cout << "Warning: Criteria was not given. Proceeding as if it was not required";
             with_criteria = false;
         } else {
-        	query = "SELECT FROM exhibits WHERE " + criteria + ";";
-            if ( valid(query, "application", "1") ) {
-                with_criteria = true;
-            } else {
-                with_criteria = false;
-            }
+        	query = "select (" + criteria + ") exhibits;";
         }
     }
     
     // Fetch proper list of exhibitors and print
     if (with_criteria) {
-        Relation &list_relation = rdbms.get_relation("exhibits");
+        char* pch;
+        string delimiters = " \",();\n";
+        vector<string> command_list;
+        
+        pch = strtok ((char*)query.c_str(), delimiters.c_str());//Lexer
+        while (pch != NULL) {
+            command_list.push_back(pch);
+            cout << "Pushing back command token " << pch << "\n";
+            pch = strtok (NULL, delimiters.c_str());
+        }
+        
+        Relation list_relation = interpret_query( rdbms, command_list );
         rdbms.app_print_relation( list_relation );
     } else {
         Relation list_relation = rdbms.get_relation("exhibits");
@@ -116,20 +121,35 @@ void register_exhibitor() {
 void remove_exhibitor() {
     string criteria = "";
     string query = "";
+    
+    // Need to clear out the newline held in cin
+    cin.ignore(1,'\n');
+    
     while (criteria.length() == 0) {
         cout << "Input your criteria in the grammar of the DML: ";
-        getline( cin, input );
+        getline( cin, criteria );
         
         if (criteria.length() <= 0) {
             cout << "Warning: Criteria was not given!\n";
         } else {
-            query = "DELETE FROM exhibits WHERE " + criteria + ";";
+            query = "DELETE FROM exhibits WHERE (" + criteria + ");";
             // TODO: Need to check this input for validity and then plug it into a select query
         }
     }
     
     // Send query to parser
+    char* pch;
+    string delimiters = " \",();\n";
+    vector<string> command_list;
     
+    pch = strtok ((char*)query.c_str(), delimiters.c_str());//Lexer
+    while (pch != NULL) {
+        command_list.push_back(pch);
+        cout << "Pushing back command token " << pch << "\n";
+        pch = strtok (NULL, delimiters.c_str());
+    }
+    
+    query_or_command( rdbms, command_list );
 }
 
 
@@ -285,7 +305,7 @@ int main(){
             cin >> next_command;
             stop = interpret_command(next_command);
         } else if (role == EXHIBITOR) {
-            display_exhibitor_menu();
+            display_exhibits_menu();
 	
             cout << "Input your command: ";
 
@@ -293,7 +313,7 @@ int main(){
 	    stop = interpret_command(next_command);
 
         } else if (role == ATTENDEE) {
-            display_attendee_menu();
+            display_attendees_menu();
 	    cout << "Input your command; ";
 
             cin >> next_command;
