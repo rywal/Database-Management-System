@@ -5,6 +5,8 @@
 #include <algorithm>
 #include <fstream>
 #include "Database.h"
+#include <stdio.h>
+#include <string.h>
 
 Database::Database(string _name){
     name = _name;
@@ -309,7 +311,15 @@ std::vector<string> Database::outputRelation(int index) {
             if (rel.attribute_list.attributes[a].get_max_length() != 0)
                 line += '"';
             
-            line += rel.tuples[t].get_cell(a).get_data();
+			if(rel.tuples[t].get_cell(a).get_max_length()!=0){
+				string string_data = rel.tuples[t].get_cell(a).get_data();
+				while(strstr(string_data.c_str(),"\"")){
+					string_data.erase(std::remove(string_data.begin(), string_data.end(), '"'));
+				}
+				line += string_data;
+			} else{
+				line += rel.tuples[t].get_cell(a).get_data();
+			}
             
             if (rel.attribute_list.attributes[a].get_max_length() != 0)
                 line += '"';
@@ -335,6 +345,14 @@ bool Database::save(int index){
     outputLines = outputRelation(index);
     
 	int first=0;
+	
+	/*cout<<"339:---------------------"<<endl;
+	for (auto line : outputLines) {
+		for(int i=0; i<line.size();i++){
+			cout<<line<<endl;
+		}
+    }*/
+	
 	
     for (auto line : outputLines) {
 		if(first==0){
