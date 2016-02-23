@@ -397,7 +397,6 @@ void query_or_command(Database &db, std::vector<std::string> command_line){
 			command_line.erase (command_line.begin(), command_line.begin()+2);
             std::vector<std::string> rest_of_query = command_line;
 			db.create_relation(relation_name, interpret_query(db, rest_of_query));
-	//		cout<<"just created relation with the name: "<<relation_name<<endl;
 		} else{
 			cout<<"Error parsing your command expected <- after relation-name"<<endl;
 			output<<"Query failed. Expecting <- after relation-name"<<endl;
