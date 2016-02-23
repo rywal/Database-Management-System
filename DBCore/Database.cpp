@@ -385,6 +385,16 @@ bool Database::close(string r){
     return close( get_relation_index(r) );
 }
 
+bool Database::delete_tups(Relation &in_rel, Relation compare_rel){
+	for(int i=0; i<in_rel.get_size(); i++){
+		for(int j=0; j<compare_rel.get_size(); j++){
+			if(in_rel.tuples[i]==compare_rel.tuples[j]){
+				in_rel.tuples.erase(in_rel.tuples.begin()+ i);
+			}
+		}
+	}
+}
+
 void EXIT(){		//This closes out the application
 	exit(0);
 }

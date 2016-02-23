@@ -38,6 +38,7 @@ public:
     Relation renaming(string out_name, vector<string> att_renames , Relation in_rel);
     void update(Relation &in_rel, string att_name, string compare_operator, string comparison_value, string update_name, string compare_att);	
     void update(Relation &in_rel, vector<string> att_names, vector<string> literals, Relation rel_update);
+    bool delete_tups(Relation &in_rel, Relation compare_rel);
 	std::vector<Tuple> show(Relation relation_name);
 	void print_relation(Relation relation_name);
     void app_print_relation(Relation relation_name);

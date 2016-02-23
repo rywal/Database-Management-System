@@ -257,30 +257,8 @@ bool interpret_update(Database &db, std::vector<std::string> command, string rel
 	rest_of_query.push_back(relation_name);
 	db.print_relation(interpret_select(db, rest_of_query));
 	db.update(db.get_relation(relation_name), names, literals, interpret_select(db, rest_of_query));
-	/*for(index; (index+3)<command.size(); index++){
-		compare_atts.push_back(command[index]);
-		index++;
-		op_v.push_back(command[index]);
-		index++;
-		compare_values.push_back(command[index]);
-		index++;
-		if (command[index]=="&&" || command[index]=="||" )
-			conjunctions.push_back()
-	}
-		compare_atts.push_back(command[index]);
-		index++;
-		op_v.push_back(command[index]);
-		index++;
-		compare_values.push_back(command[index]);
-		index++;
-			
-	for(int i=0; i<names.size(); i++){
-		
-		cout<<"updating: "<<names[i]<<" : "<<op_v[i]<<" : "<<compare_values[i]<< " : "<<literals[i]<<" : "<<compare_atts[i]<<endl;
-		db.update(db.get_relation(relation_name), names[i], op_v[i], compare_values[i], literals[i], compare_atts[i]);
-	}*/
 }	
-			
+	
 void interpret_command(Database &db, std::vector<std::string> command) {	
     if (command[0] == "CREATE") {
         if (command.size() > 2 && command[1] == "TABLE") {
@@ -339,7 +317,15 @@ void interpret_command(Database &db, std::vector<std::string> command) {
 			printf("The number of arguments for CLOSE is incorrect.\n");
 		}
     } else if(command[0]=="DELETE"){
-    
+    	if(command.size()>2 && command[1]=="FROM"){
+    		string relation_name= command[2];
+    		command.erase(command.begin(), command.begin()+4); 
+			std::vector<std::string> rest_of_commands = command;
+			rest_of_commands.push_back(relation_name);
+			db.delete_tups(db.get_relation(relation_name), interpret_select(db, rest_of_commands));
+    	}else{
+    		cout<<"Error parsing your command- not enough tokens or FROM was not found"<<endl;
+    	}
     } else if(command[0]=="UPDATE"){
 		if(command.size()>6 && command[2]=="SET"){
 			string relation_name= command[1];
