@@ -353,16 +353,8 @@ bool Database::save(int index){
     
 	int first=0;
 	
-	/*cout<<"339:---------------------"<<endl;
-	for (auto line : outputLines) {
-		for(int i=0; i<line.size();i++){
-			cout<<line<<endl;
-		}
-    }*/
-	
-	
     for (auto line : outputLines) {
-		if(first==0){
+		if(first==0){ //This gets rid of an extra new line at end
 			if (line.length()) {
 				outputFile << line;
 				first = 1;
@@ -371,7 +363,6 @@ bool Database::save(int index){
 			if (line.length()) {
 				outputFile << "\n" <<line;
 			}
-
 		}
     }
     outputFile.close();

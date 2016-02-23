@@ -11,12 +11,14 @@
 #include <cstring>
 #include <vector>
 #include <fstream>
+//#include <iostream>
+//#include <limits>
 #include "../DBCore/Database.h"
 bool is_query(string command){
 	return ((command[0]>96 && command[0]<123)||command[0]==95);
 }
 Relation interpret_query(Database &db, std::vector<std::string> command);
-int file_input(Database &db, FILE *input, string filename);
+int file_input(Database &db, FILE *input, string filename, bool is_open);
 
 //which_op takes "==" symbols and outputs something our program can handle
 string which_op(string op){
@@ -321,7 +323,7 @@ void interpret_command(Database &db, std::vector<std::string> command) {
 			string input_w = command[1]+".db";
 			string filename = command[1]+".db";
 			FILE *input=fopen(input_w.c_str(), "r");
-			file_input(db, input,filename);
+			file_input(db, input,filename,true);
 		} else {
 			printf("The number of arguments for OPEN is incorrect.\n");
 		}
@@ -394,14 +396,14 @@ void query_or_command(Database &db, std::vector<std::string> command_line){
 	}
 }
 
-int file_input(Database &db, FILE *input, string filename){
+int file_input(Database &db, FILE *input, string filename, bool is_open){
 	vector<string> command_list;
 	char* str;
 	char* pch;
 	string delimiters = " ,();\n";
 	if(!input){
-		printf("\nThe input file not found!");
-		printf("\nPlease place a file named \"Input.txt\" in the same folder as %s.\n\n", __FILE__);
+		printf("\nThe file: %s not found!", filename.c_str());
+		printf("\nPlease place the input folder as in the same folder as %s.\n\n", __FILE__);
 		exit(EXIT_FAILURE);//Showing error status code
 	}
 	int line_number=1;
@@ -409,7 +411,9 @@ int file_input(Database &db, FILE *input, string filename){
 	while(!feof(input)){
 		getline(&str, &buffer_size, input); 
 		string command(str);
-		cout<< "The following is the command given: " << str << endl;
+		if(!is_open){
+			printf("The given command is: %s\n",str);
+		}
 		pch = strtok (str, delimiters.c_str());
 			while (pch != NULL) {
 				command_list.push_back(pch);
@@ -420,6 +424,9 @@ int file_input(Database &db, FILE *input, string filename){
 		} else{query_or_command(db, command_list);}
 		command_list.clear();
 		free(pch);
+	}
+	if(is_open){
+		printf("%s was successfully opened!\n", filename.c_str());
 	}
 	fclose(input);
 }
@@ -454,6 +461,7 @@ int main() {
 		char* input_file;
 		FILE *input;
 		string filename;
+		string input_f="";
 		//input_file="input.txt"; 
 		if(strstr(f_or_h.c_str(),".txt")){
 			string input_w = "Parser/" + f_or_h;
@@ -461,26 +469,39 @@ int main() {
 			input=fopen(input_w.c_str(), "r");
 		}else{
 			printf("Please input the file you would like to use. \n(Please note, this is automated, no other input will be read)\n>");
-			getline(&input_file, &buffer_size, stdin);
+			/*getline(&input_file, &buffer_size, stdin);
 			filename = "input.txt";
-			input= fopen("input.txt", "r");
+			input= fopen("input.txt", "r");*/
+			cin.clear();
+			cin.sync();
+			cin.ignore();
+			cin>>input_f;
+			string input_w = "Parser/" + input_f;
+			filename = "Parser/" + input_f;
+			input=fopen(input_w.c_str(), "r");
 		}
-		file_input(db, input, filename);//Where the action happens
+		file_input(db, input, filename, false);//Where the action happens
 	} else if (f_or_h == "h" || f_or_h == "H" || f_or_h == "hand"){
-		/*int line_number=1;
-		std::cin.ignore( std::numeric_limits<std::streamsize>::max(), '\n' );
-		while(1){ 
-			string command;
-			printf("Please enter a command:\n");
-			std::getline (std::cin,command);
-			cout<<"1\n";
-			stringstream ss(command);
-			cout<<command<<'\n';
-			istream_iterator<string> begin(ss);
-			istream_iterator<string> end;
-			vector<string> command_list(begin, end);
-			main_loop(command_list, command, line_number,d);
-		}*/
+		cin.clear();
+		cin.sync();
+		cin.ignore();
+		while(1){
+		//std::cin.ignore( std::numeric_limits<std::streamsize>::max(), '\n' );
+		printf("Please enter a command:\n");
+		string command;
+		std::getline (std::cin,command);
+		
+		pch = strtok ((char*)command.c_str(), delimiters.c_str());//Lexer
+			while (pch != NULL) {
+				command_list.push_back(pch);
+				pch = strtok (NULL, delimiters.c_str());
+		}
+		if(command_list[0]=="EXIT" && command_list.size()==1){//Preventing SegFault
+			exit(0);
+		} else{query_or_command(db, command_list);}
+		command_list.clear();
+		free(pch);
+	}
 	}
 	output.close();
 	
