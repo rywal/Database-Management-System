@@ -681,7 +681,7 @@ bool main_loop(vector<string> &command_list, string &command, int &line_number, 
 }
 
 bool valid(string command, string filename, string line_number){
-	string out_name = "out\Output_"+filename+"_"+line_number+".txt"};
+	string out_name = "Parser\out\Output_"+filename+"_"+line_number+".txt"};
 	output.open (out_name);
 	
 	stringstream ss(command);
