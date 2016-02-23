@@ -17,7 +17,7 @@ Database rdbms("db");
 void create_exhibits_table() {
     string name = "exhibits";
     vector<string> attribute_names {"company", "address", "contact", "email", "phone", "fax", "category", "booth_personnel", "description", "website"};
-    vector<int> attribute_types {20, 100, 20, 20, 15, 15, 0, 400, 500, 100};
+    vector<int> attribute_types {20, 100, 20, 20, 15, 15, 0, 100, 100, 50};
     vector<string> primary_keys {"company"};
     
     rdbms.create_relation(name, attribute_names, attribute_types, primary_keys);
@@ -61,8 +61,6 @@ void create_inventory_table() {
 
 // Exhibitors
 void list_exhibitors(bool with_criteria) {
-    cout << "Listing exhibitors\n";
-    
     // If criteria is needed, get it
     if (with_criteria) {
         string criteria;
@@ -80,11 +78,11 @@ void list_exhibitors(bool with_criteria) {
     
     // Fetch proper list of exhibitors and print
     if (with_criteria) {
-        Relation &list_relation = rdbms.get_relation("exhibitors");
-        rdbms.print_relation( list_relation );
+        Relation &list_relation = rdbms.get_relation("exhibits");
+        rdbms.app_print_relation( list_relation );
     } else {
-        Relation list_relation = rdbms.get_relation("exhibitors");
-        rdbms.print_relation( list_relation );
+        Relation list_relation = rdbms.get_relation("exhibits");
+        rdbms.app_print_relation( list_relation );
     }
 }
 

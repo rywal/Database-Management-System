@@ -40,4 +40,5 @@ public:
     void update(Relation &in_rel, vector<string> att_names, vector<string> literals, Relation rel_update);
 	std::vector<Tuple> show(Relation relation_name);
 	void print_relation(Relation relation_name);
+    void app_print_relation(Relation relation_name);
 };
