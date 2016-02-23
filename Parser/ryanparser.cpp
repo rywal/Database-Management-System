@@ -461,6 +461,7 @@ int main() {
 		char* input_file;
 		FILE *input;
 		string filename;
+		string input_f="";
 		//input_file="input.txt"; 
 		if(strstr(f_or_h.c_str(),".txt")){
 			string input_w = "Parser/" + f_or_h;
@@ -468,9 +469,16 @@ int main() {
 			input=fopen(input_w.c_str(), "r");
 		}else{
 			printf("Please input the file you would like to use. \n(Please note, this is automated, no other input will be read)\n>");
-			getline(&input_file, &buffer_size, stdin);
+			/*getline(&input_file, &buffer_size, stdin);
 			filename = "input.txt";
-			input= fopen("input.txt", "r");
+			input= fopen("input.txt", "r");*/
+			cin.clear();
+			cin.sync();
+			cin.ignore();
+			cin>>input_f;
+			string input_w = "Parser/" + input_f;
+			filename = "Parser/" + input_f;
+			input=fopen(input_w.c_str(), "r");
 		}
 		file_input(db, input, filename, false);//Where the action happens
 	} else if (f_or_h == "h" || f_or_h == "H" || f_or_h == "hand"){
