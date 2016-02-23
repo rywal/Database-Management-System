@@ -265,7 +265,7 @@ bool interpret_update(Database &db, std::vector<std::string> command, string rel
 	db.print_relation(interpret_select(db, rest_of_query));
 	db.update(db.get_relation(relation_name), names, literals, interpret_select(db, rest_of_query));
 }	
-			
+	
 void interpret_command(Database &db, std::vector<std::string> command) {	
     if (command[0] == "CREATE") {
         if (command.size() > 2 && command[1] == "TABLE") {
@@ -335,7 +335,15 @@ void interpret_command(Database &db, std::vector<std::string> command) {
 			error=5;
 		}
     } else if(command[0]=="DELETE"){
-    
+    	if(command.size()>2 && command[1]=="FROM"){
+    		string relation_name= command[2];
+    		command.erase(command.begin(), command.begin()+4); 
+			std::vector<std::string> rest_of_commands = command;
+			rest_of_commands.push_back(relation_name);
+			db.delete_tups(db.get_relation(relation_name), interpret_select(db, rest_of_commands));
+    	}else{
+    		cout<<"Error parsing your command- not enough tokens or FROM was not found"<<endl;
+    	}
     } else if(command[0]=="UPDATE"){
 		if(command.size()>6 && command[2]=="SET"){
 			string relation_name= command[1];

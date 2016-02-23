@@ -17,7 +17,7 @@ Database rdbms("db");
 void create_exhibits_table() {
     string name = "exhibits";
     vector<string> attribute_names {"company", "address", "contact", "email", "phone", "fax", "category", "booth_personnel", "description", "website"};
-    vector<int> attribute_types {20, 100, 20, 20, 15, 15, 0, 400, 500, 100};
+    vector<int> attribute_types {20, 100, 20, 20, 15, 15, 0, 100, 100, 50};
     vector<string> primary_keys {"company"};
     
     rdbms.create_relation(name, attribute_names, attribute_types, primary_keys);
@@ -59,6 +59,33 @@ void create_inventory_table() {
     rdbms.create_relation(name, attribute_names, attribute_types, primary_keys);
 }
 
+// Exhibitors
+void list_exhibitors(bool with_criteria) {
+    // If criteria is needed, get it
+    if (with_criteria) {
+        string criteria;
+        cout << "Input your criteria in the grammar of the DML: ";
+        cin >> criteria;
+
+        if (criteria.length() <= 0) {
+            cout << "Warning: Criteria was not given. Proceeding as if it was not required";
+            with_criteria = false;
+        } else {
+        	string query = "SELECT FROM exhibits WHERE " + criteria + ";";
+            // TODO: Need to check this input for validity and then plug it into a select query
+        }
+    }
+    
+    // Fetch proper list of exhibitors and print
+    if (with_criteria) {
+        Relation &list_relation = rdbms.get_relation("exhibits");
+        rdbms.app_print_relation( list_relation );
+    } else {
+        Relation list_relation = rdbms.get_relation("exhibits");
+        rdbms.app_print_relation( list_relation );
+    }
+}
+
 
 // Display menus
 void display_welcome_message(){
@@ -98,13 +125,33 @@ bool interpret_command(string command){
         return true;
     }
     
+    // Get the second character in the given command
+    int sub_command = command.at(1) - '0';
+    cout << "Command given: " << command << " breaks down to have a sub_command of: " << sub_command << "\n";
+    
     // Quit command not given, continue parsing
     if (command.at(0) == 'E') {
         // Exhibits menu
-        
+        switch (sub_command) {
+            case 1:
+                list_exhibitors(false);
+                break;
+                
+            case 2:
+                list_exhibitors(true);
+                break;
+                
+            case 3:
+//                register_exhibitor();
+                break;
+                
+            case 4:
+//                remove_exhibitor();
+                break;
+        }
     } else if (command.at(0) == 'B'){
         // Booths menu
-      
+        
     } else if (command.at(0) == 'S'){
         // Services menu
         

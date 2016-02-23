@@ -14,12 +14,13 @@ Database::Database(string _name){
 
 
 Relation& Database::get_relation(string name) {
-   while(name.back()==')'){name.erase(name.size()-1, 1);}
-   for (int i = 0; i < relations.size(); i++){
-		if(relations[i].name == name){
-		   return relations[i];
-		}
-	}
+    while(name.back()==')'){name.erase(name.size()-1, 1);}
+
+    for (int i = 0; i < relations.size(); i++){
+        if(relations[i].name == name){
+            return relations[i];
+        }
+    }
 }
 
 Relation& Database::get_relation(int index) {
@@ -384,6 +385,16 @@ bool Database::close(string r){
     return close( get_relation_index(r) );
 }
 
+bool Database::delete_tups(Relation &in_rel, Relation compare_rel){
+	for(int i=0; i<in_rel.get_size(); i++){
+		for(int j=0; j<compare_rel.get_size(); j++){
+			if(in_rel.tuples[i]==compare_rel.tuples[j]){
+				in_rel.tuples.erase(in_rel.tuples.begin()+ i);
+			}
+		}
+	}
+}
+
 void EXIT(){		//This closes out the application
 	exit(0);
 }
@@ -489,4 +500,31 @@ void Database::print_relation(Relation relation_name){
 	printf("-=-END-=-=");
 	for(int i = 0; (i-1)<(rel_s/4); i++){printf ("-=");}
 	cout<<"-"<<endl<<endl;//FORMATTING
+}
+
+void Database::app_print_relation(Relation relation_name){
+    printf ("\n\nListing: %s \n", relation_name.name.c_str());
+    
+    for(int a = 0; a < relation_name.attribute_list.attributes.size(); a++){
+        cout << relation_name.attribute_list.attributes[a].get_name() << " ";
+        
+        if (a != ( relation_name.attribute_list.attributes.size() - 1 ) ) {
+            cout << "- ";
+        }
+    }
+    
+    cout << endl << "------------------------------------------------------" << endl;
+    
+    for(int k = 0; k < relation_name.tuples.size(); k++) {
+        for(int i = 0; i < relation_name.tuples[k].num_attributes(); i++){
+            cout << relation_name.tuples[k].get_cell(i).get_data().c_str() << " ";
+            
+            if (i == ( relation_name.tuples[k].num_attributes() - 1) ) {
+                cout << "- ";
+            }
+        }
+        printf ("\n");
+    }
+    
+    cout << "------------------------------------------------------" << endl << endl;
 }

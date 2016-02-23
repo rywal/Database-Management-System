@@ -26,4 +26,4 @@ Application:
 	$(cc) -std=c++11 -g -o run-app DBCore/Cell.cpp  DBCore/Database.cpp  DBCore/Relation.cpp  Application/app.cpp  DBCore/Tuple.cpp
 
 clean:
-	rm run-dbcore run-parser *.db *.o a.out
+	rm -f run-dbcore run-parser run-app *.db *.o a.out
