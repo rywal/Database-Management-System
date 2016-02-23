@@ -334,10 +334,20 @@ bool Database::save(int index){
     std::vector<string> outputLines;
     outputLines = outputRelation(index);
     
+	int first=0;
+	
     for (auto line : outputLines) {
-        if (line.length()) {
-            outputFile << line << "\n";
-        }
+		if(first==0){
+			if (line.length()) {
+				outputFile << line;
+				first = 1;
+			}
+		} else{
+			if (line.length()) {
+				outputFile << "\n" <<line;
+			}
+
+		}
     }
     outputFile.close();
     return true;
