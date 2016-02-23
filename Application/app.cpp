@@ -25,9 +25,9 @@ void create_exhibits_table() {
 
 void create_booths_table() {
     string name = "booths";
-    vector<string> attribute_names {"starting_row", "ending_row", "column", "type"};
-    vector<int> attribute_types {0, 0, 0, 0};
-    vector<string> primary_keys {"starting_row", "ending_row", "column"};
+    vector<string> attribute_names {"company", "starting_row", "ending_row", "column", "type"};
+    vector<int> attribute_types {20, 0, 0, 0, 0};
+    vector<string> primary_keys {"company", "starting_row", "ending_row", "column"};
     
     rdbms.create_relation(name, attribute_names, attribute_types, primary_keys);
 }
@@ -59,6 +59,8 @@ void create_inventory_table() {
     rdbms.create_relation(name, attribute_names, attribute_types, primary_keys);
 }
 
+
+
 // Exhibitors
 void list_exhibitors(bool with_criteria) {
     // If criteria is needed, get it
@@ -76,7 +78,8 @@ void list_exhibitors(bool with_criteria) {
             cout << "Warning: Criteria was not given. Proceeding as if it was not required";
             with_criteria = false;
         } else {
-        	query = "select (" + criteria + ") exhibits;";
+            query = "select (" + criteria + ") exhibits;";
+            // TODO: Need to check this input for validity and then plug it into a select query
         }
     }
     
@@ -89,7 +92,6 @@ void list_exhibitors(bool with_criteria) {
         pch = strtok ((char*)query.c_str(), delimiters.c_str());//Lexer
         while (pch != NULL) {
             command_list.push_back(pch);
-            cout << "Pushing back command token " << pch << "\n";
             pch = strtok (NULL, delimiters.c_str());
         }
         
@@ -145,12 +147,97 @@ void remove_exhibitor() {
     pch = strtok ((char*)query.c_str(), delimiters.c_str());//Lexer
     while (pch != NULL) {
         command_list.push_back(pch);
-        cout << "Pushing back command token " << pch << "\n";
         pch = strtok (NULL, delimiters.c_str());
     }
     
     query_or_command( rdbms, command_list );
 }
+
+
+
+// Booths
+void register_booth_location() {
+    vector<string> fields {"Company name", "Starting row", "Ending row", "Column", "Type(1 for Economy, 2 for Premium)"};
+    vector<string> values;
+    
+    // Need to clear out the newline held in cin
+    cin.ignore(1,'\n');
+    
+    for (string f : fields) {
+        cout << "Please input value for " << f << ": ";
+        string input;
+        getline( cin, input );
+        values.push_back( input );
+    }
+    
+    rdbms.get_relation("booths").insert_tuple( values );
+}
+
+void remove_booth_location() {
+    string criteria = "";
+    string query = "";
+    
+    // Need to clear out the newline held in cin
+    cin.ignore(1,'\n');
+    
+    while (criteria.length() == 0) {
+        cout << "Input name of exhibitor company to remove: ";
+        getline( cin, criteria );
+        
+        if (criteria.length() <= 0) {
+            cout << "Warning: Criteria was not given!\n";
+        } else {
+            query = "DELETE FROM booths WHERE (company == \"" + criteria + "\");";
+            // TODO: Need to check this input for validity and then plug it into a select query
+        }
+    }
+    
+    // Send query to parser
+    char* pch;
+    string delimiters = " \",();\n";
+    vector<string> command_list;
+    
+    pch = strtok ((char*)query.c_str(), delimiters.c_str());//Lexer
+    while (pch != NULL) {
+        command_list.push_back(pch);
+        pch = strtok (NULL, delimiters.c_str());
+    }
+    
+    query_or_command( rdbms, command_list );
+}
+
+void list_booth_locations() {
+    string criteria = "";
+    string query = "";
+    // Need to clear out the newline held in cin
+    cin.ignore(1,'\n');
+    
+    while (criteria.length() == 0) {
+        cout << "Input name of exhibitor company to find: ";
+        getline( cin, criteria );
+        
+        if (criteria.length() <= 0) {
+            cout << "Warning: Criteria was not given!\n";
+        } else {
+            query = "select (company == \"" + criteria + "\") booths;";
+            // TODO: Need to check this input for validity and then plug it into a select query
+        }
+    }
+    
+    char* pch;
+    string delimiters = " \",();\n";
+    vector<string> command_list;
+    
+    pch = strtok ((char*)query.c_str(), delimiters.c_str());//Lexer
+    while (pch != NULL) {
+        command_list.push_back(pch);
+        pch = strtok (NULL, delimiters.c_str());
+    }
+    
+    Relation list_relation = interpret_query( rdbms, command_list );
+    rdbms.app_print_relation( list_relation );
+}
+
 
 
 // Display menus
@@ -174,9 +261,9 @@ void display_exhibits_menu() {
 void display_booths_menu() {
     cout << "\nBooths\n";
     cout << "----------\n";
-    cout << "B1. \n";
-    cout << "B2. \n";
-    cout << "B3. \n";
+    cout << "B1. Assign booth location to exhibitor\n";
+    cout << "B2. Delete booth location of exhibitor\n";
+    cout << "B3. List booth locations of exhibitor\n";
 }
 
 void display_services_menu() {
@@ -241,19 +328,19 @@ bool interpret_command(string command){
         }
     } else if (command.at(0) == 'B'){
         // Booths menu
-	/*	switch (sub_command) {
+		switch (sub_command) {
             case 1:
-                
+                register_booth_location();
                 break;
                 
             case 2:
-                
+                remove_booth_location();
                 break;
                 
             case 3:
-                
+                list_booth_locations();
                 break;
-        }  */
+        }
     } else if (command.at(0) == 'S'){
         // Services menu
 	/*	switch (sub_command) {
@@ -351,6 +438,7 @@ int main(){
     while (!stop) {
         if (role == EXHIBIT_MANAGER){
             display_exhibits_menu();
+            display_booths_menu();
             // TODO: Fill in rest of applicable menus here
             cout << "Input your command: ";
             
