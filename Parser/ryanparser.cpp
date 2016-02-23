@@ -214,15 +214,15 @@ bool interpret_show(Database &db, std::vector<std::string> command){
 	if (command.size()>0){
 		if(command.size()==1){
 			string relation_name=command[0];
-			if(db.get_relation_index(relation_name)==(-1)){
+			if(db.get_relation_index(relation_name)==(-1)){//If it doesn't exist
 				printf("The relation named: %s does not exist.\n", relation_name.c_str());
-			} else{
+			} else{//If it exists, print it (or show it to screen)
 				db.print_relation(db.get_relation(relation_name));
 			}
 		}
 		else{
 			db.print_relation(interpret_query(db, command));
-		}		
+		}
 	}else {
           std::cout << "Not enough tokens given to interpret a show statement" << std::endl;
        }	

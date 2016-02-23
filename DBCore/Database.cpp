@@ -194,7 +194,17 @@ Relation Database::project(vector<string> att_names, Relation in_rel){
     
 	Relation out_rel((in_rel.name + "_Projection"), att_names, max_lengths, in_rel.primary_keys);
     
-    out_rel.set_primary(in_rel.get_primary_keys());
+	vector<string> out_keys;
+	
+	for(int a=0; a<att_names.size();a++){
+		for(int i=0; i<in_rel.primary_keys.size();i++){
+			if(att_names[a]==in_rel.primary_keys[i]){
+				out_keys.push_back(att_names[a].c_str());
+			}
+		}
+	}
+	
+    out_rel.set_primary(out_keys);
     out_rel.set_max(max_lengths);
 
 	for(int i=0; i < att_names.size(); i++){
@@ -309,27 +319,24 @@ std::vector<string> Database::outputRelation(int index) {
                 line += ", ";
             
             if (rel.attribute_list.attributes[a].get_max_length() != 0)
-                line += '"';
+                line += '"';//Add a quote to show it is a string
             
-			if(rel.tuples[t].get_cell(a).get_max_length()!=0){
+			if(rel.tuples[t].get_cell(a).get_max_length()!=0){ //This means it is a string
 				string string_data = rel.tuples[t].get_cell(a).get_data();
-				while(strstr(string_data.c_str(),"\"")){
+				while(strstr(string_data.c_str(),"\"")){//If there are quotes in the string
 					string_data.erase(std::remove(string_data.begin(), string_data.end(), '"'));
 				}
-				line += string_data;
+				line += string_data;//Add the no-quote string
 			} else{
 				line += rel.tuples[t].get_cell(a).get_data();
-			}
+			}//If it is just an int, print it
             
             if (rel.attribute_list.attributes[a].get_max_length() != 0)
-                line += '"';
-            
+                line += '"';//Add the quote to output
         }
-        
         line += ");";
         output.push_back(line);
     }
-    
     return output;
 }
 
