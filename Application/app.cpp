@@ -86,6 +86,20 @@ void list_exhibitors(bool with_criteria) {
     }
 }
 
+void register_exhibitor() {
+    vector<string> fields {"company", "address", "contact", "email", "phone", "fax", "category", "booth_personnel", "description", "website"};
+    vector<string> values;
+    
+    for (int f = 0; f < fields.size(); f++) {
+        cout << "Please input value for " << fields[f] << ": ";
+        string input;
+        getline( cin, input );
+        values.push_back( input );
+    }
+    
+    rdbms.get_relation("exhibits").insert_tuple( values );
+}
+
 
 // Display menus
 void display_welcome_message(){
@@ -142,7 +156,7 @@ bool interpret_command(string command){
                 break;
                 
             case 3:
-//                register_exhibitor();
+                register_exhibitor();
                 break;
                 
             case 4:
