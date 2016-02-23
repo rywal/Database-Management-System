@@ -20,7 +20,7 @@ Parser:
 	$(cc) -std=c++11 -g -o run-parser DBCore/Cell.cpp  DBCore/Database.cpp  DBCore/Relation.cpp DBCore/Tuple.cpp Parser/ryanparser.cpp
 	
 Parser2:
-	$(cc) -std=c++11 -g -o run-parser DBCore/Cell.cpp  DBCore/Database.cpp  DBCore/Relation.cpp DBCore/Tuple.cpp Parser/Parser_DB.cpp
+	$(cc) -std=c++11 -g -o run-parser2 DBCore/Cell.cpp  DBCore/Database.cpp  DBCore/Relation.cpp DBCore/Tuple.cpp Parser/run_parser.cpp
 
 Application:
 	$(cc) -std=c++11 -g -o run-app DBCore/Cell.cpp  DBCore/Database.cpp  DBCore/Relation.cpp  Application/app.cpp  DBCore/Tuple.cpp

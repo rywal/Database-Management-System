@@ -371,7 +371,7 @@ bool Database::save(int index){
 }
 
 bool Database::save(string r){
-    std::cout << "Saving r " << r << " with index " << get_relation_index(r) << endl;
+    std::cout << "Saving Relation named: " << r << " with index: " << get_relation_index(r) << endl;
     return save( get_relation_index(r) );
 }
 
@@ -429,8 +429,7 @@ void Database::print_relation(Relation relation_name){
 	
 	printf ("Relation name:%s \n", relation_name.name.c_str());
     std::cout << "Relation size " << relation_name.tuples.size() << std::endl;
-	cout<<endl;
-	
+		
 	for(int i = 0; (i-1)<(rel_s/4); i++){printf ("--");}
 	printf("Attributes");
 	for(int i = 0; (i-1)<(rel_s/4); i++){printf ("--");}
