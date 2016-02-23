@@ -519,7 +519,7 @@ void Database::app_print_relation(Relation relation_name){
         for(int i = 0; i < relation_name.tuples[k].num_attributes(); i++){
             cout << relation_name.tuples[k].get_cell(i).get_data().c_str() << " ";
             
-            if (i == ( relation_name.tuples[k].num_attributes() - 1) ) {
+            if (i != ( relation_name.tuples[k].num_attributes() - 1) ) {
                 cout << "- ";
             }
         }
