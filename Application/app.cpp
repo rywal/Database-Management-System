@@ -33,28 +33,28 @@ void create_booths_table() {
 }
 
 void create_services_table() {
-    string name = "";
-    vector<string> attribute_names {""};
-    vector<int> attribute_types {};
-    vector<string> primary_keys {""};
+    string name = "services";
+    vector<string> attribute_names {"electricity", "furniture", "electronics", "barcode_scanner", "advertisement", "insurance"};
+    vector<int> attribute_types {0, 0, 0, 0, 0, 0 };
+    vector<string> primary_keys {"electricity", "electronics"};
     
     rdbms.create_relation(name, attribute_names, attribute_types, primary_keys);
 }
 
 void create_attendees_table() {
-    string name = "";
-    vector<string> attribute_names {""};
-    vector<int> attribute_types {};
-    vector<string> primary_keys {""};
+    string name = "attendees";
+    vector<string> attribute_names {"name", "organization", "address", "email", "registration_fee", "category", "exhibits_visited", "badge_status"};
+    vector<int> attribute_types {0, 0, 0, 0, 0, 0, 0, 0};
+    vector<string> primary_keys {"name", "organization", "exhibits_visited" , "badge_status"};
     
     rdbms.create_relation(name, attribute_names, attribute_types, primary_keys);
 }
 
 void create_inventory_table() {
-    string name = "";
-    vector<string> attribute_names {""};
-    vector<int> attribute_types {};
-    vector<string> primary_keys {""};
+    string name = "inventory";
+    vector<string> attribute_names {"electronics", "furniture"};
+    vector<int> attribute_types {0, 0};
+    vector<string> primary_keys {"electronics", "furniture"};
     
     rdbms.create_relation(name, attribute_names, attribute_types, primary_keys);
 }
@@ -131,6 +131,9 @@ void display_booths_menu() {
 }
 
 void display_services_menu() {}
+
+
+
 void display_finance_menu() {}
 void display_attendees_menu() {}
 void display_inventory_menu() {}
