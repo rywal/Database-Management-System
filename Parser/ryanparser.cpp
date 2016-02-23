@@ -11,9 +11,13 @@
 #include <cstring>
 #include <vector>
 #include <fstream>
-//#include <iostream>
-//#include <limits>
 #include "../DBCore/Database.h"
+
+//------GLOBAL-VARIABLE------//
+ofstream output;
+int error;
+//---------------------------//
+
 bool is_query(string command){
 	return ((command[0]>96 && command[0]<123)||command[0]==95);
 }
@@ -64,11 +68,13 @@ Relation interpret_select(Database &db, std::vector<std::string> query){
 	//3) the selection is at the end of it's conditions
 		query.erase(query.begin(), query.begin()+3); 
 		std::vector<std::string> rest_of_query = query;
-	std::cout << "Selecting " << att_name << " with value " << value << " with operation " << which_op(compare) <<" from "<<rest_of_query[0]<<endl;
+	std::cout << "Selecting " << att_name << " with value " << value << " with operation " << which_op(compare) <<" from "<<rest_of_query[0]<<endl;//Left as FUNCTIONALITY, not debugging specifically
 		return db.select(att_name, value, which_op(compare), interpret_query(db, rest_of_query));
 	} 
     } else{
-	cout<<"Error not enough tokens to parse the select query"<<endl;
+		cout<<"Error not enough tokens to parse the select query"<<endl;
+		output<<"The SELECT interpreter was not given the correct number of arguments"<<endl;
+		error=16;
     }
 }
 
@@ -144,10 +150,9 @@ bool interpret_create(Database &db, std::vector<std::string> command) {
         for (i = 1; i < command.size(); i++){
             if (command[i] == "PRIMARY")
                 break;
-            
+
             if (!column_name_just_found) {
                 attribute_names.push_back( command[i] );
-     //           std::cout << "Attribute found with name: " << command[i];
                 column_name_just_found = true;
             } else {
                 if (command[i] == "VARCHAR") {
@@ -155,26 +160,22 @@ bool interpret_create(Database &db, std::vector<std::string> command) {
                     std::string::size_type sz;
                     int attribute_size = std::stoi (command[i], &sz);
                     attribute_sizes.push_back( attribute_size );
-         //           std::cout << " Inserting with size: " << attribute_size << std::endl;
                 } else if(command[i] == "INTEGER") {
                     attribute_sizes.push_back(0);
-           //         std::cout << " Inserting with size: 0" << std::endl;
                 }
-                
                 column_name_just_found = false;
             }
         }
-        
         if (command[i] == "PRIMARY" && command[i+1] == "KEY") {
             for (i = i+2; i < command.size(); i++){
                 primary_keys.push_back( command[i] );
             }
         }
-        
         db.create_relation(relation_name, attribute_names, attribute_sizes, primary_keys);
-        
     } else {
         std::cout << "Not enough tokens given to interpret a create statement" << std::endl;
+		output<<"The CREATE interpreter was not given the correct number of arguments"<<endl;
+		error=15;
     }
 }
 
@@ -193,10 +194,8 @@ bool interpret_insert(Database &db, std::vector<std::string> command) {
 		 		from_relation=true;
                 break;
        		}
-
             if (command[i]!= "VALUES" && command[i] != "FROM") {
                 attribute_values.push_back( command[i] );
-           //     std::cout << "Attribute found with name: " << command[i]<<endl;
             }  
         }
         
@@ -209,6 +208,8 @@ bool interpret_insert(Database &db, std::vector<std::string> command) {
         }
     } else {
         std::cout << "Not enough tokens given to interpret an insert statement" << std::endl;
+		output<<"The INSERT interpreter was not given the correct number of arguments"<<endl;
+		error=14;
     }
 }
 
@@ -218,6 +219,8 @@ bool interpret_show(Database &db, std::vector<std::string> command){
 			string relation_name=command[0];
 			if(db.get_relation_index(relation_name)==(-1)){//If it doesn't exist
 				printf("The relation named: %s does not exist.\n", relation_name.c_str());
+				output<<"The relation named: "<<relation_name.c_str()<<" does not exist."<<endl;
+				error=13;
 			} else{//If it exists, print it (or show it to screen)
 				db.print_relation(db.get_relation(relation_name));
 			}
@@ -227,6 +230,8 @@ bool interpret_show(Database &db, std::vector<std::string> command){
 		}
 	}else {
           std::cout << "Not enough tokens given to interpret a show statement" << std::endl;
+		  output<<"The SHOW interpreter was not given the correct number of arguments"<<endl;
+		  error=12;
        }	
 }
 bool interpret_update(Database &db, std::vector<std::string> command, string relation_name){
@@ -247,6 +252,8 @@ bool interpret_update(Database &db, std::vector<std::string> command, string rel
 		index++;
 		if(command[index] != "="){
 			cerr<<"Expected an \"=\" after the attribute-name\n";
+			output<<"Update Intrepreter was expected an = after attribute-name"<<endl;
+			error=11;
 		}
 		index++;
 		literals.push_back(command[index]);
@@ -257,28 +264,6 @@ bool interpret_update(Database &db, std::vector<std::string> command, string rel
 	rest_of_query.push_back(relation_name);
 	db.print_relation(interpret_select(db, rest_of_query));
 	db.update(db.get_relation(relation_name), names, literals, interpret_select(db, rest_of_query));
-	/*for(index; (index+3)<command.size(); index++){
-		compare_atts.push_back(command[index]);
-		index++;
-		op_v.push_back(command[index]);
-		index++;
-		compare_values.push_back(command[index]);
-		index++;
-		if (command[index]=="&&" || command[index]=="||" )
-			conjunctions.push_back()
-	}
-		compare_atts.push_back(command[index]);
-		index++;
-		op_v.push_back(command[index]);
-		index++;
-		compare_values.push_back(command[index]);
-		index++;
-			
-	for(int i=0; i<names.size(); i++){
-		
-		cout<<"updating: "<<names[i]<<" : "<<op_v[i]<<" : "<<compare_values[i]<< " : "<<literals[i]<<" : "<<compare_atts[i]<<endl;
-		db.update(db.get_relation(relation_name), names[i], op_v[i], compare_values[i], literals[i], compare_atts[i]);
-	}*/
 }	
 			
 void interpret_command(Database &db, std::vector<std::string> command) {	
@@ -289,8 +274,9 @@ void interpret_command(Database &db, std::vector<std::string> command) {
             interpret_create(db, rest_of_commands);
         } else {
             std::cout << "Error parsing your command - either not enough tokens or 'TABLE' not found" << std::endl;
+			output<<"CREATE was not given the correct number of arguments"<<endl;
+			error=10;
         }
-        
     } else if(command[0] == "INSERT") {
         if (command.size() > 2 && command[1] == "INTO") {
             command.erase (command.begin(), command.begin()+2);
@@ -298,6 +284,8 @@ void interpret_command(Database &db, std::vector<std::string> command) {
 	     interpret_insert(db, rest_of_commands);
         } else {
             std::cout << "Error parsing your command - either not enough tokens or 'INTO' not found" << std::endl;
+			output<<"INSERT was not given the correct number of arguments"<<endl;
+			error=9;
         }
     } else if(command[0] == "SHOW"){
 		if (command.size() > 1){
@@ -310,6 +298,8 @@ void interpret_command(Database &db, std::vector<std::string> command) {
 			interpret_show(db, rest_of_commands);
 		} else {
             std::cout << "Error parsing your command - not enough tokens"<< std::endl;
+			output<<"SHOW was not given the correct number of arguments"<<endl;
+			error=8;
         }  
     } else if(command[0] == "SAVE"){
     	if (command.size()==2){
@@ -317,6 +307,8 @@ void interpret_command(Database &db, std::vector<std::string> command) {
     	} else{
     		cout<<"Too many tokens for a SAVE command which can only take the form:\n";
     		cout<<"SAVE \'relation-name\'\n";
+			output<<"The format for SAVE was not correct"<<endl;
+			error=7;
     	}
     } else if(command[0]=="OPEN"){
 		if (command.size()==2){
@@ -326,6 +318,8 @@ void interpret_command(Database &db, std::vector<std::string> command) {
 			file_input(db, input,filename,true);
 		} else {
 			printf("The number of arguments for OPEN is incorrect.\n");
+			output<<"OPEN was not given the correct number of arguments."<<endl;
+			error=6;
 		}
     } else if(command[0]== "CLOSE"){
 		if (command.size()==2){
@@ -337,6 +331,8 @@ void interpret_command(Database &db, std::vector<std::string> command) {
 			}
 		} else {
 			printf("The number of arguments for CLOSE is incorrect.\n");
+			output<<"CLOSE was not given the correct number of arguments."<<endl;
+			error=5;
 		}
     } else if(command[0]=="DELETE"){
     
@@ -348,9 +344,13 @@ void interpret_command(Database &db, std::vector<std::string> command) {
 			interpret_update(db, rest_of_commands, relation_name);
 		} else {
 			std::cout << "Error parsing your command - not enough tokens or SET was not found"<< std::endl;
+			output<<"UPDATE was not given the correct number of arguments."<<endl;
+			error=3;
 		}
     } else {
         std::cout << "Error parsing your command" << std::endl;
+		output<<"There was an error parsing the last command."<<endl;
+		error=2;
     }
 }
 Relation interpret_query(Database &db, std::vector<std::string> query){
@@ -390,7 +390,10 @@ void query_or_command(Database &db, std::vector<std::string> command_line){
 			db.create_relation(relation_name, interpret_query(db, rest_of_query));
 	//		cout<<"just created relation with the name: "<<relation_name<<endl;
 		} else{
-			cout<<"Error parsing your command expected <- after relation-name"<<endl;	}
+			cout<<"Error parsing your command expected <- after relation-name"<<endl;
+			output<<"Query failed. Expecting <- after relation-name"<<endl;
+			error=1;
+		}
 	} else{
 		interpret_command(db, command_line);
 	}
@@ -420,20 +423,41 @@ int file_input(Database &db, FILE *input, string filename, bool is_open){
 				pch = strtok (NULL, delimiters.c_str());
 		}
 		if(command_list[0]=="EXIT" && command_list.size()==1){//Preventing SegFault
+			output<<"-=-=-=-=-EXITED-=-=-=-=-"<<endl;
 			exit(0);
 		} else{query_or_command(db, command_list);}
+		if(!is_open){
+			if(error==0){
+				output<<"Line number "<<line_number<<" was successful!"<<endl;
+			} else {output<<"Line number "<<line_number<<" FAILED!"<<endl;}
+		} else{
+			if(error==0){
+				output<<"In file "<<filename.c_str()<<", line number "<<line_number<<" was successful!"<<endl;
+			} else{
+				output<<"In file "<<filename.c_str()<<", line number "<<line_number<<" FAILED!"<<endl;
+			}
+		}
 		command_list.clear();
 		free(pch);
+		line_number++;
 	}
 	if(is_open){
-		printf("%s was successfully opened!\n", filename.c_str());
+		if(error==0){
+			printf("%s was successfully opened!\n", filename.c_str());
+			output<<"The file "<<filename.c_str()<<" was successfully opened!"<<endl;
+		} else{ 
+			printf("There were problems opening %s\n", filename.c_str());
+			output<<"The file "<<filename.c_str()<<" FAILED to opened correctly!"<<endl;
+		}
+	} else{
+		output<<"-=-=-=-=-=END-=-=-=-=-=-";
 	}
 	fclose(input);
 }
 
 int main() {
- 	ofstream output;
 	output.open ("Output.txt");
+	output<<"-=-=-=-=-BEGIN=-=-=-=-=-"<<endl;
 	Database db("db");
 	char* str;
 	char* pch;
@@ -485,23 +509,30 @@ int main() {
 		cin.clear();
 		cin.sync();
 		cin.ignore();
+		int command_number=1;
 		while(1){
-		//std::cin.ignore( std::numeric_limits<std::streamsize>::max(), '\n' );
-		printf("Please enter a command:\n");
-		string command;
-		std::getline (std::cin,command);
-		
-		pch = strtok ((char*)command.c_str(), delimiters.c_str());//Lexer
-			while (pch != NULL) {
-				command_list.push_back(pch);
-				pch = strtok (NULL, delimiters.c_str());
+			error=0;
+			printf("Please enter a command:\n");
+			string command;
+			std::getline (std::cin,command);
+			
+			pch = strtok ((char*)command.c_str(), delimiters.c_str());//Lexer
+				while (pch != NULL) {
+					command_list.push_back(pch);
+					pch = strtok (NULL, delimiters.c_str());
+			}
+			if(command_list[0]=="EXIT" && command_list.size()==1){//Preventing SegFault
+				exit(0);
+			} else{query_or_command(db, command_list);}
+			if(error==0){
+				output<<"Command number "<<command_number<<" was successful!"<<endl;
+			} else{
+				output<<"Command number "<<command_number<<" Failed!"<<endl;
+			}
+			command_list.clear();
+			free(pch);
+			command_number++;
 		}
-		if(command_list[0]=="EXIT" && command_list.size()==1){//Preventing SegFault
-			exit(0);
-		} else{query_or_command(db, command_list);}
-		command_list.clear();
-		free(pch);
-	}
 	}
 	output.close();
 	
