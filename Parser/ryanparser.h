@@ -68,7 +68,6 @@ Relation interpret_select(Database &db, std::vector<std::string> query){
 	//3) the selection is at the end of it's conditions
 		query.erase(query.begin(), query.begin()+3); 
 		std::vector<std::string> rest_of_query = query;
-	std::cout << "Selecting " << att_name << " with value " << value << " with operation " << which_op(compare) <<" from "<<rest_of_query[0]<<endl;//Left as FUNCTIONALITY, not debugging specifically
 		return db.select(att_name, value, which_op(compare), interpret_query(db, rest_of_query));
 	} 
     } else{
@@ -343,6 +342,8 @@ void interpret_command(Database &db, std::vector<std::string> command) {
 			db.delete_tups(db.get_relation(relation_name), interpret_select(db, rest_of_commands));
     	}else{
     		cout<<"Error parsing your command- not enough tokens or FROM was not found"<<endl;
+			output<<"DELTE was not given the correct number of arguments."<<endl;
+			error=3;
     	}
     } else if(command[0]=="UPDATE"){
 		if(command.size()>6 && command[2]=="SET"){
@@ -420,6 +421,7 @@ int file_input(Database &db, FILE *input, string filename, bool is_open){
 	int line_number=1;
 	size_t buffer_size=0;
 	while(!feof(input)){
+		error=0;
 		getline(&str, &buffer_size, input); 
 		string command(str);
 		if(!is_open){
@@ -461,89 +463,4 @@ int file_input(Database &db, FILE *input, string filename, bool is_open){
 		output<<"-=-=-=-=-=END-=-=-=-=-=-";
 	}
 	fclose(input);
-}
-
-int main() {
-	output.open ("Output.txt");
-	output<<"-=-=-=-=-BEGIN=-=-=-=-=-"<<endl;
-	Database db("db");
-	char* str;
-	char* pch;
-	int i=0;
-	size_t buffer_size=0;
-	string delimiters = " ,();\n";
-	vector<string> command_list;	
-	if(!output){ //This should never happen
-		printf("\nThe Output file is not found!");
-		exit(EXIT_FAILURE);//Showing error status code
-	}
-	string f_or_h;
-	printf("For this run, would you like to take input from an \"Input.txt\" file [f], or type commands in by hand[h]?\n(If your input has a \".txt\" in it, it'll be processes as a file)\n>");//Giving better testing handles
-	cin >>  f_or_h;
-	int loop=1;
-	while (loop==1){
-		if(f_or_h != "h" && f_or_h != "H" && f_or_h != "hand" && f_or_h != "f" && f_or_h != "F" && f_or_h != "file" && !strstr(f_or_h.c_str(),".txt")){
-		//	std::cin.ignore( std::numeric_limits<std::streamsize>::max(), '\n' );
-		//	f_or_h = "";
-			printf("Please re-enter your prefered input method [f\\h]\n>");
-			cin >>  f_or_h;
-		} else{loop=0;}
-	}
-	if(f_or_h == "f" || f_or_h == "F" || f_or_h == "file" || strstr(f_or_h.c_str(),".txt")){
-		char* input_file;
-		FILE *input;
-		string filename;
-		string input_f="";
-		//input_file="input.txt"; 
-		if(strstr(f_or_h.c_str(),".txt")){
-			string input_w = "Parser/" + f_or_h;
-			filename = "Parser/" + f_or_h;
-			input=fopen(input_w.c_str(), "r");
-		}else{
-			printf("Please input the file you would like to use. \n(Please note, this is automated, no other input will be read)\n>");
-			/*getline(&input_file, &buffer_size, stdin);
-			filename = "input.txt";
-			input= fopen("input.txt", "r");*/
-			cin.clear();
-			cin.sync();
-			cin.ignore();
-			cin>>input_f;
-			string input_w = "Parser/" + input_f;
-			filename = "Parser/" + input_f;
-			input=fopen(input_w.c_str(), "r");
-		}
-		file_input(db, input, filename, false);//Where the action happens
-	} else if (f_or_h == "h" || f_or_h == "H" || f_or_h == "hand"){
-		cin.clear();
-		cin.sync();
-		cin.ignore();
-		int command_number=1;
-		while(1){
-			error=0;
-			printf("Please enter a command:\n");
-			string command;
-			std::getline (std::cin,command);
-			
-			pch = strtok ((char*)command.c_str(), delimiters.c_str());//Lexer
-				while (pch != NULL) {
-					command_list.push_back(pch);
-					pch = strtok (NULL, delimiters.c_str());
-			}
-			if(command_list[0]=="EXIT" && command_list.size()==1){//Preventing SegFault
-				exit(0);
-			} else{query_or_command(db, command_list);}
-			if(error==0){
-				output<<"Command number "<<command_number<<" was successful!"<<endl;
-			} else{
-				output<<"Command number "<<command_number<<" Failed!"<<endl;
-			}
-			command_list.clear();
-			free(pch);
-			command_number++;
-		}
-	}
-	output.close();
-	
-    //db.print_relation( db.get_relation("dogs") );
-    return 0;
 }

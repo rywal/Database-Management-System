@@ -1,1 +1,50 @@
 -=-=-=-=-BEGIN=-=-=-=-=-
+Line number 1 was successful!
+Line number 2 was successful!
+Line number 3 was successful!
+Line number 4 was successful!
+Line number 5 was successful!
+Line number 6 was successful!
+Line number 7 was successful!
+Line number 8 was successful!
+Line number 9 was successful!
+Line number 10 was successful!
+Line number 11 was successful!
+Line number 12 was successful!
+Line number 13 was successful!
+Line number 14 was successful!
+Line number 15 was successful!
+Line number 16 was successful!
+Line number 17 was successful!
+Line number 18 was successful!
+Line number 19 was successful!
+Line number 20 was successful!
+Line number 21 was successful!
+Line number 22 was successful!
+Line number 23 was successful!
+Line number 24 was successful!
+Line number 25 was successful!
+Line number 26 was successful!
+Line number 27 was successful!
+Line number 28 was successful!
+Line number 29 was successful!
+Line number 30 was successful!
+Line number 31 was successful!
+Line number 32 was successful!
+Line number 33 was successful!
+Line number 34 was successful!
+Line number 35 was successful!
+Line number 36 was successful!
+The relation named: animals does not exist.
+Line number 37 FAILED!
+In file animals.db, line number 1 was successful!
+In file animals.db, line number 2 was successful!
+In file animals.db, line number 3 was successful!
+In file animals.db, line number 4 was successful!
+In file animals.db, line number 5 was successful!
+In file animals.db, line number 6 was successful!
+In file animals.db, line number 7 was successful!
+The file animals.db was successfully opened!
+Line number 38 was successful!
+Line number 39 was successful!
+-=-=-=-=-EXITED-=-=-=-=-
