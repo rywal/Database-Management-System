@@ -18,7 +18,7 @@ int role = 4; // initialize role to something with no privileges
 void create_exhibits_table() {
     string name = "exhibits";
     vector<string> attribute_names {"company", "address", "contact", "email", "phone", "fax", "category", "booth_personnel", "description", "website"};
-    vector<int> attribute_types {20, 100, 20, 20, 15, 15, 0, 100, 100, 50};
+    vector<int> attribute_types {40, 100, 20, 20, 15, 15, 0, 100, 100, 50};
     vector<string> primary_keys {"company"};
     
     rdbms.create_relation(name, attribute_names, attribute_types, primary_keys);
@@ -27,7 +27,7 @@ void create_exhibits_table() {
 void create_booths_table() {
     string name = "booths";
     vector<string> attribute_names {"company", "starting_row", "ending_row", "column", "type"};
-    vector<int> attribute_types {20, 0, 0, 0, 0};
+    vector<int> attribute_types {40, 0, 0, 0, 0};
     vector<string> primary_keys {"company", "starting_row", "ending_row", "column"};
     
     rdbms.create_relation(name, attribute_names, attribute_types, primary_keys);
@@ -44,9 +44,9 @@ void create_services_table() {
 
 void create_attendees_table() {
     string name = "attendees";
-    vector<string> attribute_names {"name", "organization", "address", "email", "registration_fee", "category", "exhibits_visited", "badge_status"};
-    vector<int> attribute_types {0, 0, 0, 0, 0, 0, 0, 0};
-    vector<string> primary_keys {"name", "organization", "exhibits_visited" , "badge_status"};
+    vector<string> attribute_names {"name", "organization", "address", "email", "registration_fee", "category", "badge_status"};
+    vector<int> attribute_types {40, 40, 100, 25, 0, 0, 0};
+    vector<string> primary_keys {"name", "organization", "badge_status"};
     
     rdbms.create_relation(name, attribute_names, attribute_types, primary_keys);
 }
@@ -54,7 +54,7 @@ void create_attendees_table() {
 void create_exhibits_visited_table() {
     string name = "exhibits_visited";
     vector<string> attribute_names {"attendee", "exhibitor"};
-    vector<int> attribute_types {100, 100};
+    vector<int> attribute_types {40, 40};
     vector<string> primary_keys {"attendee"};
     
     rdbms.create_relation(name, attribute_names, attribute_types, primary_keys);
@@ -388,7 +388,7 @@ void list_attendees(bool with_criteria) {
 }
 
 void register_attendee() {
-    vector<string> fields {"name", "organization", "address", "email", "registration_fee", "category", "exhibits_visited", "badge_status"};
+    vector<string> fields {"name", "organization", "address", "email", "registration_fee", "category", "badge_status"};
     vector<string> values;
     
     // Need to clear out the newline held in cin
@@ -487,12 +487,14 @@ void display_attendees_menu() {
 	cout << "A1. Add attendee to exhibit's visited list\n";
 	cout << "A2. Remove attendee from exhibit's visited list\n";
     cout << "A3. Show attendees who visited an exhibit\n";
-    cout << "A4. List attendees";
+    cout << "A4. List attendees\n";
 	cout << "A5. Register new attendee\n";
 	cout << "A6. Remove attendee\n";
 	cout << "A7. Search attendees based on criteria\n";
 }
 void display_inventory_menu() {
+    cout << "\nInventory\n";
+    cout << "----------\n";
 	cout << "I1. Add to inventory\n";
 	cout << "I2. Remove from inventory\n";
     cout << "I3. List inventory\n";
@@ -500,6 +502,7 @@ void display_inventory_menu() {
 
 // Intepret the given command
 bool interpret_command(string command){
+    system("clear");
     if (command.at(0) == 'Q' || command.length() < 2) {
         // Quit command given
         return true;
@@ -507,7 +510,6 @@ bool interpret_command(string command){
     
     // Get the second character in the given command
     int sub_command = command.at(1) - '0';
-    cout << "Command given: " << command << " breaks down to have a sub_command of: " << sub_command << "\n";
     
     // Quit command not given, continue parsing
     if (command.at(0) == 'E') {
@@ -611,7 +613,7 @@ int main(){
     // create_NAME_table();
     
     // Find user's role
-    while (role < 0) {
+    while (role < 0 || role > 3) {
         display_welcome_message();
         cin >> role;
         
@@ -637,9 +639,15 @@ int main(){
     bool stop = false;
     while (!stop) {
         if (role == EXHIBIT_MANAGER){
+            cout << "---------------------------------\n";
+            cout << "-           Main Menu           -\n";
+            cout << "---------------------------------\n";
             display_exhibits_menu();
             display_booths_menu();
-            // TODO: Fill in rest of applicable menus here
+            display_services_menu();
+            display_finance_menu();
+            display_attendees_menu();
+            display_inventory_menu();
             cout << "Input your command: ";
             
             cin >> next_command;
@@ -650,14 +658,13 @@ int main(){
             cout << "Input your command: ";
 
             cin >> next_command;
-	    stop = interpret_command(next_command);
-
+	    	stop = interpret_command(next_command);
         } else if (role == ATTENDEE) {
             display_attendees_menu();
-	    cout << "Input your command; ";
+	    	cout << "Input your command; ";
 
             cin >> next_command;
-	    stop = interpret_command(next_command);
+	    	stop = interpret_command(next_command);
         }
     }
 	
