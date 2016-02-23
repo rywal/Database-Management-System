@@ -61,14 +61,31 @@ void create_inventory_table() {
 
 // Exhibitors
 void list_exhibitors(bool with_criteria) {
+    cout << "Listing exhibitors\n";
+    
     // If criteria is needed, get it
     if (with_criteria) {
         string criteria;
         cout << "Input your criteria in the grammar of the DML: ";
-        cin >> criteria
+        cin >> criteria;
+
+        if (criteria.length() <= 0) {
+            cout << "Warning: Criteria was not given. Proceeding as if it was not required";
+            with_criteria = false;
+        } else {
+        	string query = "SELECT FROM exhibits WHERE " + criteria + ";";
+            // TODO: Need to check this input for validity and then plug it into a select query
+        }
     }
     
-    
+    // Fetch proper list of exhibitors and print
+    if (with_criteria) {
+        Relation &list_relation = rdbms.get_relation("exhibitors");
+        rdbms.print_relation( list_relation );
+    } else {
+        Relation list_relation = rdbms.get_relation("exhibitors");
+        rdbms.print_relation( list_relation );
+    }
 }
 
 
@@ -111,7 +128,8 @@ bool interpret_command(string command){
     }
     
     // Get the second character in the given command
-    int sub_command = command.at(1);
+    int sub_command = command.at(1) - '0';
+    cout << "Command given: " << command << " breaks down to have a sub_command of: " << sub_command << "\n";
     
     // Quit command not given, continue parsing
     if (command.at(0) == 'E') {
@@ -126,11 +144,11 @@ bool interpret_command(string command){
                 break;
                 
             case 3:
-                register_exhibitor();
+//                register_exhibitor();
                 break;
                 
             case 4:
-                remove_exhibitor();
+//                remove_exhibitor();
                 break;
         }
     } else if (command.at(0) == 'B'){
