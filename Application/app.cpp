@@ -130,13 +130,31 @@ void display_booths_menu() {
     cout << "B3. \n";
 }
 
-void display_services_menu() {}
-
-
+void display_services_menu() {
+	cout << "S1. Electricity";
+	cout << "S2. Furniture";
+	cout << "S3. Electronics";
+	cout << "S4. Bar-Code Scanner";
+	cout << "S5. Advertisement";
+	cout << "S6. Insurance";
+}
 
 void display_finance_menu() {}
-void display_attendees_menu() {}
-void display_inventory_menu() {}
+
+void display_attendees_menu() {
+	cout << "Name:";
+	cout << "Organization: ";
+	cout << "Address: ";
+	cout << "E-mail: ";
+	cout << "Registration Fee: ";
+	cout << "Category: ";
+	cout << "Exhibits visited: ";
+	cout << "Badge status: ";
+}
+void display_inventory_menu() {
+	cout << "Electronics: ";
+	cout << "Furniture: ";
+}
 
 // Intepret the given command
 bool interpret_command(string command){
