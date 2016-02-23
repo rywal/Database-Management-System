@@ -30,6 +30,7 @@ public:
     Relation set_difference(string name, Relation a, Relation b);
     Relation cross_product(string name, Relation a, Relation b);
     std::vector<string> outputRelation(int index);
+    bool open() {}
     bool save(int index);
     bool save(string r);
     bool close(int index);
