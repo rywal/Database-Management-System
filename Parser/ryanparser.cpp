@@ -214,7 +214,11 @@ bool interpret_show(Database &db, std::vector<std::string> command){
 	if (command.size()>0){
 		if(command.size()==1){
 			string relation_name=command[0];
-			db.print_relation(db.get_relation(relation_name));
+			if(db.get_relation_index(relation_name)==(-1)){
+				printf("The relation named: %s does not exist.\n", relation_name.c_str());
+			} else{
+				db.print_relation(db.get_relation(relation_name));
+			}
 		}
 		else{
 			db.print_relation(interpret_query(db, command));
@@ -325,8 +329,8 @@ void interpret_command(Database &db, std::vector<std::string> command) {
 		if (command.size()==2){
 			db.save(command[1]);
 			for(int i=0; i< db.relations.size();i++){
-				if(db.relations.get_relation(i).name.c_str()==command[1]){
-					db.relations.erase(vec.begin() + i);
+				if(db.get_relation(i).name.c_str()==command[1]){
+					db.relations.erase(db.relations.begin() + i);
 				}
 			}
 		} else {
