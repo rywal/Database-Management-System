@@ -313,12 +313,25 @@ void interpret_command(Database &db, std::vector<std::string> command) {
     		cout<<"SAVE \'relation-name\'\n";
     	}
     } else if(command[0]=="OPEN"){
-		string input_w = command[1]+".db";
-		string filename = command[1]+".db";
-		FILE *input=fopen(input_w.c_str(), "r");
-		file_input(db, input,filename);
+		if (command.size()==2){
+			string input_w = command[1]+".db";
+			string filename = command[1]+".db";
+			FILE *input=fopen(input_w.c_str(), "r");
+			file_input(db, input,filename);
+		} else {
+			printf("The number of arguments for OPEN is incorrect.\n");
+		}
     } else if(command[0]== "CLOSE"){
-    
+		if (command.size()==2){
+			db.save(command[1]);
+			for(int i=0; i< db.relations.size();i++){
+				if(db.relations.get_relation(i).name.c_str()==command[1]){
+					db.relations.erase(vec.begin() + i);
+				}
+			}
+		} else {
+			printf("The number of arguments for CLOSE is incorrect.\n");
+		}
     } else if(command[0]=="DELETE"){
     
     } else if(command[0]=="UPDATE"){

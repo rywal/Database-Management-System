@@ -32,4 +32,6 @@ SHOW animals;
 answer <- common_names;
 SHOW answer;
 OPEN animals;
+CLOSE animals;
+SHOW animals;
 EXIT;
