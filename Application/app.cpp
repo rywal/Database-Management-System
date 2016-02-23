@@ -12,6 +12,7 @@
 using namespace std;
 
 Database rdbms("db");
+int role = 4; // initialize role to something with no privileges
 
 // Create needed tables
 void create_exhibits_table() {
@@ -345,6 +346,47 @@ void list_visited_list(string e) {
     rdbms.app_print_relation( list_relation );
 }
 
+void list_attendees(bool with_criteria) {
+    // If criteria is needed, get it
+    string query = "";
+    if (with_criteria) {
+        string criteria;
+        
+        // Need to clear out the newline held in cin
+        cin.ignore(1,'\n');
+        
+        cout << "Input your criteria in the grammar of the DML: ";
+        getline( cin, criteria );
+        
+        if (criteria.length() <= 0) {
+            cout << "Warning: Criteria was not given. Proceeding as if it was not required";
+            with_criteria = false;
+        } else {
+            query = "select (" + criteria + ") attendees;";
+            // TODO: Need to check this input for validity and then plug it into a select query
+        }
+    }
+    
+    // Fetch proper list of exhibitors and print
+    if (with_criteria) {
+        char* pch;
+        string delimiters = " \",();\n";
+        vector<string> command_list;
+        
+        pch = strtok ((char*)query.c_str(), delimiters.c_str());//Lexer
+        while (pch != NULL) {
+            command_list.push_back(pch);
+            pch = strtok (NULL, delimiters.c_str());
+        }
+        
+        Relation list_relation = interpret_query( rdbms, command_list );
+        rdbms.app_print_relation( list_relation );
+    } else {
+        Relation list_relation = rdbms.get_relation("attendees");
+        rdbms.app_print_relation( list_relation );
+    }
+}
+
 void register_attendee() {
     vector<string> fields {"name", "organization", "address", "email", "registration_fee", "category", "exhibits_visited", "badge_status"};
     vector<string> values;
@@ -445,14 +487,15 @@ void display_attendees_menu() {
 	cout << "A1. Add attendee to exhibit's visited list\n";
 	cout << "A2. Remove attendee from exhibit's visited list\n";
     cout << "A3. Show attendees who visited an exhibit\n";
-    cout << "A6. List attendees";
-	cout << "A4. Register new attendee\n";
-	cout << "A5. Remove attendee\n";
+    cout << "A4. List attendees";
+	cout << "A5. Register new attendee\n";
+	cout << "A6. Remove attendee\n";
 	cout << "A7. Search attendees based on criteria\n";
 }
 void display_inventory_menu() {
-	cout << "I1. Electronics ";
-	cout << "I2. Furniture";
+	cout << "I1. Add to inventory\n";
+	cout << "I2. Remove from inventory\n";
+    cout << "I3. List inventory\n";
 }
 
 // Intepret the given command
@@ -470,79 +513,78 @@ bool interpret_command(string command){
     if (command.at(0) == 'E') {
         // Exhibits menu
         switch (sub_command) {
-            case 1:
+            case 1: // E1. List Exhibitors
                 list_exhibitors(false);
                 break;
                 
-            case 2:
+            case 2: // E2. List Exhibitors(based on criteria)
                 list_exhibitors(true);
                 break;
                 
-            case 3:
+            case 3: // E3. Register new Exhibitor
                 register_exhibitor();
                 break;
                 
-            case 4:
+            case 4: // E4. Remove Exhibitor(s)
                 remove_exhibitor();
                 break;
         }
     } else if (command.at(0) == 'B'){
         // Booths menu
-		switch (sub_command) {
-            case 1:
+        switch (sub_command) {
+            case 1: // B1. Assign booth location to exhibitor
                 register_booth_location();
                 break;
                 
-            case 2:
+            case 2: // B2. Delete booth location of exhibitor
                 remove_booth_location();
                 break;
                 
-            case 3:
+            case 3: // B3. List booth locations of exhibitor
                 list_booth_locations();
                 break;
         }
     } else if (command.at(0) == 'S'){
         // Services menu
 		switch (sub_command) {
-            case 1:
+            case 1: // S1. Assign services to exhibitor
                 break;
-            case 2:
+            case 2: // S2. Remove services from exhibitor
                 break;
-            case 3:
+            case 3: // S3. List services for exhibitor
                 break;
-            case 4:
-                break;
-			case 5:
-				break;
-			case 6:
-				break;
         }
     } else if (command.at(0) == 'F'){
         // Finance menu
         switch (sub_command){
-			case 1:
+			case 1: // F1. Show invoice for exhibitor
 				break;
-			case 2:
+			case 2: // F2. Show total revenue
 				break;
 		}
     } else if (command.at(0) == 'A'){
         // Attendees menu
-		switch (sub_command) {
-			case 1:
+        switch (sub_command) {
+			case 1: // A1. Add attendee to exhibit's visited list
+                add_to_visited_list("", "");
 				break;
-			case 2:
+			case 2: // A2. Remove attendee from exhibit's visited list
+                remove_from_visited_list("", "");
 				break;
-			case 3:
+			case 3: // A3. Show attendees who visited an exhibit
+                list_visited_list("");
 				break;
-			case 4:
+			case 4: // A4. List attendees
+                list_attendees(false);
 				break;
-			case 5:
+			case 5: // A5. Register new attendee
+                register_attendee();
 				break;
-			case 6:
+			case 6: // A6. Remove attendee
+                remove_attendee();
 				break;
-			case 7:
-				break;
-			case 8:
+			case 7: // A7. Search attendees based on criteria
+                list_attendees(true);
 				break;
 		}
     } else if (command.at(0) == 'I'){
@@ -569,7 +611,6 @@ int main(){
     // create_NAME_table();
     
     // Find user's role
-	int role = -1;
     while (role < 0) {
         display_welcome_message();
         cin >> role;
