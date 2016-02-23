@@ -50,6 +50,15 @@ void create_attendees_table() {
     rdbms.create_relation(name, attribute_names, attribute_types, primary_keys);
 }
 
+void create_exhibits_visited_table() {
+    string name = "exhibits_visited";
+    vector<string> attribute_names {"attendee", "exhibitor"};
+    vector<int> attribute_types {100, 100};
+    vector<string> primary_keys {"attendee"};
+    
+    rdbms.create_relation(name, attribute_names, attribute_types, primary_keys);
+}
+
 void create_inventory_table() {
     string name = "inventory";
     vector<string> attribute_names {"electronics", "furniture"};
@@ -240,6 +249,155 @@ void list_booth_locations() {
 
 
 
+// Attendees
+void add_to_visited_list(string a, string e) {
+    string attendee = a;
+    string exhibitor = e;
+    
+    // Need to clear out the newline held in cin
+    cin.ignore(1,'\n');
+    
+    while (attendee.length() == 0) {
+        cout << "Input name of attendee: ";
+        getline( cin, attendee );
+        
+        if (attendee.length() <= 0)
+            cout << "Error: Input was not given!\n";
+    }
+    
+    while (exhibitor.length() == 0) {
+        cout << "Input name of exhibitor company: ";
+        getline( cin, exhibitor );
+        
+        if (exhibitor.length() <= 0)
+            cout << "Error: Input was not given!\n";
+    }
+    
+    vector<string> values{attendee, exhibitor};
+    rdbms.get_relation("exhibits_visited").insert_tuple( values );
+}
+
+void remove_from_visited_list(string a, string e) {
+    string attendee = a;
+    string exhibitor = e;
+    
+    // Need to clear out the newline held in cin
+    cin.ignore(1,'\n');
+    
+    while (attendee.length() == 0) {
+        cout << "Input name of attendee: ";
+        getline( cin, attendee );
+        
+        if (attendee.length() <= 0)
+            cout << "Error: Input was not given!\n";
+    }
+    
+    while (exhibitor.length() == 0) {
+        cout << "Input name of exhibitor company: ";
+        getline( cin, exhibitor );
+        
+        if (exhibitor.length() <= 0)
+            cout << "Error: Input was not given!\n";
+    }
+    
+    // Send query to parser
+    string query = "DELETE FROM exhibits_visited WHERE (exhibitor == " + exhibitor + " && attendee == " + attendee + ");";
+    char* pch;
+    string delimiters = " \",();\n";
+    vector<string> command_list;
+    
+    pch = strtok ((char*)query.c_str(), delimiters.c_str());//Lexer
+    while (pch != NULL) {
+        command_list.push_back(pch);
+        pch = strtok (NULL, delimiters.c_str());
+    }
+    
+    query_or_command( rdbms, command_list );
+}
+
+void list_visited_list(string e) {
+    string exhibitor = e;
+    // Need to clear out the newline held in cin
+    cin.ignore(1,'\n');
+    
+    while (exhibitor.length() == 0) {
+        cout << "Input name of exhibitor company to list from: ";
+        getline( cin, exhibitor );
+        
+        if (exhibitor.length() <= 0) {
+            cout << "Error: Input was not given!\n";
+        }
+    }
+    
+    // Assemble query and send to interpret
+    string query = "select (exhibitor == \"" + exhibitor + "\") exhibits_visited;";
+    char* pch;
+    string delimiters = " \",();\n";
+    vector<string> command_list;
+    
+    pch = strtok ((char*)query.c_str(), delimiters.c_str());//Lexer
+    while (pch != NULL) {
+        command_list.push_back(pch);
+        pch = strtok (NULL, delimiters.c_str());
+    }
+    
+    Relation list_relation = interpret_query( rdbms, command_list );
+    rdbms.app_print_relation( list_relation );
+}
+
+void register_attendee() {
+    vector<string> fields {"name", "organization", "address", "email", "registration_fee", "category", "exhibits_visited", "badge_status"};
+    vector<string> values;
+    
+    // Need to clear out the newline held in cin
+    cin.ignore(1,'\n');
+    
+    for (string f : fields) {
+        cout << "Please input value for " << f << ": ";
+        string input;
+        getline( cin, input );
+        values.push_back( input );
+    }
+    
+    rdbms.get_relation("attendees").insert_tuple( values );
+}
+
+void remove_attendee() {
+    string criteria = "";
+    string query = "";
+    
+    // Need to clear out the newline held in cin
+    cin.ignore(1,'\n');
+    
+    while (criteria.length() == 0) {
+        cout << "Input name of attendee to remove: ";
+        getline( cin, criteria );
+        
+        if (criteria.length() <= 0) {
+            cout << "Warning: Name was not given!\n";
+        } else {
+            query = "DELETE FROM attendees WHERE (name == " + criteria + ");";
+            // TODO: Need to check this input for validity and then plug it into a select query
+        }
+    }
+    
+    // Send query to parser
+    char* pch;
+    string delimiters = " \",();\n";
+    vector<string> command_list;
+    
+    pch = strtok ((char*)query.c_str(), delimiters.c_str());//Lexer
+    while (pch != NULL) {
+        command_list.push_back(pch);
+        pch = strtok (NULL, delimiters.c_str());
+    }
+    
+    query_or_command( rdbms, command_list );
+}
+
+
+
+
 // Display menus
 void display_welcome_message(){
     cout << "\nWelcome to The Convention Exhibit Management System\n";
@@ -343,7 +501,7 @@ bool interpret_command(string command){
         }
     } else if (command.at(0) == 'S'){
         // Services menu
-	/*	switch (sub_command) {
+		switch (sub_command) {
             case 1:
                 break;
             case 2:
@@ -356,18 +514,18 @@ bool interpret_command(string command){
 				break;
 			case 6:
 				break;
-        }	*/
+        }
     } else if (command.at(0) == 'F'){
         // Finance menu
-    /*    switch (sub_command){
+        switch (sub_command){
 			case 1:
 				break;
 			case 2:
 				break;
-		}	*/
+		}
     } else if (command.at(0) == 'A'){
         // Attendees menu
-	/*	switch (sub_command) {
+		switch (sub_command) {
 			case 1:
 				break;
 			case 2:
@@ -385,8 +543,6 @@ bool interpret_command(string command){
 			case 8:
 				break;
 		}
-		
-		*/
     } else if (command.at(0) == 'I'){
         // Inventory menu
         
@@ -404,6 +560,7 @@ int main(){
     create_booths_table();
     create_services_table();
     create_attendees_table();
+    create_exhibits_visited_table();
     create_inventory_table();
 
     // TODO: Add in the rest of the create functions
