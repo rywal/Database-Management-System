@@ -90,8 +90,11 @@ void register_exhibitor() {
     vector<string> fields {"company", "address", "contact", "email", "phone", "fax", "category", "booth_personnel", "description", "website"};
     vector<string> values;
     
-    for (int f = 0; f < fields.size(); f++) {
-        cout << "Please input value for " << fields[f] << ": ";
+    // Need to clear out the newline held in cin
+    cin.ignore(1,'\n');
+    
+    for (string f : fields) {
+        cout << "Please input value for " << f << ": ";
         string input;
         getline( cin, input );
         values.push_back( input );
