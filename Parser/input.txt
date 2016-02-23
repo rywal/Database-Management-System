@@ -33,7 +33,8 @@ UPDATE animals SET (name = "X", kind = "Monkey")  WHERE (name == "Joe" && kind !
 SHOW animals;
 answer <- common_names;
 SHOW answer;
-OPEN animals;
 CLOSE animals;
+SHOW animals;
+OPEN animals;
 SHOW animals;
 EXIT;
