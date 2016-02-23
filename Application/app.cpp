@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include "../DBCore/Database.h"
+#include "../Parser/test_parser.h"
 
 #define EXHIBIT_MANAGER 1
 #define EXHIBITOR 2
@@ -62,17 +63,26 @@ void create_inventory_table() {
 // Exhibitors
 void list_exhibitors(bool with_criteria) {
     // If criteria is needed, get it
+    string query = "";
     if (with_criteria) {
         string criteria;
+        
+        // Need to clear out the newline held in cin
+        cin.ignore(1,'\n');
+        
         cout << "Input your criteria in the grammar of the DML: ";
-        cin >> criteria;
+        getline( cin, criteria );
 
         if (criteria.length() <= 0) {
             cout << "Warning: Criteria was not given. Proceeding as if it was not required";
             with_criteria = false;
         } else {
-        	string query = "SELECT FROM exhibits WHERE " + criteria + ";";
-            // TODO: Need to check this input for validity and then plug it into a select query
+        	query = "SELECT FROM exhibits WHERE " + criteria + ";";
+            if ( valid(query, "application", "1") ) {
+                with_criteria = true;
+            } else {
+                with_criteria = false;
+            }
         }
     }
     
@@ -101,6 +111,25 @@ void register_exhibitor() {
     }
     
     rdbms.get_relation("exhibits").insert_tuple( values );
+}
+
+void remove_exhibitor() {
+    string criteria = "";
+    string query = "";
+    while (criteria.length() == 0) {
+        cout << "Input your criteria in the grammar of the DML: ";
+        getline( cin, input );
+        
+        if (criteria.length() <= 0) {
+            cout << "Warning: Criteria was not given!\n";
+        } else {
+            query = "DELETE FROM exhibits WHERE " + criteria + ";";
+            // TODO: Need to check this input for validity and then plug it into a select query
+        }
+    }
+    
+    // Send query to parser
+    
 }
 
 
@@ -187,7 +216,7 @@ bool interpret_command(string command){
                 break;
                 
             case 4:
-//                remove_exhibitor();
+                remove_exhibitor();
                 break;
         }
     } else if (command.at(0) == 'B'){
