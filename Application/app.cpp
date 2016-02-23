@@ -260,7 +260,26 @@ bool interpret_command(string command){
 		}	*/
     } else if (command.at(0) == 'A'){
         // Attendees menu
-        
+	/*	switch (sub_command) {
+			case 1:
+				break;
+			case 2:
+				break;
+			case 3:
+				break;
+			case 4:
+				break;
+			case 5:
+				break;
+			case 6:
+				break;
+			case 7:
+				break;
+			case 8:
+				break;
+		}
+		
+		*/
     } else if (command.at(0) == 'I'){
         // Inventory menu
         
