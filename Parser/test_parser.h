@@ -681,7 +681,7 @@ bool main_loop(vector<string> &command_list, int &line_number, Database &d){
 }
 
 bool valid(string command, string filename, int line_number){
-	string out_name = "Parser\\out\\Output_"+filename+"_"+std::to_string(line_number)+".txt";
+	string out_name = "Parser/out/Output_"+filename+"_"+std::to_string(line_number)+".txt";
 	output_test.open (out_name);
 	Database temp("temp");
 	stringstream ss(command);
