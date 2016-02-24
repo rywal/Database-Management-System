@@ -462,8 +462,53 @@ void remove_attendee() {
 
 
 // Services
-void assign_service_to_exhibitor() {
+bool item_in_stock(string key) {
+    query = "select (key == " + key + ") inventory;";
     
+    char* pch;
+    string delimiters = " \",();\n";
+    vector<string> command_list;
+    
+    pch = strtok ((char*)query.c_str(), delimiters.c_str());//Lexer
+    while (pch != NULL) {
+        command_list.push_back(pch);
+        pch = strtok (NULL, delimiters.c_str());
+    }
+    
+    Relation inventory_rel = interpret_query( rdbms, command_list );
+}
+
+void assign_service_to_exhibitor() {
+    string criteria = "";
+    string query = "";
+    
+    // Need to clear out the newline held in cin
+    cin.ignore(1,'\n');
+    
+    while (criteria.length() == 0) {
+        cout << "Input name of attendee to remove: ";
+        getline( cin, criteria );
+        
+        if (criteria.length() <= 0) {
+            cout << "Warning: Name was not given!\n";
+        } else {
+            query = "DELETE FROM services WHERE (name == " + criteria + ");";
+            // TODO: Need to check this input for validity and then plug it into a select query
+        }
+    }
+    
+    // Send query to parser
+    char* pch;
+    string delimiters = " \",();\n";
+    vector<string> command_list;
+    
+    pch = strtok ((char*)query.c_str(), delimiters.c_str());//Lexer
+    while (pch != NULL) {
+        command_list.push_back(pch);
+        pch = strtok (NULL, delimiters.c_str());
+    }
+    
+    query_or_command( rdbms, command_list );
 }
 
 
