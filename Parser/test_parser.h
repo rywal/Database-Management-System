@@ -12,7 +12,7 @@
 using namespace std;
 
 //Global Variable - Output file
-ofstream output;
+ofstream output_test;
 //Global Variable
 
 bool contains_condition(vector<string> &command_list, int &index);
@@ -26,7 +26,7 @@ bool is_operator(string op){//Tests operator
 		return true;
 	}else{
 		//printf("%s is not a valid operator", op.c_str());
-		output<<"The string "<<op.c_str()<<" is not a valid operator"<<endl;
+		output_test<<"The string "<<op.c_str()<<" is not a valid operator"<<endl;
 		return false;
 	}
 }
@@ -40,12 +40,12 @@ bool contains_operand_combo(vector<string> &command_list, int &index){
 			}
 		}else{
 			//printf("The amount of parentheses given for an operator combo is incorrect.\n");
-			output<<"The operator combo's parenthese is incorrect"<<endl;
+			output_test<<"The operator combo's parenthese is incorrect"<<endl;
 			return false;
 		}
 	}else{return false;}
 	//printf("There was an unknown error in operator combo.\nPlease re-compile this and re-run command.\n\n");
-	output<<"Unknown error in operator combo"<<endl;
+	output_test<<"Unknown error in operator combo"<<endl;
 	return false;
 }
 
@@ -57,7 +57,7 @@ bool contains_comparison(vector<string> &command_list, int &index){ //This asks 
 				command_list[i].erase(0,1);
 				if(strstr(command_list[i].c_str(),"(")){
 					//printf("The parentheses for a comparison was not in the front of the word.\n");
-					output<<"Parentheses for a comparison is not in front of a word"<<endl;
+					output_test<<"Parentheses for a comparison is not in front of a word"<<endl;
 					return false;
 				} else if(!contains_condition(command_list, i)){
 					return false;
@@ -93,14 +93,14 @@ bool contains_condition(vector<string> &command_list, int &index){ //This asks i
 			if(i>temp){
 				if(!strstr(command_list[i].c_str(),"||")){
 					//printf("The || operator is needed inbetween conjunctions.\n");
-					output<<"The || operator is needed inbetween conjunctions."<<endl;
+					output_test<<"The || operator is needed inbetween conjunctions."<<endl;
 					return false;
 				}
 			}
 			i+=1;
 			if(!contains_conjunction(command_list, i)){
 				//printf("The argument provided for a condition is unknown.\n");
-				output<<"The argument provided for a condition is unknown."<<endl;
+				output_test<<"The argument provided for a condition is unknown."<<endl;
 				return false;
 			}
 			index=i;
@@ -116,12 +116,12 @@ bool is_selection(vector<string> &command_list, int &index){ //This asks if the 
 			command_list[index].erase(0,1);
 			if(strstr(command_list[index].c_str(),"(")){
 				//printf("The parentheses for a comparison was not in the front of the word.\n");
-				output<<"The parentheses for a comparison was not in the front of the word."<<endl;
+				output_test<<"The parentheses for a comparison was not in the front of the word."<<endl;
 				return false;
 			}
 		} else{
 			//printf("A parentheses was NOT included for a Selection\n");
-			output<<"A parentheses was NOT included for a Selection"<<endl;
+			output_test<<"A parentheses was NOT included for a Selection"<<endl;
 			return false;
 		}
 		if(contains_condition(command_list, index)){
@@ -140,7 +140,7 @@ bool is_identifier(string identifier){ //This asks if the statement is an identi
 				if (!isalnum(identifier[i])){
 					if(identifier[i] != '_' && identifier[0] == '(' &&identifier[i] != ')' && identifier[i] != ','){ 
 						//printf("%c is not a valid character.", identifier[i]);
-						output<<"The character: "<<identifier[i]<<" in not a valid character"<<endl;
+						output_test<<"The character: "<<identifier[i]<<" in not a valid character"<<endl;
 						return false;
 					}
 				}
@@ -152,7 +152,7 @@ bool is_identifier(string identifier){ //This asks if the statement is an identi
 					if (!isalnum(identifier[i])){
 						if(identifier[i] != '_' && identifier[0] == '(' &&identifier[i] != ')' && identifier[i] != ','){ 
 							//printf("%c is not a valid character.", identifier[i]);
-							output<<"The character: "<<identifier[i]<<" in not a valid character"<<endl;
+							output_test<<"The character: "<<identifier[i]<<" in not a valid character"<<endl;
 							return false;
 						}
 					}
@@ -162,7 +162,7 @@ bool is_identifier(string identifier){ //This asks if the statement is an identi
 		}
 	}
 	//printf("%s is not an identifier.", identifier.c_str());
-	output<<"The word: "<<identifier.c_str()<<" is not a valid identifier."<<endl;
+	output_test<<"The word: "<<identifier.c_str()<<" is not a valid identifier."<<endl;
 	return false;
 }
 
@@ -175,12 +175,12 @@ bool is_atomic(vector<string> &command_list, int &index){ //This asks if the sta
 		command_list[index].erase(0,1);
 		if(strstr(command_list[index].c_str(),"(")){
 			//printf("The parentheses for an Atomic Expression was not in the front of the expression.\n");
-			output<<"The parentheses for an Atomic Expression was not in the front of the expression."<<endl;
+			output_test<<"The parentheses for an Atomic Expression was not in the front of the expression."<<endl;
 			return false;
 		}
 	} else{
 			//printf("A parentheses was NOT included for an Atomic Expression\n");
-			output<<"A parentheses was NOT included for an Atomic Expression"<<endl;
+			output_test<<"A parentheses was NOT included for an Atomic Expression"<<endl;
 			return false;
 	}
 	if(strstr(command_list[index].c_str(),")")){
@@ -191,13 +191,13 @@ bool is_atomic(vector<string> &command_list, int &index){ //This asks if the sta
 			}
 		}
 		//printf("The parentheses for an Atomic Expression was not in the back of the expression.\n");
-		output<<"The parentheses for an Atomic Expression was not in the back of the expression."<<endl;
+		output_test<<"The parentheses for an Atomic Expression was not in the back of the expression."<<endl;
 		return false;
 	}
 	if(is_expr(command_list,index)){
 		return true;
 	}//printf("The argument provided for an Atomic Expression is unknown.\n");
-	output<<"The argument provided for an Atomic Expression is unknown."<<endl;
+	output_test<<"The argument provided for an Atomic Expression is unknown."<<endl;
 	return false;
 }
 
@@ -208,7 +208,7 @@ bool is_attribute_name_ForLoop(string identifier){ //This is used for Create
 				if (!isalnum(identifier[i])){
 					if(identifier[i] != '_'){
 						printf("%s is not an identifier.", identifier.c_str());
-						output<<"The word: "<<identifier.c_str()<<" is not an identifier"<<endl;
+						output_test<<"The word: "<<identifier.c_str()<<" is not an identifier"<<endl;
 						return false;
 					}
 				}
@@ -217,18 +217,18 @@ bool is_attribute_name_ForLoop(string identifier){ //This is used for Create
 				identifier.pop_back();
 				return true;
 			} else{return false;}
-		} else{output<<"first letter is not an alpha."<<endl;}
+		} else{output_test<<"first letter is not an alpha."<<endl;}
 	} else{
-		output<<"There was an empty Attribute List"<<endl;
+		output_test<<"There was an empty Attribute List"<<endl;
 		return false;
 	}
-	output<<"There was an unknown error in Attribute List."<<endl;
+	output_test<<"There was an unknown error in Attribute List."<<endl;
 	return false;
 }
 
 bool contains_attribute_list(vector<string> &command_list, int &index){ //This asks if the pattern is right for attribute list
 	if(index >= (command_list.size())){
-		output<<"There was not enough arguments for an Attribute List."<<endl;
+		output_test<<"There was not enough arguments for an Attribute List."<<endl;
 		return false;
 	}
 	if(strstr(command_list[index].c_str(),")")){
@@ -237,7 +237,7 @@ bool contains_attribute_list(vector<string> &command_list, int &index){ //This a
 	if(strstr(command_list[index].c_str(),"(")){
 		command_list[index].erase(0,1);
 	} else{
-		output<<"You need a \"(\" at the begining of an Attribute List."<<endl;
+		output_test<<"You need a \"(\" at the begining of an Attribute List."<<endl;
 		return false;
 	}
 
@@ -248,7 +248,7 @@ bool contains_attribute_list(vector<string> &command_list, int &index){ //This a
 				command_list[i].pop_back();
 					return true; 
 			} else {
-				output<<"There was not a comma in an Attribute List."<<endl;
+				output_test<<"There was not a comma in an Attribute List."<<endl;
 				return false;
 			}
 		}
@@ -262,11 +262,11 @@ bool is_projection(vector<string> &command_list, int &index){ //This asks if the
 		if(strstr(command_list[index].c_str(),"(")){
 			command_list[index].erase(0,1);
 			if(strstr(command_list[index].c_str(),"(")){
-				output<<"The parentheses for a projection was not at the begining of the first argument."<<endl;
+				output_test<<"The parentheses for a projection was not at the begining of the first argument."<<endl;
 				return false;
 			}
 		}else {
-			output<<"A parentheses is needed when calling an Attribute List for Projection."<<endl;
+			output_test<<"A parentheses is needed when calling an Attribute List for Projection."<<endl;
 			return false;
 		}
 		if(contains_attribute_list(command_list, index)){
@@ -274,7 +274,7 @@ bool is_projection(vector<string> &command_list, int &index){ //This asks if the
 				return true;
 			} else{return false;}//Done to display correct Error Message
 		}
-	} output<<"An unknown error occured in Projection."<<endl;
+	} output_test<<"An unknown error occured in Projection."<<endl;
 	return false;
 }
 
@@ -283,7 +283,7 @@ bool is_renaming(vector<string> &command_list, int &index){ //This asks if the s
 		index += 1;
 		if(strstr(command_list[index].c_str(),"(")){
 		} else{
-			output<<"A parentheses is needed when calling an Attribute List for Renaming."<<endl;
+			output_test<<"A parentheses is needed when calling an Attribute List for Renaming."<<endl;
 			return false;
 		}
 		if(contains_attribute_list(command_list, index)){
@@ -291,7 +291,7 @@ bool is_renaming(vector<string> &command_list, int &index){ //This asks if the s
 				return true;
 			} else{return false;} //Done to display correct Error Message
 		}
-	}output<<"An unknown error occured in Renaming."<<endl;
+	}output_test<<"An unknown error occured in Renaming."<<endl;
 	return false;
 }
 
@@ -301,7 +301,7 @@ int is_udp(vector<string> &command_list, int &index){ //This asks if the stateme
 		index+=1;
 		if(command_list[index].size() != 1){
 			//printf("%s is too big to be a valid operation.", command_list[index].c_str());
-			output<<"The phrase: "<<command_list[index].c_str()<<"is too big to be a vaild operation"<<endl;
+			output_test<<"The phrase: "<<command_list[index].c_str()<<"is too big to be a vaild operation"<<endl;
 			return false;
 		}
 		if(command_list[index] == "+"){
@@ -312,7 +312,7 @@ int is_udp(vector<string> &command_list, int &index){ //This asks if the stateme
 			return_val = 3; //product
 		} else{
 			//printf("%s is not a valid operation.", command_list[index].c_str());
-			output<<"The following: "<<command_list[index].c_str()<<" is not a vaild operation"<<endl;
+			output_test<<"The following: "<<command_list[index].c_str()<<" is not a vaild operation"<<endl;
 			return 0;
 		}
 		index+=1;
@@ -378,7 +378,7 @@ bool is_query(vector<string> &command_list, int &index){ //This asks if the stat
 		} else if(command_list[index] == "EXIT"){
 			return true;
 		}
-		output<<"Not enough Arugements given for a query"<<endl;
+		output_test<<"Not enough Arugements given for a query"<<endl;
 		return false;
 	} 
 	return true;
@@ -472,7 +472,7 @@ bool is_attribute_type_ForLoop(vector<string> command_list, int &index){//This i
 bool contains_attribute_type(vector<string> &command_list, int &index){ //This is used to see if the statement contains typed-attribute list
 	int also =0; int no_loop=0;
 	if(index >= (command_list.size() - 1)){
-		output<<"There was not enough arguments for a typed Attribute List"<<endl;
+		output_test<<"There was not enough arguments for a typed Attribute List"<<endl;
 		return false;
 	}
 	if(!strstr(command_list[index].c_str(),"(")){
@@ -498,7 +498,7 @@ bool contains_attribute_type(vector<string> &command_list, int &index){ //This i
 							return true; 
 						} else if(no_loop==0){return false;}
 						if(no_loop==0){
-							output<<"There was no closing parentheses for an Attribute List."<<endl;
+							output_test<<"There was no closing parentheses for an Attribute List."<<endl;
 						}
 					} else{return false;}
 					if(no_loop==0){return false;}
@@ -516,7 +516,7 @@ bool is_command(vector<string> command_list, int &index){//This is used to tell 
 			return true;
 		} else {
 			//printf("%s is not a valid Relation Name\n", command_list[index=1].c_str());
-			output<<"The following: "<<command_list[index=1].c_str()<<"is not a valid Relation Name"<<endl;
+			output_test<<"The following: "<<command_list[index=1].c_str()<<"is not a valid Relation Name"<<endl;
 			return false;
 		}
 	} else if(command_list[index] == "CLOSE"){
@@ -524,7 +524,7 @@ bool is_command(vector<string> command_list, int &index){//This is used to tell 
 			return true;
 		} else {
 			//printf("%s is not a valid Relation Name\n", command_list[index=1].c_str());
-			output<<"The following: "<<command_list[index=1].c_str()<<"is not a valid Relation Name"<<endl;
+			output_test<<"The following: "<<command_list[index=1].c_str()<<"is not a valid Relation Name"<<endl;
 			return false;
 		}
 	} else if(command_list[index] == "SAVE"){
@@ -532,7 +532,7 @@ bool is_command(vector<string> command_list, int &index){//This is used to tell 
 			return true;
 		} else {
 			//printf("%s is not a valid Relation Name\n", command_list[index=1].c_str());
-			output<<"The following: "<<command_list[index=1].c_str()<<"is not a valid Relation Name"<<endl;
+			output_test<<"The following: "<<command_list[index=1].c_str()<<"is not a valid Relation Name"<<endl;
 			return false;
 		}
 	} else if(command_list[index] == "EXIT"){
@@ -553,15 +553,15 @@ bool is_command(vector<string> command_list, int &index){//This is used to tell 
 									}
 								}
 							}
-					} else{output<<"Must have a begining parentheses before Typed Attribute-list."<<end;}
+					} else{output_test<<"Must have a begining parentheses before Typed Attribute-list."<<endl;}
 				}
 				return false;
 			} else{
-				output<<"TABLE must be included after \"Create\"."<<endl;
+				output_test<<"TABLE must be included after \"Create\"."<<endl;
 				return false;
 			}
 		} else{
-			output<<"There were not enough arguments for create"<<endl;
+			output_test<<"There were not enough arguments for create"<<endl;
 			return false;
 		}
 	} else if(command_list[index] == "UPDATE"){
@@ -649,45 +649,45 @@ bool equal_parentheses(vector<string> command_list){//This eliminates some state
 	return (number_of_beg_parenthesis == number_of_end_parenthesis);
 }
 
-bool main_loop(vector<string> &command_list, string &command, int &line_number, Database &d){
+bool main_loop(vector<string> &command_list, int &line_number, Database &d){
 	if(command_list.size()>0){
 		command_list[command_list.size()-1].erase(std::remove(command_list[command_list.size()-1].begin(), command_list[command_list.size()-1].end(), ';'), command_list[command_list.size()-1].end());
 		if(equal_parentheses(command_list)){
 			int num=0; int num2=0;
 			if(is_command(command_list, num2)){
 				if(command_list[0]=="EXIT"){exit(0);}//Saves time
-				Action(d, command_list);
-				output << "line " << to_string(line_number) <<"was successful!"<<endl;
+				//Action(d, command_list);
+				output_test << "line " << to_string(line_number) <<"was successful!"<<endl;
 				return true;
 			}else if(is_query(command_list, num)){
-				Action(d, command_list);
-				output << "line " << to_string(line_number) <<"was successful!"<<endl;
+				//Action(d, command_list);
+				output_test << "line " << to_string(line_number) <<"was successful!"<<endl;
 				return true;
 			}else {
 				//cout<<"\nThis is NOT a valid statement. This was given on index: " << num << endl;
-				output << "line " << to_string(line_number) <<" failed: NOT VALID! INDEX: "<< num <<endl;
+				output_test << "line " << to_string(line_number) <<" failed: NOT VALID! INDEX: "<< num <<endl;
 				return false;
 			}
 		} else{
 		//cout << "There are not an equal number of begining and ending parentheses.\n";
-		output << "line " << to_string(line_number) <<" failed: unequal # of parentheses."<<endl;
+		output_test << "line " << to_string(line_number) <<" failed: unequal # of parentheses."<<endl;
 		return false;
 		}
 	} else{
-		output << "line " << line_number <<" failed: There is not enough arguments"<<endl;
+		output_test << "line " << line_number <<" failed: There is not enough arguments"<<endl;
 		return false;
 	}
 	line_number++;
 }
 
-bool valid(string command, string filename, string line_number){
-	string out_name = "Parser\out\Output_"+filename+"_"+line_number+".txt"};
-	output.open (out_name);
-	
+bool valid(string command, string filename, int line_number){
+	string out_name = "Parser/out/Output_"+filename+"_"+std::to_string(line_number)+".txt";
+	output_test.open (out_name);
+	Database temp("temp");
 	stringstream ss(command);
 	cout<<command<<'\n';
 	istream_iterator<string> begin(ss);
 	istream_iterator<string> end;
 	vector<string> command_list(begin, end);
-	return main_loop(command_list, command, line_number,d);
+	return main_loop(command_list, line_number,temp);
 }
