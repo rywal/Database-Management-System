@@ -1,3 +1,6 @@
+#ifndef Database_h
+#define Database_h
+
 #include <stdexcept>
 #include <vector>
 #include "Relation.h"
@@ -27,6 +30,7 @@ public:
     Relation set_difference(string name, Relation a, Relation b);
     Relation cross_product(string name, Relation a, Relation b);
     std::vector<string> outputRelation(int index);
+    bool open() {}
     bool save(int index);
     bool save(string r);
     bool close(int index);
@@ -43,3 +47,5 @@ public:
 	void print_relation(Relation relation_name);
     void app_print_relation(Relation relation_name);
 };
+
+#endif /* Database_h */

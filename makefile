@@ -2,7 +2,7 @@
 # added capability to use makefile in various environments without modifications
 UNAME := $(shell uname)
 ifeq ($(UNAME), Darwin)
-    cc = clang++
+    cc = clang++ -I/usr/local/boost
 else ifeq ($(UNAME), Darwin)
     cc = g++
 else
