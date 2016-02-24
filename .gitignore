@@ -8,6 +8,7 @@
 *.out
 *.tmp
 .idea
+*.xcworkspace
 .DS_Store
 run-dbcore
 run-parser
