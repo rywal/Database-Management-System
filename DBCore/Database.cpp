@@ -371,7 +371,7 @@ bool Database::save(int index){
 }
 
 bool Database::save(string r){
-    std::cout << "Saving Relation named: " << r << " with index: " << get_relation_index(r) << endl;
+    std::cout << "Saving Relation named: " << r << " with index: " << get_relation_index(r) << endl << endl;
     return save( get_relation_index(r) );
 }
 
@@ -381,7 +381,7 @@ bool Database::close(int index){
 }
 
 bool Database::close(string r){
-    std::cout << "Closing r " << r << " with index " << get_relation_index(r) << endl;
+    std::cout << "Closing r " << r << " with index " << get_relation_index(r) << endl << endl;
     return close( get_relation_index(r) );
 }
 

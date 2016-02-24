@@ -217,7 +217,7 @@ bool interpret_show(Database &db, std::vector<std::string> command){
 		if(command.size()==1){
 			string relation_name=command[0];
 			if(db.get_relation_index(relation_name)==(-1)){//If it doesn't exist
-				printf("The relation named: %s does not exist.\n", relation_name.c_str());
+				printf("The relation named: %s does not exist.\n\n", relation_name.c_str());
 				output<<"The relation named: "<<relation_name.c_str()<<" does not exist."<<endl;
 				error=13;
 			} else{//If it exists, print it (or show it to screen)
@@ -261,7 +261,7 @@ bool interpret_update(Database &db, std::vector<std::string> command, string rel
 	command.erase(command.begin(), command.begin() + index);
 	vector<string> rest_of_query=command;
 	rest_of_query.push_back(relation_name);
-	db.print_relation(interpret_select(db, rest_of_query));
+	//db.print_relation(interpret_select(db, rest_of_query));
 	db.update(db.get_relation(relation_name), names, literals, interpret_select(db, rest_of_query));
 }	
 	
@@ -424,7 +424,7 @@ int file_input(Database &db, FILE *input, string filename, bool is_open){
 		getline(&str, &buffer_size, input); 
 		string command(str);
 		if(!is_open){
-			printf("The given command is: %s\n",str);
+			printf("The given command is: %s",str);
 		}
 		pch = strtok (str, delimiters.c_str());
 			while (pch != NULL) {
@@ -452,7 +452,7 @@ int file_input(Database &db, FILE *input, string filename, bool is_open){
 	}
 	if(is_open){
 		if(error==0){
-			printf("%s was successfully opened!\n", filename.c_str());
+			printf("%s was successfully opened!\n\n", filename.c_str());
 			output<<"The file "<<filename.c_str()<<" was successfully opened!"<<endl;
 		} else{ 
 			printf("There were problems opening %s\n", filename.c_str());
