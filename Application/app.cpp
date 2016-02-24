@@ -463,7 +463,7 @@ void remove_attendee() {
 
 // Services
 bool item_in_stock(string key) {
-    query = "select (key == " + key + ") inventory;";
+    string query = "select (key == " + key + ") inventory;";
     
     char* pch;
     string delimiters = " \",();\n";
@@ -476,28 +476,23 @@ bool item_in_stock(string key) {
     }
     
     Relation inventory_rel = interpret_query( rdbms, command_list );
+    
+    if (inventory_rel.get_size() > 0) {
+        int quantity = std::stoi( inventory_rel.tuples[0].get_cell(3).get_data() );
+        cout << "Item with key " << key << " found to have " << quantity << " quantity\n";
+        if (quantity > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    } else {
+        return false;
+    }
 }
 
-void assign_service_to_exhibitor() {
-    string criteria = "";
-    string query = "";
+void decrement_stock(string key){
+    string query = "select (key == " + key + ") inventory;";
     
-    // Need to clear out the newline held in cin
-    cin.ignore(1,'\n');
-    
-    while (criteria.length() == 0) {
-        cout << "Input name of attendee to remove: ";
-        getline( cin, criteria );
-        
-        if (criteria.length() <= 0) {
-            cout << "Warning: Name was not given!\n";
-        } else {
-            query = "DELETE FROM services WHERE (name == " + criteria + ");";
-            // TODO: Need to check this input for validity and then plug it into a select query
-        }
-    }
-    
-    // Send query to parser
     char* pch;
     string delimiters = " \",();\n";
     vector<string> command_list;
@@ -508,7 +503,174 @@ void assign_service_to_exhibitor() {
         pch = strtok (NULL, delimiters.c_str());
     }
     
-    query_or_command( rdbms, command_list );
+    int quantity = 0;
+    Relation inventory_rel = interpret_query( rdbms, command_list );
+    
+    if (inventory_rel.get_size() > 0) {
+        quantity = std::stoi( inventory_rel.tuples[0].get_cell(3).get_data() );
+        cout << "Item with key " << key << " found to have " << quantity << " quantity\n";
+    } else {
+        cout << "No item found with key " << key << "\n";
+        return;
+    }
+    
+    query = "UPDATE inventory SET (quantity = " + (quantity-1)")  WHERE (key == " + key + ");"
+    // Send query to parser
+    char* pchu;
+    vector<string> command_list_update;
+    
+    pchu = strtok ((char*)query.c_str(), delimiters.c_str());//Lexer
+    while (pchu != NULL) {
+        command_list_update.push_back(pchu);
+        pchu = strtok (NULL, delimiters.c_str());
+    }
+    
+    query_or_command( rdbms, command_list_update );
+}
+
+void increment_stock(string key){
+    string query = "select (key == " + key + ") inventory;";
+    
+    char* pch;
+    string delimiters = " \",();\n";
+    vector<string> command_list;
+    
+    pch = strtok ((char*)query.c_str(), delimiters.c_str());//Lexer
+    while (pch != NULL) {
+        command_list.push_back(pch);
+        pch = strtok (NULL, delimiters.c_str());
+    }
+    
+    int quantity = 0;
+    Relation inventory_rel = interpret_query( rdbms, command_list );
+    
+    if (inventory_rel.get_size() > 0) {
+        quantity = std::stoi( inventory_rel.tuples[0].get_cell(3).get_data() );
+        cout << "Item with key " << key << " found to have " << quantity << " quantity\n";
+    } else {
+        cout << "No item found with key " << key << "\n";
+        return;
+    }
+    
+    query = "UPDATE inventory SET (quantity = " + (quantity+1)")  WHERE (key == " + key + ");"
+    // Send query to parser
+    char* pchu;
+    vector<string> command_list_update;
+    
+    pchu = strtok ((char*)query.c_str(), delimiters.c_str());//Lexer
+    while (pchu != NULL) {
+        command_list_update.push_back(pchu);
+        pchu = strtok (NULL, delimiters.c_str());
+    }
+    
+    query_or_command( rdbms, command_list_update );
+}
+
+void assign_service_to_exhibitor(string e) {
+    string exhibitor = e;
+    string key = "";
+    string query = "";
+    
+    // Need to clear out the newline held in cin
+    cin.ignore(1,'\n');
+    
+    while (exhibitor.length() == 0) {
+        cout << "Input company name of exhibitor: ";
+        getline( cin, exhibitor );
+        
+        if (exhibitor.length() <= 0) {
+            cout << "Warning: Exhibitor company was not given!\n";
+        }
+    }
+    
+    // Need to clear out the newline held in cin
+    cin.ignore(1,'\n');
+    
+    while (key.length() == 0) {
+        cout << "Input name of key in inventory: ";
+        getline( cin, key );
+        
+        if (key.length() <= 0) {
+            cout << "Warning: Key was not given!\n";
+        }
+    }
+    
+    if ( item_in_stock(key) ) {
+        // Service/Item is in stock. Let's add it here and decrement the quantity available
+        query = "select (key == " + key + ") inventory;";
+        
+        char* pch;
+        string delimiters = " \",();\n";
+        vector<string> command_list;
+        
+        pch = strtok ((char*)query.c_str(), delimiters.c_str());//Lexer
+        while (pch != NULL) {
+            command_list.push_back(pch);
+            pch = strtok (NULL, delimiters.c_str());
+        }
+        
+        Relation inventory_rel = interpret_query( rdbms, command_list );
+        
+        vector<string> values;
+        if (inventory_rel.get_size() > 0) {
+            values.push_back( exhibitor ); // Add exhibitor
+            values.push_back( inventory_rel.tuples[0].get_cell(0) ); // Add key
+            values.push_back( inventory_rel.tuples[0].get_cell(2) ); // Add price
+        }
+        
+        rdbs.get_relation("services").insert_tuple(values);
+        
+        decrement_stock( key );
+    } else {
+        cout << "The item with that key is no longer in stock!\n";
+    }
+}
+
+void remove_service_from_exhibitor(string e) {
+    string exhibitor = e;
+    string key = "";
+    string query = "";
+    
+    // Need to clear out the newline held in cin
+    cin.ignore(1,'\n');
+    
+    while (exhibitor.length() == 0) {
+        cout << "Input company name of exhibitor: ";
+        getline( cin, exhibitor );
+        
+        if (exhibitor.length() <= 0) {
+            cout << "Warning: Exhibitor company was not given!\n";
+        }
+    }
+    
+    // Need to clear out the newline held in cin
+    cin.ignore(1,'\n');
+    
+    while (key.length() == 0) {
+        cout << "Input name of key in inventory: ";
+        getline( cin, key );
+        
+        if (key.length() <= 0) {
+            cout << "Warning: Key was not given!\n";
+        }
+    }
+    
+    // Service/Item is in stock. Let's add it here and decrement the quantity available
+    query = "DELETE FROM services WHERE (inventory_key == " + key + ");";
+    
+    char* pch;
+    string delimiters = " \",();\n";
+    vector<string> command_list;
+    
+    pch = strtok ((char*)query.c_str(), delimiters.c_str());//Lexer
+    while (pch != NULL) {
+        command_list.push_back(pch);
+        pch = strtok (NULL, delimiters.c_str());
+    }
+    
+    query_or_command( rdbms, command_list_update );
+    
+    increment_stock( key );
 }
 
 
