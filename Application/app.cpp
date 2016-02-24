@@ -35,9 +35,9 @@ void create_booths_table() {
 
 void create_services_table() {
     string name = "services";
-    vector<string> attribute_names {"electricity", "furniture", "electronics", "barcode_scanner", "advertisement", "insurance"};
-    vector<int> attribute_types {0, 0, 0, 0, 0, 0 };
-    vector<string> primary_keys {"electricity", "electronics"};
+    vector<string> attribute_names {"exhibitor", "inventory_key", "price"};
+    vector<int> attribute_types {40, 20, 0};
+    vector<string> primary_keys {"exhibitor", "inventory_key"};
     
     rdbms.create_relation(name, attribute_names, attribute_types, primary_keys);
 }
@@ -62,11 +62,13 @@ void create_exhibits_visited_table() {
 
 void create_inventory_table() {
     string name = "inventory";
-    vector<string> attribute_names {"electronics", "furniture"};
-    vector<int> attribute_types {0, 0};
-    vector<string> primary_keys {"electronics", "furniture"};
+    vector<string> attribute_names {"key", "description", "price", "quantity"};
+    vector<int> attribute_types {20, 100, 0, 0};
+    vector<string> primary_keys {"key"};
     
     rdbms.create_relation(name, attribute_names, attribute_types, primary_keys);
+    
+    rdbms.get_relation("inventory").insert_tuple(vector<string>{"tv1", "TV 1", "10", "5"});
 }
 
 
@@ -439,6 +441,64 @@ void remove_attendee() {
 
 
 
+// Services
+void assign_service_to_exhibitor() {
+    
+}
+
+
+
+// Inventory
+void list_inventory(bool with_criteria) {
+    // If criteria is needed, get it
+    string query = "";
+    if (with_criteria) {
+        string criteria;
+        
+        // Need to clear out the newline held in cin
+        cin.ignore(1,'\n');
+        
+        cout << "Input your criteria in the grammar of the DML: ";
+        getline( cin, criteria );
+        
+        if (criteria.length() <= 0) {
+            cout << "Warning: Criteria was not given. Proceeding as if it was not required";
+            with_criteria = false;
+        } else {
+            query = "select (" + criteria + ") inventory;";
+            // TODO: Need to check this input for validity and then plug it into a select query
+        }
+    }
+    
+    // Fetch proper list of exhibitors and print
+    if (with_criteria) {
+        char* pch;
+        string delimiters = " \",();\n";
+        vector<string> command_list;
+        
+        pch = strtok ((char*)query.c_str(), delimiters.c_str());//Lexer
+        while (pch != NULL) {
+            command_list.push_back(pch);
+            pch = strtok (NULL, delimiters.c_str());
+        }
+        
+        Relation list_relation = interpret_query( rdbms, command_list );
+        rdbms.app_print_relation( list_relation );
+    } else {
+        Relation list_relation = rdbms.get_relation("inventory");
+        rdbms.app_print_relation( list_relation );
+    }
+}
+
+void add_to_inventory() {
+    
+}
+
+void remove_from_inventory() {
+
+}
+
+
 
 // Display menus
 void display_welcome_message(){
@@ -591,7 +651,18 @@ bool interpret_command(string command){
 		}
     } else if (command.at(0) == 'I'){
         // Inventory menu
-        
+        switch (sub_command) {
+            case 1: // I1. Add to inventory
+                add_to_inventory();
+                break;
+            case 2: // I2. Remove from inventory
+                remove_from_inventory();
+                break;
+            case 3: // I3. List inventory
+                list_inventory(false);
+                break;
+                
+        }
     } else {
         // Command not found
         cout << "Command '" << command << "' not found.\n";
@@ -599,6 +670,28 @@ bool interpret_command(string command){
     }
     
     return false;
+}
+
+void get_user_role() {
+    while (role < 0 || role > 3) {
+        display_welcome_message();
+        cin >> role;
+        
+        switch (role) {
+            case EXHIBIT_MANAGER: // Exhibit Manager
+                break;
+            case EXHIBITOR: // Exhibitor
+                break;
+            case ATTENDEE: // Attendee
+                break;
+            case 4:
+                break;
+            default:
+                role = -1;
+                cout << "ERROR: Please enter input based on the instructions\n";
+                break;
+        }
+    }
 }
 
 int main(){
@@ -613,25 +706,9 @@ int main(){
     // create_NAME_table();
     
     // Find user's role
-    while (role < 0 || role > 3) {
-        display_welcome_message();
-        cin >> role;
-        
-        switch (role) {
-            case EXHIBIT_MANAGER: // Exhibit Manager
-                break;
-            case EXHIBITOR: // Exhibitor
-                break;
-            case ATTENDEE: // Attendee
-                break;
-            case 4:
-                return 0;
-                break;
-            default:
-                role = -1;
-                cout << "ERROR: Please enter input based on the instructions\n";
-                break;
-        }
+    get_user_role();
+    if (role == 4) {
+        return 0;
     }
     
     // Display menus based on user's role
@@ -641,6 +718,7 @@ int main(){
         if (role == EXHIBIT_MANAGER){
             cout << "---------------------------------\n";
             cout << "-           Main Menu           -\n";
+            cout << "-        Exhibit Manager        -\n";
             cout << "---------------------------------\n";
             display_exhibits_menu();
             display_booths_menu();
@@ -653,6 +731,10 @@ int main(){
             cin >> next_command;
             stop = interpret_command(next_command);
         } else if (role == EXHIBITOR) {
+            cout << "---------------------------------\n";
+            cout << "-           Main Menu           -\n";
+            cout << "-           Exhibitor           -\n";
+            cout << "---------------------------------\n";
             display_exhibits_menu();
 	
             cout << "Input your command: ";
@@ -660,6 +742,10 @@ int main(){
             cin >> next_command;
 	    	stop = interpret_command(next_command);
         } else if (role == ATTENDEE) {
+            cout << "---------------------------------\n";
+            cout << "-           Main Menu           -\n";
+            cout << "-           Attendees           -\n";
+            cout << "---------------------------------\n";
             display_attendees_menu();
 	    	cout << "Input your command; ";
 
