@@ -68,7 +68,27 @@ void create_inventory_table() {
     
     rdbms.create_relation(name, attribute_names, attribute_types, primary_keys);
     
-    rdbms.get_relation("inventory").insert_tuple(vector<string>{"tv1", "TV 1", "10", "5"});
+    rdbms.get_relation("inventory").insert_tuple(vector<string>{"e500", "Electricity (500W)", "30", "999"});
+    rdbms.get_relation("inventory").insert_tuple(vector<string>{"e1000", "Electricity(1000W)", "40", "999"});
+    rdbms.get_relation("inventory").insert_tuple(vector<string>{"e1500", "Electricity(1500W)", "50", "999"});
+    rdbms.get_relation("inventory").insert_tuple(vector<string>{"table1", "Table of size 1", "25", "5"});
+    rdbms.get_relation("inventory").insert_tuple(vector<string>{"table2", "Table of size 2", "25", "5"});
+    rdbms.get_relation("inventory").insert_tuple(vector<string>{"table3", "Table of size 3", "30", "5"});
+    rdbms.get_relation("inventory").insert_tuple(vector<string>{"table4", "Table of size 4", "30", "5"});
+    rdbms.get_relation("inventory").insert_tuple(vector<string>{"table5", "Table of size 5", "35", "5"});
+    rdbms.get_relation("inventory").insert_tuple(vector<string>{"chair", "Chair", "10", "100"});
+    rdbms.get_relation("inventory").insert_tuple(vector<string>{"fstv", "Flatscreen TV", "60", "25"});
+    rdbms.get_relation("inventory").insert_tuple(vector<string>{"cm", "Computer Monitor", "25", "15"});
+    rdbms.get_relation("inventory").insert_tuple(vector<string>{"laptop", "Laptop computer", "90", "35"});
+    rdbms.get_relation("inventory").insert_tuple(vector<string>{"projector", "Projector", "28", "15"});
+    rdbms.get_relation("inventory").insert_tuple(vector<string>{"projectorscreen", "Projector Screen", "10", "15"});
+    rdbms.get_relation("inventory").insert_tuple(vector<string>{"scanner", "Barcode Scanner", "5", "40"});
+    rdbms.get_relation("inventory").insert_tuple(vector<string>{"ad1", "Exhibitor Guide", "60", "10"});
+    rdbms.get_relation("inventory").insert_tuple(vector<string>{"ad2", "Online exhibitor guide", "40", "55"});
+    rdbms.get_relation("inventory").insert_tuple(vector<string>{"ad3", "Large banner", "32", "15"});
+    rdbms.get_relation("inventory").insert_tuple(vector<string>{"ad4", "Small banner", "27", "25"});
+    rdbms.get_relation("inventory").insert_tuple(vector<string>{"ins1", "Insurance Coverage: $1 million", "10000", "10"});
+    rdbms.get_relation("inventory").insert_tuple(vector<string>{"ins2", "Insurance Coverage: $10 million", "400000", "10"});
 }
 
 
