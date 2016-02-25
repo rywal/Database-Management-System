@@ -372,7 +372,7 @@ void list_attendees(bool with_criteria) {
 }
 
 void list_attendee(string name) {
-    string query = "select (attendee == \"" + name + "\") attendees;";
+    string query = "select (name == \"" + name + "\") attendees;";
     vector<string> command_list = break_down_query(query);
     Relation list_relation = interpret_query( rdbms, command_list );
     rdbms.app_print_relation( list_relation );

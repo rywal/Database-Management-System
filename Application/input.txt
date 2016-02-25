@@ -1031,4 +1031,208 @@ Role
 ----------
 R1. Change my role
 
-Input your command:
+Input your command: E5
+query is: select (company == ut) exhibits;
+
+
+Listing: exhibits
+company - address - contact - email - phone - fax - category - booth_personnel - description - website
+------------------------------------------------------
+ut - Texas Ave - President 2 - ut@ut.edu - 1234 - 5678 - 1 - john - University of Texas - ut.edu
+------------------------------------------------------
+
+Press enter to continue...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---------------------------------
+-           Main Menu           -
+-           Exhibitor           -
+---------------------------------
+
+Exhibitor
+----------
+E5. Show my info
+E6. List attendees who visited
+E7. List my services
+
+
+Role
+----------
+R1. Change my role
+
+Input your command: E6
+
+
+Listing: exhibits_visited
+attendee - exhibitor
+------------------------------------------------------
+eric - ut
+------------------------------------------------------
+
+Press enter to continue...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---------------------------------
+-           Main Menu           -
+-           Exhibitor           -
+---------------------------------
+
+Exhibitor
+----------
+E5. Show my info
+E6. List attendees who visited
+E7. List my services
+
+
+Role
+----------
+R1. Change my role
+
+Input your command: E7
+
+
+Listing: services
+exhibitor - inventory_key - price
+------------------------------------------------------
+ut - table2 - 25
+------------------------------------------------------
+
+Press enter to continue...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---------------------------------
+-           Main Menu           -
+-           Exhibitor           -
+---------------------------------
+
+Exhibitor
+----------
+E5. Show my info
+E6. List attendees who visited
+E7. List my services
+
+
+Role
+----------
+R1. Change my role
+
+Input your command: R1
+
+Welcome to The Convention Exhibit Management System
+-----------------------------------------------
+
+1. Exhibit Manager
+2. Exhibitor
+3. Attendee
+4. Exit
+
+Please select which data records you would like to access: 3
+Please input your name: eric
+Press enter to continue...
+
+
+---------------------------------
+-           Main Menu           -
+-           Attendees           -
+---------------------------------
+
+Attendee
+----------
+A8. Show list of exhibits visited
+A9. Show my info
+
+
+Role
+----------
+R1. Change my role
+
+Input your command: A8
+
+
+Listing:
+attendee - exhibitor
+------------------------------------------------------
+eric - ut
+------------------------------------------------------
+
+Press enter to continue...
+
+
+---------------------------------
+-           Main Menu           -
+-           Attendees           -
+---------------------------------
+
+Attendee
+----------
+A8. Show list of exhibits visited
+A9. Show my info
+
+
+Role
+----------
+R1. Change my role
+
+Input your command: A9
+
+
+Listing: attendees
+name - organization - address - email - registration_fee - category - badge_status
+------------------------------------------------------
+eric - utsa - 123 lane - eric@utsa.edu - 100 - 1 - 1
+------------------------------------------------------
+
+Press enter to continue...
