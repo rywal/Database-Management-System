@@ -16,9 +16,9 @@
 
 ### Input and Output Files
 
-* Input files are included in both Parser/ and Application/
+* Input files are included in both the Parser and Application directories
 
-* Output files are included in the root folder, Parser/, and Application/input-output.txt(this has both input/output)
+* Output files are included in the root directory, Parser directory, and Application directory (for the application, input-output.txt has both)
 
 ***
 
