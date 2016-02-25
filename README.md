@@ -67,7 +67,7 @@ Exits the DML interpreter.
    * Jonathan and Nathan start Design Document.
 
 * *January 27th*
-   *Jonathan and Nathan finished Design Document.
+   * Jonathan and Nathan finished Design Document.
 
 * *January 28th*
    * Work has started with some progress, with the following assignments
