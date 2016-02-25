@@ -3,11 +3,6 @@
 ### Team 11
 
 ***
-** Input files are included in both Parser/ and Application/**
-
-** Output files are included in the root folder, Parser/, and Application/input-output.txt(this has both input/output) **
-
-***
 
 ### Compile and Run
 
@@ -16,6 +11,14 @@
 * To run:
   * Parser executable: ./run-parser
   * Application executable: ./run-app
+
+***
+
+### Input and Output Files
+
+* Input files are included in both Parser/ and Application/
+
+* Output files are included in the root folder, Parser/, and Application/input-output.txt(this has both input/output)
 
 ***
 
