@@ -514,7 +514,7 @@ void decrement_stock(string key){
         return;
     }
     
-    query = "UPDATE inventory SET (quantity = " + (quantity-1)")  WHERE (key == " + key + ");"
+    query = "UPDATE inventory SET (quantity = " + std::to_string(quantity-1) + ") WHERE (key == " + key + ");";
     // Send query to parser
     char* pchu;
     vector<string> command_list_update;
@@ -552,7 +552,7 @@ void increment_stock(string key){
         return;
     }
     
-    query = "UPDATE inventory SET (quantity = " + (quantity+1)")  WHERE (key == " + key + ");"
+    query = "UPDATE inventory SET (quantity = " + std::to_string(quantity+1) + ")  WHERE (key == " + key + ");";
     // Send query to parser
     char* pchu;
     vector<string> command_list_update;
@@ -583,9 +583,6 @@ void assign_service_to_exhibitor(string e) {
         }
     }
     
-    // Need to clear out the newline held in cin
-    cin.ignore(1,'\n');
-    
     while (key.length() == 0) {
         cout << "Input name of key in inventory: ";
         getline( cin, key );
@@ -614,11 +611,11 @@ void assign_service_to_exhibitor(string e) {
         vector<string> values;
         if (inventory_rel.get_size() > 0) {
             values.push_back( exhibitor ); // Add exhibitor
-            values.push_back( inventory_rel.tuples[0].get_cell(0) ); // Add key
-            values.push_back( inventory_rel.tuples[0].get_cell(2) ); // Add price
+            values.push_back( inventory_rel.tuples[0].get_cell(0).get_data() ); // Add key
+            values.push_back( inventory_rel.tuples[0].get_cell(2).get_data() ); // Add price
         }
         
-        rdbs.get_relation("services").insert_tuple(values);
+        rdbms.get_relation("services").insert_tuple(values);
         
         decrement_stock( key );
     } else {
@@ -643,9 +640,6 @@ void remove_service_from_exhibitor(string e) {
         }
     }
     
-    // Need to clear out the newline held in cin
-    cin.ignore(1,'\n');
-    
     while (key.length() == 0) {
         cout << "Input name of key in inventory: ";
         getline( cin, key );
@@ -668,9 +662,43 @@ void remove_service_from_exhibitor(string e) {
         pch = strtok (NULL, delimiters.c_str());
     }
     
-    query_or_command( rdbms, command_list_update );
+    query_or_command( rdbms, command_list );
     
     increment_stock( key );
+}
+
+void list_services_for_exhibitor(string e) {
+    // If exhibit is needed, get it
+    string exhibitor = e;
+    string query = "";
+    
+    // Need to clear out the newline held in cin
+    cin.ignore(1,'\n');
+    
+    while (exhibitor.length() == 0) {
+        cout << "Input company of exhibitor to show services for: ";
+        getline( cin, exhibitor );
+        
+        if (exhibitor.length() <= 0) {
+            cout << "Warning: Exhibitor company name was not given!\n";
+        }
+    }
+    
+    query = "select (exhibitor == " + exhibitor + ") services;";
+    
+    // Fetch proper list of exhibitors and print
+    char* pch;
+    string delimiters = " \",();\n";
+    vector<string> command_list;
+    
+    pch = strtok ((char*)query.c_str(), delimiters.c_str());//Lexer
+    while (pch != NULL) {
+        command_list.push_back(pch);
+        pch = strtok (NULL, delimiters.c_str());
+    }
+    
+    Relation list_relation = interpret_query( rdbms, command_list );
+    rdbms.app_print_relation( list_relation );
 }
 
 
@@ -718,11 +746,53 @@ void list_inventory(bool with_criteria) {
 }
 
 void add_to_inventory() {
+    vector<string> fields {"Key", "Description", "Price(Integer)", "Quantity(Integer)"};
+    vector<string> values;
     
+    // Need to clear out the newline held in cin
+    cin.ignore(1,'\n');
+    
+    for (string f : fields) {
+        cout << "Please input value for " << f << ": ";
+        string input;
+        getline( cin, input );
+        values.push_back( input );
+    }
+    
+    rdbms.get_relation("inventory").insert_tuple( values );
 }
 
-void remove_from_inventory() {
-
+void remove_from_inventory(string k) {
+    string key = k;
+    string query = "";
+    
+    // Need to clear out the newline held in cin
+    cin.ignore(1,'\n');
+    
+    while (key.length() == 0) {
+        cout << "Input key to remove: ";
+        getline( cin, key );
+        
+        if (key.length() <= 0) {
+            cout << "Warning: Key was not given!\n";
+        } else {
+            query = "DELETE FROM inventory WHERE (key == " + key + ");";
+            // TODO: Need to check this input for validity and then plug it into a select query
+        }
+    }
+    
+    // Send query to parser
+    char* pch;
+    string delimiters = " \",();\n";
+    vector<string> command_list;
+    
+    pch = strtok ((char*)query.c_str(), delimiters.c_str());//Lexer
+    while (pch != NULL) {
+        command_list.push_back(pch);
+        pch = strtok (NULL, delimiters.c_str());
+    }
+    
+    query_or_command( rdbms, command_list );
 }
 
 
@@ -837,10 +907,13 @@ bool interpret_command(string command){
         // Services menu
 		switch (sub_command) {
             case 1: // S1. Assign services to exhibitor
+                assign_service_to_exhibitor("");
                 break;
             case 2: // S2. Remove services from exhibitor
+                remove_service_from_exhibitor("");
                 break;
             case 3: // S3. List services for exhibitor
+                list_services_for_exhibitor("");
                 break;
         }
     } else if (command.at(0) == 'F'){
@@ -883,7 +956,7 @@ bool interpret_command(string command){
                 add_to_inventory();
                 break;
             case 2: // I2. Remove from inventory
-                remove_from_inventory();
+                remove_from_inventory("");
                 break;
             case 3: // I3. List inventory
                 list_inventory(false);
