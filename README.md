@@ -202,7 +202,7 @@ Exits the DML interpreter.
    * Jonathan Added max_lengths functionality to tables, fixed primary keys in rename and project, defined OPEN and CLOSE, and added a hand_input for run_parser, general formating fixes, and re-did original parser as a boolean test for validility check.
    * Nathan and Jonathan finished the integrated parser.
 
-* *Tue, 22 Feb 2016*
+* *Tue, 23 Feb 2016*
    * Ryan continued to work deligiently on the Application
    * Jonathan fixed the boolean test, improved output, small typos, and folder\file reconstructions.
    * Victor did some to-do's Ryan has set out to do.
@@ -212,3 +212,4 @@ Exits the DML interpreter.
    * Ryan finished working on the Application
    * Jonathan worked on making sure inputs, work log, etc was put in place
    * Nathan worked on making sure comments, etc was properly in place.
+   * Ryan and Jonathan worked on the Post Production Notes
