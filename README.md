@@ -1,5 +1,15 @@
 # Project 1: Database Management System
 ### CSCE 315 with Dr. Yoonsuck Choe
+### Team 11
+
+***
+** Input files are included in both Parser/ and Application/**
+** Output files are included in the root folder and in Parser/ **
+***
+
+**To compile: make all**
+**To run Parser's stand-alone execution: ./run-parser**
+**To run Application: ./run-app**
 
 ***
 
