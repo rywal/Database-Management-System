@@ -663,7 +663,7 @@ void remove_from_inventory(string k) {
 
 
 // Finance
-void show_invoice(string e) {
+int show_invoice(string e) {
     int total_cost = 0;
     
     // If exhibit is needed, get it
@@ -705,10 +705,19 @@ void show_invoice(string e) {
     }
     
     cout << "Total cost: " << total_cost << "\n";
+    
+    return total_cost;
 }
 
 void show_total_revenue() {
+    int total_revenue = 0;
     
+    Relation list_relation = rdbms.get_relation("exhibits");
+    for (int t = 0; t < list_relation.get_size(); t++) {
+        total_revenue += show_invoice( list_relation.tuples[t].get_cell(0).get_data() );
+    }
+    
+    cout << "TOTAL REVENUE: " << total_revenue << "\n";
 }
 
 
