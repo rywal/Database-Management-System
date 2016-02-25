@@ -4,7 +4,7 @@
 
 ***
 ** Input files are included in both Parser/ and Application/**
-** Output files are included in the root folder and in Parser/ **
+** Output files are included in the root folder, Parser/, and Application/input.txt(this has both input/output) **
 ***
 
 **To compile: make all**
@@ -195,7 +195,6 @@ Exits the DML interpreter.
 
 * *Mon, 22 Feb 2016*
    * Ryan added more functionality to the Application, like switches for different functionalities.
-   * Ryan coordinated a to-do list with Victor
    * Nathan added more functionality to select, set_difference, and general functionality.
    * Jonathan Added max_lengths functionality to tables, fixed primary keys in rename and project, defined OPEN and CLOSE, and added a hand_input for run_parser, general formating fixes, and re-did original parser as a boolean test for validility check.
    * Nathan and Jonathan finished the integrated parser.
@@ -203,6 +202,7 @@ Exits the DML interpreter.
 * *Tue, 22 Feb 2016*
    * Ryan continued to work deligiently on the Application
    * Jonathan fixed the boolean test, improved output, small typos, and folder\file reconstructions.
+   * Victor did some to-do's Ryan has set out to do.
    * Nathan Tested different inputs, and worked on starting to comment.
 
 * *Wed, 23 Feb 2016*
