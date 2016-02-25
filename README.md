@@ -4,7 +4,8 @@
 
 ***
 ** Input files are included in both Parser/ and Application/**
-** Output files are included in the root folder, Parser/, and Application/input.txt(this has both input/output) **
+
+** Output files are included in the root folder, Parser/, and Application/input-output.txt(this has both input/output) **
 ***
 
 **To compile: make all**
