@@ -45,6 +45,11 @@ string which_op(string op){
 //Select, Rename, Project, Union, Difference, Product
 //----------------------------------------------------//
 
+//------------------------------------------------------------------------------//
+//  1)	select has three cases described below, the interpret check which case 
+// 		and then acts accordingly eith returning a simple select or a 
+// 		set_difference or a set_union of two different selects
+//-----------------------------------------------------------------------------//
 Relation interpret_select(Database &db, std::vector<std::string> query){
     if(query.size()>3){	
 	//declare and initialize the arguments for the select function
@@ -90,7 +95,7 @@ Relation interpret_select(Database &db, std::vector<std::string> query){
     }
 }
 //--------------------------------------------------------------//
-//	1) Rename will search through and take all the words that
+//	2) Rename will search through and take all the words that
 //		do not match query key words and add them to the string of 
 //		new namesfor the attributes in the specified relation
 //--------------------------------------------------------------//
@@ -115,6 +120,11 @@ Relation interpret_rename(Database &db, std::vector<std::string> query){
 	return db.renaming(" ", names, interpret_query(db, _query));
 }
 
+//--------------------------------------------------------------//
+//	3) Project will search through and take all the words that
+//		do not match query key words and add them to the string of 
+//		names of the attributes in the specified relation
+//--------------------------------------------------------------//
 Relation interpret_project(Database &db, std::vector<std::string> query){
 	int i; 
 	vector<string> names; 
@@ -134,7 +144,10 @@ Relation interpret_project(Database &db, std::vector<std::string> query){
 	
 	return db.project(names, interpret_query(db, _query));
 }
-
+//-------------------------------------------------------------------------//
+//	4,5,6) The following three functions simply apply the appropriate 
+//			function to the remaining query and the already stated relation
+//-------------------------------------------------------------------------//
 Relation interpret_union(Database &db, std::vector<std::string> query){
 		string relation_name= query[0];
 		//set up the second relation in the union
@@ -163,6 +176,11 @@ Relation interpret_product(Database &db, std::vector<std::string> query){
 //	Command Interpretations
 // CREATE, INSERT, SHOW, UPDATE
 //------------------------------//
+
+//--------------------------------------------------------------------------//
+//  1)	CREATE takes in as many attributes (and it's length) until it reaches 
+//		PRIMARY upon which it takes the remaining words as the Primary keys
+//--------------------------------------------------------------------------//
 bool interpret_create(Database &db, std::vector<std::string> command) {
     if (command.size() > 5) {
         string relation_name = command[0];
@@ -206,6 +224,12 @@ bool interpret_create(Database &db, std::vector<std::string> command) {
     }
 }
 
+//---------------------------------------------------------------------------//
+//  2)	INSERT takes a relation name and then determines whether the values 
+//		to be inserted are from a different relation or are a string of values
+//		the function then interprets this information and calls the appropriate
+//		insert function
+//---------------------------------------------------------------------------//
 bool interpret_insert(Database &db, std::vector<std::string> command) {
     if (command.size() > 4) {
         string relation_name = command[0];
@@ -241,6 +265,11 @@ bool interpret_insert(Database &db, std::vector<std::string> command) {
     }
 }
 
+//----------------------------------------------------------------//
+//	3) SHOW simply calls print_relation on the relation
+//		derived from the rest of the query (whether it be a  
+// 		relation name or a query
+//----------------------------------------------------------------//
 bool interpret_show(Database &db, std::vector<std::string> command){
 	if (command.size()>0){
 		if(command.size()==1){
@@ -265,7 +294,11 @@ bool interpret_show(Database &db, std::vector<std::string> command){
        }	
 }
 
-
+//----------------------------------------------------------------//
+//	3) UPDATE takes in a list of updates and a list of conditions
+//		and uses the information to call a select function to make 
+//		a relation that update can use in the update function
+//----------------------------------------------------------------//
 bool interpret_update(Database &db, std::vector<std::string> command, string relation_name){
 	//vectors for vital information for updates
 	vector<string> names;
