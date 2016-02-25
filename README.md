@@ -6,45 +6,16 @@
 ** Input files are included in both Parser/ and Application/**
 
 ** Output files are included in the root folder, Parser/, and Application/input-output.txt(this has both input/output) **
-***
-
-**To compile: make all**
-
-**To run Parser's stand-alone execution: ./run-parser**
-
-**To run Application: ./run-app**
 
 ***
 
-### Core Database Engine Reference
+### Compile and Run
 
-### Class: DBMS
+* To compile: make all
 
-* **open( relation_name ) -> result**
-
-Opens a database file with name "_relation_name_.db". Returns boolean _result_ with value TRUE if successfully opened or FALSE if an error occured.
-
-* **close( relation_name ) -> result**
-
-Closes a database relation with name _relation_name_. Returns boolean _result_ with value TRUE if successfully closed or FALSE if an error occured.
-
-* **save( relation_name ) -> result**
-
-Outputs plain ASCII text in DML format(described in the project handout) to a file "_relation_name_.db". **Note:** Saving will overwrite any previous data in "_relation_name_.db".
-
-* **exit()**
-
-Exits the DML interpreter.
-
-* **show()**
-
-* **create()**
-
-* **update()**
-
-* **insert()**
-
-* **delete()**
+* To run:
+  * Parser's stand-alone execution: ./run-parser
+  * Application: ./run-app
 
 ***
 
