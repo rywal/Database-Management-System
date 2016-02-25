@@ -91,6 +91,19 @@ void create_inventory_table() {
     rdbms.get_relation("inventory").insert_tuple(vector<string>{"ins2", "Insurance Coverage: $10 million", "400000", "10"});
 }
 
+vector<string> break_down_query(string query) {
+    char* pch;
+    string delimiters = " \",();\n";
+    vector<string> command_list;
+    
+    pch = strtok ((char*)query.c_str(), delimiters.c_str());//Lexer
+    while (pch != NULL) {
+        command_list.push_back(pch);
+        pch = strtok (NULL, delimiters.c_str());
+    }
+    
+    return command_list;
+}
 
 
 // Exhibitors
@@ -117,15 +130,7 @@ void list_exhibitors(bool with_criteria) {
     
     // Fetch proper list of exhibitors and print
     if (with_criteria) {
-        char* pch;
-        string delimiters = " \",();\n";
-        vector<string> command_list;
-        
-        pch = strtok ((char*)query.c_str(), delimiters.c_str());//Lexer
-        while (pch != NULL) {
-            command_list.push_back(pch);
-            pch = strtok (NULL, delimiters.c_str());
-        }
+        vector<string> command_list = break_down_query(query);
         
         Relation list_relation = interpret_query( rdbms, command_list );
         rdbms.app_print_relation( list_relation );
@@ -172,16 +177,7 @@ void remove_exhibitor() {
     }
     
     // Send query to parser
-    char* pch;
-    string delimiters = " \",();\n";
-    vector<string> command_list;
-    
-    pch = strtok ((char*)query.c_str(), delimiters.c_str());//Lexer
-    while (pch != NULL) {
-        command_list.push_back(pch);
-        pch = strtok (NULL, delimiters.c_str());
-    }
-    
+    vector<string> command_list = break_down_query(query);
     query_or_command( rdbms, command_list );
 }
 
@@ -225,16 +221,7 @@ void remove_booth_location() {
     }
     
     // Send query to parser
-    char* pch;
-    string delimiters = " \",();\n";
-    vector<string> command_list;
-    
-    pch = strtok ((char*)query.c_str(), delimiters.c_str());//Lexer
-    while (pch != NULL) {
-        command_list.push_back(pch);
-        pch = strtok (NULL, delimiters.c_str());
-    }
-    
+    vector<string> command_list = break_down_query(query);
     query_or_command( rdbms, command_list );
 }
 
@@ -256,15 +243,7 @@ void list_booth_locations() {
         }
     }
     
-    char* pch;
-    string delimiters = " \",();\n";
-    vector<string> command_list;
-    
-    pch = strtok ((char*)query.c_str(), delimiters.c_str());//Lexer
-    while (pch != NULL) {
-        command_list.push_back(pch);
-        pch = strtok (NULL, delimiters.c_str());
-    }
+    vector<string> command_list = break_down_query(query);
     
     Relation list_relation = interpret_query( rdbms, command_list );
     rdbms.app_print_relation( list_relation );
@@ -325,16 +304,7 @@ void remove_from_visited_list(string a, string e) {
     
     // Send query to parser
     string query = "DELETE FROM exhibits_visited WHERE (exhibitor == " + exhibitor + " && attendee == " + attendee + ");";
-    char* pch;
-    string delimiters = " \",();\n";
-    vector<string> command_list;
-    
-    pch = strtok ((char*)query.c_str(), delimiters.c_str());//Lexer
-    while (pch != NULL) {
-        command_list.push_back(pch);
-        pch = strtok (NULL, delimiters.c_str());
-    }
-    
+    vector<string> command_list = break_down_query(query);
     query_or_command( rdbms, command_list );
 }
 
@@ -354,16 +324,7 @@ void list_visited_list(string e) {
     
     // Assemble query and send to interpret
     string query = "select (exhibitor == \"" + exhibitor + "\") exhibits_visited;";
-    char* pch;
-    string delimiters = " \",();\n";
-    vector<string> command_list;
-    
-    pch = strtok ((char*)query.c_str(), delimiters.c_str());//Lexer
-    while (pch != NULL) {
-        command_list.push_back(pch);
-        pch = strtok (NULL, delimiters.c_str());
-    }
-    
+    vector<string> command_list = break_down_query(query);
     Relation list_relation = interpret_query( rdbms, command_list );
     rdbms.app_print_relation( list_relation );
 }
@@ -391,16 +352,7 @@ void list_attendees(bool with_criteria) {
     
     // Fetch proper list of exhibitors and print
     if (with_criteria) {
-        char* pch;
-        string delimiters = " \",();\n";
-        vector<string> command_list;
-        
-        pch = strtok ((char*)query.c_str(), delimiters.c_str());//Lexer
-        while (pch != NULL) {
-            command_list.push_back(pch);
-            pch = strtok (NULL, delimiters.c_str());
-        }
-        
+        vector<string> command_list = break_down_query(query);
         Relation list_relation = interpret_query( rdbms, command_list );
         rdbms.app_print_relation( list_relation );
     } else {
@@ -446,16 +398,7 @@ void remove_attendee() {
     }
     
     // Send query to parser
-    char* pch;
-    string delimiters = " \",();\n";
-    vector<string> command_list;
-    
-    pch = strtok ((char*)query.c_str(), delimiters.c_str());//Lexer
-    while (pch != NULL) {
-        command_list.push_back(pch);
-        pch = strtok (NULL, delimiters.c_str());
-    }
-    
+    vector<string> command_list = break_down_query(query);
     query_or_command( rdbms, command_list );
 }
 
@@ -464,17 +407,7 @@ void remove_attendee() {
 // Services
 bool item_in_stock(string key) {
     string query = "select (key == " + key + ") inventory;";
-    
-    char* pch;
-    string delimiters = " \",();\n";
-    vector<string> command_list;
-    
-    pch = strtok ((char*)query.c_str(), delimiters.c_str());//Lexer
-    while (pch != NULL) {
-        command_list.push_back(pch);
-        pch = strtok (NULL, delimiters.c_str());
-    }
-    
+    vector<string> command_list = break_down_query(query);
     Relation inventory_rel = interpret_query( rdbms, command_list );
     
     if (inventory_rel.get_size() > 0) {
@@ -492,19 +425,10 @@ bool item_in_stock(string key) {
 
 void decrement_stock(string key){
     string query = "select (key == " + key + ") inventory;";
-    
-    char* pch;
-    string delimiters = " \",();\n";
-    vector<string> command_list;
-    
-    pch = strtok ((char*)query.c_str(), delimiters.c_str());//Lexer
-    while (pch != NULL) {
-        command_list.push_back(pch);
-        pch = strtok (NULL, delimiters.c_str());
-    }
+    vector<string> command_list = break_down_query(query);
+    Relation inventory_rel = interpret_query( rdbms, command_list );
     
     int quantity = 0;
-    Relation inventory_rel = interpret_query( rdbms, command_list );
     
     if (inventory_rel.get_size() > 0) {
         quantity = std::stoi( inventory_rel.tuples[0].get_cell(3).get_data() );
@@ -516,33 +440,16 @@ void decrement_stock(string key){
     
     query = "UPDATE inventory SET (quantity = " + std::to_string(quantity-1) + ") WHERE (key == " + key + ");";
     // Send query to parser
-    char* pchu;
-    vector<string> command_list_update;
-    
-    pchu = strtok ((char*)query.c_str(), delimiters.c_str());//Lexer
-    while (pchu != NULL) {
-        command_list_update.push_back(pchu);
-        pchu = strtok (NULL, delimiters.c_str());
-    }
-    
+    vector<string> command_list_update = break_down_query(query);
     query_or_command( rdbms, command_list_update );
 }
 
 void increment_stock(string key){
     string query = "select (key == " + key + ") inventory;";
-    
-    char* pch;
-    string delimiters = " \",();\n";
-    vector<string> command_list;
-    
-    pch = strtok ((char*)query.c_str(), delimiters.c_str());//Lexer
-    while (pch != NULL) {
-        command_list.push_back(pch);
-        pch = strtok (NULL, delimiters.c_str());
-    }
+    vector<string> command_list = break_down_query(query);
+    Relation inventory_rel = interpret_query( rdbms, command_list );
     
     int quantity = 0;
-    Relation inventory_rel = interpret_query( rdbms, command_list );
     
     if (inventory_rel.get_size() > 0) {
         quantity = std::stoi( inventory_rel.tuples[0].get_cell(3).get_data() );
@@ -554,15 +461,7 @@ void increment_stock(string key){
     
     query = "UPDATE inventory SET (quantity = " + std::to_string(quantity+1) + ")  WHERE (key == " + key + ");";
     // Send query to parser
-    char* pchu;
-    vector<string> command_list_update;
-    
-    pchu = strtok ((char*)query.c_str(), delimiters.c_str());//Lexer
-    while (pchu != NULL) {
-        command_list_update.push_back(pchu);
-        pchu = strtok (NULL, delimiters.c_str());
-    }
-    
+    vector<string> command_list_update = break_down_query(query);
     query_or_command( rdbms, command_list_update );
 }
 
@@ -595,17 +494,7 @@ void assign_service_to_exhibitor(string e) {
     if ( item_in_stock(key) ) {
         // Service/Item is in stock. Let's add it here and decrement the quantity available
         query = "select (key == " + key + ") inventory;";
-        
-        char* pch;
-        string delimiters = " \",();\n";
-        vector<string> command_list;
-        
-        pch = strtok ((char*)query.c_str(), delimiters.c_str());//Lexer
-        while (pch != NULL) {
-            command_list.push_back(pch);
-            pch = strtok (NULL, delimiters.c_str());
-        }
-        
+        vector<string> command_list = break_down_query(query);
         Relation inventory_rel = interpret_query( rdbms, command_list );
         
         vector<string> values;
@@ -651,17 +540,7 @@ void remove_service_from_exhibitor(string e) {
     
     // Service/Item is in stock. Let's add it here and decrement the quantity available
     query = "DELETE FROM services WHERE (inventory_key == " + key + ");";
-    
-    char* pch;
-    string delimiters = " \",();\n";
-    vector<string> command_list;
-    
-    pch = strtok ((char*)query.c_str(), delimiters.c_str());//Lexer
-    while (pch != NULL) {
-        command_list.push_back(pch);
-        pch = strtok (NULL, delimiters.c_str());
-    }
-    
+    vector<string> command_list = break_down_query(query);
     query_or_command( rdbms, command_list );
     
     increment_stock( key );
@@ -685,18 +564,7 @@ void list_services_for_exhibitor(string e) {
     }
     
     query = "select (exhibitor == " + exhibitor + ") services;";
-    
-    // Fetch proper list of exhibitors and print
-    char* pch;
-    string delimiters = " \",();\n";
-    vector<string> command_list;
-    
-    pch = strtok ((char*)query.c_str(), delimiters.c_str());//Lexer
-    while (pch != NULL) {
-        command_list.push_back(pch);
-        pch = strtok (NULL, delimiters.c_str());
-    }
-    
+    vector<string> command_list = break_down_query(query);
     Relation list_relation = interpret_query( rdbms, command_list );
     rdbms.app_print_relation( list_relation );
 }
@@ -727,16 +595,7 @@ void list_inventory(bool with_criteria) {
     
     // Fetch proper list of exhibitors and print
     if (with_criteria) {
-        char* pch;
-        string delimiters = " \",();\n";
-        vector<string> command_list;
-        
-        pch = strtok ((char*)query.c_str(), delimiters.c_str());//Lexer
-        while (pch != NULL) {
-            command_list.push_back(pch);
-            pch = strtok (NULL, delimiters.c_str());
-        }
-        
+        vector<string> command_list = break_down_query(query);
         Relation list_relation = interpret_query( rdbms, command_list );
         rdbms.app_print_relation( list_relation );
     } else {
@@ -782,16 +641,7 @@ void remove_from_inventory(string k) {
     }
     
     // Send query to parser
-    char* pch;
-    string delimiters = " \",();\n";
-    vector<string> command_list;
-    
-    pch = strtok ((char*)query.c_str(), delimiters.c_str());//Lexer
-    while (pch != NULL) {
-        command_list.push_back(pch);
-        pch = strtok (NULL, delimiters.c_str());
-    }
-    
+    vector<string> command_list = break_down_query(query);
     query_or_command( rdbms, command_list );
 }
 
@@ -969,6 +819,11 @@ bool interpret_command(string command){
         return true;
     }
     
+    bool move_on = false;
+    cout << "Press enter to continue... ";
+    cin.get();
+    cin.get();
+    
     return false;
 }
 
@@ -1001,9 +856,6 @@ int main(){
     create_attendees_table();
     create_exhibits_visited_table();
     create_inventory_table();
-
-    // TODO: Add in the rest of the create functions
-    // create_NAME_table();
     
     // Find user's role
     get_user_role();
