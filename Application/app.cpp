@@ -3,6 +3,7 @@
 #include <iomanip>
 #include <string>
 #include <vector>
+#include <limits>
 #include "../Parser/ryanparser.h"
 
 #define EXHIBIT_MANAGER 1
