@@ -48,16 +48,6 @@ Exits the DML interpreter.
 
 ***
 
-### Class: Relation
-
-**Public**
-
-**Private**
-
-**Methods**
-
-***
-
 **Work Log**
 
 * *January 26th*
