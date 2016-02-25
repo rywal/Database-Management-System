@@ -9,7 +9,9 @@
 ***
 
 **To compile: make all**
+
 **To run Parser's stand-alone execution: ./run-parser**
+
 **To run Application: ./run-app**
 
 ***
