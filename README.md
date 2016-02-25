@@ -150,3 +150,32 @@ Exits the DML interpreter.
    * Nathan and Jonathan worked on the integrated parser.
    * Ryan worked on bringing back Core Code files that previously worked. Remerged them into the repo. Holding work on application in order to help out with parser + core code integration.
    * Ryan, Nathan and Jonathan working to fix errors on parser + core code integration
+
+* *Tues, 16 Feb 2016*
+   * Ryan, Nathan and Jonathan continue to fix error on parser + core code integration
+   * Nathan fixed errors in Renaming and other functions
+   * Jonathan fixed errors in Cross product and other functions
+   * Ryan begins to work on Lexer for integrated parser
+
+* *Wed, 17 Feb 2016*
+   * Ryan implemented close and Save in the parser
+   * Nathan and Jonathan continue to fix errors in integrated Parser
+
+* *Thu, 18 Feb 2016*
+   * Ryan, Nathan, and Jonathan began to use Ryan's Lexer-ed parser
+   * Ryan started working on Application
+   * Jonathan fixed Segfaults in integrated Parser and corrected error with intake in old parser (for reference).
+   * Nathan began copying functionality over to new integrated Parser.
+   * Victor added Application file.
+
+* *Fri, 19 Feb 2016*
+   * Ryan, Nathan, and Jonathan continued to work on the integrated parser.
+   * Nathan continued to work on the new intergrated Parser.
+   * Ryan continued working on the Application.
+
+* *Sat, 20 Feb 2016*
+   * Jonathan fixed Segfaults with new parser, defined project, and renaming, and put in added input for text docs
+   * Nathan fixed Insert, select, and show.
+   * Ryan continued to work on Application.
+
+* *Sun, 21 Feb 2016*
