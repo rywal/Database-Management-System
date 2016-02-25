@@ -115,7 +115,7 @@ void list_exhibitors(bool with_criteria) {
         string criteria;
         
         // Need to clear out the newline held in cin
-        cin.ignore(1,'\n');
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
         
         cout << "Input your criteria in the grammar of the DML: ";
         getline( cin, criteria );
@@ -141,8 +141,9 @@ void list_exhibitors(bool with_criteria) {
     }
 }
 
-void list_exhibitors(string name) {
+void list_exhibitor(string name) {
     string query = "select (company == " + name + ") exhibits;";
+    cout << "query is: " << query << "\n";
     vector<string> command_list = break_down_query(query);
     Relation list_relation = interpret_query( rdbms, command_list );
     rdbms.app_print_relation( list_relation );
@@ -153,7 +154,7 @@ void register_exhibitor() {
     vector<string> values;
     
     // Need to clear out the newline held in cin
-    cin.ignore(1,'\n');
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
     
     for (string f : fields) {
         cout << "Please input value for " << f << ": ";
@@ -170,7 +171,7 @@ void remove_exhibitor() {
     string query = "";
     
     // Need to clear out the newline held in cin
-    cin.ignore(1,'\n');
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
     
     while (criteria.length() == 0) {
         cout << "Input your criteria in the grammar of the DML: ";
@@ -197,7 +198,7 @@ void register_booth_location() {
     vector<string> values;
     
     // Need to clear out the newline held in cin
-    cin.ignore(1,'\n');
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
     
     for (string f : fields) {
         cout << "Please input value for " << f << ": ";
@@ -214,7 +215,7 @@ void remove_booth_location() {
     string query = "";
     
     // Need to clear out the newline held in cin
-    cin.ignore(1,'\n');
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
     
     while (criteria.length() == 0) {
         cout << "Input name of exhibitor company to remove: ";
@@ -237,7 +238,7 @@ void list_booth_locations() {
     string criteria = "";
     string query = "";
     // Need to clear out the newline held in cin
-    cin.ignore(1,'\n');
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
     
     while (criteria.length() == 0) {
         cout << "Input name of exhibitor company to find: ";
@@ -265,7 +266,7 @@ void add_to_visited_list(string a, string e) {
     string exhibitor = e;
     
     // Need to clear out the newline held in cin
-    cin.ignore(1,'\n');
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
     
     while (attendee.length() == 0) {
         cout << "Input name of attendee: ";
@@ -292,7 +293,7 @@ void remove_from_visited_list(string a, string e) {
     string exhibitor = e;
     
     // Need to clear out the newline held in cin
-    cin.ignore(1,'\n');
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
     
     while (attendee.length() == 0) {
         cout << "Input name of attendee: ";
@@ -319,7 +320,7 @@ void remove_from_visited_list(string a, string e) {
 void list_visited_list(string e) {
     string exhibitor = e;
     // Need to clear out the newline held in cin
-    cin.ignore(1,'\n');
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
     
     while (exhibitor.length() == 0) {
         cout << "Input name of exhibitor company to list from: ";
@@ -344,7 +345,7 @@ void list_attendees(bool with_criteria) {
         string criteria;
         
         // Need to clear out the newline held in cin
-        cin.ignore(1,'\n');
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
         
         cout << "Input your criteria in the grammar of the DML: ";
         getline( cin, criteria );
@@ -381,7 +382,7 @@ void register_attendee() {
     vector<string> values;
     
     // Need to clear out the newline held in cin
-    cin.ignore(1,'\n');
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
     
     for (string f : fields) {
         cout << "Please input value for " << f << ": ";
@@ -398,7 +399,7 @@ void remove_attendee() {
     string query = "";
     
     // Need to clear out the newline held in cin
-    cin.ignore(1,'\n');
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
     
     while (criteria.length() == 0) {
         cout << "Input name of attendee to remove: ";
@@ -486,7 +487,7 @@ void assign_service_to_exhibitor(string e) {
     string query = "";
     
     // Need to clear out the newline held in cin
-    cin.ignore(1,'\n');
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
     
     while (exhibitor.length() == 0) {
         cout << "Input company name of exhibitor: ";
@@ -533,7 +534,7 @@ void remove_service_from_exhibitor(string e) {
     string query = "";
     
     // Need to clear out the newline held in cin
-    cin.ignore(1,'\n');
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
     
     while (exhibitor.length() == 0) {
         cout << "Input company name of exhibitor: ";
@@ -567,7 +568,7 @@ void list_services_for_exhibitor(string e) {
     string query = "";
     
     // Need to clear out the newline held in cin
-    cin.ignore(1,'\n');
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
     
     while (exhibitor.length() == 0) {
         cout << "Input company of exhibitor to show services for: ";
@@ -594,7 +595,7 @@ void list_inventory(bool with_criteria) {
         string criteria;
         
         // Need to clear out the newline held in cin
-        cin.ignore(1,'\n');
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
         
         cout << "Input your criteria in the grammar of the DML: ";
         getline( cin, criteria );
@@ -624,7 +625,7 @@ void add_to_inventory() {
     vector<string> values;
     
     // Need to clear out the newline held in cin
-    cin.ignore(1,'\n');
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
     
     for (string f : fields) {
         cout << "Please input value for " << f << ": ";
@@ -641,7 +642,7 @@ void remove_from_inventory(string k) {
     string query = "";
     
     // Need to clear out the newline held in cin
-    cin.ignore(1,'\n');
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
     
     while (key.length() == 0) {
         cout << "Input key to remove: ";
@@ -671,7 +672,7 @@ int show_invoice(string e) {
     string query = "";
     
     // Need to clear out the newline held in cin
-    cin.ignore(1,'\n');
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
     
     while (exhibitor.length() == 0) {
         cout << "Input company of exhibitor to show invoice for: ";
@@ -850,20 +851,17 @@ bool interpret_command(string command){
             case 1: // E1. List Exhibitors
                 list_exhibitors(false);
                 break;
-                
             case 2: // E2. List Exhibitors(based on criteria)
                 list_exhibitors(true);
                 break;
-                
             case 3: // E3. Register new Exhibitor
                 register_exhibitor();
                 break;
-                
             case 4: // E4. Remove Exhibitor(s)
                 remove_exhibitor();
                 break;
             case 5: // E5. Show my info
-                list_exhibitors( role_name );
+                list_exhibitor( role_name );
                 break;
             case 6: // E6. List attendees who visited
                 list_visited_list( role_name );
@@ -965,7 +963,7 @@ bool interpret_command(string command){
     cout << "Press enter to continue... \n";
     // Need to clear out the newline held in cin
     if (cin.peek() == '\n') {
-        cin.ignore(1, '\n');
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
     }
     cin.get();
     system("clear");

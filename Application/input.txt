@@ -1,0 +1,1034 @@
+[ryanwalters]@linux2 ~/315/project1> (21:37:50 02/24/16)
+:: ./run-app
+
+Welcome to The Convention Exhibit Management System
+-----------------------------------------------
+
+1. Exhibit Manager
+2. Exhibitor
+3. Attendee
+4. Exit
+
+Please select which data records you would like to access: 1
+---------------------------------
+-           Main Menu           -
+-        Exhibit Manager        -
+---------------------------------
+
+Exhibits
+----------
+E1. List Exhibitors
+E2. List Exhibitors(based on criteria)
+E3. Register new Exhibitor
+E4. Remove Exhibitor(s)
+
+Booths
+----------
+B1. Assign booth location to exhibitor
+B2. Delete booth location of exhibitor
+B3. List booth locations of exhibitor
+
+Services
+----------
+S1. Assign services to exhibitor
+S2. Remove services from exhibitor
+S3. List services for exhibitor
+
+Finance
+----------
+F1. Show invoice for exhibitor
+F2. Show total revenue
+
+Attendees
+----------
+A1. Add attendee to exhibit's visited list
+A2. Remove attendee from exhibit's visited list
+A3. Show attendees who visited an exhibit
+A4. List attendees
+A5. Register new attendee
+A6. Remove attendee
+A7. Search attendees based on criteria
+
+Inventory
+----------
+I1. Add to inventory
+I2. Remove from inventory
+I3. List inventory
+
+Role
+----------
+R1. Change my role
+
+Input your command: E3
+Please input value for company: tamu
+Please input value for address: 1234 Rudder
+Please input value for contact: President
+Please input value for email: email@tamu.edu
+Please input value for phone: 123aggie
+Please input value for fax: 123aggie2
+Please input value for category: 1
+Please input value for booth_personnel: ryan
+Please input value for description: Texas A&M University
+Please input value for website: tamu.edu
+Press enter to continue...
+
+
+
+---------------------------------
+-           Main Menu           -
+-        Exhibit Manager        -
+---------------------------------
+
+Exhibits
+----------
+E1. List Exhibitors
+E2. List Exhibitors(based on criteria)
+E3. Register new Exhibitor
+E4. Remove Exhibitor(s)
+
+Booths
+----------
+B1. Assign booth location to exhibitor
+B2. Delete booth location of exhibitor
+B3. List booth locations of exhibitor
+
+Services
+----------
+S1. Assign services to exhibitor
+S2. Remove services from exhibitor
+S3. List services for exhibitor
+
+Finance
+----------
+F1. Show invoice for exhibitor
+F2. Show total revenue
+
+Attendees
+----------
+A1. Add attendee to exhibit's visited list
+A2. Remove attendee from exhibit's visited list
+A3. Show attendees who visited an exhibit
+A4. List attendees
+A5. Register new attendee
+A6. Remove attendee
+A7. Search attendees based on criteria
+
+Inventory
+----------
+I1. Add to inventory
+I2. Remove from inventory
+I3. List inventory
+
+Role
+----------
+R1. Change my role
+
+Input your command: E3
+Please input value for company: UT
+Please input value for address: Texas Ave
+Please input value for contact: President 2
+Please input value for email: ut@ut.edu
+Please input value for phone: 1234
+Please input value for fax: 5678
+Please input value for category: 1
+Please input value for booth_personnel: john
+Please input value for description: University of Texas
+Please input value for website: ut.edu
+Press enter to continue...
+
+
+
+---------------------------------
+-           Main Menu           -
+-        Exhibit Manager        -
+---------------------------------
+
+Exhibits
+----------
+E1. List Exhibitors
+E2. List Exhibitors(based on criteria)
+E3. Register new Exhibitor
+E4. Remove Exhibitor(s)
+
+Booths
+----------
+B1. Assign booth location to exhibitor
+B2. Delete booth location of exhibitor
+B3. List booth locations of exhibitor
+
+Services
+----------
+S1. Assign services to exhibitor
+S2. Remove services from exhibitor
+S3. List services for exhibitor
+
+Finance
+----------
+F1. Show invoice for exhibitor
+F2. Show total revenue
+
+Attendees
+----------
+A1. Add attendee to exhibit's visited list
+A2. Remove attendee from exhibit's visited list
+A3. Show attendees who visited an exhibit
+A4. List attendees
+A5. Register new attendee
+A6. Remove attendee
+A7. Search attendees based on criteria
+
+Inventory
+----------
+I1. Add to inventory
+I2. Remove from inventory
+I3. List inventory
+
+Role
+----------
+R1. Change my role
+
+Input your command: B1
+Please input value for Company name: ut
+Please input value for Starting row: 1
+Please input value for Ending row: 2
+Please input value for Column: 1
+Please input value for Type(1 for Economy, 2 for Premium): 1
+Press enter to continue...
+
+
+
+---------------------------------
+-           Main Menu           -
+-        Exhibit Manager        -
+---------------------------------
+
+Exhibits
+----------
+E1. List Exhibitors
+E2. List Exhibitors(based on criteria)
+E3. Register new Exhibitor
+E4. Remove Exhibitor(s)
+
+Booths
+----------
+B1. Assign booth location to exhibitor
+B2. Delete booth location of exhibitor
+B3. List booth locations of exhibitor
+
+Services
+----------
+S1. Assign services to exhibitor
+S2. Remove services from exhibitor
+S3. List services for exhibitor
+
+Finance
+----------
+F1. Show invoice for exhibitor
+F2. Show total revenue
+
+Attendees
+----------
+A1. Add attendee to exhibit's visited list
+A2. Remove attendee from exhibit's visited list
+A3. Show attendees who visited an exhibit
+A4. List attendees
+A5. Register new attendee
+A6. Remove attendee
+A7. Search attendees based on criteria
+
+Inventory
+----------
+I1. Add to inventory
+I2. Remove from inventory
+I3. List inventory
+
+Role
+----------
+R1. Change my role
+
+Input your command: B1
+Please input value for Company name: tamu
+Please input value for Starting row: 2
+Please input value for Ending row: 5
+Please input value for Column: 2
+Please input value for Type(1 for Economy, 2 for Premium): 2
+Press enter to continue...
+
+
+
+---------------------------------
+-           Main Menu           -
+-        Exhibit Manager        -
+---------------------------------
+
+Exhibits
+----------
+E1. List Exhibitors
+E2. List Exhibitors(based on criteria)
+E3. Register new Exhibitor
+E4. Remove Exhibitor(s)
+
+Booths
+----------
+B1. Assign booth location to exhibitor
+B2. Delete booth location of exhibitor
+B3. List booth locations of exhibitor
+
+Services
+----------
+S1. Assign services to exhibitor
+S2. Remove services from exhibitor
+S3. List services for exhibitor
+
+Finance
+----------
+F1. Show invoice for exhibitor
+F2. Show total revenue
+
+Attendees
+----------
+A1. Add attendee to exhibit's visited list
+A2. Remove attendee from exhibit's visited list
+A3. Show attendees who visited an exhibit
+A4. List attendees
+A5. Register new attendee
+A6. Remove attendee
+A7. Search attendees based on criteria
+
+Inventory
+----------
+I1. Add to inventory
+I2. Remove from inventory
+I3. List inventory
+
+Role
+----------
+R1. Change my role
+
+Input your command: B3
+Input name of exhibitor company to find: tamu
+
+
+Listing: booths
+company - starting_row - ending_row - column - type
+------------------------------------------------------
+tamu - 2 - 5 - 2 - 2
+------------------------------------------------------
+
+Press enter to continue...
+
+
+
+---------------------------------
+-           Main Menu           -
+-        Exhibit Manager        -
+---------------------------------
+
+Exhibits
+----------
+E1. List Exhibitors
+E2. List Exhibitors(based on criteria)
+E3. Register new Exhibitor
+E4. Remove Exhibitor(s)
+
+Booths
+----------
+B1. Assign booth location to exhibitor
+B2. Delete booth location of exhibitor
+B3. List booth locations of exhibitor
+
+Services
+----------
+S1. Assign services to exhibitor
+S2. Remove services from exhibitor
+S3. List services for exhibitor
+
+Finance
+----------
+F1. Show invoice for exhibitor
+F2. Show total revenue
+
+Attendees
+----------
+A1. Add attendee to exhibit's visited list
+A2. Remove attendee from exhibit's visited list
+A3. Show attendees who visited an exhibit
+A4. List attendees
+A5. Register new attendee
+A6. Remove attendee
+A7. Search attendees based on criteria
+
+Inventory
+----------
+I1. Add to inventory
+I2. Remove from inventory
+I3. List inventory
+
+Role
+----------
+R1. Change my role
+
+Input your command: I3
+
+
+Listing: inventory
+key - description - price - quantity
+------------------------------------------------------
+e500 - Electricity (500W) - 30 - 999
+e1000 - Electricity(1000W) - 40 - 999
+e1500 - Electricity(1500W) - 50 - 999
+table1 - Table of size 1 - 25 - 5
+table2 - Table of size 2 - 25 - 5
+table3 - Table of size 3 - 30 - 5
+table4 - Table of size 4 - 30 - 5
+table5 - Table of size 5 - 35 - 5
+chair - Chair - 10 - 100
+fstv - Flatscreen TV - 60 - 25
+cm - Computer Monitor - 25 - 15
+laptop - Laptop computer - 90 - 35
+projector - Projector - 28 - 15
+projectorscreen - Projector Screen - 10 - 15
+scanner - Barcode Scanner - 5 - 40
+ad1 - Exhibitor Guide - 60 - 10
+ad2 - Online exhibitor guide - 40 - 55
+ad3 - Large banner - 32 - 15
+ad4 - Small banner - 27 - 25
+ins1 - Insurance Coverage: $1 million - 10000 - 10
+ins2 - Insurance Coverage: $10 million - 400000 - 10
+------------------------------------------------------
+
+Press enter to continue...
+
+
+---------------------------------
+-           Main Menu           -
+-        Exhibit Manager        -
+---------------------------------
+
+Exhibits
+----------
+E1. List Exhibitors
+E2. List Exhibitors(based on criteria)
+E3. Register new Exhibitor
+E4. Remove Exhibitor(s)
+
+Booths
+----------
+B1. Assign booth location to exhibitor
+B2. Delete booth location of exhibitor
+B3. List booth locations of exhibitor
+
+Services
+----------
+S1. Assign services to exhibitor
+S2. Remove services from exhibitor
+S3. List services for exhibitor
+
+Finance
+----------
+F1. Show invoice for exhibitor
+F2. Show total revenue
+
+Attendees
+----------
+A1. Add attendee to exhibit's visited list
+A2. Remove attendee from exhibit's visited list
+A3. Show attendees who visited an exhibit
+A4. List attendees
+A5. Register new attendee
+A6. Remove attendee
+A7. Search attendees based on criteria
+
+Inventory
+----------
+I1. Add to inventory
+I2. Remove from inventory
+I3. List inventory
+
+Role
+----------
+R1. Change my role
+
+Input your command: S1
+Input company name of exhibitor: tamu
+Input name of key in inventory: e500
+Item with key e500 found to have 999 quantity
+Item with key e500 found to have 999 quantity
+Press enter to continue...
+
+
+
+---------------------------------
+-           Main Menu           -
+-        Exhibit Manager        -
+---------------------------------
+
+Exhibits
+----------
+E1. List Exhibitors
+E2. List Exhibitors(based on criteria)
+E3. Register new Exhibitor
+E4. Remove Exhibitor(s)
+
+Booths
+----------
+B1. Assign booth location to exhibitor
+B2. Delete booth location of exhibitor
+B3. List booth locations of exhibitor
+
+Services
+----------
+S1. Assign services to exhibitor
+S2. Remove services from exhibitor
+S3. List services for exhibitor
+
+Finance
+----------
+F1. Show invoice for exhibitor
+F2. Show total revenue
+
+Attendees
+----------
+A1. Add attendee to exhibit's visited list
+A2. Remove attendee from exhibit's visited list
+A3. Show attendees who visited an exhibit
+A4. List attendees
+A5. Register new attendee
+A6. Remove attendee
+A7. Search attendees based on criteria
+
+Inventory
+----------
+I1. Add to inventory
+I2. Remove from inventory
+I3. List inventory
+
+Role
+----------
+R1. Change my role
+
+Input your command: S1
+Input company name of exhibitor: ut
+Input name of key in inventory: table2
+Item with key table2 found to have 5 quantity
+Item with key table2 found to have 5 quantity
+Press enter to continue...
+
+
+
+---------------------------------
+-           Main Menu           -
+-        Exhibit Manager        -
+---------------------------------
+
+Exhibits
+----------
+E1. List Exhibitors
+E2. List Exhibitors(based on criteria)
+E3. Register new Exhibitor
+E4. Remove Exhibitor(s)
+
+Booths
+----------
+B1. Assign booth location to exhibitor
+B2. Delete booth location of exhibitor
+B3. List booth locations of exhibitor
+
+Services
+----------
+S1. Assign services to exhibitor
+S2. Remove services from exhibitor
+S3. List services for exhibitor
+
+Finance
+----------
+F1. Show invoice for exhibitor
+F2. Show total revenue
+
+Attendees
+----------
+A1. Add attendee to exhibit's visited list
+A2. Remove attendee from exhibit's visited list
+A3. Show attendees who visited an exhibit
+A4. List attendees
+A5. Register new attendee
+A6. Remove attendee
+A7. Search attendees based on criteria
+
+Inventory
+----------
+I1. Add to inventory
+I2. Remove from inventory
+I3. List inventory
+
+Role
+----------
+R1. Change my role
+
+Input your command: S1
+Input company name of exhibitor: ut
+Input name of key in inventory: table2
+Item with key table2 found to have 4 quantity
+Item with key table2 found to have 4 quantity
+Press enter to continue...
+
+
+
+---------------------------------
+-           Main Menu           -
+-        Exhibit Manager        -
+---------------------------------
+
+Exhibits
+----------
+E1. List Exhibitors
+E2. List Exhibitors(based on criteria)
+E3. Register new Exhibitor
+E4. Remove Exhibitor(s)
+
+Booths
+----------
+B1. Assign booth location to exhibitor
+B2. Delete booth location of exhibitor
+B3. List booth locations of exhibitor
+
+Services
+----------
+S1. Assign services to exhibitor
+S2. Remove services from exhibitor
+S3. List services for exhibitor
+
+Finance
+----------
+F1. Show invoice for exhibitor
+F2. Show total revenue
+
+Attendees
+----------
+A1. Add attendee to exhibit's visited list
+A2. Remove attendee from exhibit's visited list
+A3. Show attendees who visited an exhibit
+A4. List attendees
+A5. Register new attendee
+A6. Remove attendee
+A7. Search attendees based on criteria
+
+Inventory
+----------
+I1. Add to inventory
+I2. Remove from inventory
+I3. List inventory
+
+Role
+----------
+R1. Change my role
+
+Input your command: S3
+Input company of exhibitor to show services for: ut
+
+
+Listing: services
+exhibitor - inventory_key - price
+------------------------------------------------------
+ut - table2 - 25
+ut - table2 - 25
+------------------------------------------------------
+
+Press enter to continue...
+
+
+
+---------------------------------
+-           Main Menu           -
+-        Exhibit Manager        -
+---------------------------------
+
+Exhibits
+----------
+E1. List Exhibitors
+E2. List Exhibitors(based on criteria)
+E3. Register new Exhibitor
+E4. Remove Exhibitor(s)
+
+Booths
+----------
+B1. Assign booth location to exhibitor
+B2. Delete booth location of exhibitor
+B3. List booth locations of exhibitor
+
+Services
+----------
+S1. Assign services to exhibitor
+S2. Remove services from exhibitor
+S3. List services for exhibitor
+
+Finance
+----------
+F1. Show invoice for exhibitor
+F2. Show total revenue
+
+Attendees
+----------
+A1. Add attendee to exhibit's visited list
+A2. Remove attendee from exhibit's visited list
+A3. Show attendees who visited an exhibit
+A4. List attendees
+A5. Register new attendee
+A6. Remove attendee
+A7. Search attendees based on criteria
+
+Inventory
+----------
+I1. Add to inventory
+I2. Remove from inventory
+I3. List inventory
+
+Role
+----------
+R1. Change my role
+
+Input your command: F1
+Input company of exhibitor to show invoice for: tamu
+
+
+Listing: services
+exhibitor - inventory_key - price
+------------------------------------------------------
+tamu - e500 - 30
+------------------------------------------------------
+
+
+
+Listing: booths
+company - starting_row - ending_row - column - type
+------------------------------------------------------
+tamu - 2 - 5 - 2 - 2
+------------------------------------------------------
+
+Total cost: 60
+Press enter to continue...
+
+
+
+---------------------------------
+-           Main Menu           -
+-        Exhibit Manager        -
+---------------------------------
+
+Exhibits
+----------
+E1. List Exhibitors
+E2. List Exhibitors(based on criteria)
+E3. Register new Exhibitor
+E4. Remove Exhibitor(s)
+
+Booths
+----------
+B1. Assign booth location to exhibitor
+B2. Delete booth location of exhibitor
+B3. List booth locations of exhibitor
+
+Services
+----------
+S1. Assign services to exhibitor
+S2. Remove services from exhibitor
+S3. List services for exhibitor
+
+Finance
+----------
+F1. Show invoice for exhibitor
+F2. Show total revenue
+
+Attendees
+----------
+A1. Add attendee to exhibit's visited list
+A2. Remove attendee from exhibit's visited list
+A3. Show attendees who visited an exhibit
+A4. List attendees
+A5. Register new attendee
+A6. Remove attendee
+A7. Search attendees based on criteria
+
+Inventory
+----------
+I1. Add to inventory
+I2. Remove from inventory
+I3. List inventory
+
+Role
+----------
+R1. Change my role
+
+Input your command: A5
+Please input value for name: eric
+Please input value for organization: texas
+Please input value for address: 123 strret
+Please input value for email: eric@email.com
+Please input value for registration_fee: 25
+Please input value for category: 1
+Please input value for badge_status: 1
+Press enter to continue...
+
+
+
+---------------------------------
+-           Main Menu           -
+-        Exhibit Manager        -
+---------------------------------
+
+Exhibits
+----------
+E1. List Exhibitors
+E2. List Exhibitors(based on criteria)
+E3. Register new Exhibitor
+E4. Remove Exhibitor(s)
+
+Booths
+----------
+B1. Assign booth location to exhibitor
+B2. Delete booth location of exhibitor
+B3. List booth locations of exhibitor
+
+Services
+----------
+S1. Assign services to exhibitor
+S2. Remove services from exhibitor
+S3. List services for exhibitor
+
+Finance
+----------
+F1. Show invoice for exhibitor
+F2. Show total revenue
+
+Attendees
+----------
+A1. Add attendee to exhibit's visited list
+A2. Remove attendee from exhibit's visited list
+A3. Show attendees who visited an exhibit
+A4. List attendees
+A5. Register new attendee
+A6. Remove attendee
+A7. Search attendees based on criteria
+
+Inventory
+----------
+I1. Add to inventory
+I2. Remove from inventory
+I3. List inventory
+
+Role
+----------
+R1. Change my role
+
+Input your command: A4
+
+
+Listing: attendees
+name - organization - address - email - registration_fee - category - badge_status
+------------------------------------------------------
+eric - texas - 123 strret - eric@email.com - 25 - 1 - 1
+------------------------------------------------------
+
+Press enter to continue...
+
+
+---------------------------------
+-           Main Menu           -
+-        Exhibit Manager        -
+---------------------------------
+
+Exhibits
+----------
+E1. List Exhibitors
+E2. List Exhibitors(based on criteria)
+E3. Register new Exhibitor
+E4. Remove Exhibitor(s)
+
+Booths
+----------
+B1. Assign booth location to exhibitor
+B2. Delete booth location of exhibitor
+B3. List booth locations of exhibitor
+
+Services
+----------
+S1. Assign services to exhibitor
+S2. Remove services from exhibitor
+S3. List services for exhibitor
+
+Finance
+----------
+F1. Show invoice for exhibitor
+F2. Show total revenue
+
+Attendees
+----------
+A1. Add attendee to exhibit's visited list
+A2. Remove attendee from exhibit's visited list
+A3. Show attendees who visited an exhibit
+A4. List attendees
+A5. Register new attendee
+A6. Remove attendee
+A7. Search attendees based on criteria
+
+Inventory
+----------
+I1. Add to inventory
+I2. Remove from inventory
+I3. List inventory
+
+Role
+----------
+R1. Change my role
+
+Input your command: A7
+Input your criteria in the grammar of the DML: name == eric
+
+
+Listing: attendees
+name - organization - address - email - registration_fee - category - badge_status
+------------------------------------------------------
+eric - texas - 123 strret - eric@email.com - 25 - 1 - 1
+------------------------------------------------------
+
+Press enter to continue...
+
+
+
+---------------------------------
+-           Main Menu           -
+-        Exhibit Manager        -
+---------------------------------
+
+Exhibits
+----------
+E1. List Exhibitors
+E2. List Exhibitors(based on criteria)
+E3. Register new Exhibitor
+E4. Remove Exhibitor(s)
+
+Booths
+----------
+B1. Assign booth location to exhibitor
+B2. Delete booth location of exhibitor
+B3. List booth locations of exhibitor
+
+Services
+----------
+S1. Assign services to exhibitor
+S2. Remove services from exhibitor
+S3. List services for exhibitor
+
+Finance
+----------
+F1. Show invoice for exhibitor
+F2. Show total revenue
+
+Attendees
+----------
+A1. Add attendee to exhibit's visited list
+A2. Remove attendee from exhibit's visited list
+A3. Show attendees who visited an exhibit
+A4. List attendees
+A5. Register new attendee
+A6. Remove attendee
+A7. Search attendees based on criteria
+
+Inventory
+----------
+I1. Add to inventory
+I2. Remove from inventory
+I3. List inventory
+
+Role
+----------
+R1. Change my role
+
+Input your command: A1
+Input name of attendee: eric
+Input name of exhibitor company: ut
+Press enter to continue...
+
+
+
+---------------------------------
+-           Main Menu           -
+-        Exhibit Manager        -
+---------------------------------
+
+Exhibits
+----------
+E1. List Exhibitors
+E2. List Exhibitors(based on criteria)
+E3. Register new Exhibitor
+E4. Remove Exhibitor(s)
+
+Booths
+----------
+B1. Assign booth location to exhibitor
+B2. Delete booth location of exhibitor
+B3. List booth locations of exhibitor
+
+Services
+----------
+S1. Assign services to exhibitor
+S2. Remove services from exhibitor
+S3. List services for exhibitor
+
+Finance
+----------
+F1. Show invoice for exhibitor
+F2. Show total revenue
+
+Attendees
+----------
+A1. Add attendee to exhibit's visited list
+A2. Remove attendee from exhibit's visited list
+A3. Show attendees who visited an exhibit
+A4. List attendees
+A5. Register new attendee
+A6. Remove attendee
+A7. Search attendees based on criteria
+
+Inventory
+----------
+I1. Add to inventory
+I2. Remove from inventory
+I3. List inventory
+
+Role
+----------
+R1. Change my role
+
+Input your command: R1
+
+Welcome to The Convention Exhibit Management System
+-----------------------------------------------
+
+1. Exhibit Manager
+2. Exhibitor
+3. Attendee
+4. Exit
+
+Please select which data records you would like to access: 2
+Please input your company name: ut
+Press enter to continue...
+
+
+---------------------------------
+-           Main Menu           -
+-           Exhibitor           -
+---------------------------------
+
+Exhibitor
+----------
+E5. Show my info
+E6. List attendees who visited
+E7. List my services
+
+
+Role
+----------
+R1. Change my role
+
+Input your command:
