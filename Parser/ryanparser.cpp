@@ -17,10 +17,15 @@
 ofstream output;
 int error;
 //---------------------------//
-
+//simple function to determine if the input is a command or query
 bool is_query(string command){
+	//check if the first letter is capitalized
 	return ((command[0]>96 && command[0]<123)||command[0]==95);
+	//TRUE	= query
+	//FALSE	= command
 }
+
+//declared functions for recursion purposes
 Relation interpret_query(Database &db, std::vector<std::string> command);
 int file_input(Database &db, FILE *input, string filename, bool is_open);
 
@@ -35,16 +40,22 @@ string which_op(string op){
 	return "eq"; //Compare should be eq by default
 }
 
+//----------------------------------------------------//
+//					Query Interpretations
+//Select, Rename, Project, Union, Difference, Product
+//----------------------------------------------------//
+
 Relation interpret_select(Database &db, std::vector<std::string> query){
     if(query.size()>3){	
-	//declareand initialize the arguments for the select function
+	//declare and initialize the arguments for the select function
 	string att_name=query[0];
 	string compare=query[1];
 	string value=query[2];
 	int i;
 	//three cases:
-	//1) the selection is going to set_difference two conditions
+	//1) '&&' the selection is going to set_difference two conditions
 	if( query[3]=="&&"){
+		//the select needs the input relation which is after all the conditions
 		for(i=3; query[i]=="&&" || query[i]=="||"; i+=4){}
 		vector<string> in_rel_query;
 		for(int j=i; j<query.size(); j++)
@@ -54,11 +65,12 @@ Relation interpret_select(Database &db, std::vector<std::string> query){
 	//	db.select( att_name, value, which_op(compare), interpret_select(db, rest_of_query) );
 		return db.set_difference( " ", db.select(att_name, value, which_op(compare), interpret_query(db, in_rel_query) ), db.set_difference(" ",  db.select(att_name, value, which_op(compare), interpret_query(db, in_rel_query) ), interpret_select(db, rest_of_query)));	
 	}
-	//2) the selection is going to set_union two conditions
+	//2) '||' the selection is going to set_union two conditions
 	else if( query[3] =="||"){
+		//the select needs the input relation which is after all the conditions
 		for(i=3; query[i]=="&&" || query[i]=="||"; i+=4){}
 		vector<string> in_rel_query;
-		for(int j=i; j<query.size(); j++)
+		for(int j=i; j<query.size(); j++)	//the select needs the input relation which is after all the conditions
 			in_rel_query.push_back(query[j]);
 		query.erase(query.begin(), query.begin() + 4);
 		vector<string> rest_of_query=query;
@@ -81,16 +93,19 @@ Relation interpret_select(Database &db, std::vector<std::string> query){
 Relation interpret_rename(Database &db, std::vector<std::string> query){
 	int i;
 	vector<string> names;
+	//go through the query and fill the vector with the desired attribute names
 	for(i=0; i<(query.size()-1); i++){
-		if(query[i]!="select"&&query[i]!="project"&&query[i]!="rename"){
+		//if it hits the relation name or another query break
+		if(query[i]!="select" && query[i]!="project" && query[i]!="rename"){
 			if((i+4)==query.size()){ //Is Union,Diff, or prod
-				if(query[i+2]=="+"||query[i+2]=="-"||query[i+2]=="*"){
+				if(query[i+2]=="+" || query[i+2]!="-" || query[i+2]!="*"){
 					names.push_back(query[i]);//the last name
 					break;
 				}
+				else {break;}
 			}
 			names.push_back(query[i]);
-		} else{break;} //The next thing is an expr
+		} else{break;} //The next thing is an expr not a new att_name
 	} //If it doesn't hit a "break;", then it is a relation name
 	vector<string> _query(query.begin() + i, query.end());
 	return db.renaming(" ", names, interpret_query(db, _query));
@@ -100,7 +115,7 @@ Relation interpret_project(Database &db, std::vector<std::string> query){
 	int i; 
 	vector<string> names; 
 	for(i=0; i<(query.size()-1); i++){ 
-		if(query[i]!="select"&&query[i]!="project"&&query[i]!="rename"){ 
+		if(query[i]!="select" && query[i]!="project" && query[i]!="rename"){ 
 			if((i+4)==query.size()){ //Is Union,Diff, or prod
 				if(query[i+2]=="+"||query[i+2]=="-"||query[i+2]=="*"){ 
 					names.push_back(query[i]);//the last name
@@ -118,6 +133,7 @@ Relation interpret_project(Database &db, std::vector<std::string> query){
 
 Relation interpret_union(Database &db, std::vector<std::string> query){
 		string relation_name= query[0];
+		//set up the second relation in the union
 		query.erase(query.begin(), query.begin() + 2);
 		vector<string> rest_of_query=query;
 		return db.set_union(" ", db.get_relation(relation_name), interpret_query(db, rest_of_query));	
@@ -125,6 +141,7 @@ Relation interpret_union(Database &db, std::vector<std::string> query){
 
 Relation interpret_difference(Database &db, std::vector<std::string> query){
 		string relation_name=query[0];
+		//set up the second relation in the difference
 		query.erase(query.begin(), query.begin() + 2);
 		vector<string> rest_of_query=query;
 		return db.set_difference(" ", db.get_relation(relation_name), interpret_query(db, rest_of_query));
@@ -132,11 +149,16 @@ Relation interpret_difference(Database &db, std::vector<std::string> query){
 
 Relation interpret_product(Database &db, std::vector<std::string> query){
 		string relation_name= query[0];
+		//set up the second relation in the product
 		query.erase(query.begin(), query.begin() + 2);
 		vector<string> rest_of_query=query;
 		return db.cross_product(" ", db.get_relation(relation_name), interpret_query(db, rest_of_query));
 }
 
+//------------------------------//
+//	Command Interpretations
+// CREATE, INSERT, SHOW, UPDATE
+//------------------------------//
 bool interpret_create(Database &db, std::vector<std::string> command) {
     if (command.size() > 5) {
         string relation_name = command[0];
@@ -148,13 +170,14 @@ bool interpret_create(Database &db, std::vector<std::string> command) {
         std::vector<std::string> primary_keys;
         int i = 1;
         for (i = 1; i < command.size(); i++){
+        	//make the primary keys
             if (command[i] == "PRIMARY")
                 break;
 
             if (!column_name_just_found) {
                 attribute_names.push_back( command[i] );
                 column_name_just_found = true;
-            } else {
+            } else { // set up the attributes of the new table
                 if (command[i] == "VARCHAR") {
                     i++;
                     std::string::size_type sz;
@@ -194,11 +217,12 @@ bool interpret_insert(Database &db, std::vector<std::string> command) {
 		 		from_relation=true;
                 break;
        		}
+       		//If it passes this statment it is a value to make into a tuple
             if (command[i]!= "VALUES" && command[i] != "FROM") {
                 attribute_values.push_back( command[i] );
             }  
         }
-        
+        //The 'from relation' type of insert needs to be handled differently
         if (from_relation) {
         	command.erase(command.begin(), command.begin() + i +  1);
 			vector<string> rest_of_query=command;
@@ -216,6 +240,7 @@ bool interpret_insert(Database &db, std::vector<std::string> command) {
 bool interpret_show(Database &db, std::vector<std::string> command){
 	if (command.size()>0){
 		if(command.size()==1){
+		//the relation is a relation-name
 			string relation_name=command[0];
 			if(db.get_relation_index(relation_name)==(-1)){//If it doesn't exist
 				printf("The relation named: %s does not exist.\n", relation_name.c_str());
@@ -225,6 +250,7 @@ bool interpret_show(Database &db, std::vector<std::string> command){
 				db.print_relation(db.get_relation(relation_name));
 			}
 		}
+		//the relation is a different atomic-expr
 		else{
 			db.print_relation(interpret_query(db, command));
 		}
@@ -234,6 +260,8 @@ bool interpret_show(Database &db, std::vector<std::string> command){
 		  error=12;
        }	
 }
+
+
 bool interpret_update(Database &db, std::vector<std::string> command, string relation_name){
 	vector<string> names;
 	vector<string> compare_values;
@@ -265,7 +293,16 @@ bool interpret_update(Database &db, std::vector<std::string> command, string rel
 	db.print_relation(interpret_select(db, rest_of_query));
 	db.update(db.get_relation(relation_name), names, literals, interpret_select(db, rest_of_query));
 }	
-	
+//----------------------------------//
+//	  Branch Selection Process
+// 	1) Command	      2)  Query
+//----------------------------------//	
+
+//-----------------------------------------------------------------------//
+// 1)  Commands
+//		-goes throught the first few words of the input and determines 
+//		which command interpretation to take while adding error checking;
+//-----------------------------------------------------------------------//
 void interpret_command(Database &db, std::vector<std::string> command) {	
     if (command[0] == "CREATE") {
         if (command.size() > 2 && command[1] == "TABLE") {
@@ -325,9 +362,8 @@ void interpret_command(Database &db, std::vector<std::string> command) {
 		if (command.size()==2){
 			db.save(command[1]);
 			for(int i=0; i< db.relations.size();i++){
-				if(db.get_relation(i).name.c_str()==command[1]){
+				if(db.get_relation(i).name.c_str()==command[1])
 					db.relations.erase(db.relations.begin() + i);
-				}
 			}
 		} else {
 			printf("The number of arguments for CLOSE is incorrect.\n");
@@ -361,6 +397,12 @@ void interpret_command(Database &db, std::vector<std::string> command) {
 		error=2;
     }
 }
+
+//------------------------
+// 2) Queries
+//		-goes throught the first few words of the input and determines which query
+//		interpretation to take while adding error checking;
+//------------------------
 Relation interpret_query(Database &db, std::vector<std::string> query){
     if (query[0]=="select"){
 		query.erase(query.begin(), query.begin()+1); 
@@ -376,6 +418,7 @@ Relation interpret_query(Database &db, std::vector<std::string> query){
 		return interpret_project(db, rest_of_query);
 	} else{
 		if(query.size()>2){//Prevent SegFault
+		//check for union, difference, and product
 			if(query[1]=="+"){
 				return interpret_union(db, query);
 			} else if(query[1]=="-"){
@@ -389,6 +432,11 @@ Relation interpret_query(Database &db, std::vector<std::string> query){
     }
 }
 
+//-----------------------------------------------------------------------//
+// - The following function acts as the first node in the parsing process
+// - It determines whether the function is a query or a command and then 
+//		sends the command to the proper interpretation course 
+//----------------------------------------------------------------------//
 void query_or_command(Database &db, std::vector<std::string> command_line){
 	if(is_query(command_line[0])){
 		string relation_name= command_line[0];
@@ -396,7 +444,6 @@ void query_or_command(Database &db, std::vector<std::string> command_line){
 			command_line.erase (command_line.begin(), command_line.begin()+2);
             std::vector<std::string> rest_of_query = command_line;
 			db.create_relation(relation_name, interpret_query(db, rest_of_query));
-	//		cout<<"just created relation with the name: "<<relation_name<<endl;
 		} else{
 			cout<<"Error parsing your command expected <- after relation-name"<<endl;
 			output<<"Query failed. Expecting <- after relation-name"<<endl;
@@ -407,6 +454,10 @@ void query_or_command(Database &db, std::vector<std::string> command_line){
 	}
 }
 
+//------------------------------------------------------------------//
+//	-file_input takes a file and reads in the commands/queries given
+//	-it is particularly used in the open function 
+//------------------------------------------------------------------//
 int file_input(Database &db, FILE *input, string filename, bool is_open){
 	vector<string> command_list;
 	char* str;
@@ -430,10 +481,13 @@ int file_input(Database &db, FILE *input, string filename, bool is_open){
 				command_list.push_back(pch);
 				pch = strtok (NULL, delimiters.c_str());
 		}
+//Check for EXIT command
 		if(command_list[0]=="EXIT" && command_list.size()==1){//Preventing SegFault
 			output<<"-=-=-=-=-EXITED-=-=-=-=-"<<endl;
 			exit(0);
-		} else{query_or_command(db, command_list);}
+		} else{	//This marks the beginning of the query/command interpretation
+			query_or_command(db, command_list);
+		}
 		if(!is_open){
 			if(error==0){
 				output<<"Line number "<<line_number<<" was successful!"<<endl;
