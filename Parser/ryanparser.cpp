@@ -89,7 +89,11 @@ Relation interpret_select(Database &db, std::vector<std::string> query){
 		error=16;
     }
 }
-
+//--------------------------------------------------------------//
+//	1) Rename will search through and take all the words that
+//		do not match query key words and add them to the string of 
+//		new namesfor the attributes in the specified relation
+//--------------------------------------------------------------//
 Relation interpret_rename(Database &db, std::vector<std::string> query){
 	int i;
 	vector<string> names;
@@ -263,6 +267,7 @@ bool interpret_show(Database &db, std::vector<std::string> command){
 
 
 bool interpret_update(Database &db, std::vector<std::string> command, string relation_name){
+	//vectors for vital information for updates
 	vector<string> names;
 	vector<string> compare_values;
 	vector<string> literals;
@@ -471,13 +476,17 @@ int file_input(Database &db, FILE *input, string filename, bool is_open){
 	int line_number=1;
 	size_t buffer_size=0;
 	while(!feof(input)){
+		//get a command from the file
 		getline(&str, &buffer_size, input); 
 		string command(str);
 		if(!is_open){
+		//prints the command back to the user
 			printf("The given command is: %s\n",str);
 		}
+		//tokenizes the command
 		pch = strtok (str, delimiters.c_str());
 			while (pch != NULL) {
+			//put the token in to a vector to make the command easy to parse
 				command_list.push_back(pch);
 				pch = strtok (NULL, delimiters.c_str());
 		}
@@ -485,13 +494,17 @@ int file_input(Database &db, FILE *input, string filename, bool is_open){
 		if(command_list[0]=="EXIT" && command_list.size()==1){//Preventing SegFault
 			output<<"-=-=-=-=-EXITED-=-=-=-=-"<<endl;
 			exit(0);
-		} else{	//This marks the beginning of the query/command interpretation
+		} else{	
+		//This marks the beginning of the query/command interpretation
 			query_or_command(db, command_list);
 		}
 		if(!is_open){
 			if(error==0){
+				//The output file contains all instances of successful commands
 				output<<"Line number "<<line_number<<" was successful!"<<endl;
-			} else {output<<"Line number "<<line_number<<" FAILED!"<<endl;}
+			} else {
+				//The output file contains all instances of failed commands
+				output<<"Line number "<<line_number<<" FAILED!"<<endl;}
 		} else{
 			if(error==0){
 				output<<"In file "<<filename.c_str()<<", line number "<<line_number<<" was successful!"<<endl;
@@ -499,6 +512,7 @@ int file_input(Database &db, FILE *input, string filename, bool is_open){
 				output<<"In file "<<filename.c_str()<<", line number "<<line_number<<" FAILED!"<<endl;
 			}
 		}
+		//prepare for next command
 		command_list.clear();
 		free(pch);
 		line_number++;
