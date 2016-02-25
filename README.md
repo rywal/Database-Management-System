@@ -14,8 +14,8 @@
 * To compile: make all
 
 * To run:
-  * Parser's stand-alone execution: ./run-parser
-  * Application: ./run-app
+  * Parser executable: ./run-parser
+  * Application executable: ./run-app
 
 ***
 
