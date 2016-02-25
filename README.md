@@ -175,7 +175,27 @@ Exits the DML interpreter.
 
 * *Sat, 20 Feb 2016*
    * Jonathan fixed Segfaults with new parser, defined project, and renaming, and put in added input for text docs
-   * Nathan fixed Insert, select, and show.
+   * Nathan fixed Insert, select, and show (also fixed several Segfaults).
    * Ryan continued to work on Application.
 
 * *Sun, 21 Feb 2016*
+   * Jonathan fixed Segfaults with (BOTH inputs files that were being used, Oops), modified formating, and inhanced the intake for the running parser.
+   * Nathan fixed functionality to the running parser
+   * Ryan continued to work on the Application.
+
+* *Mon, 22 Feb 2016*
+   * Ryan added more functionality to the Application, like switches for different functionalities.
+   * Nathan added more functionality to select, set_difference, and general functionality.
+   * Jonathan Added max_lengths functionality to tables, fixed primary keys in rename and project, defined OPEN and CLOSE, and added a hand_input for run_parser, general formating fixes, and re-did original parser as a boolean test for validility check.
+   * Nathan and Jonathan finished the integrated parser.
+
+* *Tue, 22 Feb 2016*
+   * Ryan continued to work deligiently on the Application
+   * Jonathan fixed the boolean test, improved output, small typos, and folder\file reconstructions.
+   * Victor did some to-do's Ryan has set out to do.
+   * Nathan Tested different inputs, and worked on starting to comment.
+
+* *Wed, 23 Feb 2016*
+   * Ryan finished working on the Application
+   * Jonathan worked on making sure inputs, work log, etc was put in place
+   * Nathan worked on making sure comments, etc was properly in place.
