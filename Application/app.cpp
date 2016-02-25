@@ -370,7 +370,7 @@ void list_attendees(bool with_criteria) {
 }
 
 void list_attendee(string name) {
-    string query = "select (name == " + name + ") attendees;";
+    string query = "select (attendee == " + name + ") attendees;";
     vector<string> command_list = break_down_query(query);
     Relation list_relation = interpret_query( rdbms, command_list );
     rdbms.app_print_relation( list_relation );
@@ -662,6 +662,57 @@ void remove_from_inventory(string k) {
 
 
 
+// Finance
+void show_invoice(string e) {
+    int total_cost = 0;
+    
+    // If exhibit is needed, get it
+    string exhibitor = e;
+    string query = "";
+    
+    // Need to clear out the newline held in cin
+    cin.ignore(1,'\n');
+    
+    while (exhibitor.length() == 0) {
+        cout << "Input company of exhibitor to show invoice for: ";
+        getline( cin, exhibitor );
+        
+        if (exhibitor.length() <= 0) {
+            cout << "Warning: Exhibitor company name was not given!\n";
+        }
+    }
+    
+    query = "select (exhibitor == " + exhibitor + ") services;";
+    vector<string> command_list = break_down_query(query);
+    Relation list_relation = interpret_query( rdbms, command_list );
+    rdbms.app_print_relation( list_relation );
+    for (int t = 0; t < list_relation.get_size(); t++) {
+        total_cost += stoi( list_relation.tuples[t].get_cell(2).get_data() );
+    }
+    
+    query = "select (company == " + exhibitor + ") booths;";
+    vector<string> command_list_booths = break_down_query(query);
+    list_relation = interpret_query( rdbms, command_list_booths );
+    rdbms.app_print_relation( list_relation );
+    for (int t = 0; t < list_relation.get_size(); t++) {
+        int booths = stoi( list_relation.tuples[t].get_cell(2).get_data() )
+                        - stoi( list_relation.tuples[t].get_cell(1).get_data() );
+        
+        int booth_type = stoi( list_relation.tuples[t].get_cell(4).get_data() );
+        int booth_cost = booth_type == 1 ? 5 : 10; // Takes type of booth and assigns unit price
+        
+        total_cost += booth_cost * booths;
+    }
+    
+    cout << "Total cost: " << total_cost << "\n";
+}
+
+void show_total_revenue() {
+    
+}
+
+
+
 // Display menus
 void display_welcome_message(){
     cout << "\nWelcome to The Convention Exhibit Management System\n";
@@ -747,6 +798,7 @@ void get_user_role() {
     while (role < 0 || role > 3) {
         display_welcome_message();
         cin >> role;
+        cin.clear();
         
         switch (role) {
             case EXHIBIT_MANAGER: // Exhibit Manager
@@ -755,10 +807,12 @@ void get_user_role() {
             case EXHIBITOR: // Exhibitor
                 cout << "Please input your company name: ";
                 cin >> role_name;
+                cin.clear();
                 break;
             case ATTENDEE: // Attendee
                 cout << "Please input your name: ";
                 cin >> role_name;
+                cin.clear();
                 break;
             case 4:
                 break;
@@ -815,11 +869,9 @@ bool interpret_command(string command){
             case 1: // B1. Assign booth location to exhibitor
                 register_booth_location();
                 break;
-                
             case 2: // B2. Delete booth location of exhibitor
                 remove_booth_location();
                 break;
-                
             case 3: // B3. List booth locations of exhibitor
                 list_booth_locations();
                 break;
@@ -841,8 +893,10 @@ bool interpret_command(string command){
         // Finance menu
         switch (sub_command){
 			case 1: // F1. Show invoice for exhibitor
+                show_invoice("");
 				break;
 			case 2: // F2. Show total revenue
+                show_total_revenue();
 				break;
 		}
     } else if (command.at(0) == 'A'){
@@ -901,7 +955,9 @@ bool interpret_command(string command){
     
     cout << "Press enter to continue... \n";
     // Need to clear out the newline held in cin
-    cin.ignore(1,'\n');
+    if (cin.peek() == '\n') {
+        cin.ignore(1, '\n');
+    }
     cin.get();
     system("clear");
     
@@ -941,6 +997,7 @@ int main(){
             
             cout << "Input your command: ";
             cin >> next_command;
+            cin.clear();
             stop = interpret_command(next_command);
         } else if (role == EXHIBITOR) {
             cout << "---------------------------------\n";
@@ -952,17 +1009,19 @@ int main(){
 	
             cout << "Input your command: ";
             cin >> next_command;
+            cin.clear();
 	    	stop = interpret_command(next_command);
         } else if (role == ATTENDEE) {
             cout << "---------------------------------\n";
             cout << "-           Main Menu           -\n";
             cout << "-           Attendees           -\n";
             cout << "---------------------------------\n";
-            display_attendees_menu();
+            display_attendee_menu();
             display_role_menu();
             
 	    	cout << "Input your command: ";
             cin >> next_command;
+            cin.clear();
 	    	stop = interpret_command(next_command);
         }
     }
