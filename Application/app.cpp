@@ -13,6 +13,7 @@ using namespace std;
 
 Database rdbms("db");
 int role = 4; // initialize role to something with no privileges
+string role_name = "";
 
 // Create needed tables
 void create_exhibits_table() {
@@ -138,6 +139,13 @@ void list_exhibitors(bool with_criteria) {
         Relation list_relation = rdbms.get_relation("exhibits");
         rdbms.app_print_relation( list_relation );
     }
+}
+
+void list_exhibitors(string name) {
+    string query = "select (company == " + name + ") exhibits;";
+    vector<string> command_list = break_down_query(query);
+    Relation list_relation = interpret_query( rdbms, command_list );
+    rdbms.app_print_relation( list_relation );
 }
 
 void register_exhibitor() {
@@ -359,6 +367,13 @@ void list_attendees(bool with_criteria) {
         Relation list_relation = rdbms.get_relation("attendees");
         rdbms.app_print_relation( list_relation );
     }
+}
+
+void list_attendee(string name) {
+    string query = "select (name == " + name + ") attendees;";
+    vector<string> command_list = break_down_query(query);
+    Relation list_relation = interpret_query( rdbms, command_list );
+    rdbms.app_print_relation( list_relation );
 }
 
 void register_attendee() {
@@ -661,7 +676,7 @@ void display_exhibits_menu() {
     cout << "E1. List Exhibitors\n";
     cout << "E2. List Exhibitors(based on criteria)\n";
     cout << "E3. Register new Exhibitor\n";
-    cout << "E4. Remove Exhibitor(s)\n\n";
+    cout << "E4. Remove Exhibitor(s)\n";
 }
 
 // TODO: Implement this along with the rest of the menus
@@ -707,9 +722,56 @@ void display_inventory_menu() {
     cout << "I3. List inventory\n";
 }
 
+void display_exhibitor_menu() {
+    cout << "\nExhibitor\n";
+    cout << "----------\n";
+    cout << "E5. Show my info\n";
+    cout << "E6. List attendees who visited\n";
+    cout << "E7. List my services\n\n";
+}
+
+void display_attendee_menu() {
+    cout << "\nAttendee\n";
+    cout << "----------\n";
+    cout << "A8. Show list of exhibits visited\n";
+    cout << "A9. Show my info\n\n";
+}
+
+void display_role_menu() {
+    cout << "\nRole\n";
+    cout << "----------\n";
+    cout << "R1. Change my role\n\n";
+}
+
+void get_user_role() {
+    while (role < 0 || role > 3) {
+        display_welcome_message();
+        cin >> role;
+        
+        switch (role) {
+            case EXHIBIT_MANAGER: // Exhibit Manager
+                role_name = "";
+                break;
+            case EXHIBITOR: // Exhibitor
+                cout << "Please input your company name: ";
+                cin >> role_name;
+                break;
+            case ATTENDEE: // Attendee
+                cout << "Please input your name: ";
+                cin >> role_name;
+                break;
+            case 4:
+                break;
+            default:
+                role = -1;
+                cout << "ERROR: Please enter input based on the instructions\n";
+                break;
+        }
+    }
+}
+
 // Intepret the given command
 bool interpret_command(string command){
-    system("clear");
     if (command.at(0) == 'Q' || command.length() < 2) {
         // Quit command given
         return true;
@@ -736,6 +798,15 @@ bool interpret_command(string command){
                 
             case 4: // E4. Remove Exhibitor(s)
                 remove_exhibitor();
+                break;
+            case 5: // E5. Show my info
+                list_exhibitors( role_name );
+                break;
+            case 6: // E6. List attendees who visited
+                list_visited_list( role_name );
+                break;
+            case 7: // E7. List my services
+                list_services_for_exhibitor( role_name );
                 break;
         }
     } else if (command.at(0) == 'B'){
@@ -798,6 +869,12 @@ bool interpret_command(string command){
 			case 7: // A7. Search attendees based on criteria
                 list_attendees(true);
 				break;
+            case 8: // A8. Show list of exhibits visited
+                list_visited_list(role_name);
+                break;
+            case 9: // A9. Show my info
+                list_attendee(role_name);
+                break;
 		}
     } else if (command.at(0) == 'I'){
         // Inventory menu
@@ -813,40 +890,22 @@ bool interpret_command(string command){
                 break;
                 
         }
-    } else {
+    } else if (command.at(0) == 'R') {
+        role = 4; // Not a true option. Forces an update
+        get_user_role();
+    }else {
         // Command not found
         cout << "Command '" << command << "' not found.\n";
         return true;
     }
     
-    bool move_on = false;
-    cout << "Press enter to continue... ";
+    cout << "Press enter to continue... \n";
+    // Need to clear out the newline held in cin
+    cin.ignore(1,'\n');
     cin.get();
-    cin.get();
+    system("clear");
     
     return false;
-}
-
-void get_user_role() {
-    while (role < 0 || role > 3) {
-        display_welcome_message();
-        cin >> role;
-        
-        switch (role) {
-            case EXHIBIT_MANAGER: // Exhibit Manager
-                break;
-            case EXHIBITOR: // Exhibitor
-                break;
-            case ATTENDEE: // Attendee
-                break;
-            case 4:
-                break;
-            default:
-                role = -1;
-                cout << "ERROR: Please enter input based on the instructions\n";
-                break;
-        }
-    }
 }
 
 int main(){
@@ -878,8 +937,9 @@ int main(){
             display_finance_menu();
             display_attendees_menu();
             display_inventory_menu();
-            cout << "Input your command: ";
+            display_role_menu();
             
+            cout << "Input your command: ";
             cin >> next_command;
             stop = interpret_command(next_command);
         } else if (role == EXHIBITOR) {
@@ -887,10 +947,10 @@ int main(){
             cout << "-           Main Menu           -\n";
             cout << "-           Exhibitor           -\n";
             cout << "---------------------------------\n";
-            display_exhibits_menu();
+            display_exhibitor_menu();
+            display_role_menu();
 	
             cout << "Input your command: ";
-
             cin >> next_command;
 	    	stop = interpret_command(next_command);
         } else if (role == ATTENDEE) {
@@ -899,8 +959,9 @@ int main(){
             cout << "-           Attendees           -\n";
             cout << "---------------------------------\n";
             display_attendees_menu();
-	    	cout << "Input your command; ";
-
+            display_role_menu();
+            
+	    	cout << "Input your command: ";
             cin >> next_command;
 	    	stop = interpret_command(next_command);
         }
