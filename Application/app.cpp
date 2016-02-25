@@ -333,7 +333,7 @@ void list_visited_list(string e) {
     }
     
     // Assemble query and send to interpret
-    string query = "select (exhibitor == \"" + exhibitor + "\") exhibits_visited;";
+    string query = "select (exhibitor == \"" + exhibitor + "\" || attendee == \"" + exhibitor + "\") exhibits_visited;";
     vector<string> command_list = break_down_query(query);
     Relation list_relation = interpret_query( rdbms, command_list );
     rdbms.app_print_relation( list_relation );
@@ -372,7 +372,7 @@ void list_attendees(bool with_criteria) {
 }
 
 void list_attendee(string name) {
-    string query = "select (attendee == " + name + ") attendees;";
+    string query = "select (attendee == \"" + name + "\") attendees;";
     vector<string> command_list = break_down_query(query);
     Relation list_relation = interpret_query( rdbms, command_list );
     rdbms.app_print_relation( list_relation );
