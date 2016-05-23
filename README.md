@@ -1,7 +1,5 @@
 # Project 1: Database Management System
-## CSCE 315 with Dr. Yoonsuck Choe
-
-***
+### CSCE 315 with Dr. Yoonsuck Choe
 
 ## Description
 
@@ -30,11 +28,11 @@ Different interfaces were shown for exhibit managers, exhibitors and attendees. 
 
 ### Compile and Run
 
-* To compile: make all
+* To compile: `make all`
 
 * To run:
-  * Parser executable: ./run-parser
-  * Application executable: ./run-app
+  * Parser executable: `./run-parser`
+  * Application executable: `./run-app`
 
 ***
 
